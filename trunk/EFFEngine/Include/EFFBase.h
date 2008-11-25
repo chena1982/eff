@@ -8,7 +8,7 @@
 #include ".\EFFBase\EFFSerialize.h"
 #include ".\EFFBase\EFFRtti.h"
 #include ".\EFFBase\EFFFile.h"
-#include ".\EFFBase\EFFWinFile.h"
+#include ".\EFFBase\EFFSTLFile.h"
 
 #if defined UNICODE || defined _UNICODE
 #	if _DEBUG 
