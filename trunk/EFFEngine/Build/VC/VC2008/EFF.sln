@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EFFBase", "EFFBase.vcproj", "{E8C10A63-6F4A-4D58-BAC6-30D1A1ECED8D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EFFMath", "EFFMath.vcproj", "{1AF6F50E-EB45-49A2-8A7B-7A6977886D39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Win32 = Release|Win32
+		Unicode_Debug|Win32 = Unicode_Debug|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8C10A63-6F4A-4D58-BAC6-30D1A1ECED8D}.Release|Win32.ActiveCfg = Release|Win32
+		{E8C10A63-6F4A-4D58-BAC6-30D1A1ECED8D}.Release|Win32.Build.0 = Release|Win32
+		{E8C10A63-6F4A-4D58-BAC6-30D1A1ECED8D}.Unicode_Debug|Win32.ActiveCfg = Unicode_Debug|Win32
+		{E8C10A63-6F4A-4D58-BAC6-30D1A1ECED8D}.Unicode_Debug|Win32.Build.0 = Unicode_Debug|Win32
+		{1AF6F50E-EB45-49A2-8A7B-7A6977886D39}.Release|Win32.ActiveCfg = Release|Win32
+		{1AF6F50E-EB45-49A2-8A7B-7A6977886D39}.Release|Win32.Build.0 = Release|Win32
+		{1AF6F50E-EB45-49A2-8A7B-7A6977886D39}.Unicode_Debug|Win32.ActiveCfg = Unicode_Debug|Win32
+		{1AF6F50E-EB45-49A2-8A7B-7A6977886D39}.Unicode_Debug|Win32.Build.0 = Unicode_Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
