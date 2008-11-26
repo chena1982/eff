@@ -49,3 +49,9 @@ private:
 	FILE *m_file;					// 文件句柄
 };
 
+/* 使用方法 
+	EffLog log( "appInfo.Log");
+	log.log_msg( "INFO:Test int 	:%d", 15 );
+	log.log_msg( "INFO:Test float 	:%f", 1.09f );
+
+*/
