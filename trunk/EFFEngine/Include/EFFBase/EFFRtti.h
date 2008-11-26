@@ -24,33 +24,47 @@ ClassID EFFBASE_API ClassIDFromString(char *string);
 #define RTTI_CLASS(T)	((EFFClass *)(&T::runtimeInfoClass##T))
 #define RTTI_CLASSID(T)	((EFFClass *)(&T::runtimeInfoClass##T))->GetID()
 
-#define	RTTI_DECLARE(Class,BaseClass)\
+
+
+#define	RTTI_DECLARE(CLASS,BASECLASS)\
 public:\
-	typedef BaseClass	classBase;\
-	friend EFFClassImpl<Class>;\
-	static EFFClassImpl<Class>	runtimeInfoClass##Class;\
+	typedef BASECLASS	classBase;\
+	friend EFFClassImpl<CLASS>;\
+	static EFFClassImpl<CLASS>	runtimeInfoClass##CLASS;\
 	static EFFClass * GetThisClass();\
 	virtual EFFClass * GetRuntimeClass() const;\
-	virtual void SaveToFile(EFFFile * pFile)
+	virtual void SaveToFile(EFFFile * pFile);\
+protected:\
+	template<class T>\
+	inline void CLASS##Visit(T & arg)\
 
-#define RTTI_IMPLEMENT_NAME(Class,version,name)\
-	EFFClassImpl<Class> Class::runtimeInfoClass##Class = EFFClassImpl<Class>(version,name,Class::classBase::GetThisClass());\
-	EFFClass* Class::GetThisClass()\
+
+#define RTTI_IMPLEMENT_NAME(CLASS,VERSION,NAME)\
+	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS = EFFClassImpl<CLASS>(VERSION,NAME,CLASS::classBase::GetThisClass());\
+	EFFClass* CLASS##::GetThisClass()\
 	{\
-		return RTTI_CLASS(Class);\
+		return RTTI_CLASS(CLASS);\
 	}\
-	EFFClass* Class::GetRuntimeClass() const\
+	EFFClass* CLASS##::GetRuntimeClass() const\
 	{\
 		return GetThisClass();\
+	}\
+	void CLASS##::SaveToFile(EFFFile * pFile)\
+	{\
+		ArgWriteBin awb;\
+		awb.pFile = pFile;\
+		CLASS##Visit(awb);\
 	}
 
-#define RTTI_IMPLEMENT(Class,version)		RTTI_IMPLEMENT_NAME(Class,version,#Class)
+#define RTTI_IMPLEMENT(CLASS,VERSION)		RTTI_IMPLEMENT_NAME(CLASS,VERSION,#CLASS)
 
 class EFFClass;
 
 void EFFRegisterClass(EFFClass * pClass);
 
 void EFFUnRegisterClass(EFFClass * pClass);
+
+EFFBASE_API void * EFFCreateObject(char * pszClassName);
 
 
 class EFFBASE_API EFFClass
@@ -149,6 +163,7 @@ public:
 	//friend class __ucCompareRTTI;
 	//friend class __ucCompareRTTIAndClassID;
 
+	virtual void * CreateObject() = 0;
 protected:
 	ClassID										m_Id;
 	unsigned int								m_dwVersion;
@@ -164,7 +179,7 @@ template<class T>
 class EFFClassImpl : public EFFClass
 {
 public:
-	virtual void * CreateObject() const
+	virtual void * CreateObject()
 	{
 #if _DEBUG
 		return new(__FILE__,__LINE__)T;

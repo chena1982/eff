@@ -2,7 +2,7 @@
 
 #pragma warning(disable:4251)
 
-#include <boost\function.hpp>
+#include "EFFSerialize.h"
 
 class EFFClass;
 
@@ -152,7 +152,7 @@ public:
 
 
 #define __PROPERTY_METADATA__(PROPERTY_NAME,PROPERTY_TYPE)\
-	pFile->Write(&PROPERTY_NAME,sizeof(PROPERTY_TYPE));
+	VisitMeta<PROPERTY_TYPE>(PROPERTY_NAME,arg);
 
 #define  __REGISTER_PROPERTY__(CLASS_NAME,PROPERTY_NAME,PROPERTY_TYPE)\
 	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(CLASS_NAME,PROPERTY_NAME),sizeof(PROPERTY_TYPE),#PROPERTY_NAME,CLASS_NAME##::GetThisClass());

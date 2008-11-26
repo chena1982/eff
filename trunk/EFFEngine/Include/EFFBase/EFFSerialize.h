@@ -1,7 +1,6 @@
 #pragma once
 
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include "EFFFile.h"
 
 #define DECLARE_CLASS(c)\
 private:\
@@ -11,3 +10,32 @@ private:\
 
 #define MEMBER(m)\
 ar & m;
+
+
+//struct ArgWriteXml { TiXmlNode *node; String filename; Dword fileVersion; Dword classVersion; };
+//struct ArgReadXml { TiXmlNode *node; String filename; Dword fileVersion; Dword classVersion; XmlFormat format; };
+
+struct ArgWriteBin
+{
+	EFFFile *			pFile;
+	std::string			strFileName;
+	unsigned int		dwFileVersion;
+	unsigned int		dwClassVersion;
+};
+
+struct ArgReadBin
+{
+	EFFFile *			pFile;
+	std::string			strFileName;
+	unsigned int		dwFileVersion;
+	unsigned int		dwClassVersion;
+	//BinFormat format;
+};
+
+
+
+template<typename T>
+inline void VisitMeta(T & data,ArgWriteBin & argWriteBin)
+{
+	argWriteBin.pFile->Write(&data,sizeof(T));
+};

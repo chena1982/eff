@@ -54,15 +54,15 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	int * p = new int[10];
 
-	A a;
-	EFFClass * pRuntimeInfo = a.GetThisClass();
-	a.m_s = 4;
+	A * pA = static_cast<A *>(EFFCreateObject("A"));
+	EFFClass * pRuntimeInfo = pA->GetThisClass();
+	pA->m_s = 4;
 
 	EFFEvent e(&A::test1);
 
-	EFFWinFile file;
+	EFFSTLFile file;
 	file.Open("d:\\1.mesh","wb");
-	a.SaveToFile(&file);
+	pA->SaveToFile(&file);
 	
 	int z;
 

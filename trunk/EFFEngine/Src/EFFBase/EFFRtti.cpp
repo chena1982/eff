@@ -22,6 +22,15 @@ void EFFUnRegisterClass(EFFClass * pClass)
 	}
 }
 
+void * EFFCreateObject(char * pszClassName)
+{
+	std::map<ClassID,EFFClass *>::iterator it = g_mapEFFRunTimeTypeInfo.find(ClassIDFromString(pszClassName));
+	if ( it != g_mapEFFRunTimeTypeInfo.end() )
+	{
+		return it->second->CreateObject();
+	}
+	return NULL;
+}
 
 ClassID ClassIDFromString(char *string)
 {
