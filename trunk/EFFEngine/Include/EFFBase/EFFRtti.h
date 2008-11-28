@@ -51,6 +51,10 @@ protected:\
 	}\
 	void CLASS##::SaveToFile(EFFFile * pFile)\
 	{\
+		if ( pFile == NULL )\
+		{\
+			return;\
+		}\
 		ArgWriteBin awb;\
 		awb.pFile = pFile;\
 		CLASS##Visit(awb);\

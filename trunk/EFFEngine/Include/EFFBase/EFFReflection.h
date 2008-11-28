@@ -3,6 +3,7 @@
 #pragma warning(disable:4251)
 
 #include "EFFSerialize.h"
+#include "boost/type_traits.hpp"
 
 class EFFClass;
 
@@ -151,8 +152,12 @@ public:
 };
 
 
-#define __PROPERTY_METADATA__(PROPERTY_NAME,PROPERTY_TYPE)\
-	VisitMeta<PROPERTY_TYPE>(PROPERTY_NAME,arg);
+
+#define __PROPERTY__(PROPERTY_NAME,PROPERTY_TYPE)\
+	VisitMeta<PROPERTY_TYPE>(PROPERTY_NAME,arg,boost::is_pod<PROPERTY_TYPE>());
+
+#define __PROPERTY_ARRAY__(PROPERTY_NAME,PROPERTY_ELEMENT_TYPE)\
+	VisitMeta<PROPERTY_ELEMENT_TYPE>(PROPERTY_NAME,arg,boost::is_pod<PROPERTY_ELEMENT_TYPE>());
 
 #define  __REGISTER_PROPERTY__(CLASS_NAME,PROPERTY_NAME,PROPERTY_TYPE)\
 	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(CLASS_NAME,PROPERTY_NAME),sizeof(PROPERTY_TYPE),#PROPERTY_NAME,CLASS_NAME##::GetThisClass());
