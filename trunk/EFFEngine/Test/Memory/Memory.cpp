@@ -11,8 +11,17 @@ class B
 {
 	RTTI_DECLARE(B,B)
 	{
-		__PROPERTY__(m_t,std::string)
+		PROPERTY(m_t)
 	}
+
+public:
+	BEGIN_PROPERTY_MAP
+
+	END_PROPERTY_MAP
+
+
+	BEGIN_METHOD_MAP
+	END_METHOD_MAP
 public:
 	std::string m_t;
 
@@ -27,34 +36,48 @@ class A
 
 	RTTI_DECLARE(A,A)
 	{
-		__PROPERTY__(m_s,int)
-		__PROPERTY__(m_z,std::string)
-		__PROPERTY_ARRAY__(m_v,int)
-		__PROPERTY_ARRAY__(m_t,std::string)
-		__PROPERTY__(b,B)
+		PROPERTY(m_s)
+		PROPERTY(m_z)
+		PROPERTY_STL_CONTAINER(m_v)
+		PROPERTY_STL_CONTAINER(m_t)
+		PROPERTY(b)
+		PROPERTY_ARRAY(m_pT,m_nNum)
+		PROPERTY_ARRAY(m_pB,m_nBNum)
 	}
+public:
+	BEGIN_PROPERTY_MAP
+
+	END_PROPERTY_MAP
+
+	BEGIN_METHOD_MAP
+		REGISTER_MEMBER_METHOD(test1)
+	END_METHOD_MAP
 
 public:
 	int test(int);
 
 	void test1(int,A *) {};
 
-	//__MEMBER_METHOD__(2,test1,A)
+
 	int m_s;
 	std::string m_z;
 	std::vector<int> m_v;
 	std::vector<std::string> m_t;
 	B b;
+	int * m_pT;
+	int m_nNum;
+	B * m_pB;
+	int m_nBNum;
 };
 
 
 
 RTTI_IMPLEMENT(A,0)
 
-__REGISTER_MEMBER_METHOD__(A,test1)
+//__REGISTER_MEMBER_METHOD__(A,test1)
 
-//__REGISTER_PROPERTY__(A,m_s,int)
-__REGISTER_PROPERTY__(A,m_z,std::string)
+//__REGISTER_PROPERTY__(m_s,int)
+//__REGISTER_PROPERTY__(A,m_z,std::string)
 
 
 RTTI_IMPLEMENT(B,0)
@@ -85,6 +108,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	pA->m_t.push_back(std::string("kao,kao."));
 
 	pA->b.m_t = "wo shi b,haha.";
+
+	pA->m_nNum = 100;
+	pA->m_pT = new int[pA->m_nNum];
+	memset(pA->m_pT,20,sizeof(int) * pA->m_nNum);
+
+	pA->m_nBNum = 2;
+	pA->m_pB = new B[pA->m_nBNum];
+	pA->m_pB[0].m_t = "boost is cool.";
+	pA->m_pB[1].m_t = "nb.";
+
 
 	EFFEvent e(&A::test1);
 

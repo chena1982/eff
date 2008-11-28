@@ -13,6 +13,7 @@
 
 // TODO: 在此处引用程序需要的其他头文件
 #include "malloc.h"
+#include "md5.h"
 
 #include "EFFBaseBaseDefines.h"
 #include "EFFMemory.h"
@@ -23,6 +24,6 @@
 #include <hash_map>
 #include <map>
 #include <vector>
+#include <cassert>
 
-#include "md5.h"
 

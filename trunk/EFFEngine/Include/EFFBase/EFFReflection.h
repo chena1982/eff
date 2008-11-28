@@ -3,7 +3,8 @@
 #pragma warning(disable:4251)
 
 #include "EFFSerialize.h"
-#include "boost/type_traits.hpp"
+#include <boost/type_traits.hpp>
+#include <boost/typeof/typeof.hpp>
 
 class EFFClass;
 
@@ -124,8 +125,16 @@ public:
 	__MEMBER_METHOD__(2)
 };
 
-#define __REGISTER_MEMBER_METHOD__(CLASS_NAME,METHOD_NAME)\
-static __member_method__ reg##METHOD_NAME(&##CLASS_NAME##::##METHOD_NAME,#METHOD_NAME);
+#define BEGIN_METHOD_MAP\
+	static void RegisterMethod()\
+{
+
+
+#define END_METHOD_MAP\
+	}
+
+#define REGISTER_MEMBER_METHOD(METHOD_NAME)\
+static __member_method__ reg##METHOD_NAME(&METHOD_NAME,#METHOD_NAME);
 
 //#define MEMBER_METHOD(N,METHOD_NAME) __MEMBER_METHOD__(N,METHOD_NAME,__LINE__)
 
@@ -151,16 +160,29 @@ public:
 	__register_property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName,EFFClass * pClass);
 };
 
+#define BEGIN_PROPERTY_MAP\
+	static void RegisterProperty()\
+	{
 
 
-#define __PROPERTY__(PROPERTY_NAME,PROPERTY_TYPE)\
-	VisitMeta<PROPERTY_TYPE>(PROPERTY_NAME,arg,boost::is_pod<PROPERTY_TYPE>());
+#define END_PROPERTY_MAP\
+	}
 
-#define __PROPERTY_ARRAY__(PROPERTY_NAME,PROPERTY_ELEMENT_TYPE)\
-	VisitMeta<PROPERTY_ELEMENT_TYPE>(PROPERTY_NAME,arg,boost::is_pod<PROPERTY_ELEMENT_TYPE>());
+//__REGISTER_PROPERTY__(PROPERTY_NAME,PROPERTY_TYPE)
 
-#define  __REGISTER_PROPERTY__(CLASS_NAME,PROPERTY_NAME,PROPERTY_TYPE)\
-	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(CLASS_NAME,PROPERTY_NAME),sizeof(PROPERTY_TYPE),#PROPERTY_NAME,CLASS_NAME##::GetThisClass());
+
+
+#define PROPERTY(PROPERTY_NAME)\
+	VisitProperty(PROPERTY_NAME,pArg,boost::is_pod<BOOST_TYPEOF(PROPERTY_NAME)>());
+
+#define PROPERTY_STL_CONTAINER(PROPERTY_NAME)\
+	VisitProperty(PROPERTY_NAME,pArg,boost::is_pod<BOOST_TYPEOF(*(PROPERTY_NAME.begin()))>());
+
+#define PROPERTY_ARRAY(PROPERTY_NAME,PROPERTY_NUM_NAME)\
+	VisitProperty(PROPERTY_NAME,PROPERTY_NUM_NAME,pArg,boost::is_pod<boost::remove_pointer<BOOST_TYPEOF(PROPERTY_NAME)>::type>());
+
+#define  __REGISTER_PROPERTY__(PROPERTY_NAME,PROPERTY_TYPE)\
+	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(classThis,PROPERTY_NAME),sizeof(PROPERTY_TYPE),#PROPERTY_NAME,classThis::GetThisClass());
 
 
 #define __EFFEVENT_MEMBER_FUCTION__(N)\

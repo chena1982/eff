@@ -29,6 +29,7 @@ ClassID EFFBASE_API ClassIDFromString(char *string);
 #define	RTTI_DECLARE(CLASS,BASECLASS)\
 public:\
 	typedef BASECLASS	classBase;\
+	typedef CLASS	classThis;\
 	friend EFFClassImpl<CLASS>;\
 	static EFFClassImpl<CLASS>	runtimeInfoClass##CLASS;\
 	static EFFClass * GetThisClass();\
@@ -36,11 +37,30 @@ public:\
 	virtual void SaveToFile(EFFFile * pFile);\
 protected:\
 	template<class T>\
-	inline void CLASS##Visit(T & arg)\
+	inline void CLASS##Visit(T * pArg)\
+
 
 
 #define RTTI_IMPLEMENT_NAME(CLASS,VERSION,NAME)\
-	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS = EFFClassImpl<CLASS>(VERSION,NAME,CLASS::classBase::GetThisClass());\
+	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION,NAME,CLASS::classBase::GetThisClass());\
+	class CLASS##RegisterProperty\
+	{\
+	public:\
+		CLASS##RegisterProperty()\
+		{\
+			CLASS::RegisterProperty();\
+		}\
+	};\
+	static CLASS##RegisterProperty _##CLASS##RegisterProperty;\
+	class CLASS##RegisterMethod\
+	{\
+		public:\
+		CLASS##RegisterMethod()\
+		{\
+			CLASS::RegisterMethod();\
+		}\
+	};\
+	static CLASS##RegisterMethod _##CLASS##RegisterMethod;\
 	EFFClass* CLASS##::GetThisClass()\
 	{\
 		return RTTI_CLASS(CLASS);\
@@ -57,7 +77,7 @@ protected:\
 		}\
 		ArgWriteBin awb;\
 		awb.pFile = pFile;\
-		CLASS##Visit(awb);\
+		CLASS##Visit(&awb);\
 	}
 
 #define RTTI_IMPLEMENT(CLASS,VERSION)		RTTI_IMPLEMENT_NAME(CLASS,VERSION,#CLASS)

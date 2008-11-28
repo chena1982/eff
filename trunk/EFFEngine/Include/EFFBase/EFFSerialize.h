@@ -2,7 +2,8 @@
 
 #include "EFFFile.h"
 
-#include "boost\type_traits.hpp"
+#include <boost\type_traits.hpp>
+#include <boost\static_assert.hpp>
 
 #define DECLARE_CLASS(c)\
 private:\
@@ -37,49 +38,85 @@ struct ArgReadBin
 
 
 template<typename T>
-inline void VisitMeta(T & data,ArgWriteBin & argWriteBin,boost::true_type)
+inline void VisitProperty(T & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
-	argWriteBin.pFile->Write(&data,sizeof(T));
+	pArgWriteBin->pFile->Write(&data,sizeof(T));
 };
 
 
-template<typename T>
-inline void VisitMeta(T & data,ArgWriteBin & argWriteBin,boost::false_type)
-{
-	data.SaveToFile(argWriteBin.pFile);
-};
 
 template<typename T>
-inline void VisitMeta(std::string & data,ArgWriteBin & argWriteBin,boost::false_type)
+inline void VisitProperty(T & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+{
+	data.SaveToFile(pArgWriteBin->pFile);
+};
+
+
+inline void VisitProperty(std::string & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	unsigned int dwLength = data.length();
-	argWriteBin.pFile->Write(&dwLength,4);
-	argWriteBin.pFile->Write((void *)data.c_str(),dwLength);
+	pArgWriteBin->pFile->Write(&dwLength,4);
+	pArgWriteBin->pFile->Write((void *)data.c_str(),dwLength);
 };
 
+
+
+
+
 template<typename T>
-inline void VisitMeta(std::vector<T> & data,ArgWriteBin & argWriteBin,boost::false_type)
+inline void VisitProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
-	argWriteBin.pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
+	pArgWriteBin->pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
 };
 
 
 
+
+
 template<typename T>
-inline void VisitMeta(std::vector<std::string> & data,ArgWriteBin & argWriteBin,boost::false_type)
+inline void VisitProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
 	unsigned int dwSize = data.size();
-	argWriteBin.pFile->Write(&dwSize,4);
+	pArgWriteBin->pFile->Write(&dwSize,4);
+	pArgWriteBin->pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
+};
+
+inline void VisitProperty(std::vector<std::string> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+{
+	unsigned int dwSize = data.size();
+	pArgWriteBin->pFile->Write(&dwSize,4);
 	for ( unsigned int i = 0; i < data.size(); i++ )
 	{
-		VisitMeta<std::string>(data[i],argWriteBin,boost::false_type());
+		VisitProperty(data[i],pArgWriteBin,boost::false_type());
 	}
 };
 
-template<typename T>
-inline void VisitMeta(std::vector<T> & data,ArgWriteBin & argWriteBin,boost::true_type)
+
+//指针类型
+
+template<typename T,typename TN>
+inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
-	unsigned int dwSize = data.size();
-	argWriteBin.pFile->Write(&dwSize,4);
-	argWriteBin.pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
-};
+	//保证元素个数的类型是整型
+	BOOST_STATIC_ASSERT(boost::is_integral<TN>::value);
+
+	//保证数组里的元素类型不是指针
+	BOOST_STATIC_ASSERT(!boost::is_pointer<T>::value);
+
+	pArgWriteBin->pFile->Write(data,elementNum * sizeof(T));
+}
+
+template<typename T,typename TN>
+inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost::false_type)
+{
+	//保证数组元素个数的类型是整型
+	BOOST_STATIC_ASSERT(boost::is_integral<TN>::value);
+
+	//保证数组里的元素类型不是指针
+	BOOST_STATIC_ASSERT(!boost::is_pointer<T>::value);
+
+	for ( TN i = 0; i < elementNum; i++ )
+	{
+		data[i].SaveToFile(pArgWriteBin->pFile);
+	}
+}

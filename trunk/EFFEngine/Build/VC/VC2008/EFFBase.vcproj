@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO"
+				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;_WINDOWS;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
