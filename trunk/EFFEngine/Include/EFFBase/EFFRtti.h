@@ -1,4 +1,14 @@
-#pragma once
+/******************************************************************************
+	created:	2008-12-1   22:32
+	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __EFFRtti_2008_12_1__
+#define __EFFRtti_2008_12_1__
+
+
 
 
 #include "EFFReflection.h"
@@ -227,3 +237,4 @@ public:
 	}
 };
 
+#endif

@@ -1,4 +1,14 @@
-#pragma once
+/******************************************************************************
+	created:	2008-12-1   22:33
+	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __EFFSTLFile_2008_12_1__
+#define __EFFSTLFile_2008_12_1__
+
+
 
 #include "EFFFile.h"
 
@@ -16,3 +26,6 @@ protected:
 private:
 	FILE *		m_pFile;
 };
+
+
+#endif

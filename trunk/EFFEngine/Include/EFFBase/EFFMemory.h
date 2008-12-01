@@ -1,5 +1,15 @@
 
-#pragma once
+/******************************************************************************
+	created:	2008-12-1   22:34
+	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __EFFMemory_2008_12_1__
+#define __EFFMemory_2008_12_1__
+
+
 
 
 #undef new
@@ -102,3 +112,6 @@
 #else
 	#define EFFNEW	new
 #endif 
+
+
+#endif

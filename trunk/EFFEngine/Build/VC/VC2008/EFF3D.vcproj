@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="EFFMath"
-	ProjectGUID="{1AF6F50E-EB45-49A2-8A7B-7A6977886D39}"
-	RootNamespace="EFFMath"
+	Name="EFF3D"
+	ProjectGUID="{E317D371-6E75-40D8-88C2-07D28BC3446A}"
+	RootNamespace="EFF3D"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -17,9 +17,9 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Unicode_Debug|Win32"
-			OutputDirectory="..\..\..\Dll\$(ConfigurationName)"
-			IntermediateDirectory="..\..\..\Obj\$(ProjectName)\$(ConfigurationName)"
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -41,14 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFMATH_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderThrough="stdafx.h"
-				ProgramDataBaseFileName="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -63,13 +60,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\Lib\$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -121,10 +114,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EFFMATH_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -168,10 +161,103 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Unicode_Debug|Win32"
+			OutputDirectory="..\..\..\Dll\$(ConfigurationName)"
+			IntermediateDirectory="..\..\..\Obj\$(ProjectName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="1"
+				ProgramDataBaseFileName="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\..\..\Lib\$(ConfigurationName)"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="2"
+				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="源文件"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+		</Filter>
+		<Filter
+			Name="头文件"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DBaseDefines.h"
+				>
+			</File>
+		</Filter>
 		<Filter
 			Name="资源文件"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
@@ -182,32 +268,16 @@
 			Name="预编译"
 			>
 			<File
-				RelativePath="..\..\..\Src\EFFMath\stdafx.cpp"
+				RelativePath="..\..\..\Src\EFF3D\stdafx.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\Src\EFFMath\stdafx.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Base"
-			>
-			<File
-				RelativePath="..\..\..\Include\EFFMath\EFFMathBaseDefines.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFMath\EFFVector3.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFFMath\EFFVector3.h"
+				RelativePath="..\..\..\Src\EFF3D\stdafx.h"
 				>
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\..\Include\EFFMath.h"
+			RelativePath="..\..\..\Src\EFF3D\EFF3D.h"
 			>
 		</File>
 	</Files>

@@ -1,5 +1,14 @@
-#ifndef __EFFBaseBaseDefines_H_2008_11_2_23_54__
-#define __EFFBaseBaseDefines_H_2008_11_2_23_54__
+/******************************************************************************
+	created:	2008-12-1   22:31
+	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __EFFBaseBaseDefines_2008_12_1__
+#define __EFFBaseBaseDefines_2008_12_1__
+
+
 
 
 

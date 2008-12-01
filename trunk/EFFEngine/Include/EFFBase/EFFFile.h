@@ -1,4 +1,13 @@
-#pragma once;
+/******************************************************************************
+	created:	2008-12-1   22:30
+	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __EFFFile_2008_12_1__
+#define __EFFFile_2008_12_1__
+
 
 
 class EFFBASE_API EFFFile
@@ -10,3 +19,5 @@ public:
 protected:
 private:
 };
+
+#endif

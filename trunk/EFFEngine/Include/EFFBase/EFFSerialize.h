@@ -1,4 +1,14 @@
-#pragma once
+/******************************************************************************
+	created:	2008-12-1   22:33
+	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __EFFSerialize_2008_12_1__
+#define __EFFSerialize_2008_12_1__
+
+
 
 #include "EFFFile.h"
 
@@ -120,3 +130,6 @@ inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boos
 		data[i].SaveToFile(pArgWriteBin->pFile);
 	}
 }
+
+
+#endif

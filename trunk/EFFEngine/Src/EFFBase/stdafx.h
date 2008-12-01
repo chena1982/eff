@@ -15,15 +15,16 @@
 #include "malloc.h"
 #include "md5.h"
 
+#include <string>
+#include <hash_map>
+#include <map>
+#include <vector>
+
 #include "EFFBaseBaseDefines.h"
 #include "EFFMemory.h"
 
 
 
-#include <string>
-#include <hash_map>
-#include <map>
-#include <vector>
-#include <cassert>
+
 
 
