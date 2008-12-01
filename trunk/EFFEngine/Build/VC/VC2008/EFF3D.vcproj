@@ -247,6 +247,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DDevice.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
@@ -255,6 +259,10 @@
 			>
 			<File
 				RelativePath="..\..\..\Src\EFF3D\EFF3DBaseDefines.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DDevice.h"
 				>
 			</File>
 		</Filter>

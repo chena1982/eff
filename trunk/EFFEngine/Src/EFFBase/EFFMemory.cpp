@@ -1,6 +1,15 @@
-#include "stdafx.h"
+/******************************************************************************
+	created:	2008-12-1   23:20
+	file path:	d:\EFF\EFFEngine\Src\EFFBase\EFFMemory.cpp
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
 
+#include "stdafx.h"
 #include "EFFMemory.h"
+
+#define new EFFNEW
 
 #ifdef _DEBUG
 

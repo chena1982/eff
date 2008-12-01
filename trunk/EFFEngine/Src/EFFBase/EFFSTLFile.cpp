@@ -1,6 +1,15 @@
-#include "stdafx.h"
+/******************************************************************************
+	created:	2008-12-1   23:20
+	file path:	d:\EFF\EFFEngine\Src\EFFBase\EFFSTLFile.cpp
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
 
+#include "stdafx.h"
 #include "EFFSTLFile.h"
+
+#define new EFFNEW
 
 
 EFFSTLFile::EFFSTLFile()

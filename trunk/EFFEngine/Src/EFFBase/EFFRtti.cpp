@@ -1,5 +1,12 @@
-#include "stdafx.h"
+/******************************************************************************
+	created:	2008-12-1   23:19
+	file path:	d:\EFF\EFFEngine\Src\EFFBase\EFFRtti.cpp
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
 
+#include "stdafx.h"
 #include "EFFRtti.h"
 
 
