@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="..\Bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -64,6 +64,7 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\Lib\Unicode_Debug;..\..\Dependence\Boost\lib"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
