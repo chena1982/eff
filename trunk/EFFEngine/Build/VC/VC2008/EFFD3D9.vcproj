@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="EFFBase"
-	ProjectGUID="{E8C10A63-6F4A-4D58-BAC6-30D1A1ECED8D}"
-	RootNamespace="EFFBase"
+	Name="EFFD3D9"
+	ProjectGUID="{FB777E12-8B66-4918-A334-E190BA4CD90B}"
+	RootNamespace="EFFD3D9"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -17,9 +17,9 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Unicode_Debug|Win32"
-			OutputDirectory="..\..\..\Dll\$(ConfigurationName)"
-			IntermediateDirectory="..\..\..\Obj\$(ProjectName)\$(ConfigurationName)"
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -41,14 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;_WINDOWS;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderThrough="stdafx.h"
-				ProgramDataBaseFileName="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -63,13 +60,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
-				GenerateMapFile="false"
 				SubSystem="2"
-				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -121,10 +114,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EFFBASE_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -168,39 +161,109 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Unicode_Debug|Win32"
+			OutputDirectory="..\..\..\Dll\$(ConfigurationName)"
+			IntermediateDirectory="..\..\..\Obj\$(ProjectName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="1"
+				ProgramDataBaseFileName="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\..\..\Lib\$(ConfigurationName)"
+				ModuleDefinitionFile="..\..\..\Src\EFFD3D9\Exports.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="2"
+				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
 		<Filter
-			Name="预编译"
+			Name="源文件"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\Src\EFFBase\stdafx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\stdafx.h"
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Device.cpp"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Memory"
+			Name="头文件"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\Src\EFFBase\EFFMemory.cpp"
+				RelativePath="..\..\..\Include\EFFD3D9\EFFD3D9BaseDefines.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFMemory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\malloc.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\malloc.h"
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Device.h"
 				>
 			</File>
 		</Filter>
@@ -211,59 +274,23 @@
 			>
 		</Filter>
 		<Filter
-			Name="Base"
+			Name="预编译"
 			>
 			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFBaseBaseDefines.h"
+				RelativePath="..\..\..\Src\EFFD3D9\stdafx.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFIComponent.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\EFFReflection.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFReflection.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\EFFRtti.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFRtti.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFSerialize.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\EFFSTLFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFFBase\EFFSTLFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\md5.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Src\EFFBase\md5.h"
+				RelativePath="..\..\..\Src\EFFD3D9\stdafx.h"
 				>
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\..\Include\EFFBase.h"
+			RelativePath="..\..\..\Include\EFFD3D9.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Src\EFFD3D9\Exports.def"
 			>
 		</File>
 	</Files>

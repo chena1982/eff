@@ -20,7 +20,8 @@
 #include <map>
 #include <vector>
 
+#include "d3d9.h"
+
 #include "EFFBase.h"
-#include "EFF3DBaseDefines.h"
-
-
+#include "EFF3D.h"
+#include "EFFD3D9BaseDefines.h"

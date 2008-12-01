@@ -47,17 +47,65 @@ typedef char effCHAR;
 	typedef effCHAR effTCHAR;
 #endif
 
-typedef effCHAR * effLPSTR;
-typedef effWCHAR * effLPWSTR;
-typedef effTCHAR * effLPTSTR;
-typedef const effCHAR * effLPCSTR;
-typedef const effWCHAR * effLPCWSTR;
-typedef const effTCHAR * effLPCTSTR;
+typedef effCHAR *					effLPSTR;
+typedef effWCHAR *					effLPWSTR;
+typedef effTCHAR *					effLPTSTR;
+typedef const effCHAR *			effLPCSTR;
+typedef const effWCHAR *		effLPCWSTR;
+typedef const effTCHAR *			effLPCTSTR;
 
 
 
+// 有符号数据类型
+typedef short							effSHORT;
+typedef int								effINT;
+typedef long								effLONG;
+typedef __int64							effLONGLONG;
+typedef char								effINT8;
+typedef short							effINT16;
+typedef int								effINT32;
+typedef __int64							effINT64;
 
-typedef float Real;
+
+// 无符号数据类型
+typedef unsigned char				effBYTE;
+typedef unsigned short				effUSHORT;
+typedef unsigned int					effUINT;
+typedef unsigned long				effULONG;
+typedef unsigned __int64			effULONGLONG;
+typedef unsigned char				effUINT8;
+typedef unsigned short				effUINT16;
+typedef unsigned int					effUINT32;
+typedef unsigned __int64			effUINT64;
+
+
+typedef unsigned short				effWORD;
+typedef unsigned long				effDWORD;
+
+
+
+// 浮点数据类型
+typedef float								effFLOAT;
+typedef double							effDOUBLE;
+typedef long double					effLDOUBLE;
+typedef float								effFLOAT32;
+typedef double							effFLOAT64;
+typedef long double					effFLOAT128;
+
+
+
+typedef void								effVOID;
+typedef void *							effLPVOID;
+typedef const void *					effLPCVOID;
+
+typedef long								effHRESULT;
+typedef void *							effHANDLE;
+
+
+// boolean
+typedef int								effBOOL;
+const int effFALSE = 0;
+const int effTRUE = 1;
 
 
 #define SF_DELETE(p) { delete p; p = NULL; }

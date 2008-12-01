@@ -258,7 +258,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\Src\EFF3D\EFF3DBaseDefines.h"
+				RelativePath="..\..\..\Include\EFF3D\EFF3DBaseDefines.h"
 				>
 			</File>
 			<File
@@ -285,7 +285,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\..\Src\EFF3D\EFF3D.h"
+			RelativePath="..\..\..\Include\EFF3D.h"
 			>
 		</File>
 	</Files>

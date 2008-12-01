@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EFFMath", "EFFMath.vcproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EFF3D", "EFF3D.vcproj", "{E317D371-6E75-40D8-88C2-07D28BC3446A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EFFD3D9", "EFFD3D9.vcproj", "{FB777E12-8B66-4918-A334-E190BA4CD90B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -32,6 +34,12 @@ Global
 		{E317D371-6E75-40D8-88C2-07D28BC3446A}.Release|Win32.Build.0 = Release|Win32
 		{E317D371-6E75-40D8-88C2-07D28BC3446A}.Unicode_Debug|Win32.ActiveCfg = Unicode_Debug|Win32
 		{E317D371-6E75-40D8-88C2-07D28BC3446A}.Unicode_Debug|Win32.Build.0 = Unicode_Debug|Win32
+		{FB777E12-8B66-4918-A334-E190BA4CD90B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FB777E12-8B66-4918-A334-E190BA4CD90B}.Debug|Win32.Build.0 = Debug|Win32
+		{FB777E12-8B66-4918-A334-E190BA4CD90B}.Release|Win32.ActiveCfg = Release|Win32
+		{FB777E12-8B66-4918-A334-E190BA4CD90B}.Release|Win32.Build.0 = Release|Win32
+		{FB777E12-8B66-4918-A334-E190BA4CD90B}.Unicode_Debug|Win32.ActiveCfg = Unicode_Debug|Win32
+		{FB777E12-8B66-4918-A334-E190BA4CD90B}.Unicode_Debug|Win32.Build.0 = Unicode_Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
