@@ -186,7 +186,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(PYTHON_INCLUDE)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -209,7 +209,85 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\Lib\$(ConfigurationName)"
+				AdditionalLibraryDirectories="&quot;..\..\..\Lib\$(ConfigurationName)&quot;;&quot;$(PYTHON_LIB)&quot;;..\..\..\Dependence\Boost\lib"
+				ModuleDefinitionFile="..\..\..\Src\EFFD3D9\Exports.def"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="2"
+				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Unicode_Release|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(PYTHON_INCLUDE)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="1"
+				ProgramDataBaseFileName="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;..\..\..\Lib\$(ConfigurationName)&quot;;&quot;$(PYTHON_LIB)&quot;"
 				ModuleDefinitionFile="..\..\..\Src\EFFD3D9\Exports.def"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
@@ -252,6 +330,30 @@
 				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Device.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Effect.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9IndexBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Surface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9VertexBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9VertexDeclaration.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Í·ÎÄ¼þ"
@@ -264,6 +366,30 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFFD3D9\EFFD3D9Effect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9IndexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Surface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9VertexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFFD3D9\EFFD3D9VertexDeclaration.h"
 				>
 			</File>
 		</Filter>
