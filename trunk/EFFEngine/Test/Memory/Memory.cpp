@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <fstream>
 
+
 #define new EFFNEW
 
 
@@ -54,9 +55,13 @@ public:
 	END_METHOD_MAP
 
 public:
-	int test(int);
+	virtual int test(int);
 
-	void test1(int,A *) {};
+	int test1(A * pA,int t)
+	{
+		t += 1;
+		return t;
+	}
 
 
 	int m_s;
@@ -82,6 +87,91 @@ RTTI_IMPLEMENT(A,0)
 
 RTTI_IMPLEMENT(B,0)
 
+class C;
+
+int __stdcall testC(C * pC,int c)
+{
+	printf("hook c,haha.");
+	return c;
+}
+
+class IC : public EFFIUnknown
+{
+	RTTI_DECLARE_PURE(IC,EFFIUnknown)
+public:
+	virtual ~IC() {}
+public:
+	virtual  int __stdcall test(int c) = 0;
+};
+
+RTTI_IMPLEMENT_PURE(IC,0)
+
+
+
+class C : public IC
+{
+	RTTI_DECLARE(C,IC)
+	{
+	}
+
+	EFFIUNKNOWN_DECLARE
+
+	BEGIN_INTERFACE_TABLE(C)
+		IMPLEMENTS_INTERFACE(EFFIUnknown)
+		IMPLEMENTS_INTERFACE(IC)
+	END_INTERFACE_TABLE()
+
+public:
+	BEGIN_PROPERTY_MAP
+
+	END_PROPERTY_MAP
+
+
+	BEGIN_METHOD_MAP
+	END_METHOD_MAP
+public:
+
+public:
+
+	virtual  int __stdcall test(int c);
+
+};
+
+EFFIUNKNOWN_IMPLEMENT(C)
+
+RTTI_IMPLEMENT(C,0)
+
+int C::test(int c)
+{
+	return c;
+}
+
+
+
+PROXY_DECLARE(C)
+{
+	RTTI_DECLARE(CProxy,C)
+	{
+	}
+
+public:
+	BEGIN_PROPERTY_MAP
+	END_PROPERTY_MAP
+
+	BEGIN_METHOD_MAP
+	END_METHOD_MAP
+public:
+	PROXY_CONSTRUCTOR(C)
+
+	BEGIN_REGISTER_PROXY_FUNCTION
+		REGISTER_PROXY_FUNCTION(5,testC)
+	END_REGISTER_PROXY_FUNCTION
+};
+
+RTTI_IMPLEMENT(CProxy,0)
+
+
+
 int A::test(int a)
 {
 	printf("%d\n",a);
@@ -89,12 +179,36 @@ int A::test(int a)
 }
 
 
+class D
+{
+public:
+	void test(D * pD,int z)
+	{
+		int t = 0;
+	}
+};
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 
+
+	D d;
+	EFFEvent ed;
+	ed += EFFEventCall(&d,&D::test);
+
+	ed(&d,1);
+
 	int * p = new int[10];
 
+	std::vector<int> a;
+	a.push_back(1);
+	C * pC = new CProxy;
+	pC->test(2);
+	IC * pI;
+	pC->QueryInterface(IC::GetThisClass()->GetID(),(effVOID **)&pI);
+
+	
 	A * pA = static_cast<A *>(EFFCreateObject("A"));
 	EFFClass * pRuntimeInfo = pA->GetThisClass();
 	pA->m_s = 4;
@@ -119,21 +233,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	pA->m_pB[1].m_t = "nb.";
 
 
-	EFFEvent e(&A::test1);
+	EFFEvent e;
+	e += EFFEventCall(pA,&A::test1);
 
 	EFFSTLFile file;
 	file.Open("d:\\1.mesh","wb");
 	pA->SaveToFile(&file);
 	
-	int z;
+	int z = 0;
 
 	B b;
 
 	ClassID c = ClassIDFromString(const_cast<char *>("sdfsdfsdfs"));
 
-	size_t n = sizeof(*(e.m_pFunction));
 
-	e(z,&b,1);
+
+	e(pA,z);
+
 
 	z += 10;
 

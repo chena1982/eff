@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\Include\;..\..\Dependence\Boost\include\boost-1_37"
+				AdditionalIncludeDirectories="..\..\Include\;&quot;..\..\Dependence\Boost\include\boost-1_37&quot;;&quot;$(PYTHON_INCLUDE)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\Lib\Unicode_Debug;..\..\Dependence\Boost\lib"
+				AdditionalLibraryDirectories="..\..\Lib\Unicode_Debug;..\..\Dependence\Boost\lib;&quot;$(PYTHON_LIB)&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="1"

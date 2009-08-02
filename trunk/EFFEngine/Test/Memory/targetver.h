@@ -11,3 +11,4 @@
 #define _WIN32_WINNT 0x0600     // 将此值更改为相应的值，以适用于 Windows 的其他版本。
 #endif
 
+#include <Windows.h>

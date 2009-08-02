@@ -11,6 +11,10 @@
 #include <tchar.h>
 
 #include <vector>
+#include <map>
 
 // TODO: 在此处引用程序需要的其他头文件
+//#include "Python.h"
 #include "EFFBase.h"
+
+USE_EFFBASE
