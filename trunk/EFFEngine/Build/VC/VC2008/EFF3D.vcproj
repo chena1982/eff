@@ -173,6 +173,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				CommandLine=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -186,7 +188,88 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(PYTHON_INCLUDE)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="1"
+				ProgramDataBaseFileName="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).pyd"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;..\..\..\Lib\$(ConfigurationName)&quot;;&quot;$(PYTHON_LIB)&quot;;..\..\..\Dependence\Boost\lib"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
+				SubSystem="2"
+				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				UseFAT32Workaround="false"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Unicode_Release|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="cl /Od /DNDEBUG /I $(PYTHON_INCLUDE) /I ..\..\..\Include /I ..\..\..\Include\$(ProjectName) /I &quot;$(BOOST_ROOT)&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /D &quot;_USRDLL&quot; /D &quot;EFF3D_EXPORTS&quot; /D &quot;_WINDLL&quot; /D &quot;_UNICODE&quot; /D &quot;UNICODE&quot; /Gm /EHsc /RTC1 /MDd /Yu&quot;stdafx.h&quot; /Fp&quot;..\..\..\Obj\$(ProjectName)\$(ConfigurationName)\EFF3DUD.pch&quot; /Fo&quot;..\..\..\Obj\$(ProjectName)\$(ConfigurationName)\_EFF3D.obj&quot; /Fd&quot;..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\vc90.pdb&quot; /W3 /nologo /c /ZI /TP /errorReport:prompt ..\..\..\Src\EFF3D\EFF3D_wrap.cxx&#x0D;&#x0A;link /DLL /INCREMENTAL:NO /DEBUG /OUT:&quot;..\..\..\Dll\$(ConfigurationName)\_EFF3D.pyd&quot; /IMPLIB:&quot;..\..\..\Lib\$(ConfigurationName)\_EFF3D.lib&quot; /PDB:&quot;..\..\..\Pdb\EFF3D\$(ConfigurationName)\_EFF3D.pdb&quot; ..\..\..\Obj\$(ProjectName)\$(ConfigurationName)\_EFF3D.obj ..\..\..\Obj\$(ProjectName)\$(ConfigurationName)\EFF3DDevice.obj /LIBPATH:..\..\..\Lib\$(ConfigurationName) /LIBPATH:$(PYTHON_LIB)&#x0D;&#x0A;mt.exe -manifest ..\..\..\Dll\$(ConfigurationName)\_EFF3D.pyd.manifest -outputresource:..\..\..\Dll\$(ConfigurationName)\_EFF3D.pyd;2&#x0D;&#x0A;"
+				Outputs="EFF3D_wrap.cxx"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(PYTHON_INCLUDE)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -209,7 +292,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName)UD.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\Lib\$(ConfigurationName)"
+				AdditionalLibraryDirectories="&quot;..\..\..\Lib\$(ConfigurationName)&quot;;&quot;$(PYTHON_LIB)&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="2"
@@ -221,6 +304,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				UseFAT32Workaround="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -236,36 +320,13 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="源文件"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
-			<File
-				RelativePath="..\..\..\Src\EFF3D\EFF3DDevice.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="头文件"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath="..\..\..\Include\EFF3D\EFF3DBaseDefines.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Include\EFF3D\EFF3DDevice.h"
-				>
-			</File>
-		</Filter>
 		<Filter
 			Name="资源文件"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
@@ -281,6 +342,154 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Src\EFF3D\stdafx.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="底层渲染接口"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DDevice.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DDevice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DEffect.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DEffect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DIndexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DMaterial.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DMaterial.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DSurface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DSurface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTexture.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DTexture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DVertexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DVertexDeclaration.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DVertexDeclaration.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="材质库"
+			>
+		</Filter>
+		<Filter
+			Name="渲染流程框架"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DIRenderable.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DIRenderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DRenderQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DRenderQueueGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DRenderQueueGroup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="用户接口"
+			>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DIEntity.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Base"
+			>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DBaseDefines.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="基本元素"
+			>
+		</Filter>
+		<Filter
+			Name="资源管理"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DResource.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DResource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DResourceManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DResourceManager.h"
 				>
 			</File>
 		</Filter>
