@@ -9,12 +9,23 @@
 #define __EFF3D_1_12_2008__
 
 
+#include <Python.h>
+
 #include "EFF3D/EFF3DBaseDefines.h"
 #include "EFF3D/EFF3DDevice.h"
+#include "EFF3D/EFF3DTexture.h"
+#include "EFF3D/EFF3DSurface.h"
+#include "EFF3D/EFF3DIndexBuffer.h"
+#include "EFF3D/EFF3DVertexBuffer.h"
+#include "EFF3D/EFF3DVertexDeclaration.h"
+#include "EFF3D/EFF3DEffect.h"
+#include "EFF3D/EFF3DMaterial.h"
+#include "EFF3D/EFF3DResource.h"
+#include "EFF3D/EFF3DResourceManager.h"
 
 #if defined UNICODE || defined _UNICODE
-#	if _DEBUG 
-#		pragma comment(lib,"EFF3DUD.lib")
+#	ifdef _DEBUG 
+#		pragma comment(lib,"EFF3D.lib")
 #	else
 #		pragma comment(lib,"EFF3DU.lib")
 #	endif

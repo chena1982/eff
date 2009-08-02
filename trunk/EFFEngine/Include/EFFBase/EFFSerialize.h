@@ -1,6 +1,6 @@
 /******************************************************************************
 	created:	2008-12-1   22:33
-	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	file path:	d:\EFF\EFFEngine\Include\EFFBase\EFFSerialize.h
 	author:		ChenA
 	
 	purpose:	
@@ -15,14 +15,8 @@
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
 
-#define DECLARE_CLASS(c)\
-private:\
-	friend class boost::serialization::access;\
-	template<class Archive>\
-	void serialize(Archive & ar, const unsigned int version)\
+EFFBASE_BEGIN
 
-#define MEMBER(m)\
-ar & m;
 
 
 //struct ArgWriteXml { TiXmlNode *node; String filename; Dword fileVersion; Dword classVersion; };
@@ -131,5 +125,7 @@ inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boos
 	}
 }
 
+
+EFFBASE_END
 
 #endif

@@ -1,6 +1,6 @@
 /******************************************************************************
 	created:	2008-12-1   22:31
-	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	file path:	d:\EFF\EFFEngine\Include\EFFBase\EFFBaseBaseDefines.h
 	author:		ChenA
 	
 	purpose:	
@@ -43,8 +43,10 @@ typedef char effCHAR;
 
 #if defined UNICODE || defined _UNICODE
 	typedef effWCHAR effTCHAR;
+	typedef std::wstring effString;
 #else
 	typedef effCHAR effTCHAR;
+	typedef std::string effString;
 #endif
 
 typedef effCHAR *					effLPSTR;
@@ -121,6 +123,9 @@ void SF_RELEASE(T * p)
 	}
 };
 
+#define EFFBASE_BEGIN		namespace EFFBase {
+#define EFFBASE_END			}
+#define USE_EFFBASE			using namespace EFFBase;
 
 #ifndef EFFBASE_EXPORTS
 	#ifndef _EFFLIB

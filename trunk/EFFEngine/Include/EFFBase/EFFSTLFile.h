@@ -1,6 +1,6 @@
 /******************************************************************************
 	created:	2008-12-1   22:33
-	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	file path:	d:\EFF\EFFEngine\Include\EFFBase\EFFSTLFile.h
 	author:		ChenA
 	
 	purpose:	
@@ -11,6 +11,9 @@
 
 
 #include "EFFFile.h"
+
+
+EFFBASE_BEGIN
 
 class EFFBASE_API EFFSTLFile : public EFFFile
 {
@@ -27,5 +30,6 @@ private:
 	FILE *		m_pFile;
 };
 
+EFFBASE_END
 
 #endif

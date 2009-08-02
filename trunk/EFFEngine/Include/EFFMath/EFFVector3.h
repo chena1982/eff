@@ -1,16 +1,10 @@
 #pragma once
 
 
-class EFFMATH_API Vector3
+class EFFMATH_API EFFVector3
 {
 public:
-	float x;
-	float y;
-	float z;
-
-	void test()
-	{
-		float * p = &x;
-		SF_DELETE(p);
-	}
+	effFLOAT		x;
+	effFLOAT		y;
+	effFLOAT		z;
 };

@@ -10,19 +10,9 @@
 
 
 
-/********************************************************************
-created:	19:11:2003   18:16
-filename: 	D:\WorkSpace\Code\EFF3D\Code\EFF3D\Base\Basetype.H
-author:		LargeWC
-
-purpose:	Write somethings here
-
-*********************************************************************/
-
-
 #define EFF3D_BEGIN	namespace EFF3D {
 #define EFF3D_END		}
-#define EFF3D_USE		using namespace EFF3D;
+#define USE_EFF3D		using namespace EFF3D;
 
 typedef struct _EFF3DCOLORVALUE
 {
@@ -39,25 +29,25 @@ typedef struct EFF3DXCOLOR
 public:
 	EFF3DXCOLOR() {}
 	EFF3DXCOLOR( effDWORD argb );
-	EFF3DXCOLOR( CONST FLOAT * );
-	EFF3DXCOLOR( CONST EFF3DCOLORVALUE& );
+	EFF3DXCOLOR( const FLOAT * );
+	EFF3DXCOLOR( const EFF3DCOLORVALUE& );
 	EFF3DXCOLOR( FLOAT r, FLOAT g, FLOAT b, FLOAT a );
 
 	// casting
 	operator effDWORD () const;
 
 	operator FLOAT* ();
-	operator CONST FLOAT* () const;
+	operator const FLOAT* () const;
 
 	operator EFF3DCOLORVALUE* ();
-	operator CONST EFF3DCOLORVALUE* () const;
+	operator const EFF3DCOLORVALUE* () const;
 
 	operator EFF3DCOLORVALUE& ();
-	operator CONST EFF3DCOLORVALUE& () const;
+	operator const EFF3DCOLORVALUE& () const;
 
 	// assignment operators
-	EFF3DXCOLOR& operator += ( CONST EFF3DXCOLOR& );
-	EFF3DXCOLOR& operator -= ( CONST EFF3DXCOLOR& );
+	EFF3DXCOLOR& operator += ( const EFF3DXCOLOR& );
+	EFF3DXCOLOR& operator -= ( const EFF3DXCOLOR& );
 	EFF3DXCOLOR& operator *= ( FLOAT );
 	EFF3DXCOLOR& operator /= ( FLOAT );
 
@@ -66,15 +56,15 @@ public:
 	EFF3DXCOLOR operator - () const;
 
 	// binary operators
-	EFF3DXCOLOR operator + ( CONST EFF3DXCOLOR& ) const;
-	EFF3DXCOLOR operator - ( CONST EFF3DXCOLOR& ) const;
+	EFF3DXCOLOR operator + ( const EFF3DXCOLOR& ) const;
+	EFF3DXCOLOR operator - ( const EFF3DXCOLOR& ) const;
 	EFF3DXCOLOR operator * ( FLOAT ) const;
 	EFF3DXCOLOR operator / ( FLOAT ) const;
 
-	friend EFF3DXCOLOR operator * (FLOAT, CONST EFF3DXCOLOR& );
+	friend EFF3DXCOLOR operator * (FLOAT, const EFF3DXCOLOR& );
 
-	BOOL operator == ( CONST EFF3DXCOLOR& ) const;
-	BOOL operator != ( CONST EFF3DXCOLOR& ) const;
+	effBOOL operator == ( const EFF3DXCOLOR& ) const;
+	effBOOL operator != ( const EFF3DXCOLOR& ) const;
 
 #endif //__cplusplus
 	effFLOAT r, g, b, a;
@@ -99,10 +89,10 @@ typedef EFF3DXHANDLE *LPEFF3DXHANDLE;
 
 
 
-#define EFF3D_DEFAULT            ((UINT) -1)
-#define EFF3D_DEFAULT_NONPOW2    ((UINT) -2)
-#define EFF3D_FROM_FILE          ((UINT) -3)
-#define EFF3DFMT_FROM_FILE        ((D3DFORMAT) -3)
+#define EFF3D_DEFAULT            ((effUINT) -1)
+#define EFF3D_DEFAULT_NONPOW2    ((effUINT) -2)
+#define EFF3D_FROM_FILE          ((effUINT) -3)
+#define EFF3DFMT_FROM_FILE        ((EFF3DFORMAT) -3)
 
 
 
@@ -184,8 +174,8 @@ typedef enum _EFF3DPOOL
 
 #ifndef MAKEFOURCC
 #define MAKEFOURCC(ch0, ch1, ch2, ch3)                              \
-	((DWORD)(BYTE)(ch0) | ((DWORD)(BYTE)(ch1) << 8) |       \
-	((DWORD)(BYTE)(ch2) << 16) | ((DWORD)(BYTE)(ch3) << 24 ))
+	((effDWORD)(BYTE)(ch0) | ((effDWORD)(BYTE)(ch1) << 8) |       \
+	((effDWORD)(BYTE)(ch2) << 16) | ((effDWORD)(BYTE)(ch3) << 24 ))
 #endif /* defined(MAKEFOURCC) */
 
 typedef enum _EFF3DFORMAT
@@ -308,7 +298,7 @@ typedef enum _EFF3DRENDERSTATETYPE {
 	EFF3DRS_FOGEND                    = 37,   /* Fog end      */
 	EFF3DRS_FOGDENSITY                = 38,   /* Fog density  */
 	EFF3DRS_RANGEFOGENABLE            = 48,   /* Enables range-based fog */
-	EFF3DRS_STENCILENABLE             = 52,   /* BOOL enable/disable stenciling */
+	EFF3DRS_STENCILENABLE             = 52,   /* effBOOL enable/disable stenciling */
 	EFF3DRS_STENCILFAIL               = 53,   /* EFF3DSTENCILOP to do if stencil test fails */
 	EFF3DRS_STENCILZFAIL              = 54,   /* EFF3DSTENCILOP to do if stencil test passes and Z test fails */
 	EFF3DRS_STENCILPASS               = 55,   /* EFF3DSTENCILOP to do if both stencil and Z tests pass */
@@ -340,13 +330,13 @@ typedef enum _EFF3DRENDERSTATETYPE {
 	EFF3DRS_CLIPPLANEENABLE           = 152,
 	EFF3DRS_POINTSIZE                 = 154,   /* float point size */
 	EFF3DRS_POINTSIZE_MIN             = 155,   /* float point size min threshold */
-	EFF3DRS_POINTSPRITEENABLE         = 156,   /* BOOL point texture coord control */
-	EFF3DRS_POINTSCALEENABLE          = 157,   /* BOOL point size scale enable */
+	EFF3DRS_POINTSPRITEENABLE         = 156,   /* effBOOL point texture coord control */
+	EFF3DRS_POINTSCALEENABLE          = 157,   /* effBOOL point size scale enable */
 	EFF3DRS_POINTSCALE_A              = 158,   /* float point attenuation A value */
 	EFF3DRS_POINTSCALE_B              = 159,   /* float point attenuation B value */
 	EFF3DRS_POINTSCALE_C              = 160,   /* float point attenuation C value */
-	EFF3DRS_MULTISAMPLEANTIALIAS      = 161,  // BOOL - set to do FSAA with multisample buffer
-	EFF3DRS_MULTISAMPLEMASK           = 162,  // DWORD - per-sample enable/disable
+	EFF3DRS_MULTISAMPLEANTIALIAS      = 161,  // effBOOL - set to do FSAA with multisample buffer
+	EFF3DRS_MULTISAMPLEMASK           = 162,  // effDWORD - per-sample enable/disable
 	EFF3DRS_PATCHEDGESTYLE            = 163,  // Sets whether patch edges will use float style tessellation
 	EFF3DRS_DEBUGMONITORTOKEN         = 165,  // DEBUG ONLY - token to debug monitor
 	EFF3DRS_POINTSIZE_MAX             = 166,   /* float point size max threshold */
@@ -366,7 +356,7 @@ typedef enum _EFF3DRENDERSTATETYPE {
 	EFF3DRS_ADAPTIVETESS_Z            = 182,
 	EFF3DRS_ADAPTIVETESS_W            = 183,
 	EFF3DRS_ENABLEADAPTIVETESSELLATION = 184,
-	EFF3DRS_TWOSIDEDSTENCILMODE       = 185,   /* BOOL enable/disable 2 sided stenciling */
+	EFF3DRS_TWOSIDEDSTENCILMODE       = 185,   /* effBOOL enable/disable 2 sided stenciling */
 	EFF3DRS_CCW_STENCILFAIL           = 186,   /* EFF3DSTENCILOP to do if ccw stencil test fails */
 	EFF3DRS_CCW_STENCILZFAIL          = 187,   /* EFF3DSTENCILOP to do if ccw stencil test passes and Z test fails */
 	EFF3DRS_CCW_STENCILPASS           = 188,   /* EFF3DSTENCILOP to do if both ccw stencil and Z tests pass */
@@ -444,10 +434,10 @@ typedef enum _EFF3DTEXTURESTAGESTATETYPE
 } EFF3DTEXTURESTAGESTATETYPE;
 
 typedef struct _EFF3DVIEWPORT9 {
-	DWORD       X;
-	DWORD       Y;            /* Viewport Top left */
-	DWORD       Width;
-	DWORD       Height;       /* Viewport Dimensions */
+	effDWORD       X;
+	effDWORD       Y;            /* Viewport Top left */
+	effDWORD       Width;
+	effDWORD       Height;       /* Viewport Dimensions */
 	float       MinZ;         /* Min/max of clip Volume */
 	float       MaxZ;
 } EFF3DVIEWPORT9;
@@ -633,7 +623,7 @@ typedef enum _EFF3DVSD_TOKENTYPE
 	EFF3DVSD_TOKEN_TESSELLATOR,       // vertex input memory from tessellator
 	EFF3DVSD_TOKEN_CONSTMEM,          // constant memory from shader
 	EFF3DVSD_TOKEN_EXT,               // extension
-	EFF3DVSD_TOKEN_END = 7,           // end-of-array (requires all DWORD bits to be 1)
+	EFF3DVSD_TOKEN_END = 7,           // end-of-array (requires all effDWORD bits to be 1)
 	EFF3DVSD_FORCE_DWORD = 0x7fffffff,// force 32-bit size enum
 } EFF3DVSD_TOKENTYPE;
 
@@ -791,8 +781,8 @@ typedef enum _EFF3DSAMPLERSTATETYPE
 	EFF3DSAMP_MINFILTER      = 6,  /* EFF3DTEXTUREFILTER filter to use for minification */
 	EFF3DSAMP_MIPFILTER      = 7,  /* EFF3DTEXTUREFILTER filter to use between mipmaps during minification */
 	EFF3DSAMP_MIPMAPLODBIAS  = 8,  /* float Mipmap LOD bias */
-	EFF3DSAMP_MAXMIPLEVEL    = 9,  /* DWORD 0..(n-1) LOD index of largest map to use (0 == largest) */
-	EFF3DSAMP_MAXANISOTROPY  = 10, /* DWORD maximum anisotropy */
+	EFF3DSAMP_MAXMIPLEVEL    = 9,  /* effDWORD 0..(n-1) LOD index of largest map to use (0 == largest) */
+	EFF3DSAMP_MAXANISOTROPY  = 10, /* effDWORD maximum anisotropy */
 	EFF3DSAMP_SRGBTEXTURE    = 11, /* Default = 0 (which means Gamma 1.0,no correction required.) else correct for Gamma = 2.2 */
 	EFF3DSAMP_ELEMENTINDEX   = 12, /* When multi-element texture is assigned to sampler, this indicates which element index to use.  Default = 0.  */
 	EFF3DSAMP_DMAPOFFSET     = 13, /* Offset in vertices in the pre-sampled displacement map. Only valid for EFF3DDMAPSAMPLER sampler  */
@@ -1145,6 +1135,16 @@ struct EFF3DSURFACE_DESC
 	effUINT                Height;
 };
 
+typedef struct EFF3DVERTEXELEMENT
+{
+	effWORD Stream;
+	effWORD Offset;
+	effBYTE Type;
+	effBYTE Method;
+	effBYTE Usage;
+	effBYTE UsageIndex;
+} EFF3DVERTEXELEMENT, *LPEFF3DVERTEXELEMENT;
+
 struct EFF3DFont
 {
 	std::string	Name;
@@ -1176,6 +1176,25 @@ struct EFF3DFont
 #define EFF3DERR_DEVICELOST						MAKE_EFF3DHRESULT(2152)
 #define EFF3DERR_DEVICENOTRESET					MAKE_EFF3DHRESULT(2153) 
 
+
+typedef struct EFF3DINDEXBUFFER_DESC
+{
+	EFF3DFORMAT Format;
+	EFF3DRESOURCETYPE Type;
+	effDWORD Usage;
+	EFF3DPOOL Pool;
+	effUINT Size;
+} EFF3DINDEXBUFFER_DESC, *LPEFF3DINDEXBUFFER_DESC;
+
+
+typedef struct EFF3DVERTEXBUFFER_DESC {
+	EFF3DFORMAT Format;
+	EFF3DRESOURCETYPE Type;
+	effDWORD Usage;
+	EFF3DPOOL Pool;
+	effUINT Size;
+	effDWORD FVF;
+} EFF3DVERTEXBUFFER_DESC, *LPEFF3DVERTEXBUFFER_DESC;
 
 
 #ifndef EFF3D_EXPORTS

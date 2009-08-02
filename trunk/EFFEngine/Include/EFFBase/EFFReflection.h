@@ -1,6 +1,6 @@
 /******************************************************************************
 	created:	2008-12-1   22:32
-	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	file path:	d:\EFF\EFFEngine\Include\EFFBase\EFFReflection.h
 	author:		ChenA
 	
 	purpose:	
@@ -14,6 +14,9 @@
 #include "EFFSerialize.h"
 #include <boost/type_traits.hpp>
 #include <boost/typeof/typeof.hpp>
+#include <boost/function.hpp>
+
+EFFBASE_BEGIN
 
 class EFFClass;
 
@@ -55,54 +58,127 @@ std::string EFFBASE_API getClassNameFromTypeName(const char * pszTypeName);
 #define __MAX_PARAMS__       20
 #define __NOTHING__          
 #define __COMMA__            ,
-#define __TEMPLATE_ARG__(N)  class T##N
+#define __TEMPLATE_ARG__(N)  typename T##N
 #define __TYPE_ARG__(N)      T##N 
 #define __ARG__(N)           T##N t##N
 #define __PARAM__(N)         t##N
+#define __PYTHON_PARAM__(N)	ptr(t##N)
 #define __NOT_VIRTUAL__
-#define __ADD_METHOD_ARGS__(N) m_vArgsName.push_back(getClassNameFromTypeName(typeid(T##N).name()));
+#define __ADD_METHOD_ARGS__(N) pInfo->m_vArgsName.push_back(getClassNameFromTypeName(typeid(T##N).name()));
 #define __SEMICOLON__   ;
 
-class __callable__
+//被委托人
+class	__delegatee__
+{
+};
+
+class __callable__info__
 {
 public:
-	virtual ~__callable__() {}
-
-	
 	std::string m_strMethodName;
 	std::string m_strReturnTypeName;
 	std::vector<std::string> m_vArgsName;
 };
 
+class __callable__
+{
+public:
+	__callable__() { pInfo = new __callable__info__; }
+	virtual ~__callable__() { SF_DELETE(pInfo); }
+
+public:
+	__callable__info__ *		pInfo;
+};
+
+
+
+
+// #define __CALLABLE__(N)\
+// template <class R, class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+// class __callable##N##__ : public __callable__\
+// {\
+// public:\
+// 	typedef R (__delegatee__::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+// 	typedef R (C::*MethodTypeReal)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+// 	MethodType method;\
+// 	typedef R ReturnValueType;\
+// 	__callable##N##__(MethodTypeReal m)\
+// 	{\
+// 		method = (MethodType)m;\
+// 		pInfo->m_strReturnTypeName = getClassNameFromTypeName(typeid(R).name());								/*得到返回值类型*/  \
+// 		__REPEAT(N,__ADD_METHOD_ARGS__,__SEMICOLON__,__NOTHING__);			/*得到参数类型*/  \
+// 	}\
+// 	R invoke(C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const		/*invoke函数*/  \
+// 	{\
+// 		return (object->*method)(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
+// 	}\
+// };
 
 #define __CALLABLE__(N)\
-template <class R, class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+template <typename R __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
 class __callable##N##__ : public __callable__\
 {\
 public:\
-	typedef R (C::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
-	MethodType method;\
-	__callable##N##__(MethodType m) : method(m)\
+	typedef R (*FunctionPtrType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+	typedef R ReturnValueType;\
+	__callable##N##__(FunctionPtrType m)\
 	{\
-		m_strReturnTypeName = getClassNameFromTypeName(typeid(R).name());								/*得到返回值类型*/  \
+		functionPtr = m;\
+		pInfo->m_strReturnTypeName = getClassNameFromTypeName(typeid(R).name());								/*得到返回值类型*/  \
 		__REPEAT(N,__ADD_METHOD_ARGS__,__SEMICOLON__,__NOTHING__);			/*得到参数类型*/  \
 	}\
-	R invoke(C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const		/*invoke函数*/  \
+	R invoke(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
 	{\
-		return (object->*method)(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
+		functionPtr(__REPEAT(N,__PARAM__,__COMMA__,__NOTHING__));\
 	}\
+protected:\
+	boost::function<R (__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__))>	functionPtr;\
 };
+
+
+#define __MEMBER_CALLABLE__(N)\
+template <typename R,class C  __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+class __member_callable##N##__ : public __callable__\
+{\
+public:\
+	typedef R (C::*FunctionPtrTypeReal)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+	typedef R (__delegatee__::*FunctionPtrType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+	typedef R ReturnValueType;\
+	typedef C ClassType;\
+	__member_callable##N##__(FunctionPtrTypeReal m)\
+	{\
+		funcPtr = (FunctionPtrType)m;\
+		pInfo->m_strReturnTypeName = getClassNameFromTypeName(typeid(R).name());								/*得到返回值类型*/  \
+		__REPEAT(N,__ADD_METHOD_ARGS__,__SEMICOLON__,__NOTHING__);			/*得到参数类型*/  \
+	}\
+public:\
+	FunctionPtrType		funcPtr;\
+};
+
 
 __CALLABLE__(0)
 __CALLABLE__(1)
 __CALLABLE__(2)
+__CALLABLE__(3)
+__CALLABLE__(4)
 
+__MEMBER_CALLABLE__(0)
+__MEMBER_CALLABLE__(1)
+__MEMBER_CALLABLE__(2)
+__MEMBER_CALLABLE__(3)
 
 #define __CREATE_CALLABLE__(N)\
-template <class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
-static inline __callable##N##__<R, C __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> * create(R (C::*method)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
+template <typename R __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+static inline __callable##N##__<R __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> * create(R (*method)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
 {\
-	return new __callable##N##__<R, C __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)>(method);\
+	return new __callable##N##__<R __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)>(method);\
+}
+
+#define __CREATE_MEMBER_CALLABLE__(N)\
+template <typename R, class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+	static inline __member_callable##N##__<R,C __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> * create(R (C::*method)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
+{\
+	return new __member_callable##N##__<R,C __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)>(method);\
 }
 
 
@@ -114,17 +190,26 @@ public:
 	__CREATE_CALLABLE__(0)
 	__CREATE_CALLABLE__(1)
 	__CREATE_CALLABLE__(2)
+	__CREATE_CALLABLE__(3)
+	__CREATE_CALLABLE__(4)
+
+
+	//__CREATE_MEMBER_CALLABLE__(0)
+	__CREATE_MEMBER_CALLABLE__(1)
+	__CREATE_MEMBER_CALLABLE__(2)
+	__CREATE_MEMBER_CALLABLE__(3)
+
 };
 
 
 #define __MEMBER_METHOD__(N)\
 template <class R,class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
-	__member_method__(R (C::*memberMethodAddress)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)),char * pszMethodName)\
+__member_method__(R (C::*memberMethodAddress)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)),char * pszMethodName)\
 {\
 	__callable__ * pMethod = __callable_factory__<R>::create(memberMethodAddress);\
-	pMethod->m_strMethodName = pszMethodName;\
+	pMethod->pInfo->m_strMethodName = pszMethodName;\
 	C::GetThisClass()->AddMemberMethod(pMethod);\
-}\
+}
 
 class __member_method__
 {
@@ -132,11 +217,12 @@ public:
 	__MEMBER_METHOD__(0)
 	__MEMBER_METHOD__(1)
 	__MEMBER_METHOD__(2)
+	__MEMBER_METHOD__(3)
 };
 
 #define BEGIN_METHOD_MAP\
-	static void RegisterMethod()\
-{
+	static effVOID RegisterMethod()\
+	{
 
 
 #define END_METHOD_MAP\
@@ -170,7 +256,7 @@ public:
 };
 
 #define BEGIN_PROPERTY_MAP\
-	static void RegisterProperty()\
+	static effVOID RegisterProperty()\
 	{
 
 
@@ -194,66 +280,13 @@ public:
 	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(classThis,PROPERTY_NAME),sizeof(PROPERTY_TYPE),#PROPERTY_NAME,classThis::GetThisClass());
 
 
-#define __EFFEVENT_MEMBER_FUCTION__(N)\
-template <class R,class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
-EFFEvent(R (C::*memberFuctionAddress)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
-{\
-	m_pFunction = __callable_factory__<R>::create(memberFuctionAddress);\
-}
-
-
-#define __EFFEVENT_INVOKE__(N)\
-template <class R, class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
-void operator ()(R & result, C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const\
-{\
-	typedef __callable##N##__<R, C __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> CallableType1;\
-	CallableType1 *cb1 = dynamic_cast<CallableType1 *>(m_pFunction);\
-	if ( cb1 != NULL )\
-	{\
-		result = cb1->invoke(object,__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
-		return;\
-	}\
-	else\
-	{\
-		printf("callable is null.\n");\
-	}\
-}
-
-class EFFEvent
-{
-public:
-	//__EFFEVENT_MEMBER_FUCTION__(0)
-	//__INVOKE__(0)
-	__EFFEVENT_MEMBER_FUCTION__(1)
-	__EFFEVENT_INVOKE__(1)
-	__EFFEVENT_MEMBER_FUCTION__(2)
-	__EFFEVENT_INVOKE__(2)
-	__callable__ * m_pFunction;
-};
 
 
 
 
 
-/*#define EFFEvent_Constructor(N)\
-	template <class R,class C,class T0>\
-	EFFEvent(R (C::*)(T0) a)\
-{\
-	boost::function<R(C*,T0)> function;\
-	function = a;\
-}*/
-
-/*class EFFEvent
-{
-public:
-	template <class R,class C,class T0>
-	EFFEvent(R (C::*a)(T0) )
-	{
-		boost::function<R(C*,T0)> function;
-		function = a;
-	}
-};*/
 
 
+EFFBASE_END
 
 #endif

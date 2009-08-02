@@ -1,6 +1,6 @@
 /******************************************************************************
 	created:	2008-12-1   22:30
-	file path:	d:\EFF\EFFEngine\Include\EFFBase.h
+	file path:	d:\EFF\EFFEngine\Include\EFFBase\EFFFile.h
 	author:		ChenA
 	
 	purpose:	
@@ -8,7 +8,7 @@
 #ifndef __EFFFile_2008_12_1__
 #define __EFFFile_2008_12_1__
 
-
+EFFBASE_BEGIN
 
 class EFFBASE_API EFFFile
 {
@@ -19,5 +19,7 @@ public:
 protected:
 private:
 };
+
+EFFBASE_END
 
 #endif
