@@ -12,6 +12,8 @@
 
 #define new EFFNEW
 
+EFFBASE_BEGIN
+
 std::string getClassNameFromTypeName(const char * pszTypeName)
 {
 	std::string strClassName = pszTypeName;
@@ -28,3 +30,5 @@ __register_property__::__register_property__(unsigned long ulOffset,unsigned lon
 	__property__ property(ulOffset,ulSize,pszName);
 	pClass->AddProperty(property);
 }
+
+EFFBASE_END

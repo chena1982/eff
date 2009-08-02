@@ -19,8 +19,20 @@
 #include <hash_map>
 #include <map>
 #include <vector>
+#include <cassert>
+#include <cstdio>
+#include <iostream>
+
+//#include <Python.h>
+#include <boost/python/detail/wrap_python.hpp>
 
 #include "EFFBase.h"
+USE_EFFBASE
+
+#include "EFFMath.h"
+
 #include "EFF3DBaseDefines.h"
+
+
 
 

@@ -12,40 +12,54 @@
 
 #define new EFFNEW
 
-static std::map<ClassID,EFFClass *>		g_mapEFFRunTimeTypeInfo;
+EFFBASE_BEGIN
+
+//不直接使用全局静态变量，因为无法保证全局静态变量的初始化顺序，如果别的静态变量比mapEFFRunTimeTypeInfo先初始化，而且这个静态
+//在构造函数里调用了EFFRegisterClass，那么程序会Crash
+std::map<ClassID,EFFClass *> & GetRuntimeTypeInfoMap()
+{
+	static std::map<ClassID,EFFClass *>		mapEFFRunTimeTypeInfo;
+	return mapEFFRunTimeTypeInfo;
+}
+
 
 
 void EFFRegisterClass(EFFClass * pClass)
 {
-	g_mapEFFRunTimeTypeInfo.insert(std::make_pair(pClass->GetID(),pClass));
+	GetRuntimeTypeInfoMap().insert(std::make_pair(pClass->GetID(),pClass));
 }
 
 void EFFUnRegisterClass(EFFClass * pClass)
 {
-	std::map<ClassID,EFFClass *>::iterator it = g_mapEFFRunTimeTypeInfo.find(pClass->GetID());
-	if ( it != g_mapEFFRunTimeTypeInfo.end() )
+	std::map<ClassID,EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(pClass->GetID());
+	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
-		g_mapEFFRunTimeTypeInfo.erase(it);
+		GetRuntimeTypeInfoMap().erase(it);
 	}
 }
 
-void * EFFCreateObject(char * pszClassName)
+void * EFFCreateObject(const char * pszClassName)
 {
-	std::map<ClassID,EFFClass *>::iterator it = g_mapEFFRunTimeTypeInfo.find(ClassIDFromString(pszClassName));
-	if ( it != g_mapEFFRunTimeTypeInfo.end() )
+	return EFFCreateObject(ClassIDFromString(pszClassName));
+}
+
+void * EFFCreateObject(const ClassID & classID)
+{
+	std::map<ClassID,EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classID);
+	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
 		return it->second->CreateObject();
 	}
 	return NULL;
 }
 
-ClassID ClassIDFromString(char *string)
+ClassID ClassIDFromString(const char * szClassName)
 {
 
 	MD5 context;
-	unsigned int len = strlen(string);
+	unsigned int len = strlen(szClassName);
 
-	context.update((unsigned char *)string,len);
+	context.update((unsigned char *)szClassName,len);
 	context.finalize();
 
 	unsigned char * pDigset = context.raw_digest();
@@ -71,3 +85,6 @@ ClassID ClassIDFromString(char *string)
 
 	return classId;
 }
+
+
+EFFBASE_END

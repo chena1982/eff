@@ -20,10 +20,13 @@
 #include <map>
 #include <vector>
 
+//#include <Python.h>
+//因为要使用boost.python，所以用下面的这个头文件代替Python.h，不然会链接到python26_d.lib
+//如果要使用调试版的python26_d.lib，boost.python也需要使用python26_d.lib，这时需要定义BOOST_DEBUG_PYTHON，否则会链接到使用python26.lib的boost.python库
+#include <boost/python/detail/wrap_python.hpp>
+
 #include "EFFBaseBaseDefines.h"
 #include "EFFMemory.h"
-
-
 
 
 

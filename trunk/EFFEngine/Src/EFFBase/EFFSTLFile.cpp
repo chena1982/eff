@@ -11,6 +11,7 @@
 
 #define new EFFNEW
 
+EFFBASE_BEGIN
 
 EFFSTLFile::EFFSTLFile()
 {
@@ -52,3 +53,5 @@ unsigned int EFFSTLFile::Write(void * pBuffer,unsigned int dwSize)
 	}
 	return 0;
 }
+
+EFFBASE_END

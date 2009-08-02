@@ -54,6 +54,7 @@ documentation and/or software.
 
 #define new EFFNEW
 
+
 // MD5 simple initialization method
 
 MD5::MD5(){
@@ -542,3 +543,4 @@ inline void MD5::II(uint4& a, uint4 b, uint4 c, uint4 d, uint4 x,
  a += I(b, c, d) + x + ac;
  a = rotate_left (a, s) +b;
 }
+

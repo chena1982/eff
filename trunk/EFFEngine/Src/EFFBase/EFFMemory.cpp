@@ -11,6 +11,7 @@
 
 #define new EFFNEW
 
+
 #ifdef _DEBUG
 
 	static unsigned int g_dwAllocTimes = 0;
@@ -22,14 +23,11 @@
 		va_list pArgs;
 		va_start(pArgs,lpszFormat);
 
-		char Tmp[1024];
 		char ttmp[1024];
 
 		int nBuf = ::_vsnprintf_s(ttmp,1024,lpszFormat,pArgs);
 
 
-		//VC对宽字符的调试信息支持不好 :-(
-		//WideCharToMultiByte( CP_ACP, 0, ttmp, 1024, Tmp, 1024, NULL, NULL );
 		OutputDebugStringA(ttmp);
 		va_end(pArgs);
 	}
@@ -105,3 +103,5 @@
 #else
 
 #endif
+
+
