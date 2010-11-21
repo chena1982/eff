@@ -188,7 +188,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(PYTHON_INCLUDE)&quot;"
+				AdditionalIncludeDirectories="..\..\..\Include;&quot;..\..\..\Include\$(ProjectName)&quot;;&quot;$(BOOST_ROOT)&quot;;&quot;$(PYTHON_INCLUDE)&quot;;..\..\..\Dependence\DevIL\include\IL"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -209,13 +209,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="DevIL.lib Awesomium_d.lib"
 				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\..\Lib\$(ConfigurationName)&quot;;&quot;$(PYTHON_LIB)&quot;;..\..\..\Dependence\Boost\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\Lib\$(ConfigurationName)&quot;;&quot;$(PYTHON_LIB)&quot;;..\..\..\Dependence\Boost\lib;..\..\..\Dependence\DevIL\lib\unicode"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
+				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName)UD.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -477,6 +478,14 @@
 			Name="资源管理"
 			>
 			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DAsyncLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DAsyncLoader.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Src\EFF3D\EFF3DResource.cpp"
 				>
 			</File>
@@ -490,6 +499,78 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Include\EFF3D\EFF3DResourceManager.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="地形"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrain.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DTerrain.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainDataPreproccess.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainDataPreproccess.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainROAMImproveTileData.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainROAMImproveTileData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainTile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainTile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DTerrainTileData.h"
+				>
+			</File>
+			<Filter
+				Name="MyTerrain"
+				>
+				<File
+					RelativePath="..\..\..\Src\EFF3D\EFF3DMyTerrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Src\EFF3D\EFF3DMyTerrain.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="GUI"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFF3D\EFF3DForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFF3D\EFF3DForm.h"
 				>
 			</File>
 		</Filter>

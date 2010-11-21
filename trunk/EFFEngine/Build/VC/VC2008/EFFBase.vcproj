@@ -65,6 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="dbghelp.lib"
 				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(PYTHON_LIB)&quot;;..\..\..\Dependence\Boost\lib"
@@ -72,7 +73,7 @@
 				ProgramDatabaseFile="..\..\..\Pdb\$(ProjectName)\$(ConfigurationName)\$(TargetName).pdb"
 				GenerateMapFile="false"
 				SubSystem="2"
-				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName).lib"
+				ImportLibrary="..\..\..\Lib\$(ConfigurationName)\$(TargetName)UD.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -375,11 +376,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Include\EFFBase\EFFValue.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Src\EFFBase\md5.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\Src\EFFBase\md5.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Utilities"
+			>
+			<File
+				RelativePath="..\..\..\Src\EFFBase\GetDllExportFunctionsName.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Include\EFFBase\GetDllExportFunctionsName.h"
 				>
 			</File>
 		</Filter>
