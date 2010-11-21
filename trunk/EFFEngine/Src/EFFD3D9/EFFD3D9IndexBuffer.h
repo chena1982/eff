@@ -17,7 +17,7 @@ public:
 	virtual ~EFFD3D9IndexBuffer();
 public:
 	virtual effHRESULT				GetDesc(EFF3DINDEXBUFFER_DESC * pDesc);
-	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effDWORD Flags);
+	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags);
 	virtual effHRESULT				Unlock();
 protected:
 	LPDIRECT3DINDEXBUFFER9		m_pBuf;

@@ -17,7 +17,7 @@ public:
 	virtual ~EFFD3D9VertexBuffer();
 public:
 	virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc);
-	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effDWORD Flags);
+	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags);
 	virtual effHRESULT				Unlock();
 protected:
 	LPDIRECT3DVERTEXBUFFER9		m_pBuf;

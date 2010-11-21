@@ -17,7 +17,7 @@
 #define new EFFNEW
 
 
-effVOID InitWindow(effINT nWidth,effINT nHeight,D3DPRESENT_PARAMETERS *d3dpp,effBOOL bFSA,effDWORD dwDSFormat)  
+effVOID InitWindow(effINT nWidth,effINT nHeight,D3DPRESENT_PARAMETERS *d3dpp,effBOOL bFSA,effUINT dwDSFormat)  
 {
 	d3dpp->Windowed = effTRUE;
 	d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -50,7 +50,7 @@ effVOID InitFullScreen(effINT nWidth,effINT nHeight,D3DPRESENT_PARAMETERS *d3dpp
 }
 
 
-effBOOL effCreate3DDevice(EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,effINT nWidth,effINT nHeight,effBOOL bFSA /* = effFALSE */,effBOOL bMultiThread /* = effFALSE */,effDWORD dwDSFormat/* = EFF3DFMT_D16*/)
+effBOOL effCreate3DDevice(EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,effINT nWidth,effINT nHeight,effBOOL bFSA /* = effFALSE */,effBOOL bMultiThread /* = effFALSE */,effUINT dwDSFormat/* = EFF3DFMT_D16*/)
 {
 
 	LPDIRECT3D9 pD3D;
@@ -63,9 +63,6 @@ effBOOL effCreate3DDevice(EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,e
 	pD3DDevice->SetD3D(pD3D);
 	D3DPRESENT_PARAMETERS d3dpp; 
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
-
-
 
 
 
@@ -100,7 +97,7 @@ effBOOL effCreate3DDevice(EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,e
 
 	D3DCAPS9 d3dCaps;
 	pD3D->GetDeviceCaps(AdapterToUse,DeviceType,&d3dCaps);
-	effDWORD dwBehaviorFlags;
+	effUINT dwBehaviorFlags;
 	if ( (d3dCaps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) == 0 )
 	{
 		dwBehaviorFlags = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
@@ -145,6 +142,16 @@ effBOOL effCreate3DDevice(EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,e
 		}
 	}
 
+	IDirect3DSurface9 * pBackBuffer = NULL;
+	if ( FAILED(pD3DDevice->GetD3DDevice()->GetBackBuffer(0,0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)) )
+	{
+		SF_RELEASE(pD3DDevice);
+		return effFALSE;
+	};
+	D3DSURFACE_DESC stBackBufferDesc;
+	pBackBuffer->GetDesc(&stBackBufferDesc);
+	pD3DDevice->SetBackBufferSize(stBackBufferDesc.Width,stBackBufferDesc.Height);
+	SF_RELEASE(pBackBuffer);
 
 	*lpp3DDevice =	pD3DDevice;
 
@@ -172,7 +179,7 @@ effHRESULT EFFD3D9Device::EndScene()
 	return m_pD3DDevice->EndScene();
 }
 
-effHRESULT EFFD3D9Device::Clear(effDWORD Count,const EFFRect * pRects,effDWORD Flags,EFF3DCOLOR Color,effFLOAT Z,effDWORD Stencil)
+effHRESULT EFFD3D9Device::Clear(effUINT Count,const EFFRect * pRects,effUINT Flags,EFF3DCOLOR Color,effFLOAT Z,effUINT Stencil)
 {
 	return m_pD3DDevice->Clear(Count,(const D3DRECT *)pRects,Flags,Color,Z,Stencil);
 }
@@ -182,7 +189,25 @@ effHRESULT EFFD3D9Device::Present(const EFFRect * pSourceRect,const EFFRect * pD
 	return m_pD3DDevice->Present((const RECT *)pSourceRect,(const RECT *)pDestRect,NULL,NULL);
 }
 
-effHRESULT EFFD3D9Device::CreateTexture(effUINT Width,effUINT Height,effUINT Levels,effDWORD Usage,EFF3DFORMAT Format,EFF3DPOOL Pool, EFF3DTexture** ppTexture)
+EFF3DIResource * EFFD3D9Device::CreateEmptyResource(EFF3DRESOURCETYPE resourceType)
+{
+	EFF3DIResource * pRet = NULL;
+	
+	switch(resourceType)
+	{
+	case EFF3DRTYPE_TEXTURE:
+		{
+			pRet = new EFFD3D9Texture();
+		}
+		break;
+	default:
+		break;
+	}
+
+	return pRet;
+}
+
+effHRESULT EFFD3D9Device::CreateTexture(effUINT Width,effUINT Height,effUINT Levels,effUINT Usage,EFF3DFORMAT Format,EFF3DPOOL Pool, EFF3DTexture** ppTexture)
 {
 	assert(ppTexture != NULL);
 
@@ -195,6 +220,7 @@ effHRESULT EFFD3D9Device::CreateTexture(effUINT Width,effUINT Height,effUINT Lev
 		SF_DELETE(pTexture);
 		return hr;
 	}
+
 	pTexture->m_ImageInfo.Width = Width;
 	pTexture->m_ImageInfo.Height = Height;
 	pTexture->m_ImageInfo.MipLevels = Levels;
@@ -209,7 +235,7 @@ effHRESULT EFFD3D9Device::CreateTexture(effUINT Width,effUINT Height,effUINT Lev
 	return hr;	
 }
 
-effHRESULT EFFD3D9Device::CreateRenderTarget(effUINT Width, effUINT Height, EFF3DFORMAT Format, EFF3DMULTISAMPLE_TYPE MultiSample, effDWORD MultisampleQuality, effBOOL Lockable, EFF3DSurface **ppSurface)
+effHRESULT EFFD3D9Device::CreateRenderTarget(effUINT Width, effUINT Height, EFF3DFORMAT Format, EFF3DMULTISAMPLE_TYPE MultiSample, effUINT MultisampleQuality, effBOOL Lockable, EFF3DSurface **ppSurface)
 {
 	assert(ppSurface != NULL);
 
@@ -227,7 +253,7 @@ effHRESULT EFFD3D9Device::CreateRenderTarget(effUINT Width, effUINT Height, EFF3
 	return hr;
 }
 
-effHRESULT EFFD3D9Device::CreateDepthStencilSurface(effUINT Width, effUINT Height, EFF3DFORMAT Format, EFF3DMULTISAMPLE_TYPE MultiSample, effDWORD MultisampleQuality, effBOOL Discard, EFF3DSurface **ppSurface)
+effHRESULT EFFD3D9Device::CreateDepthStencilSurface(effUINT Width, effUINT Height, EFF3DFORMAT Format, EFF3DMULTISAMPLE_TYPE MultiSample, effUINT MultisampleQuality, effBOOL Discard, EFF3DSurface **ppSurface)
 {
 	assert(ppSurface != NULL);
 
@@ -245,7 +271,7 @@ effHRESULT EFFD3D9Device::CreateDepthStencilSurface(effUINT Width, effUINT Heigh
 	return hr;
 }
 
-effHRESULT EFFD3D9Device::CreateIndexBuffer(effUINT Length, effDWORD Usage, EFF3DFORMAT Format, EFF3DPOOL Pool, EFF3DIndexBuffer **ppIndexBuffer)
+effHRESULT EFFD3D9Device::CreateIndexBuffer(effUINT Length, effUINT Usage, EFF3DFORMAT Format, EFF3DPOOL Pool, EFF3DIndexBuffer **ppIndexBuffer)
 {
 	assert(ppIndexBuffer != NULL);
 	
@@ -261,7 +287,7 @@ effHRESULT EFFD3D9Device::CreateIndexBuffer(effUINT Length, effDWORD Usage, EFF3
 	return hr;
 }
 
-effHRESULT EFFD3D9Device::CreateVertexBuffer(effUINT Length, effDWORD Usage, effDWORD FVF, EFF3DPOOL Pool, EFF3DVertexBuffer **ppVertexBuffer)
+effHRESULT EFFD3D9Device::CreateVertexBuffer(effUINT Length, effUINT Usage, effUINT FVF, EFF3DPOOL Pool, EFF3DVertexBuffer **ppVertexBuffer)
 {
 	assert(ppVertexBuffer != NULL);
 
@@ -312,7 +338,7 @@ effHRESULT EFFD3D9Device::SetTransform(EFF3DTRANSFORMSTATETYPE State,const EFFMa
 	return m_pD3DDevice->SetTransform((D3DTRANSFORMSTATETYPE)State,(const D3DMATRIX *)pMatrix);
 }
 
-effHRESULT EFFD3D9Device::SetFVF(effDWORD FVF)
+effHRESULT EFFD3D9Device::SetFVF(effUINT FVF)
 {
 	return m_pD3DDevice->SetFVF(FVF);
 }
@@ -335,30 +361,37 @@ effHRESULT EFFD3D9Device::SetIndices(EFF3DIndexBuffer * pIndexData)
 	return m_pD3DDevice->SetIndices(pEFFD3D9IB->m_pBuf);
 }
 
-effHRESULT EFFD3D9Device::SetRenderState(EFF3DRENDERSTATETYPE State,effDWORD Value)
+effHRESULT EFFD3D9Device::SetRenderState(EFF3DRENDERSTATETYPE State,effUINT Value)
 {
 	return m_pD3DDevice->SetRenderState((D3DRENDERSTATETYPE)State,Value);
 }
 
-effHRESULT EFFD3D9Device::SetTextureStageState(effDWORD Stage,EFF3DTEXTURESTAGESTATETYPE Type,effDWORD Value)
+effHRESULT EFFD3D9Device::SetTextureStageState(effUINT Stage,EFF3DTEXTURESTAGESTATETYPE Type,effUINT Value)
 {
 	return m_pD3DDevice->SetTextureStageState(Stage,(D3DTEXTURESTAGESTATETYPE)Type,Value);
 }
 
-effHRESULT EFFD3D9Device::SetRenderTarget(effDWORD RenderTargetIndex,EFF3DSurface * pRenderTarget)
+effHRESULT EFFD3D9Device::SetRenderTarget(effUINT RenderTargetIndex,EFF3DSurface * pRenderTarget)
 {
 	EFFD3D9Surface * pEFFD3D9Surface = (EFFD3D9Surface *)pRenderTarget;
 	return m_pD3DDevice->SetRenderTarget(RenderTargetIndex,pEFFD3D9Surface->m_pSurface);
 }
 
-effHRESULT EFFD3D9Device::SetTexture(effDWORD Sampler,EFF3DBaseTexture * pTexture)
+effHRESULT EFFD3D9Device::SetTexture(effUINT Sampler,EFF3DBaseTexture * pTexture)
 {
-	if ( pTexture->GetImageInfo().ResourceType  == EFF3DRTYPE_TEXTURE )
+	if ( pTexture != NULL )
 	{
-		EFFD3D9Texture * pEFFD3D9Texture = (EFFD3D9Texture *)pTexture;
-		return m_pD3DDevice->SetTexture(Sampler,(IDirect3DTexture9 *)pEFFD3D9Texture->m_pTexture);
+		if ( pTexture->GetImageInfo().ResourceType  == EFF3DRTYPE_TEXTURE )
+		{
+			EFFD3D9Texture * pEFFD3D9Texture = (EFFD3D9Texture *)pTexture;
+			return m_pD3DDevice->SetTexture(Sampler,(IDirect3DTexture9 *)pEFFD3D9Texture->m_pTexture);
+		}
+		return S_OK;
 	}
-	return E_FAIL;
+	else
+	{
+		return m_pD3DDevice->SetTexture(Sampler,NULL);
+	}
 }
 
 effHRESULT EFFD3D9Device::SetDepthStencilSurface(EFF3DSurface *pNewZStencil)

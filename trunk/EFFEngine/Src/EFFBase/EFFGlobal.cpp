@@ -30,6 +30,7 @@ EFFGlobal::EFFGlobal()
 
 EFFGlobal::~EFFGlobal()
 {
+	SF_DELETE(m_pEFFObjectManager);
 }
 
 EFFBASE_END

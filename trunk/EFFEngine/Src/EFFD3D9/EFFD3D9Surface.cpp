@@ -27,7 +27,7 @@ effHRESULT EFFD3D9Surface::GetDesc(EFF3DSURFACE_DESC * pDesc)
 	return m_pSurface->GetDesc((D3DSURFACE_DESC *)pDesc);
 }
 
-effHRESULT EFFD3D9Surface::LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effDWORD Flags)
+effHRESULT EFFD3D9Surface::LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags)
 {
 	assert(m_pSurface != NULL);
 	return m_pSurface->LockRect((D3DLOCKED_RECT *)pLockedRect,(const RECT *)pRect,Flags);
@@ -39,18 +39,18 @@ effHRESULT EFFD3D9Surface::UnlockRect()
 	return m_pSurface->UnlockRect();
 }
 
-effDWORD EFFD3D9Surface::CalculateSize()
+effUINT EFFD3D9Surface::CalculateSize()
 {
 	return 0;
 }
 
-effBOOL EFFD3D9Surface::LoadDataResourceFromFile(const effString & strFilePath)
+effBOOL EFFD3D9Surface::LoadDataFromFile(const effString & strFilePath)
 {
 	SetOrigin(strFilePath);
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Surface::CreateRuntimeResource()
+effBOOL EFFD3D9Surface::CreateRuntimeResource(EFF3DDevice * pDevice)
 {
 	return effTRUE;
 }

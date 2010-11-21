@@ -40,7 +40,7 @@ unsigned int EFFSTLFile::Read(void * pBuffer,unsigned int dwSize)
 {
 	if ( m_pFile != NULL )
 	{
-		return fread(pBuffer,1,dwSize,m_pFile);
+		return fread_s(pBuffer,dwSize,1,dwSize,m_pFile);
 	}
 	return 0;
 }
@@ -50,6 +50,25 @@ unsigned int EFFSTLFile::Write(void * pBuffer,unsigned int dwSize)
 	if ( m_pFile != NULL )
 	{
 		return fwrite(pBuffer,1,dwSize,m_pFile);
+	}
+	return 0;
+}
+
+void EFFSTLFile::Close()
+{
+	if ( m_pFile != NULL )
+	{
+		fclose(m_pFile);
+		m_pFile = NULL;
+	}
+}
+
+unsigned int EFFSTLFile::Length()
+{
+	if ( m_pFile != NULL )
+	{
+		int n = _fileno(m_pFile);  
+		return _filelength(n);
 	}
 	return 0;
 }

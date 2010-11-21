@@ -25,10 +25,19 @@ std::string getClassNameFromTypeName(const char * pszTypeName)
 	return strClassName;
 }
 
-__register_property__::__register_property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName,EFFClass * pClass)
+/*template<class T>
+__register_property__::__register_property__(unsigned long ulOffset, unsigned long ulSize, const char * pszName, EFFClass * pClass, const T & defaultValue)
 {
-	__property__ property(ulOffset,ulSize,pszName);
-	pClass->AddProperty(property);
-}
+	__real_property__<T> * pProperty = new __real_property__<T>(ulOffset, ulSize, pszName, defaultValue);
+	pClass->AddProperty(pProperty);
+};*/
+
+
+/*template<class T>
+__register_property_minmax__<T>::__register_property_minmax__(unsigned long ulOffset, unsigned long ulSize, const char * pszName, EFFClass * pClass, const T & defaultValue, const T & minValue, const T & maxValue)
+{
+	__real_property__<T> * pProperty = new __real_property__<T>(ulOffset, ulSize, pszName, defaultValue, minValue, maxValue);
+	pClass->AddProperty(pProperty);
+};*/
 
 EFFBASE_END

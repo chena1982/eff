@@ -22,7 +22,7 @@ EFFD3D9Effect::~EFFD3D9Effect()
 	SF_RELEASE(m_pEffect);
 }
 
-effHRESULT EFFD3D9Effect::Begin(effUINT * pPasses,effDWORD Flags)
+effHRESULT EFFD3D9Effect::Begin(effUINT * pPasses,effUINT Flags)
 {
 	assert(m_pEffect != NULL);
 	return m_pEffect->Begin(pPasses,Flags);

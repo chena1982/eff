@@ -28,7 +28,7 @@ effHRESULT EFFD3D9IndexBuffer::GetDesc(EFF3DINDEXBUFFER_DESC * pDesc)
 	return m_pBuf->GetDesc((D3DINDEXBUFFER_DESC *)pDesc);
 }
 
-effHRESULT EFFD3D9IndexBuffer::Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effDWORD Flags)
+effHRESULT EFFD3D9IndexBuffer::Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags)
 {
 	assert(m_pBuf != NULL);
 	return m_pBuf->Lock(OffsetToLock,SizeToLock,ppbData,Flags);

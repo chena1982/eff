@@ -28,7 +28,7 @@ effHRESULT EFFD3D9VertexBuffer::GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc)
 	return m_pBuf->GetDesc((D3DVERTEXBUFFER_DESC *)pDesc);
 }
 
-effHRESULT EFFD3D9VertexBuffer::Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effDWORD Flags)
+effHRESULT EFFD3D9VertexBuffer::Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags)
 {
 	assert(m_pBuf != NULL);
 	return m_pBuf->Lock(OffsetToLock,SizeToLock,ppbData,Flags);

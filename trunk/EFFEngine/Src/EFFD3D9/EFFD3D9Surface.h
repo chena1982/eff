@@ -18,17 +18,19 @@ public:
 	EFFD3D9Surface();
 	virtual ~EFFD3D9Surface();
 public:
-	virtual effHRESULT				GetDesc(EFF3DSURFACE_DESC * pDesc);
-	virtual effHRESULT				LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effDWORD Flags);
-	virtual effHRESULT				UnlockRect();
+	virtual effHRESULT					GetDesc(EFF3DSURFACE_DESC * pDesc);
+	virtual effHRESULT					LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags);
+	virtual effHRESULT					UnlockRect();
 
-	effDWORD			CalculateSize();
-	effBOOL				LoadDataResourceFromFile(const effString & strFilePath);
-	effBOOL				CreateRuntimeResource();
-	effBOOL				Reload();
-	effVOID				Unload();
+	effUINT									CalculateSize();
+	effBOOL									Reload();
+	effVOID									Unload();
+
 protected:
-	LPDIRECT3DSURFACE9			m_pSurface;
+	effBOOL									LoadDataFromFile(const effString & strFilePath);
+	effBOOL									CreateRuntimeResource(EFF3DDevice * pDevice);
+protected:
+	LPDIRECT3DSURFACE9				m_pSurface;
 };
 
 #endif
