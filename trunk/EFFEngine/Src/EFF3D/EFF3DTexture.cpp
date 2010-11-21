@@ -16,12 +16,13 @@ EFF3D_BEGIN
 
 EFF3DImageManager::EFF3DImageManager()
 {
-	//OnCreateFromFile += EFFEventCall(this,&EFF3DImageManager::CreateFromFileImpl);
+	OnCreateFromFile += EFFEventCall(this,&EFF3DImageManager::CreateFromFileImpl);
 
 
 
 	EFF3DIResource * pR = (EFF3DIResource *)(void *)0x8708;
-	OnCreateFromFile(effString(_effT("ChenA")),EFF3DRTYPE_TEXTURE,pR);
+	effString s = _effT("ChenA");
+	//OnCreateFromFile(&s,EFF3DRTYPE_TEXTURE,pR);
 
 }
 
@@ -30,7 +31,7 @@ EFF3DImageManager::~EFF3DImageManager()
 }
 
 
-effVOID EFF3DImageManager::CreateFromFileImpl(const effString * strFilePath,EFF3DRESOURCETYPE resourceType,EFF3DIResource * pR)
+effVOID EFF3DImageManager::CreateFromFileImpl(const effString * strFilePath,EFF3DRESOURCETYPE resourceType,EFF3DIResource ** pR)
 {
 	if ( resourceType == EFF3DRTYPE_TEXTURE )
 	{

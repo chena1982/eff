@@ -23,12 +23,12 @@ EFF3DVertexElement::EFF3DVertexElement()
 {
 }
 
-effDWORD EFF3DVertexElement::GetSize() const
+effUINT EFF3DVertexElement::GetSize() const
 {
 	return GetTypeSize((EFF3DVertexElementType)m_Type);
 }
 
-effDWORD EFF3DVertexElement::GetTypeSize(EFF3DVertexElementType etype)
+effUINT EFF3DVertexElement::GetTypeSize(EFF3DVertexElementType etype)
 {
 	switch(etype)
 	{
@@ -41,7 +41,7 @@ effDWORD EFF3DVertexElement::GetTypeSize(EFF3DVertexElementType etype)
 	case VET_FLOAT4:
 		return sizeof(effFLOAT)*4;
 	case VET_UC3DCOLOR:
-		return sizeof(effDWORD);
+		return sizeof(effUINT);
 	case VET_UBYTE4:
 		return sizeof(effBYTE)*4;
 	case VET_SHORT2:
@@ -259,14 +259,14 @@ effVOID EFF3DVertexDeclaration::ModifyElement(effWORD elemIndex,
 
 
 
-effDWORD EFF3DVertexDeclaration::GetVertexSize(effWORD stream)
+effUINT EFF3DVertexDeclaration::GetVertexSize(effWORD stream)
 {
 	return CalculateVertexSize(m_aryElement,stream);
 }
 
-effDWORD CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWORD stream)
+effUINT CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWORD stream)
 {
-	effDWORD sz = 0;
+	effUINT sz = 0;
 
 	for ( effUINT i = 0; i < aryElement.size(); i++ )
 	{
@@ -278,7 +278,7 @@ effDWORD CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWOR
 	return sz;
 }
 
-effDWORD EFF3DVertexDeclaration::GetFVF()
+effUINT EFF3DVertexDeclaration::GetFVF()
 {
 	return 0;
 }

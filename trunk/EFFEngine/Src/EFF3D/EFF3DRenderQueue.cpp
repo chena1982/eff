@@ -26,7 +26,7 @@ EFF3DRenderQueue::~EFF3DRenderQueue()
 
 effVOID EFF3DRenderQueue::AddRenderable(EFF3DIRenderable * pRenderable)
 {
-	for ( effUINT i = 0; i < pRenderable->GetRenderQueueGroupCount(); i++ )
+	for ( effINT i = 0; i < pRenderable->GetRenderQueueGroupCount(); i++ )
 	{
 		EFF3DRenderQueueGroup * pGroup = GetRenderQueueGroup(pRenderable,i);
 		if ( pGroup != NULL)
@@ -59,7 +59,7 @@ EFF3DRenderQueueGroup * EFF3DRenderQueue::GetRenderQueueGroup(EFF3DIRenderable *
 
 effVOID EFF3DRenderQueue::RemoveRenderable(EFF3DIRenderable * pRenderable)
 {
-	for ( effUINT i = 0; i < pRenderable->GetRenderQueueGroupCount(); i++ )
+	for ( effINT i = 0; i < pRenderable->GetRenderQueueGroupCount(); i++ )
 	{
 		EFF3DRenderQueueGroup * pGroup = GetRenderQueueGroup(pRenderable,i);
 		if ( pGroup != NULL)

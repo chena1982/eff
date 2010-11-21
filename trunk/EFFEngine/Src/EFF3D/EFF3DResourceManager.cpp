@@ -7,8 +7,11 @@
 ******************************************************************************/
 
 #include "stdafx.h"
-#include "EFF3DResourceManager.h"
+#include "EFF3DDevice.h"
 #include "EFF3DResource.h"
+#include "EFF3DAsyncLoader.h"
+#include "EFF3DResourceManager.h"
+
 
 #define new EFFNEW
 
@@ -55,7 +58,7 @@ effVOID EFF3DResourceManager::AddFirstCreateResource(EFF3DIResource * res)
 	CalculateNextId();
 	effString strName = res->GetOrigin();
 	effINT nPos = strName.rfind('\\');
-	if ( nPos == -1 )
+	if ( nPos != -1 )
 	{
 		strName = strName.substr(nPos,strName.length()-nPos);
 		//strName += res->GetObjectID();
@@ -89,6 +92,33 @@ effVOID EFF3DResourceManager::CalculateNextId()
 	m_bLastIdIsRecovered = effFALSE;
 	m_ulCurrentId = m_aryRecoveredId[0];
 	m_aryRecoveredId.erase(m_aryRecoveredId.begin());
+}
+
+
+EFF3DIResource * EFF3DResourceManager::AsyncCreateFromFile(const effString & strFilePath,EFF3DRESOURCETYPE resourceType,EFF3DDevice * pDevice)
+{
+
+	ResourceMap::iterator it = m_mapResources.find(strFilePath);
+	if ( it != m_mapResources.end() )
+	{
+		it->second->AddRef();
+		return it->second;
+	}
+
+	EFF3DIResource * pRes = pDevice->CreateEmptyResource(resourceType);
+	if ( pRes == NULL )
+	{
+		return NULL;
+	}
+
+	effHRESULT hr;
+	pDevice->GetAsyncLoader()->AddWorkItem(pRes,&hr);
+
+
+	AddFirstCreateResource(pRes);
+	
+
+	return pRes;
 }
 
 EFF3D_END

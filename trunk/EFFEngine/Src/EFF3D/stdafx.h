@@ -22,14 +22,21 @@
 #include <cassert>
 #include <cstdio>
 #include <iostream>
+#include <fstream>
+#include <cmath>
+
 
 //#include <Python.h>
 #include <boost/python/detail/wrap_python.hpp>
+
+#include <il.h>
 
 #include "EFFBase.h"
 USE_EFFBASE
 
 #include "EFFMath.h"
+
+#include "WebCore.h"
 
 #include "EFF3DBaseDefines.h"
 
