@@ -9,7 +9,8 @@
 #define __EFF3D_1_12_2008__
 
 
-#include <Python.h>
+//#include <Python.h>
+#include "WebCore.h"
 
 #include "EFF3D/EFF3DBaseDefines.h"
 #include "EFF3D/EFF3DDevice.h"
@@ -22,10 +23,13 @@
 #include "EFF3D/EFF3DMaterial.h"
 #include "EFF3D/EFF3DResource.h"
 #include "EFF3D/EFF3DResourceManager.h"
+#include "EFF3D/EFF3DAsyncLoader.h"
+#include "EFF3D/EFF3DTerrain.h"
+#include "EFF3D/EFF3DForm.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 
-#		pragma comment(lib,"EFF3D.lib")
+#		pragma comment(lib,"EFF3DUD.lib")
 #	else
 #		pragma comment(lib,"EFF3DU.lib")
 #	endif
@@ -35,6 +39,12 @@
 #	else
 #		pragma comment(lib,"EFF3D.lib")
 #	endif
+#endif
+
+#if defined _DEBUG
+#	pragma comment(lib,"Awesomium_d.lib")
+#else
+#	pragma comment(lib,"Awesomium.lib")
 #endif
 
 #endif

@@ -25,7 +25,7 @@
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
-		#pragma comment(lib,"EFFBase.lib")
+		#pragma comment(lib,"EFFBaseUD.lib")
 	#else
 		#pragma comment(lib,"EFFBaseU.lib")
 	#endif
