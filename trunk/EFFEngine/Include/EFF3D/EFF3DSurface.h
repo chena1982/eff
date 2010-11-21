@@ -23,7 +23,7 @@ public:
 	virtual ~EFF3DSurface() {}
 public:
 	virtual effHRESULT				GetDesc(EFF3DSURFACE_DESC * pDesc) = 0;
-	virtual effHRESULT				LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effDWORD Flags) = 0;
+	virtual effHRESULT				LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags) = 0;
 	virtual effHRESULT				UnlockRect() = 0;
 };
 

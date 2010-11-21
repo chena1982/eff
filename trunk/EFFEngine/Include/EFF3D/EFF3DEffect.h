@@ -16,7 +16,7 @@ class EFF3DAutoParamDataSource;
 class EFF3DEffect
 {
 public:
-	virtual effHRESULT			Begin(effUINT * pPasses,effDWORD Flags) = 0;
+	virtual effHRESULT			Begin(effUINT * pPasses,effUINT Flags) = 0;
 	virtual effHRESULT			BeginPass(effUINT Pass) = 0;
 	virtual effHRESULT			CommitChanges() = 0;
 	virtual effHRESULT			EndPass() = 0;

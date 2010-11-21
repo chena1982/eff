@@ -28,13 +28,13 @@ typedef struct EFF3DXCOLOR
 #ifdef __cplusplus
 public:
 	EFF3DXCOLOR() {}
-	EFF3DXCOLOR( effDWORD argb );
+	EFF3DXCOLOR( effUINT argb );
 	EFF3DXCOLOR( const FLOAT * );
 	EFF3DXCOLOR( const EFF3DCOLORVALUE& );
 	EFF3DXCOLOR( FLOAT r, FLOAT g, FLOAT b, FLOAT a );
 
 	// casting
-	operator effDWORD () const;
+	operator effUINT () const;
 
 	operator FLOAT* ();
 	operator const FLOAT* () const;
@@ -70,7 +70,7 @@ public:
 	effFLOAT r, g, b, a;
 } EFF3DXCOLOR, *LPEFF3DXCOLOR;
 
-typedef effDWORD EFF3DCOLOR;
+typedef effUINT EFF3DCOLOR;
 
 
 
@@ -174,8 +174,8 @@ typedef enum _EFF3DPOOL
 
 #ifndef MAKEFOURCC
 #define MAKEFOURCC(ch0, ch1, ch2, ch3)                              \
-	((effDWORD)(BYTE)(ch0) | ((effDWORD)(BYTE)(ch1) << 8) |       \
-	((effDWORD)(BYTE)(ch2) << 16) | ((effDWORD)(BYTE)(ch3) << 24 ))
+	((effUINT)(BYTE)(ch0) | ((effUINT)(BYTE)(ch1) << 8) |       \
+	((effUINT)(BYTE)(ch2) << 16) | ((effUINT)(BYTE)(ch3) << 24 ))
 #endif /* defined(MAKEFOURCC) */
 
 typedef enum _EFF3DFORMAT
@@ -336,7 +336,7 @@ typedef enum _EFF3DRENDERSTATETYPE {
 	EFF3DRS_POINTSCALE_B              = 159,   /* float point attenuation B value */
 	EFF3DRS_POINTSCALE_C              = 160,   /* float point attenuation C value */
 	EFF3DRS_MULTISAMPLEANTIALIAS      = 161,  // effBOOL - set to do FSAA with multisample buffer
-	EFF3DRS_MULTISAMPLEMASK           = 162,  // effDWORD - per-sample enable/disable
+	EFF3DRS_MULTISAMPLEMASK           = 162,  // effUINT - per-sample enable/disable
 	EFF3DRS_PATCHEDGESTYLE            = 163,  // Sets whether patch edges will use float style tessellation
 	EFF3DRS_DEBUGMONITORTOKEN         = 165,  // DEBUG ONLY - token to debug monitor
 	EFF3DRS_POINTSIZE_MAX             = 166,   /* float point size max threshold */
@@ -434,10 +434,10 @@ typedef enum _EFF3DTEXTURESTAGESTATETYPE
 } EFF3DTEXTURESTAGESTATETYPE;
 
 typedef struct _EFF3DVIEWPORT9 {
-	effDWORD       X;
-	effDWORD       Y;            /* Viewport Top left */
-	effDWORD       Width;
-	effDWORD       Height;       /* Viewport Dimensions */
+	effUINT       X;
+	effUINT       Y;            /* Viewport Top left */
+	effUINT       Width;
+	effUINT       Height;       /* Viewport Dimensions */
 	float       MinZ;         /* Min/max of clip Volume */
 	float       MaxZ;
 } EFF3DVIEWPORT9;
@@ -623,7 +623,7 @@ typedef enum _EFF3DVSD_TOKENTYPE
 	EFF3DVSD_TOKEN_TESSELLATOR,       // vertex input memory from tessellator
 	EFF3DVSD_TOKEN_CONSTMEM,          // constant memory from shader
 	EFF3DVSD_TOKEN_EXT,               // extension
-	EFF3DVSD_TOKEN_END = 7,           // end-of-array (requires all effDWORD bits to be 1)
+	EFF3DVSD_TOKEN_END = 7,           // end-of-array (requires all effUINT bits to be 1)
 	EFF3DVSD_FORCE_DWORD = 0x7fffffff,// force 32-bit size enum
 } EFF3DVSD_TOKENTYPE;
 
@@ -781,8 +781,8 @@ typedef enum _EFF3DSAMPLERSTATETYPE
 	EFF3DSAMP_MINFILTER      = 6,  /* EFF3DTEXTUREFILTER filter to use for minification */
 	EFF3DSAMP_MIPFILTER      = 7,  /* EFF3DTEXTUREFILTER filter to use between mipmaps during minification */
 	EFF3DSAMP_MIPMAPLODBIAS  = 8,  /* float Mipmap LOD bias */
-	EFF3DSAMP_MAXMIPLEVEL    = 9,  /* effDWORD 0..(n-1) LOD index of largest map to use (0 == largest) */
-	EFF3DSAMP_MAXANISOTROPY  = 10, /* effDWORD maximum anisotropy */
+	EFF3DSAMP_MAXMIPLEVEL    = 9,  /* effUINT 0..(n-1) LOD index of largest map to use (0 == largest) */
+	EFF3DSAMP_MAXANISOTROPY  = 10, /* effUINT maximum anisotropy */
 	EFF3DSAMP_SRGBTEXTURE    = 11, /* Default = 0 (which means Gamma 1.0,no correction required.) else correct for Gamma = 2.2 */
 	EFF3DSAMP_ELEMENTINDEX   = 12, /* When multi-element texture is assigned to sampler, this indicates which element index to use.  Default = 0.  */
 	EFF3DSAMP_DMAPOFFSET     = 13, /* Offset in vertices in the pre-sampled displacement map. Only valid for EFF3DDMAPSAMPLER sampler  */
@@ -949,16 +949,16 @@ struct EFF3DIMAGE_INFO
 	EFF3DRESOURCETYPE ResourceType;
 	EFF3DIMAGE_FILEFORMAT ImageFileFormat;
 
-	effDWORD Usage;
+	effUINT Usage;
 	EFF3DPOOL Pool;
-	effDWORD Filter;
-	effDWORD MipFilter;
+	effUINT Filter;
+	effUINT MipFilter;
 	EFF3DCOLOR ColorKey;
 	EFF3DSurfaceType	SurfaceType;
 	effBOOL	bDepthStencil;
 	EFF3DFORMAT DepthStencilFormat;
 	EFF3DMULTISAMPLE_TYPE MultiSample;
-	effDWORD MultisampleQuality;
+	effUINT MultisampleQuality;
 	effBOOL bDiscard;
 	effULONG TextureHandle;
 	effUINT TextureLevel;
@@ -1066,10 +1066,10 @@ typedef enum _EFF3DTEXTURETRANSFORMFLAGS
 
 typedef struct _EFF3DVIEWPORT
 {
-	effDWORD X;
-	effDWORD Y;
-	effDWORD Width;
-	effDWORD Height;
+	effUINT X;
+	effUINT Y;
+	effUINT Width;
+	effUINT Height;
 	effFLOAT MinZ;
 	effFLOAT MaxZ;
 } EFF3DVIEWPORT;
@@ -1126,11 +1126,11 @@ struct EFF3DSURFACE_DESC
 {
 	EFF3DFORMAT           Format;
 	EFF3DRESOURCETYPE     Type;
-	effDWORD               Usage;
+	effUINT               Usage;
 	EFF3DPOOL             Pool;
 
 	EFF3DMULTISAMPLE_TYPE MultiSampleType;
-	effDWORD               MultiSampleQuality;
+	effUINT               MultiSampleQuality;
 	effUINT                Width;
 	effUINT                Height;
 };
@@ -1151,10 +1151,10 @@ struct EFF3DFont
 	//UCSize		Size;
 	effINT		Weight;
 	effBOOL		Italic;
-	effDWORD		CharSet;
-	effDWORD		OutputPrecision;
-	effDWORD		Quality;
-	effDWORD		PitchAndFamily;
+	effUINT		CharSet;
+	effUINT		OutputPrecision;
+	effUINT		Quality;
+	effUINT		PitchAndFamily;
 };
 
 /* Flags to construct D3DRS_COLORWRITEENABLE */
@@ -1181,7 +1181,7 @@ typedef struct EFF3DINDEXBUFFER_DESC
 {
 	EFF3DFORMAT Format;
 	EFF3DRESOURCETYPE Type;
-	effDWORD Usage;
+	effUINT Usage;
 	EFF3DPOOL Pool;
 	effUINT Size;
 } EFF3DINDEXBUFFER_DESC, *LPEFF3DINDEXBUFFER_DESC;
@@ -1190,10 +1190,10 @@ typedef struct EFF3DINDEXBUFFER_DESC
 typedef struct EFF3DVERTEXBUFFER_DESC {
 	EFF3DFORMAT Format;
 	EFF3DRESOURCETYPE Type;
-	effDWORD Usage;
+	effUINT Usage;
 	EFF3DPOOL Pool;
 	effUINT Size;
-	effDWORD FVF;
+	effUINT FVF;
 } EFF3DVERTEXBUFFER_DESC, *LPEFF3DVERTEXBUFFER_DESC;
 
 

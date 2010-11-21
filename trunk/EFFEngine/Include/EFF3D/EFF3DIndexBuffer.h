@@ -17,7 +17,7 @@ public:
 	virtual ~EFF3DIndexBuffer() {}
 public:
 	virtual effHRESULT				GetDesc(EFF3DINDEXBUFFER_DESC * pDesc) = 0;
-	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effDWORD Flags) = 0;
+	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags) = 0;
 	virtual effHRESULT				Unlock() = 0;
 };
 

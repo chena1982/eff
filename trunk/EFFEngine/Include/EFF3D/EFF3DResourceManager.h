@@ -11,6 +11,7 @@
 EFF3D_BEGIN
 
 class EFF3DIResource;
+class EFF3DDevice;
 
 #define DECLARE_CREATE_FROM_FILE(N)\
 template<__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
@@ -47,7 +48,8 @@ public:
 		}
 
 		EFF3DIResource * ret = NULL;
-		//OnCreateFromFile(strFilePath, t0);
+		OnCreateFromFile(&strFilePath, t0, &ret);
+
 		if ( ret != NULL )
 		{
 			AddFirstCreateResource(ret);
@@ -76,15 +78,20 @@ public:
 		return ret;
 	}
 
-
 	//DECLARE_CREATE_FROM_FILE_IMPL(0)
 	//DECLARE_CREATE_FROM_FILE_IMPL(1)
 	//DECLARE_CREATE_FROM_FILE_IMPL(2)
+public:
+	EFF3DIResource *							AsyncCreateFromFile(const effString & strFilePath,EFF3DRESOURCETYPE resourceType,EFF3DDevice * pDevice);
+
+
+
+
 
 protected:
-	effVOID								AddFirstCreateResource(EFF3DIResource * res);
-	effVOID								AddResource(EFF3DIResource * res);
-	effVOID								CalculateNextId();
+	effVOID										AddFirstCreateResource(EFF3DIResource * res);
+	effVOID										AddResource(EFF3DIResource * res);
+	effVOID										CalculateNextId();
 public:
 	typedef std::map<effString,EFF3DIResource *>			ResourceMap;
 	typedef std::map<effULONG,EFF3DIResource *>		ResourceIdMap;
@@ -92,12 +99,14 @@ protected:
 	ResourceMap						m_mapResources;
 	ResourceIdMap						m_mapResourcesById;
 	effULONG								m_ulCurrentId;
-	effDWORD							m_dwMemoryUsage;
-	effDWORD							m_dwVideoMemoryUsage;
-	effDWORD							m_dwAGPMemroyUsage;
+	effUINT							m_dwMemoryUsage;
+	effUINT							m_dwVideoMemoryUsage;
+	effUINT							m_dwAGPMemroyUsage;
 	std::vector<effULONG>		m_aryRecoveredId;
 	effBOOL								m_bLastIdIsRecovered;
+
 	EFFEvent								OnCreateFromFile;
+	EFFEvent								OnAsyncCreateFromFile;
 };
 
 

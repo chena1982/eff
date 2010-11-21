@@ -83,8 +83,8 @@ public:
 	EFF3DVertexElementSemantic			GetSemantic() const { return (EFF3DVertexElementSemantic)m_Semantic; }
 	effBYTE												GetSemanticIndex() const { return m_SemanticIndex; }
 	EFF3DVertexElementMethod			GetMethod() const { return (EFF3DVertexElementMethod)m_Method; }
-	effDWORD										GetSize() const;
-	static effDWORD								GetTypeSize(EFF3DVertexElementType etype);
+	effUINT										GetSize() const;
+	static effUINT								GetTypeSize(EFF3DVertexElementType etype);
 	static effWORD									GetTypeCount(EFF3DVertexElementType etype);
 	static EFF3DVertexElementType		MultiplyTypeCount(EFF3DVertexElementType baseType, effWORD count);
 	static EFF3DVertexElementType		GetBaseType(EFF3DVertexElementType multiType);
@@ -124,9 +124,9 @@ public:
 		*pElem = (effWORD*)(pBase + m_wOffset);
 	}
 
-	inline effVOID BaseVertexPointerToElement(effBYTE * pBase, effDWORD** pElem) const
+	inline effVOID BaseVertexPointerToElement(effBYTE * pBase, effUINT** pElem) const
 	{
-		*pElem = (effDWORD*)(pBase + m_wOffset);
+		*pElem = (effUINT*)(pBase + m_wOffset);
 	}
 
 public:
@@ -149,12 +149,12 @@ public:
 public:
 
 
-	effDWORD												GetElementCount() { return m_aryElement.size(); }
+	effUINT												GetElementCount() { return m_aryElement.size(); }
 	const VertexElementArray &						GetElements() const;
 	const EFF3DVertexElement *						GetElement(effWORD index);
 	effWORD													GetMaxSource() const;
-	effDWORD												GetVertexSize(effWORD stream);
-	effDWORD												GetFVF();
+	effUINT												GetVertexSize(effWORD stream);
+	effUINT												GetFVF();
 
 	virtual const EFF3DVertexElement &			AddElement(effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0,EFF3DVertexElementMethod method = VEM_DEFAULT);
 	virtual const EFF3DVertexElement &			InsertElement(effWORD atPosition,effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0);
@@ -192,7 +192,7 @@ protected:
 };
 
 
-effDWORD CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWORD stream);
+effUINT CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWORD stream);
 
 
 EFF3D_END
