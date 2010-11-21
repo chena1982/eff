@@ -47,7 +47,7 @@ class A
 	}
 public:
 	BEGIN_PROPERTY_MAP
-
+		//REGISTER_PROPERTY_MINMAX(A, m_s, sssssss, int, 0, 1, 10)
 	END_PROPERTY_MAP
 
 	BEGIN_METHOD_MAP
@@ -79,13 +79,15 @@ public:
 
 RTTI_IMPLEMENT(A,0)
 
-//__REGISTER_MEMBER_METHOD__(A,test1)
+//REGISTER_MEMBER_METHOD(A,test1)
+REGISTER_PROPERTY_MINMAX(A, m_s, sssssss, int, 0, 1, 10)
 
 //__REGISTER_PROPERTY__(m_s,int)
 //__REGISTER_PROPERTY__(A,m_z,std::string)
 
 
 RTTI_IMPLEMENT(B,0)
+
 
 class C;
 
@@ -189,6 +191,17 @@ public:
 };
 
 
+class teststatic
+{
+public:
+	teststatic()
+	{
+		int z = 0;
+		static teststatic a;
+	}
+
+};
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 
@@ -213,6 +226,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	EFFClass * pRuntimeInfo = pA->GetThisClass();
 	pA->m_s = 4;
 	pA->m_z = "hehe,haha,heihei.";
+
+	pA->GetThisClass()->setProperty(pA, "sssssss", 5);
 
 
 	pA->m_v.push_back(1);
