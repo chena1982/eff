@@ -16,7 +16,7 @@ public:
 	EFFD3D9Effect();
 	virtual ~EFFD3D9Effect();
 public:
-	virtual effHRESULT			Begin(effUINT * pPasses,effDWORD Flags);
+	virtual effHRESULT			Begin(effUINT * pPasses,effUINT Flags);
 	virtual effHRESULT			BeginPass(effUINT Pass);
 	virtual effHRESULT			CommitChanges();
 	virtual effHRESULT			EndPass();
