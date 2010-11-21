@@ -42,7 +42,7 @@ private:
 };
 
 
-typedef effHRESULT (__stdcall *INTERFACE_FINDER)(effVOID *pThis, effDWORD dwData, const ClassID & riid, effVOID **ppv);
+typedef effHRESULT (__stdcall *INTERFACE_FINDER)(effVOID *pThis, effUINT dwData, const ClassID & riid, effVOID **ppv);
 #define ENTRY_IS_OFFSET INTERFACE_FINDER(-1)
 
 typedef struct _INTERFACE_ENTRY
@@ -54,10 +54,10 @@ typedef struct _INTERFACE_ENTRY
 
 
 #define BASE_OFFSET(ClassName, BaseName) \
-	(effDWORD(static_cast<BaseName*>(reinterpret_cast<ClassName*>(0x10000000))) - 0x10000000)
+	(effUINT(static_cast<BaseName*>(reinterpret_cast<ClassName*>(0x10000000))) - 0x10000000)
 
 #define COMPOSITE_OFFSET(ClassName, BaseName, MemberType, MemberName) \
-	(effDWORD(static_cast<BaseName*>(reinterpret_cast<MemberType*>(0x10000000 + offsetof(ClassName, MemberName)))) - 0x10000000)
+	(effUINT(static_cast<BaseName*>(reinterpret_cast<MemberType*>(0x10000000 + offsetof(ClassName, MemberName)))) - 0x10000000)
 
 #define BEGIN_INTERFACE_TABLE(ClassName) \
 typedef ClassName _InterfaceTableClassName;\

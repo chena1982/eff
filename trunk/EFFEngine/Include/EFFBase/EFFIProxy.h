@@ -16,17 +16,17 @@ EFFBASE_BEGIN
 
 
 template<class T>
-effVOID ChangeVFT(T * pT,effULONG ulFunctionIndex,effDWORD newFunctionAddress)
+effVOID ChangeVFT(T * pT,effULONG ulFunctionIndex,effUINT newFunctionAddress)
 {
-	effDWORD *lpVtabl = *(effDWORD **)pT;
+	effUINT *lpVtabl = *(effUINT **)pT;
 	lpVtabl += ulFunctionIndex;
 
 	HANDLE hProcess = GetCurrentProcess();
 
 	if ( hProcess )
 	{
-		effDWORD dwOldProtect;
-		if ( VirtualProtectEx(hProcess,lpVtabl,4,PAGE_READWRITE,&dwOldProtect) )
+		effUINT dwOldProtect;
+		if ( VirtualProtectEx(hProcess,lpVtabl,4,PAGE_READWRITE,(PDWORD)&dwOldProtect) )
 		{
 			*lpVtabl = newFunctionAddress;
 			VirtualProtectEx(hProcess, lpVtabl, 4, dwOldProtect, NULL);
@@ -42,7 +42,7 @@ class CLASS##Proxy : public CLASS
 
 
 #define REGISTER_PROXY_FUNCTION(FUNCTION_INDEX,NEW_FUNCTION_NAME)\
-	effDWORD newFunctionAddress = (effDWORD)NEW_FUNCTION_NAME;\
+	effUINT newFunctionAddress = (effUINT)NEW_FUNCTION_NAME;\
 	ChangeVFT(pThis,FUNCTION_INDEX,newFunctionAddress);
 
 #define BEGIN_REGISTER_PROXY_FUNCTION \

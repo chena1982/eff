@@ -242,18 +242,64 @@ static __member_method__ reg##METHOD_NAME(&METHOD_NAME,#METHOD_NAME);
 class __property__
 {
 public:
-	__property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName) : m_ulOffset(ulOffset),m_ulSize(ulSize),m_strName(pszName) {}
+	__property__() {}
+	virtual ~__property__() {}
+};
+
+template<class T>
+class __real_property__ : public __property__
+{
+public:
+	__real_property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName, const T & defaultValue) : 
+		m_ulOffset(ulOffset),m_ulSize(ulSize),m_strName(pszName),m_defaultValue(defaultValue) {}
+
+	__real_property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName, const T & defaultValue, const T & minValue, const T & maxValue) : 
+		m_ulOffset(ulOffset),m_ulSize(ulSize),m_strName(pszName),m_defaultValue(defaultValue),m_minValue(minValue),m_maxValue(maxValue) {}
 
 	unsigned long		m_ulOffset;
 	unsigned long		m_ulSize;
 	std::string				m_strName;
+	T							m_defaultValue;
+	T							m_minValue;
+	T							m_maxValue;
+
+
 };
 
-class EFFBASE_API __register_property__ 
+/*class Attribute
+{
+
+	Value z;	
+};*/
+
+
+class  __register_property__ 
 {
 public:
-	__register_property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName,EFFClass * pClass);
+	template<class T>
+	__register_property__(unsigned long ulOffset, unsigned long ulSize, const char * pszName, EFFClass * pClass, const T & defaultValue)
+	{
+		__real_property__<T> * pProperty = new __real_property__<T>(ulOffset, ulSize, pszName, defaultValue);
+		pClass->AddProperty(pProperty);
+	}
 };
+
+
+class __register_property_minmax__
+{
+public:
+	template<class T>
+	__register_property_minmax__(unsigned long ulOffset, unsigned long ulSize, const char * pszName, EFFClass * pClass, const T & defaultValue, const T & minValue, const T & maxValue)
+	{
+		__real_property__<T> * pProperty = new __real_property__<T>(ulOffset, ulSize, pszName, defaultValue, minValue, maxValue);
+		pClass->AddProperty(pProperty);
+	}
+};
+
+
+
+
+
 
 #define BEGIN_PROPERTY_MAP\
 	static effVOID RegisterProperty()\
@@ -279,9 +325,12 @@ public:
 #define  __REGISTER_PROPERTY__(PROPERTY_NAME,PROPERTY_TYPE)\
 	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(classThis,PROPERTY_NAME),sizeof(PROPERTY_TYPE),#PROPERTY_NAME,classThis::GetThisClass());
 
+#define  REGISTER_PROPERTY(CLASS_NAME, MEMBER_NAME, PROPERTY_NAME, PROPERTY_TYPE, DEFAULT_VALUE)\
+	static __register_property__ reg##PROPERTY_NAME(__OFFSET__(CLASS_NAME, MEMBER_NAME), sizeof(PROPERTY_TYPE), #PROPERTY_NAME, CLASS_NAME::GetThisClass(), DEFAULT_VALUE);
 
 
-
+#define REGISTER_PROPERTY_MINMAX(CLASS_NAME, MEMBER_NAME, PROPERTY_NAME, PROPERTY_TYPE, DEFAULT_VALUE, MIN_VALUE, MAX_VALUE)\
+	static __register_property_minmax__ reg##PROPERTY_NAME(__OFFSET__(CLASS_NAME, MEMBER_NAME), sizeof(PROPERTY_TYPE), #PROPERTY_NAME, CLASS_NAME::GetThisClass(), DEFAULT_VALUE, MIN_VALUE, MAX_VALUE);
 
 
 

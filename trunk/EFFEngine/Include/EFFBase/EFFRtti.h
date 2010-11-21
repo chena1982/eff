@@ -11,8 +11,6 @@
 #include "EFFReflection.h"
 
 
-#define new EFFNEW
-
 EFFBASE_BEGIN
 
 struct EFFBASE_API ClassID
@@ -186,9 +184,24 @@ public:
 		m_vMemberMethod.push_back(pMethod);
 	}
 
-	effVOID AddProperty(__property__ & property)
+	effVOID AddProperty(__property__ * pProperty)
 	{
-		m_vProperty.push_back(property);
+		m_vProperty.push_back(pProperty);
+	}
+
+	template<class T>
+	effVOID setProperty(effVOID * pObject,  const effCHAR * pszPropertyName, T value)
+	{
+
+		for ( effUINT i = 0; i < m_vProperty.size(); i++ )
+		{
+			__real_property__<T> * pProperty = (__real_property__<T> *)m_vProperty[i];
+			if ( pProperty->m_strName == pszPropertyName )
+			{
+				effBYTE * pAddress = (effBYTE *)pObject;
+				*((T *)(pAddress + pProperty->m_ulOffset)) = value;
+			}
+		}
 	}
 
 public:
@@ -228,7 +241,7 @@ protected:
 	EFFClass *									m_pBaseClass;
 
 	std::vector<__callable__ *>			m_vMemberMethod;
-	std::vector<__property__ >		m_vProperty;
+	std::vector<__property__ *>		m_vProperty;
 };
 
 

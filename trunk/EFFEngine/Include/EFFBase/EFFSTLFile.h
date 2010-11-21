@@ -25,6 +25,8 @@ public:
 	virtual bool Open(const char *szFilePath,const char *szOpenMode);
 	virtual unsigned int Read(void * pBuffer,unsigned int dwSize);
 	virtual unsigned int Write(void * pBuffer,unsigned int dwSize);
+	virtual void Close();
+	virtual unsigned int Length();
 protected:
 private:
 	FILE *		m_pFile;

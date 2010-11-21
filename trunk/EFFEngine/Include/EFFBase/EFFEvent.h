@@ -69,8 +69,8 @@ void operator ()(C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const\
 using namespace boost::python;
 
 #define __EFFEVENTCALL_INVOKE__(N)\
-template <class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
-void operator ()(C * pDelegatee __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const\
+template <__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
+void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
 {\
 	if ( m_pPyFunction != NULL )\
 	{\
@@ -85,9 +85,11 @@ void operator ()(C * pDelegatee __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) cons
 	}\
 	else\
 	{\
-		typedef __member_callable##N##__<void,C __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> CallableType;\
-		CallableType * cb = (CallableType *)(m_pFunction);\
-		cb->invoke(pDelegatee __REPEAT(N, __PARAM__, __COMMA__, __COMMA__));\
+		typedef void (__delegatee__::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+		effBYTE * pBaseAddress = (effBYTE *)m_pFunction;\
+		pBaseAddress += 8;\
+		MethodType m = *(MethodType *)((effVOID *)pBaseAddress);\
+		(m_pDelegatee->*m)(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
 	}\
 }
 
