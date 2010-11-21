@@ -9,6 +9,7 @@
 #define __EFFMatrix4_2008_12_13__
 
 
+class EFFVector3;
 
 struct EFFMATRIX4
 {
@@ -32,5 +33,9 @@ public:
 	~EFFMatrix4();
 
 };
+
+
+EFFMATH_API EFFMatrix4 * EFFMatrixPerspectiveFovLH(EFFMatrix4 *pOut,effFLOAT fovy,effFLOAT Aspect,effFLOAT zn,effFLOAT zf);
+EFFMATH_API EFFMatrix4 * EFFMatrixLookAtLH(EFFMatrix4 *pOut,const EFFVector3 *pEye,const EFFVector3 *pAt,const EFFVector3 *pUp);
 
 #endif
