@@ -1,9 +1,12 @@
-// stdafx.h : 标准系统包含文件的包含文件，
-// 或是经常使用但不常更改的
-// 特定于项目的包含文件
-//
-
-#pragma once
+/******************************************************************************
+	created:	2009-3-13   0:19
+	file path:	d:\EFF\EFFEngine\Src\EFFMath\stdafx.h
+	author:		ChenA
+	
+	purpose:	
+******************************************************************************/
+#ifndef __stdafx_2009_3_13__
+#define __stdafx_2009_3_13__
 
 
 #define WIN32_LEAN_AND_MEAN             // 从 Windows 头中排除极少使用的资料
@@ -16,15 +19,7 @@
 #include <map>
 #include <vector>
 
-/******************************************************************************
-	created:	2009-3-13   0:19
-	file path:	d:\EFF\EFFEngine\Src\EFFMath\stdafx.h
-	author:		ChenA
-	
-	purpose:	
-******************************************************************************/
-#ifndef __stdafx_2009_3_13__
-#define __stdafx_2009_3_13__
+
 
 
 
@@ -32,9 +27,9 @@
 //#include <Python.h>
 #include <boost/python/detail/wrap_python.hpp>
 
-#include "EFFBase.h"
+#include "EFFBase/EFFBaseBaseDefines.h"
 
-USE_EFFBASE
+
 
 
 

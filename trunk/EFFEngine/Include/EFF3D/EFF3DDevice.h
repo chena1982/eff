@@ -80,28 +80,28 @@ public:
 
 	virtual effHRESULT			DrawQuad(EFF3DTexture * pTexture,EFF3DMaterial * pMaterial = NULL,EFFRect * pRect = NULL);
 public:
-	virtual effVOID					Release() = 0;
+	virtual effVOID				Release() = 0;
 
 public:
-	EFF3DImageManager *		GetImageManager() { return m_pImageManager; }
+	EFF3DImageManager *			GetImageManager() { return m_pImageManager; }
 	EFF3DAsyncLoader *			GetAsyncLoader() { return m_pAsyncLoader; }
-	Awesomium::WebCore *	GetWebCore() { return m_pWebCore; }
-	effVOID							SetBackBufferSize(effINT nWidth,effINT nHeight);
-	effINT								GetBackBufferWidth() { return m_nWidth; }
-	effINT								GetBackBufferHeight() { return m_nHeight; }
+	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
+	effVOID						SetBackBufferSize(effINT nWidth,effINT nHeight);
+	effINT						GetBackBufferWidth() { return m_nWidth; }
+	effINT						GetBackBufferHeight() { return m_nHeight; }
 
 protected:
 	virtual EFF3DIResource *	CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
 	virtual effHRESULT			DrawQuad(EFFRect * pRect);
 private:
 
-	EFF3DImageManager *		m_pImageManager;
+	EFF3DImageManager *			m_pImageManager;
 	EFF3DAsyncLoader *			m_pAsyncLoader;
 
-	Awesomium::WebCore *	m_pWebCore;
+	//Awesomium::WebCore *		m_pWebCore;
 
-	effINT								m_nWidth;
-	effINT								m_nHeight;
+	effINT						m_nWidth;
+	effINT						m_nHeight;
 
 	EFF3DAutoParamDataSource *		m_pAutoParamDataSource;
 };

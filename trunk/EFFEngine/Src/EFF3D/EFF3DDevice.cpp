@@ -46,7 +46,7 @@ EFF3DDevice::EFF3DDevice()
 	
 	m_pAsyncLoader = new EFF3DAsyncLoader(this,1);
 
-	m_pWebCore = new Awesomium::WebCore();
+	//m_pWebCore = new Awesomium::WebCore();
 
 	m_nWidth = 0;
 	m_nHeight = 0;
@@ -61,7 +61,7 @@ EFF3DDevice::~EFF3DDevice()
 
 	SF_DELETE(m_pImageManager);
 
-	SF_DELETE(m_pWebCore);
+	//SF_DELETE(m_pWebCore);
 
 	SF_DELETE(m_pAutoParamDataSource);
 }

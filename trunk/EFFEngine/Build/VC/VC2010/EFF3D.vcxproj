@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode_Debug|Win32">
+      <Configuration>Unicode_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode_Release|Win32">
+      <Configuration>Unicode_Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E317D371-6E75-40D8-88C2-07D28BC3446A}</ProjectGuid>
+    <RootNamespace>EFF3D</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">..\..\..\Temp\Lib\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">..\..\..\Temp\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">true</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">$(ProjectName)UD</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
+    <CustomBuildStep>
+      <Command>
+      </Command>
+      <Outputs>%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\DevIL\include\IL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\DevIL\lib\unicode;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">
+    <CustomBuildStep>
+      <Command>cl /Od /DNDEBUG /I $(PYTHON_INCLUDE) /I ..\..\..\Include /I ..\..\..\Include\$(ProjectName) /I "$(BOOST_ROOT)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_USRDLL" /D "EFF3D_EXPORTS" /D "_WINDLL" /D "_UNICODE" /D "UNICODE" /Gm /EHsc /RTC1 /MDd /Yu"stdafx.h" /Fp"..\..\..\Obj\$(ProjectName)\$(Configuration)\EFF3DUD.pch" /Fo"..\..\..\Obj\$(ProjectName)\$(Configuration)\_EFF3D.obj" /Fd"..\..\..\Pdb\$(ProjectName)\$(Configuration)\vc90.pdb" /W3 /nologo /c /ZI /TP /errorReport:prompt ..\..\..\Src\EFF3D\EFF3D_wrap.cxx
+link /DLL /INCREMENTAL:NO /DEBUG /OUT:"..\..\..\Dll\$(Configuration)\_EFF3D.pyd" /IMPLIB:"..\..\..\Lib\$(Configuration)\_EFF3D.lib" /PDB:"..\..\..\Pdb\EFF3D\$(Configuration)\_EFF3D.pdb" ..\..\..\Obj\$(ProjectName)\$(Configuration)\_EFF3D.obj ..\..\..\Obj\$(ProjectName)\$(Configuration)\EFF3DDevice.obj /LIBPATH:..\..\..\Lib\$(Configuration) /LIBPATH:$(PYTHON_LIB)
+mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresource:..\..\..\Dll\$(Configuration)\_EFF3D.pyd%3b2
+</Command>
+      <Outputs>EFF3D_wrap.cxx;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_INCLUDE);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <ProgramDataBaseFileName>..\..\..\Pdb\$(ProjectName)\$(Configuration)\vc90.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName)UD.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\..\Lib\$(Configuration);$(PYTHON_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>..\..\..\Pdb\$(ProjectName)\$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>..\..\..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Src\EFF3D\stdafx.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DDevice.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DEffect.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMaterial.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DSurface.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTexture.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DVertexDeclaration.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DIRenderable.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroup.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAsyncLoader.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DResource.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DResourceManager.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrain.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrainDataPreproccess.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrainROAMImproveTileData.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrainTile.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMyTerrain.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Src\EFF3D\stdafx.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DDevice.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DEffect.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIndexBuffer.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DMaterial.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSurface.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DTexture.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DVertexBuffer.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DVertexDeclaration.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIRenderable.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueue.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueGroup.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIEntity.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DBaseDefines.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DAsyncLoader.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DResource.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DResourceManager.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DTerrain.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainDataPreproccess.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainROAMImproveTileData.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainTile.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainTileData.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DMyTerrain.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="EFFBase.vcxproj">
+      <Project>{e8c10a63-6f4a-4d58-bac6-30d1a1eced8d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
