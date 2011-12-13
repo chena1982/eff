@@ -250,7 +250,6 @@ MD5::MD5(ifstream& stream){
 
 unsigned char *MD5::raw_digest(){
 
-  uint1 *s = new uint1[16];
 
   if (!finalized){
     cerr << "MD5::raw_digest:  Can't get digest if you haven't "<<
@@ -258,16 +257,15 @@ unsigned char *MD5::raw_digest(){
     return ( (unsigned char*) "");
   }
 
-  memcpy(s, digest, 16);
-  return s;
+  memcpy(rawdigest, digest, 16);
+  return rawdigest;
 }
 
 
 
 char *MD5::hex_digest(){
 
-  int i;
-  char *s= new char[33];
+
 
   if (!finalized){
     cerr << "MD5::hex_digest:  Can't get digest if you haven't "<<
@@ -275,12 +273,12 @@ char *MD5::hex_digest(){
     return "";
   }
 
-  for (i=0; i<16; i++)
-    sprintf_s(s+i*2, 3, "%02x", digest[i]);
+  for (int i=0; i<16; i++)
+    sprintf_s(hexdigest+i*2, 3, "%02x", digest[i]);
 
-  s[32]='\0';
+  hexdigest[32]='\0';
 
-  return s;
+  return hexdigest;
 }
 
 

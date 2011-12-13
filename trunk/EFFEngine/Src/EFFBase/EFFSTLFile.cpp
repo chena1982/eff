@@ -15,62 +15,53 @@ EFFBASE_BEGIN
 
 EFFSTLFile::EFFSTLFile()
 {
-	m_pFile = NULL;
+	file = NULL;
 }
 
 EFFSTLFile::~EFFSTLFile()
 {
-	if ( m_pFile != NULL )
+	if ( file != NULL )
 	{
-		fclose(m_pFile);
+		fclose(file);
 	}
 }
 
-bool EFFSTLFile::Open(const char *szFilePath,const char *szOpenMode)
+effBOOL EFFSTLFile::Open(const effString & filePath, const effTCHAR * openMode)
 {
-	fopen_s(&m_pFile,szFilePath,szOpenMode);
-	if ( m_pFile != NULL )
+
+	_wfopen_s(&file, filePath.c_str(), openMode);
+
+	if ( file != NULL )
 	{
-		return true;
+		return effTRUE;
 	}
-	return false;
+	return effFALSE;
 }
 
-unsigned int EFFSTLFile::Read(void * pBuffer,unsigned int dwSize)
+effUINT EFFSTLFile::Read(effVOID * buffer, effUINT size)
 {
-	if ( m_pFile != NULL )
-	{
-		return fread_s(pBuffer,dwSize,1,dwSize,m_pFile);
-	}
-	return 0;
+
+	return fread(buffer, size, 1, file);
 }
 
-unsigned int EFFSTLFile::Write(void * pBuffer,unsigned int dwSize)
+effUINT EFFSTLFile::Write(effVOID * buffer, effUINT size)
 {
-	if ( m_pFile != NULL )
-	{
-		return fwrite(pBuffer,1,dwSize,m_pFile);
-	}
-	return 0;
+	return fwrite(buffer, size, 1, file);
 }
 
 void EFFSTLFile::Close()
 {
-	if ( m_pFile != NULL )
+	if ( file != NULL )
 	{
-		fclose(m_pFile);
-		m_pFile = NULL;
+		fclose(file);
+		file = NULL;
 	}
 }
 
 unsigned int EFFSTLFile::Length()
 {
-	if ( m_pFile != NULL )
-	{
-		int n = _fileno(m_pFile);  
-		return _filelength(n);
-	}
-	return 0;
+	int n = _fileno(file);  
+	return _filelength(n);
 }
 
 EFFBASE_END

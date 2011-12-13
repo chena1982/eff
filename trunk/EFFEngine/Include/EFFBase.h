@@ -11,7 +11,6 @@
 
 #include ".\EFFBase\EFFBaseBaseDefines.h"
 #include ".\EFFBase\EFFMemory.h"
-#include ".\EFFBase\EFFReflection.h"
 #include ".\EFFBase\EFFSerialize.h"
 #include ".\EFFBase\EFFRtti.h"
 #include ".\EFFBase\EFFFile.h"
@@ -19,7 +18,7 @@
 #include ".\EFFBase\EFFObject.h"
 #include ".\EFFBase\EFFObjectManager.h"
 #include ".\EFFBase\EFFGlobal.h"
-#include ".\EFFBase\EFFIUnknown.h"
+#include ".\EFFBase\EFFComponent.h"
 #include ".\EFFBase\EFFIProxy.h"
 #include ".\EFFBase\EFFEvent.h"
 

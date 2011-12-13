@@ -14,38 +14,70 @@
 
 EFFBASE_BEGIN
 
-//不直接使用全局静态变量，因为无法保证全局静态变量的初始化顺序，如果别的静态变量比mapEFFRunTimeTypeInfo先初始化，而且这个静态
-//在构造函数里调用了EFFRegisterClass，那么程序会Crash
-std::map<ClassID,EFFClass *> & GetRuntimeTypeInfoMap()
+effCHAR AnsiUnicodeStringConvert::charBuffer[1024];
+effWCHAR AnsiUnicodeStringConvert::wcharBuffer[1024];
+
+const effCHAR * AnsiUnicodeStringConvert::W2A(const effWCHAR * str)
 {
-	static std::map<ClassID,EFFClass *>		mapEFFRunTimeTypeInfo;
-	return mapEFFRunTimeTypeInfo;
+	effULONG length = WideCharToMultiByte(CP_OEMCP, NULL, str, -1, NULL, 0, NULL, FALSE);
+
+	if( length > 1023 )
+	{
+		return NULL;
+	}
+
+	WideCharToMultiByte(CP_OEMCP, NULL, str, -1, &AnsiUnicodeStringConvert::charBuffer[0], length, NULL, FALSE);
+	return charBuffer;
+}
+
+const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
+{
+	effULONG length = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
+ 
+	if( length > 1023 )
+	{
+		return NULL;
+	}
+
+	MultiByteToWideChar(CP_ACP, 0, str, -1, &AnsiUnicodeStringConvert::wcharBuffer[0], length);
+	return wcharBuffer;
 }
 
 
+RTTI_IMPLEMENT_POD(effString)
+RTTI_IMPLEMENT_POD(effINT)
+RTTI_IMPLEMENT_POD(effFLOAT)
+
+//不直接使用全局静态变量，因为无法保证全局静态变量的初始化顺序，如果别的静态变量比mapEFFRunTimeTypeInfo先初始化，
+//而且这个静态变量在构造函数里调用了EFFRegisterClass，那么程序会Crash
+std::map<ClassID, EFFClass *> & GetRuntimeTypeInfoMap()
+{
+	static std::map<ClassID, EFFClass *> effRunTimeTypeInfo;
+	return effRunTimeTypeInfo;
+}
 
 void EFFRegisterClass(EFFClass * pClass)
 {
-	GetRuntimeTypeInfoMap().insert(std::make_pair(pClass->GetID(),pClass));
+	GetRuntimeTypeInfoMap().insert(std::make_pair(pClass->GetID(), pClass));
 }
 
 void EFFUnRegisterClass(EFFClass * pClass)
 {
-	std::map<ClassID,EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(pClass->GetID());
+	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(pClass->GetID());
 	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
 		GetRuntimeTypeInfoMap().erase(it);
 	}
 }
 
-void * EFFCreateObject(const char * pszClassName)
+void * EFFCreateObject(const effString & className)
 {
-	return EFFCreateObject(ClassIDFromString(pszClassName));
+	return EFFCreateObject(ClassIDFromString(className));
 }
 
-void * EFFCreateObject(const ClassID & classID)
+void * EFFCreateObject(const ClassID & classId)
 {
-	std::map<ClassID,EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classID);
+	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classId);
 	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
 		return it->second->CreateObject();
@@ -53,13 +85,33 @@ void * EFFCreateObject(const ClassID & classID)
 	return NULL;
 }
 
-ClassID ClassIDFromString(const char * szClassName)
+EFFClass * EFFGetClass(const effString & className)
 {
+	return EFFGetClass(ClassIDFromString(className));
+}
+
+EFFClass * EFFGetClass(const ClassID & classId)
+{
+	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classId);
+	if ( it != GetRuntimeTypeInfoMap().end() )
+	{
+		return it->second;
+	}
+	return NULL;
+}
+
+ClassID ClassIDFromString(const effString & className)
+{
+	const char * ansiClassName = EFFSTRING2ANSI(className);
+
+
 
 	MD5 context;
-	unsigned int len = strlen(szClassName);
+	unsigned int len = strlen(ansiClassName);
 
-	context.update((unsigned char *)szClassName,len);
+
+	
+	context.update((unsigned char *)ansiClassName, len);
 	context.finalize();
 
 	unsigned char * pDigset = context.raw_digest();
@@ -80,11 +132,13 @@ ClassID ClassIDFromString(const char * szClassName)
 		pTemp++;
 	}
 
-	//本来应该在pDigset分别内存的cpp文件里释放，但是md5的实现里没有实现释放的代码，所以在这里释放，因为用的是同一个new，也不会出错。
-	SFT_DELETE(pDigset);
 
 	return classId;
 }
+
+
+
+
 
 
 EFFBASE_END

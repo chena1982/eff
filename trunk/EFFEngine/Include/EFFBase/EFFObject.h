@@ -8,36 +8,33 @@
 #ifndef __EFFObject_2008_12_10__
 #define __EFFObject_2008_12_10__
 
-#include "EFFIUnknown.h"
+#include "EFFComponent.h"
 
 
 EFFBASE_BEGIN
 
-class EFFBASE_API EFFObject : public EFFIUnknown
+class EFFBASE_API EFFObject
 {
-
-	/*RTTI_DECLARE(EFFObject,EFFIUnknown)
-	{
-
-	}
+	friend class EFFObjectManager;
+	RTTI_DECLARE_BASE(EFFObject)
 public:
-	BEGIN_PROPERTY_MAP
-	END_PROPERTY_MAP
+	virtual ~EFFObject();
 
-
-	BEGIN_METHOD_MAP
-	END_METHOD_MAP*/
-public:
+private:
 	EFFObject();
+	effULONG			AddRef();
+	effULONG			Release();
+	void				SetObjectID(effULONG objectId) { this->objectId = objectId; }
 public:
-	virtual effHRESULT __stdcall		QueryInterface(ClassID & classID,EFFIUnknown ** ppComponent);
-	virtual effULONG __stdcall			AddRef();
-	virtual effULONG __stdcall			Release();
+	EFFComponent *		GetComponent(ClassID & classID);
+	EFFComponent *		AddComponent(ClassID & classID);
+	effULONG			GetObjectID() { return objectId; }
+	effULONG			GetRef() { return refCount; }
 
-	virtual effULONG 	__stdcall		GetObjectID() { return m_ulObjectId; }
 protected:
-	effULONG				m_ulObjectId;
-	effULONG				m_ulRefCount;
+	effULONG						objectId;
+	effULONG						refCount;
+	std::vector<EFFComponent *>		componentArray;
 };
 
 

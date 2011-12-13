@@ -89,6 +89,8 @@ private:
   uint1 buffer[64];   // input buffer
   uint1 digest[16];
   uint1 finalized;
+  uint1 rawdigest[16];
+  char hexdigest[33];
 
 // last, the private methods, mostly static:
   void init             ();               // called by all constructors

@@ -12,20 +12,21 @@
 
 EFFBASE_BEGIN
 
-class EFFIUnknown;
+class EFFObject;
 
 
-//远程调用时代理对象的管理器
+
 class EFFObjectManager
 {
 public:
 	EFFObjectManager();
 	~EFFObjectManager();
 public:
-	effBOOL					AddObject(EFFIUnknown * pObject);
-	EFFIUnknown *			GetObject(ClassID & classId,effULONG objectId);
+	EFFObject *			CreateObject(ClassID & classId);
+	void				ReleaseObject(EFFObject * object);
+	EFFObject *			GetObject(ClassID & classId, effULONG objectId);
 protected:
-	std::map<ClassID,std::map<effULONG,EFFIUnknown *>>		m_mapObject;
+	std::map<ClassID, std::map<effULONG, EFFObject *>>		objectMap;
 };
 
 EFFBASE_END

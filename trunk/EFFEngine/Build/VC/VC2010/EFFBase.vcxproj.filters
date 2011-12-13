@@ -34,16 +34,10 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFGlobal.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFIUnknown.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFObject.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFObjectManager.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFReflection.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFRtti.cpp">
@@ -52,11 +46,23 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFSTLFile.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\md5.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\GetDllExportFunctionsName.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFComponent.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFProperty.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFReflection.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\md5.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFBaseBaseDefines.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,16 +90,10 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFIProxy.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFIUnknown.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFObject.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFObjectManager.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFReflection.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFRtti.h">
@@ -108,12 +108,21 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFValue.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Src\EFFBase\md5.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\GetDllExportFunctionsName.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFComponent.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFProperty.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFReflection.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\EFFBase\md5.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

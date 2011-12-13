@@ -11,32 +11,47 @@
 
 #define new EFFNEW
 
-//RTTI_IMPLEMENT(EFFObject,0)
+
 
 EFFBASE_BEGIN
 
+RTTI_IMPLEMENT_BASE(EFFObject, 0)
+
 EFFObject::EFFObject()
 {
-	m_ulRefCount = 0;
-	m_ulObjectId = 0;
+	refCount = 0;
+	objectId = 0;
 }
 
-effHRESULT EFFObject::QueryInterface(ClassID & classID,EFFIUnknown ** ppComponent)
+EFFObject::~EFFObject()
 {
+	componentArray.clear();
+}
 
-	*ppComponent = this;
+//这里暂时有个问题，如果一个Object包含了两个动态组件，如果这两个动态组件都支持同一个接口，那么
+//无法判断返回哪个接口
+EFFComponent * EFFObject::GetComponent(ClassID & classID)
+{	
+	std::vector<EFFComponent *>::iterator it = componentArray.begin();
 
-	return S_OK;
+	for ( ; it != componentArray.end(); it++ )
+	{
+		if ( (*it)->GetRuntimeClass()->IsKindOf(classID) )
+		{
+			return *it;
+		}
+	}
+	return NULL;
 }
 
 effULONG EFFObject::AddRef()
 {
-	return ++m_ulRefCount;
+	return ++refCount;
 }
 
 effULONG EFFObject::Release()
 {
-	effULONG ulRefCount = m_ulRefCount--;
+	effULONG ulRefCount = refCount--;
 	if ( ulRefCount == 0 )
 	{
 		delete this;
@@ -44,5 +59,13 @@ effULONG EFFObject::Release()
 	return ulRefCount;
 }
 
+
+EFFComponent * EFFObject::AddComponent(ClassID & classID)
+{
+	EFFComponent * pComponent = static_cast<EFFComponent *>(EFFCreateObject(classID));
+
+	componentArray.push_back(pComponent);
+	return pComponent;
+}
 
 EFFBASE_END

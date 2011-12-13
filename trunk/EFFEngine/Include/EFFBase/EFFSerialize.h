@@ -11,6 +11,7 @@
 
 
 #include "EFFFile.h"
+#include "EFFProperty.h"
 
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
@@ -40,9 +41,22 @@ struct ArgReadBin
 };
 
 
+inline void SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+	effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
+	effUINT length = data.length();
+	file->Write(&length, 4);
+	file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
+}
+
+inline void SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+	effVOID * source = (effVOID *)((effBYTE *)baseAddress + property->GetOffset());
+	file->Write(source, property->GetSize());
+}
 
 template<typename T>
-inline void VisitProperty(T & data,ArgWriteBin * pArgWriteBin,boost::true_type)
+inline void SaveProperty(T & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
 	pArgWriteBin->pFile->Write(&data,sizeof(T));
 };
@@ -50,13 +64,13 @@ inline void VisitProperty(T & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 
 
 template<typename T>
-inline void VisitProperty(T & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(T & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	data.SaveToFile(pArgWriteBin->pFile);
 };
 
 
-inline void VisitProperty(std::string & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(std::string & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	unsigned int dwLength = data.length();
 	pArgWriteBin->pFile->Write(&dwLength,4);
@@ -68,7 +82,7 @@ inline void VisitProperty(std::string & data,ArgWriteBin * pArgWriteBin,boost::f
 
 
 template<typename T>
-inline void VisitProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	pArgWriteBin->pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
 };
@@ -78,20 +92,20 @@ inline void VisitProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost
 
 
 template<typename T>
-inline void VisitProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::true_type)
+inline void SaveProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
 	unsigned int dwSize = data.size();
 	pArgWriteBin->pFile->Write(&dwSize,4);
 	pArgWriteBin->pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
 };
 
-inline void VisitProperty(std::vector<std::string> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(std::vector<std::string> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	unsigned int dwSize = data.size();
 	pArgWriteBin->pFile->Write(&dwSize,4);
 	for ( unsigned int i = 0; i < data.size(); i++ )
 	{
-		VisitProperty(data[i],pArgWriteBin,boost::false_type());
+		SaveProperty(data[i],pArgWriteBin,boost::false_type());
 	}
 };
 
@@ -99,7 +113,7 @@ inline void VisitProperty(std::vector<std::string> & data,ArgWriteBin * pArgWrit
 //指针类型
 
 template<typename T,typename TN>
-inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost::true_type)
+inline void SaveProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
 	//保证元素个数的类型是整型
 	BOOST_STATIC_ASSERT(boost::is_integral<TN>::value);
@@ -111,7 +125,7 @@ inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boos
 }
 
 template<typename T,typename TN>
-inline void VisitProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	//保证数组元素个数的类型是整型
 	BOOST_STATIC_ASSERT(boost::is_integral<TN>::value);

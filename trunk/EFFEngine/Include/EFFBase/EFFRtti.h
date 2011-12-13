@@ -8,8 +8,11 @@
 #ifndef __EFFRtti_2008_12_1__
 #define __EFFRtti_2008_12_1__
 
-#include "EFFReflection.h"
+#include <boost\type_traits.hpp>
 
+#include "EFFReflection.h"
+#include "EFFProperty.h"
+#include "EFFSTLFile.h"
 
 EFFBASE_BEGIN
 
@@ -28,7 +31,37 @@ struct EFFBASE_API ClassID
 	}
 };
 
-ClassID EFFBASE_API ClassIDFromString(const char *string);
+class EFFBASE_API AnsiUnicodeStringConvert
+{
+public:
+	static const effCHAR * W2A(const effWCHAR * str);
+	static const effWCHAR * A2W(const effCHAR * str);
+
+private:
+	static effCHAR charBuffer[1024];
+	static effWCHAR wcharBuffer[1024];
+};
+
+#if defined UNICODE || defined _UNICODE
+	#define EFFSTRING2ANSI(str) AnsiUnicodeStringConvert::W2A((str.c_str()))
+	#define ANSI2EFFSTRING(str) AnsiUnicodeStringConvert::A2W(str)
+#else
+	#define EFFSTRING2ANSI(str) (str).c_str()
+	#define ANSI2EFFSTRING(str) str
+#endif
+
+
+class EFFClass;
+
+void EFFRegisterClass(EFFClass * pClass);
+void EFFUnRegisterClass(EFFClass * pClass);
+
+EFFBASE_API void * EFFCreateObject(const effString & className);
+EFFBASE_API void * EFFCreateObject(const ClassID & classId);
+
+EFFBASE_API EFFClass * EFFGetClass(const effString & className);
+EFFBASE_API EFFClass * EFFGetClass(const ClassID & classId);
+ClassID EFFBASE_API ClassIDFromString(const effString & className);
 
 
 #define RTTI_CLASS(T)	((EFFClass *)(&T::runtimeInfoClass##T))
@@ -36,212 +69,297 @@ ClassID EFFBASE_API ClassIDFromString(const char *string);
 
 
 
-#define	RTTI_DECLARE(CLASS,BASECLASS)\
+
+#define RTTI_DECLARE_BASE(CLASS)\
 public:\
-	typedef BASECLASS	classBase;\
-	typedef CLASS	classThis;\
+	typedef CLASS classThis;\
 	friend EFFClassImpl<CLASS>;\
-	static EFFClassImpl<CLASS>	runtimeInfoClass##CLASS;\
+	static EFFClassImpl<CLASS> runtimeInfoClass##CLASS;\
 	static EFFClass * GetThisClass();\
-	virtual EFFClass * __stdcall GetRuntimeClass() const;\
+	virtual EFFClass * GetRuntimeClass() const;\
 	virtual void SaveToFile(EFFFile * pFile);\
-protected:\
-	template<class T>\
-	inline void CLASS##Visit(T * pArg)\
+	virtual void SaveToFile(const effString & filePath);
 
-#define	RTTI_DECLARE_PURE(CLASS,BASECLASS)\
+#define	RTTI_DECLARE(CLASS, BASECLASS)\
+	RTTI_DECLARE_BASE(CLASS)\
+	typedef BASECLASS classBase;
+
+#define	RTTI_DECLARE_BASE_PURE(CLASS)\
 public:\
+	typedef CLASS classThis;\
+	friend EFFPureVirtualClassImpl<CLASS>;\
+	static EFFPureVirtualClassImpl<CLASS> runtimeInfoClass##CLASS;\
+	static EFFClass * GetThisClass();\
+	virtual EFFClass * GetRuntimeClass() const;
+
+#define	RTTI_DECLARE_PURE(CLASS, BASECLASS)\
+	RTTI_DECLARE_BASE_PURE(CLASS)\
 	typedef BASECLASS classBase;\
-	friend EFFRunTimeTypeInfoImplPureVirtual<CLASS>;\
-	static EFFRunTimeTypeInfoImplPureVirtual<CLASS> runtimeInfoClass##CLASS;\
-	static EFFClass* GetThisClass();\
-	virtual EFFClass * __stdcall GetRuntimeClass() const;
 
-
-#define RTTI_IMPLEMENT_NAME(CLASS,VERSION,NAME)\
-	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION,NAME,CLASS::classBase::GetThisClass());\
-	class CLASS##RegisterProperty\
+#define RTTI_DECLARE_POD(CLASS)\
+	class CLASS##POD\
 	{\
 	public:\
-		CLASS##RegisterProperty()\
-		{\
-			CLASS::RegisterProperty();\
-		}\
-	};\
-	static CLASS##RegisterProperty _##CLASS##RegisterProperty;\
-	class CLASS##RegisterMethod\
-	{\
-		public:\
-		CLASS##RegisterMethod()\
-		{\
-			CLASS::RegisterMethod();\
-		}\
-	};\
-	static CLASS##RegisterMethod _##CLASS##RegisterMethod;\
-	EFFClass* CLASS##::GetThisClass()\
+		typedef CLASS##POD classThis;\
+		friend EFFClassImpl<CLASS>;\
+		static EFFClassImpl<CLASS> runtimeInfoClass##CLASS##POD;\
+		static EFFClass * GetThisClass();\
+		virtual EFFClass * GetRuntimeClass() const;\
+	};
+
+#define RTTI_IMPLEMENT_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
+	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
+	EFFClass * CLASS##::GetThisClass()\
 	{\
 		return RTTI_CLASS(CLASS);\
 	}\
-	EFFClass* __stdcall CLASS##::GetRuntimeClass() const\
+	EFFClass * CLASS##::GetRuntimeClass() const\
 	{\
 		return GetThisClass();\
 	}\
-	void CLASS##::SaveToFile(EFFFile * pFile)\
+	void CLASS##::SaveToFile(EFFFile * file)\
 	{\
-		if ( pFile == NULL )\
+		EFFClass * Class = GetRuntimeClass();\
+		std::vector<EFFProperty *> & properties = Class->GetProperties();\
+		for ( effUINT i = 0; i < properties.size(); i++ )\
+		{\
+			EFFProperty * curProperty = properties[i];\
+			curProperty->GetSavePropertyFP()(file, this, curProperty);\
+		}\
+	}\
+	void CLASS##::SaveToFile(const effString & filePath)\
+	{\
+		EFFSTLFile file;\
+		if ( !file.Open(filePath, _effT("wb")) )\
 		{\
 			return;\
 		}\
-		ArgWriteBin awb;\
-		awb.pFile = pFile;\
-		CLASS##Visit(&awb);\
+		SaveToFile(&file);\
+		file.Close();\
 	}
 
-#define RTTI_IMPLEMENT_PURE_NAME(CLASS,VERSION,NAME) \
-	EFFRunTimeTypeInfoImplPureVirtual<CLASS> CLASS::runtimeInfoClass##CLASS = EFFRunTimeTypeInfoImplPureVirtual<CLASS>(VERSION,NAME,CLASS::classBase::GetThisClass());\
+
+
+#define RTTI_IMPLEMENT_PURE_INTERNAL(CLASS, VERSION, NAME, BASECLASS) \
+	EFFPureVirtualClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
 	EFFClass * CLASS::GetThisClass()\
 	{\
 		return RTTI_CLASS(CLASS);\
 	}\
-	EFFClass * __stdcall CLASS::GetRuntimeClass() const\
+	EFFClass * CLASS::GetRuntimeClass() const\
 	{\
 		return GetThisClass();\
 	}
 
-#define RTTI_IMPLEMENT(CLASS,VERSION)				RTTI_IMPLEMENT_NAME(CLASS,VERSION,#CLASS)
-#define RTTI_IMPLEMENT_PURE(CLASS,VERSION)		RTTI_IMPLEMENT_PURE_NAME(CLASS,VERSION,#CLASS)
+#define RTTI_IMPLEMENT_POD_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
+	EFFClassImpl<CLASS> CLASS##POD::runtimeInfoClass##CLASS##POD(VERSION, effTRUE, NAME, BASECLASS);\
+	EFFClass * CLASS##POD##::GetThisClass()\
+	{\
+		return RTTI_CLASS(CLASS##POD);\
+	}\
+	EFFClass * CLASS##POD##::GetRuntimeClass() const\
+	{\
+		return GetThisClass();\
+	}
+
+#define RTTI_IMPLEMENT_BASE(CLASS, VERSION)				RTTI_IMPLEMENT_INTERNAL(CLASS, VERSION, _effT(#CLASS), NULL)
+#define RTTI_IMPLEMENT_BASE_PURE(CLASS, VERSION)		RTTI_IMPLEMENT_PURE_INTERNAL(CLASS, VERSION, _effT(#CLASS), NULL)
+
+#define RTTI_IMPLEMENT(CLASS, VERSION)					RTTI_IMPLEMENT_INTERNAL(CLASS, VERSION, _effT(#CLASS), CLASS::classBase::GetThisClass())
+#define RTTI_IMPLEMENT_PURE(CLASS, VERSION)				RTTI_IMPLEMENT_PURE_INTERNAL(CLASS, VERSION, _effT(#CLASS), CLASS::classBase::GetThisClass())
+
+#define RTTI_IMPLEMENT_POD(CLASS)						RTTI_IMPLEMENT_POD_INTERNAL(CLASS, 0, _effT(#CLASS), NULL)
 
 
 
-class EFFClass;
-
-void EFFRegisterClass(EFFClass * pClass);
-
-void EFFUnRegisterClass(EFFClass * pClass);
-
-EFFBASE_API void * EFFCreateObject(const char * pszClassName);
-EFFBASE_API void * EFFCreateObject(const ClassID & classID);
 
 class EFFBASE_API EFFClass
 {
-
+	friend class RegisterProperty;
 public:
-	EFFClass * GetBaseClass() const 
+	EFFClass(effUINT version, effBOOL isPOD, const effString & name, EFFClass * baseClass)
+		:version(version), isPOD(isPOD), className(name), baseClass(baseClass)
 	{
-		return m_pBaseClass;
-	}
-
-	effLPCSTR GetClassName()
-	{
-		return m_strClassName.c_str();
-	}
-
-	effUINT GetVersion() const
-	{
-		return m_uiVersion;
-	}
-
-	const ClassID & GetID() const
-	{
-		return m_Id; 
-	}
-	
-	friend bool operator == (const EFFClass & crt1,const EFFClass & crt2)
-	{
-		return crt1.m_Id == crt2.m_Id && crt1.m_uiVersion == crt2.m_uiVersion;
-	}
-
-	bool IsKindOf(const EFFClass * pClass)
-	{
-		EFFClass * p = this;
-		while(p)
-		{
-			if( (*p) == (*pClass) )
-			{
-				return true;
-			}
-			p = p->GetBaseClass();
-		}
-		return false;
-	}
-
-	bool IsKindOf(ClassID & m_Id)
-	{
-		EFFClass * p = this;
-		while( p )
-		{
-			if( p->m_Id == m_Id )
-			{
-				return true;
-			}
-			p = p->GetBaseClass();
-		}
-		return false;
-	}
-
-	effVOID AddMemberMethod(__callable__ * pMethod)
-	{
-		m_vMemberMethod.push_back(pMethod);
-	}
-
-	effVOID AddProperty(__property__ * pProperty)
-	{
-		m_vProperty.push_back(pProperty);
-	}
-
-	template<class T>
-	effVOID setProperty(effVOID * pObject,  const effCHAR * pszPropertyName, T value)
-	{
-
-		for ( effUINT i = 0; i < m_vProperty.size(); i++ )
-		{
-			__real_property__<T> * pProperty = (__real_property__<T> *)m_vProperty[i];
-			if ( pProperty->m_strName == pszPropertyName )
-			{
-				effBYTE * pAddress = (effBYTE *)pObject;
-				*((T *)(pAddress + pProperty->m_ulOffset)) = value;
-			}
-		}
-	}
-
-public:
-	EFFClass(effUINT uiVersion,effLPCSTR pName,EFFClass * pBaseClass)
-		:m_uiVersion(uiVersion),m_strClassName(pName),m_pBaseClass(pBaseClass)
-	{
-		m_Id = ClassIDFromString(const_cast<char *>(pName));
+		id = ClassIDFromString(name);
 		EFFRegisterClass(this);
 	}
-	EFFClass(const EFFClass & rhs)
-		:m_Id(rhs.m_Id),m_uiVersion(rhs.m_uiVersion),m_strClassName(rhs.m_strClassName),m_pBaseClass(rhs.m_pBaseClass)
-	{
-		EFFRegisterClass(this);
-	}
+
+
 
 	EFFClass & operator = (const EFFClass & rhs)
 	{
-		m_Id = rhs.m_Id;
-		m_uiVersion = rhs.m_uiVersion;
-		m_strClassName = rhs.m_strClassName;
-		m_pBaseClass = rhs.m_pBaseClass;
+		id = rhs.id;
+		version = rhs.version;
+		className = rhs.className;
+		baseClass = rhs.baseClass;
 		return *this;
 	}
 
-	~EFFClass()
+	virtual ~EFFClass()
 	{
+		for ( effUINT i = 0; i < properties.size(); i++ )
+		{
+			SF_DELETE(properties[i]);
+		}
+		properties.clear();
 		EFFUnRegisterClass(this);
 	}
+
 	//friend class __ucCompareRTTI;
 	//friend class __ucCompareRTTIAndClassID;
 
 	virtual effVOID * CreateObject() = 0;
-protected:
-	ClassID										m_Id;
-	effUINT									m_uiVersion;
-	std::string									m_strClassName;
-	EFFClass *									m_pBaseClass;
 
-	std::vector<__callable__ *>			m_vMemberMethod;
-	std::vector<__property__ *>		m_vProperty;
+private:
+	EFFClass(const EFFClass & rhs) {}
+public:
+	EFFClass * GetBaseClass() const 
+	{
+		return baseClass;
+	}
+
+	const effString & GetClassName() const
+	{
+		return className;
+	}
+
+	effUINT GetVersion() const
+	{
+		return version;
+	}
+
+	const ClassID & GetID() const
+	{
+		return id; 
+	}
+
+	std::vector<EFFProperty *> & GetProperties()
+	{
+		return properties;
+	}
+	
+	friend bool operator == (const EFFClass & class1,const EFFClass & class2)
+	{
+		return class1.id == class2.id && class1.version == class2.version;
+	}
+
+	bool IsKindOf(const EFFClass * effClass)
+	{
+		EFFClass * Class = this;
+		while( Class != NULL )
+		{
+			if( Class == effClass )
+			{
+				return true;
+			}
+			Class = Class->GetBaseClass();
+		}
+		return false;
+	}
+
+	bool IsKindOf(ClassID & id)
+	{
+		EFFClass * Class = this;
+		while( Class != NULL )
+		{
+			if( Class->id == id )
+			{
+				return true;
+			}
+			Class = Class->GetBaseClass();
+		}
+		return false;
+	}
+
+	template<typename ClassType, typename PropertyType>
+	inline static effString GetClassName(PropertyType ClassType::*member)
+	{
+		return GetClassName(member, boost::is_pod<PropertyType>());
+	}
+
+	template<typename ClassType, typename PropertyType>
+	inline static effString GetClassName(PropertyType ClassType::*member, boost::true_type)
+	{
+		const char * propertyTypeName = typeid(PropertyType).name();
+		if ( strcmp(propertyTypeName, "int") == 0 )
+		{
+			return effString(_effT("effINT"));
+		}
+		else if ( strcmp(propertyTypeName, "float") == 0 )
+		{
+			return effString(_effT("effFLOAT"));
+		}
+		return effString(_effT("unkown pod type"));
+	}
+
+	template<typename ClassType, typename PropertyType>
+	inline static effString GetClassName(PropertyType ClassType::*member, boost::false_type)
+	{
+		effString result(ANSI2EFFSTRING(typeid(PropertyType).name()));
+		//remove the prefix "class "
+		return result.substr(6, result.length() - 6);
+	}
+
+#if defined UNICODE || defined _UNICODE
+	template<typename ClassType>
+	inline static effString GetClassName(std::wstring ClassType::*member, boost::false_type)
+	{
+		return effString(_effT("effString"));
+	};
+#else
+	template<typename ClassType>
+	inline static effString GetClassName(std::string ClassType::*member, boost::false_type)
+	{
+		return effString(_effT("effString"));
+	};
+#endif
+
+
+
+
+	template<class ClassType, class PropertyType>
+	void AddProperty(PropertyType ClassType::*member, const effString & name)
+	{
+		EFFClass * propertyClass = EFFGetClass(GetClassName(member, boost::is_pod<PropertyType>()));
+		_addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
+	}
+
+
+protected:
+	inline void _addProperty(effLONG offset, effLONG size, const effString & name, EFFClass * Class)
+	{
+		EFFProperty * addedProperty = EFFNEW EFFProperty();
+		addedProperty->offset = offset;
+		addedProperty->size = size;
+		addedProperty->name = name;
+		addedProperty->Class = Class;
+
+		if ( Class->isPOD )
+		{
+			if ( Class->className == _effT("effString") )
+			{
+				addedProperty->savePropertyFP = &SaveStringProperty;
+			}
+			else
+			{
+				addedProperty->savePropertyFP = &SavePODProperty;
+			}
+		}
+		else
+		{
+
+		}
+
+		properties.push_back(addedProperty);
+	}
+
+protected:
+	ClassID										id;
+	effUINT										version;
+	effBOOL										isPOD;
+	effString									className;
+	EFFClass *									baseClass;
+	std::vector<EFFProperty *>					properties;
 };
 
 
@@ -249,43 +367,55 @@ template<class T>
 class EFFClassImpl : public EFFClass
 {
 public:
-	virtual effVOID * CreateObject()
-	{
-		return new T;
-	}
+	virtual effVOID * CreateObject() { return new T; }
 
-	EFFClassImpl(effUINT uiVersion,effLPCSTR pszName,EFFClass * pBaseClass) : EFFClass(uiVersion,pszName,pBaseClass) { }
+	EFFClassImpl(effUINT version, effBOOL isPOD, const effString & name, EFFClass * pBaseClas) : EFFClass(version, isPOD, name, pBaseClas) { }
 	
 	//EFFClassImpl() : EFFClass(0,0,0,NULL) { }
 
 	EFFClassImpl(const EFFClassImpl<T> & rhs) : EFFClass(rhs) { }
-	
-	EFFClassImpl<T> & operator = (const EFFClassImpl<T> & rhs)
-	{
-		EFFClass::operator = (rhs);
-		return *this;
-	}
 };
 
 
 template<class T>
-class EFFRunTimeTypeInfoImplPureVirtual : public EFFClass
+class EFFPureVirtualClassImpl : public EFFClass
 {
 public:
 	virtual effVOID * CreateObject() { return NULL; }
 
-	EFFRunTimeTypeInfoImplPureVirtual(effUINT uiVersion,effLPCSTR pszName,EFFClass * pBaseClass) : EFFClass(uiVersion,pszName,pBaseClass) {}
+	EFFPureVirtualClassImpl(effUINT version, effBOOL isPOD, const effString & name, EFFClass * pBaseClas) : EFFClass(version, isPOD, name, pBaseClas) {}
 	
 	//EFFRunTimeTypeInfoImplPureVirtual() : EFFClass(0,NULL,NULL) {}
 
-	EFFRunTimeTypeInfoImplPureVirtual(const EFFRunTimeTypeInfoImplPureVirtual<T> & rhs) : EFFClass(rhs) {}
-
-	EFFRunTimeTypeInfoImplPureVirtual<T> & operator = (const EFFRunTimeTypeInfoImplPureVirtual<T> & rhs)
-	{
-		EFFClass::operator = (rhs);
-		return *this;
-	}
+	EFFPureVirtualClassImpl(const EFFPureVirtualClassImpl<T> & rhs) : EFFClass(rhs) {}
 };
+
+
+class RegisterProperty
+{
+
+public:
+	/*RegisterProperty(const effString & podPropertyTypeName, effULONG offset, effULONG size, const effString & name)
+	{
+		classType::GetThisClass()->AddProperty(member, name, podPropertyTypeName);
+	}*/
+
+	RegisterProperty(const effString & podPropertyTypeName, EFFClass * Class, effULONG offset, effULONG size, const effString & name)
+	{
+		EFFClass * propertyClass = EFFGetClass(podPropertyTypeName);
+		Class->_addProperty(offset, size, name, propertyClass);
+	}
+
+};
+
+#define RTTI_PROPERTY(CLASS, MEMBER, NAME)\
+	static RegisterProperty registerProperty##CLASS##MEMBER(EFFClass::GetClassName(&CLASS::MEMBER), CLASS::GetThisClass(), MEM_OFFSET(CLASS, MEMBER), MEM_SIZE(CLASS, MEMBER), NAME);
+
+RTTI_DECLARE_POD(effString)
+RTTI_DECLARE_POD(effINT)
+RTTI_DECLARE_POD(effFLOAT)
+
+
 
 
 EFFBASE_END

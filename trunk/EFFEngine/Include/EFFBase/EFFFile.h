@@ -13,11 +13,11 @@ EFFBASE_BEGIN
 class EFFBASE_API EFFFile
 {
 public:
-	virtual bool Open(const char *szFilePath,const char *szOpenMode) = 0;
-	virtual unsigned int Read(void * pBuffer,unsigned int dwSize) = 0;
-	virtual unsigned int Write(void * pBuffer,unsigned int dwSize) = 0;
-	virtual void Close() = 0;
-	virtual unsigned int Length() = 0;
+	virtual effBOOL Open(const effString & filePath, const effTCHAR * openMode) = 0;
+	virtual effUINT Read(effVOID * buffer, effUINT size) = 0;
+	virtual effUINT Write(effVOID * buffer, effUINT size) = 0;
+	virtual effVOID Close() = 0;
+	virtual effUINT Length() = 0;
 protected:
 private:
 };
