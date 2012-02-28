@@ -15,7 +15,7 @@
 #include "EFF3DTerrain.h"
 #include "EFF3DMyTerrain.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 

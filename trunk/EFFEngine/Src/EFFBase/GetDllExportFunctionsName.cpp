@@ -4,7 +4,7 @@
 #include "Dbghelp.h"
 #include <tchar.h>
 
-#define new EFFNEW
+//#define new EFFNEW
 
 bool GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExports, char ** & pszFunctions)
 {

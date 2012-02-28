@@ -11,12 +11,38 @@
 #include "EFFObjectManager.h"
 
 
-#define new EFFNEW
 
 EFFBASE_BEGIN
 
+RTTI_IMPLEMENT_BASE(EFFObjectManager, 0)
+
+std::map<EFFClass *, EFFObjectManager *> objectManagers;
+
+effVOID EFFRegisterObjectManager(EFFClass * Class, EFFObjectManager * objectManager)
+{
+	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.find(Class);
+
+	if ( it == objectManagers.end() )
+	{
+		objectManagers[Class] = objectManager;
+	}
+}
+
+
+EFFObjectManager * EFFGetObjectManager(EFFClass * Class)
+{
+	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.find(Class);
+	if ( it != objectManagers.end() )
+	{
+		return it->second;
+	}
+
+	return NULL;
+}
+
 EFFObjectManager::EFFObjectManager()
 {
+	currentId = 0;
 }
 
 EFFObjectManager::~EFFObjectManager()
@@ -24,75 +50,66 @@ EFFObjectManager::~EFFObjectManager()
 }
 
 
-EFFObject * EFFObjectManager::CreateObject(ClassID & classId)
+EFFObject * EFFObjectManager::CreateObject(EFFClass * Class)
 {
-	EFFClass * wantCreateClass = EFFGetClass(classId);
-	if ( wantCreateClass == NULL )
-	{
-		return NULL;
-	}
+	BOOST_ASSERT(Class != NULL);
+	BOOST_ASSERT(Class->IsKindOf(EFFObject::GetThisClass()));
 
-	if ( !wantCreateClass->IsKindOf(EFFObject::GetThisClass()) )
-	{
-		return NULL;
-	}
+	EFFObject * object = static_cast<EFFObject *>(EFFCreateObject(Class->GetID()));
 
-	EFFObject * object = static_cast<EFFObject *>(EFFCreateObject(classId));
-
-	//直接根据指针地址计算id，暂时先这样
-	object->SetObjectID(reinterpret_cast<effULONG>(object) / sizeof(object));
+	CalculateNextId();
+	object->SetObjectID(currentId);
 	object->AddRef();
 
-	std::map<ClassID, std::map<effULONG, EFFObject *>>::iterator it = objectMap.find(classId);
-	if ( it == objectMap.end() )
-	{
-		std::map<effULONG, EFFObject *> realObjectMap;
-		realObjectMap[object->GetObjectID()] = object;
-		objectMap[classId] = realObjectMap;
-	}
-	else
-	{
-		it->second[object->GetObjectID()] = object;
-	}
+	BOOST_ASSERT(objects.find(currentId) == objects.end());
 
-	return NULL;
+	objects[currentId] = object;
+
+	return object;
 }
 
 void EFFObjectManager::ReleaseObject(EFFObject * object)
 {
-	if ( object == NULL )
+	BOOST_ASSERT(object != NULL);
+
+
+	std::map<effUINT, EFFObject *>::iterator it = objects.find(object->GetObjectID());
+	if ( it != objects.end() )
 	{
+		effUINT refCount = object->GetRef();
+		effUINT objectId = object->GetObjectID();
+		object->Release();
+		if ( refCount == 1 )
+		{
+			objects.erase(it);
+			recycledIds.push_back(objectId);
+		}
+	}
+	
+}
+
+EFFObject * EFFObjectManager::GetObject(effUINT objectId)
+{
+
+	std::map<effUINT, EFFObject *>::iterator it = objects.find(objectId);
+	if ( it != objects.end() )
+	{
+		//it->second->AddRef();
+		return it->second;
+	}
+	return NULL;
+}
+
+effVOID EFFObjectManager::CalculateNextId()
+{
+	if ( recycledIds.size() == 0 )
+	{
+		currentId++;
 		return;
 	}
 
-	std::map<ClassID, std::map<effULONG, EFFObject *>>::iterator it = objectMap.find(object->GetRuntimeClass()->GetID());
-	if ( it != objectMap.end() )
-	{
-		std::map<effULONG, EFFObject *>::iterator itObject = it->second.find(object->GetObjectID());
-		if ( itObject != it->second.end() )
-		{
-			effINT refCount = itObject->second->GetRef();
-			itObject->second->Release();
-			it->second.erase(itObject);
-
-		}
-	}
-}
-
-EFFObject * EFFObjectManager::GetObject(ClassID & classId, effULONG objectId)
-{
-	std::map<ClassID, std::map<effULONG, EFFObject *>>::iterator it = objectMap.find(classId);
-	if ( it != objectMap.end() )
-	{
-		std::map<effULONG, EFFObject *>::iterator itObject = it->second.find(objectId);
-		if ( itObject != it->second.end() )
-		{
-			//只有通过GetObject接口得到EFFObject指针时才增加引用
-			//itObject->second->AddRef();
-			return itObject->second;
-		}
-	}
-	return NULL;
+	currentId = recycledIds[0];
+	recycledIds.erase(recycledIds.begin());
 }
 
 EFFBASE_END

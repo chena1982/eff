@@ -10,7 +10,7 @@
 #include "EFFReflection.h"
 #include "EFFRtti.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFFBASE_BEGIN
 

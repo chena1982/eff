@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFD3D9Surface.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFFD3D9Surface::EFFD3D9Surface()
 {
@@ -39,9 +39,8 @@ effHRESULT EFFD3D9Surface::UnlockRect()
 	return m_pSurface->UnlockRect();
 }
 
-effUINT EFFD3D9Surface::CalculateSize()
+effVOID EFFD3D9Surface::CalculateSize()
 {
-	return 0;
 }
 
 effBOOL EFFD3D9Surface::LoadDataFromFile(const effString & strFilePath)

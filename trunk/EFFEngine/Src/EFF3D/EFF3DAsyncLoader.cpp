@@ -12,7 +12,7 @@
 #include "EFF3DResource.h"
 #include "EFF3DAsyncLoader.h"
 
-#define new EFFNEW
+////#define new EFFNEW
 
 
 
@@ -49,21 +49,21 @@ effVOID WarmIOCache(effBYTE* pData, effUINT size)
 }
 
 //--------------------------------------------------------------------------------------
-EFF3DAsyncLoader::EFF3DAsyncLoader(EFF3DDevice * pDevice,effUINT NumProcessingThreads) : m_bDone(false),
-m_bProcessThreadDone(false),
-m_bIOThreadDone(false),
-m_NumResourcesToService(0),
-m_NumOustandingResources(0),
-m_hIOQueueSemaphore(0),
-m_hProcessQueueSemaphore(0),
-m_hIOThread(0),
-m_NumProcessingThreads(0),
-m_phProcessThreads(NULL),
-m_pDevice(pDevice)
+EFF3DAsyncLoader::EFF3DAsyncLoader(EFF3DDevice * pDevice,effUINT NumProcessingThreads) : done(false),
+processThreadDone(false),
+IOThreadDone(false),
+toServiceResourcesCount(0),
+oustandingResourcesCount(0),
+IOQueueSemaphore(0),
+processQueueSemaphore(0),
+IOThread(0),
+processingThreadsCount(0),
+processThreads(NULL),
+device(pDevice)
 {
 	InitAsyncLoadingThreadObjects( NumProcessingThreads );
-	m_NumIORequests = 0;
-	m_NumProcessRequests = 0;
+	IORequestsCount = 0;
+	processRequestsCount = 0;
 }
 
 //--------------------------------------------------------------------------------------
@@ -75,33 +75,33 @@ EFF3DAsyncLoader::~EFF3DAsyncLoader()
 //--------------------------------------------------------------------------------------
 // Add a work item to the queue of work items
 //--------------------------------------------------------------------------------------
-effHRESULT EFF3DAsyncLoader::AddWorkItem(EFF3DIResource * pResource, effHRESULT* pHResult)
+effBOOL EFF3DAsyncLoader::AddWorkItem(EFF3DResource * resource, effBOOL * result)
 {
-	if ( pResource == NULL )
+	if ( resource == NULL )
 	{
-		return E_FAIL;
+		return effFALSE;
 	}
 
 	RESOURCE_REQUEST ResourceRequest;
-	ResourceRequest.pResource = pResource;
-	ResourceRequest.pHR = pHResult;
-	ResourceRequest.bCopy = false;
-	ResourceRequest.bLock = false;
-	ResourceRequest.bError = false;
+	ResourceRequest.resource = resource;
+	ResourceRequest.result = result;
+	ResourceRequest.copy = false;
+	ResourceRequest.lock = false;
+	ResourceRequest.error = false;
 
 
 	// Add the request to the read queue
-	EnterCriticalSection( &m_csIOQueue );
-	m_IOQueue.push_back( ResourceRequest );
-	LeaveCriticalSection( &m_csIOQueue );
+	EnterCriticalSection( &IOQueueCriticalSection );
+	IOQueue.push_back( ResourceRequest );
+	LeaveCriticalSection( &IOQueueCriticalSection );
 
 	// TODO: critsec around this?
-	m_NumOustandingResources ++;
+	oustandingResourcesCount ++;
 
 	// Signal that we have something to read
-	ReleaseSemaphore( m_hIOQueueSemaphore, 1, NULL );
+	ReleaseSemaphore( IOQueueSemaphore, 1, NULL );
 
-	return S_OK;
+	return effTRUE;
 }
 
 //--------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ effVOID EFF3DAsyncLoader::WaitForAllItems()
 	for(; ; )
 	{
 		// Only exit when all resources are loaded
-		if( 0 == m_NumOustandingResources )
+		if( 0 == oustandingResourcesCount )
 			return;
 
 		// Service Queues
@@ -137,84 +137,90 @@ effVOID EFF3DAsyncLoader::WaitForAllItems()
 effUINT EFF3DAsyncLoader::FileIOThreadProc()
 {
 	effWCHAR szMessage[MAX_PATH];
-	effHRESULT hr = S_OK;
-	m_bIOThreadDone = false;
+	IOThreadDone = effFALSE;
 
 	RESOURCE_REQUEST ResourceRequest = {0};
 
-	while( !m_bDone )
+	while( !done )
 	{
 		// Wait for a read or create request
-		WaitForSingleObject( m_hIOQueueSemaphore, INFINITE );
-		if( m_bDone )
+		WaitForSingleObject(IOQueueSemaphore, INFINITE);
+		if( done )
+		{
 			break;
+		}
 
-		m_NumIORequests ++;
+		IORequestsCount ++;
 
 		// Pop a request off of the IOQueue
-		EnterCriticalSection( &m_csIOQueue );
-		ResourceRequest = m_IOQueue[0];
-		m_IOQueue.erase(m_IOQueue.begin());
-		LeaveCriticalSection( &m_csIOQueue );
+		EnterCriticalSection(&IOQueueCriticalSection);
+		ResourceRequest = IOQueue[0];
+		IOQueue.erase(IOQueue.begin());
+		LeaveCriticalSection(&IOQueueCriticalSection);
 
 		// Handle a read request
-		if( !ResourceRequest.bCopy )
+		if( !ResourceRequest.copy )
 		{
-			if( !ResourceRequest.bError )
+			if( !ResourceRequest.error )
 			{
 				// Load the data
-				hr = ResourceRequest.pResource->LoadDataFromFile(ResourceRequest.strFilePath);
+				effBOOL result = ResourceRequest.resource->LoadDataFromFile(ResourceRequest.filePath);
 
-				if( FAILED( hr ) )
+				if ( !result )
 				{
-					swprintf_s( szMessage, MAX_PATH, L"FileIO Error: hr = %x\n", hr );
-					OutputDebugString( szMessage );
+					swprintf_s(szMessage, MAX_PATH, L"FileIO Error");
+					OutputDebugString(szMessage);
 
-					ResourceRequest.bError = true;
-					if( ResourceRequest.pHR )
-						*ResourceRequest.pHR = hr;
+					ResourceRequest.error = effTRUE;
+					if( ResourceRequest.result != NULL )
+					{
+						*ResourceRequest.result = result;
+					}
 				}
 			}
 
 			// Add it to the ProcessQueue
-			EnterCriticalSection( &m_csProcessQueue );
-			m_ProcessQueue.push_back( ResourceRequest );
-			LeaveCriticalSection( &m_csProcessQueue );
+			EnterCriticalSection(&processQueueCriticalSection);
+			processQueue.push_back(ResourceRequest);
+			LeaveCriticalSection(&processQueueCriticalSection);
 
 			// Let the process thread know it's got work to do
-			ReleaseSemaphore( m_hProcessQueueSemaphore, 1, NULL );
+			ReleaseSemaphore(processQueueSemaphore, 1, NULL);
 		}
 
 		// Handle a copy request
 		else
 		{
-			if( !ResourceRequest.bError )
+			if( !ResourceRequest.error )
 			{
 				// Create the data
-				hr = ResourceRequest.pResource->CopyDataToRuntimeResource();
+				effBOOL result = ResourceRequest.resource->CopyDataToRuntimeResource();
 
-				if( FAILED( hr ) )
+				if( !result )
 				{
-					OutputDebugString( L"Failed to Copy Data to Device Object\n" );
+					OutputDebugString(L"Failed to Copy Data to Device Object.\n");
 
-					ResourceRequest.bError = true;
-					if( ResourceRequest.pHR )
-						*ResourceRequest.pHR = hr;
+					ResourceRequest.error = effTRUE;
+					if( ResourceRequest.result != NULL )
+					{
+						*ResourceRequest.result = result;
+					}
 				}
 			}
 			else
 			{
-				ResourceRequest.pResource->LoadResourceError();
+				ResourceRequest.resource->LoadResourceError();
 			}
 
 			// send an unlock request
-			ResourceRequest.bLock = false;
-			EnterCriticalSection( &m_csRenderThreadQueue );
-			m_RenderThreadQueue.push_back( ResourceRequest );
-			LeaveCriticalSection( &m_csRenderThreadQueue );
+			ResourceRequest.lock = effFALSE;
+			EnterCriticalSection( &renderThreadQueueCriticalSection );
+			enderThreadQueue.push_back( ResourceRequest );
+			LeaveCriticalSection( &renderThreadQueueCriticalSection );
 		}
 	}
-	m_bIOThreadDone = true;
+
+	IOThreadDone = effTRUE;
 	return 0;
 }
 
@@ -230,47 +236,51 @@ effUINT EFF3DAsyncLoader::ProcessingThreadProc()
 {
 	effWCHAR szMessage[MAX_PATH];
 
-	effHRESULT hr = S_OK;
-	m_bProcessThreadDone = false;
-	while( !m_bDone )
+	processThreadDone = effFALSE;
+	while( !done )
 	{
 		// Acquire ProcessQueueSemaphore
-		WaitForSingleObject( m_hProcessQueueSemaphore, INFINITE );
-		if( m_bDone )
-			break;
-
-		m_NumProcessRequests ++;
-
-		// Pop a request off of the ProcessQueue
-		EnterCriticalSection( &m_csProcessQueue );
-		RESOURCE_REQUEST ResourceRequest = m_ProcessQueue[0];
-		m_ProcessQueue.erase(m_ProcessQueue.begin());
-		LeaveCriticalSection( &m_csProcessQueue );
-
-		// Decompress the data
-		if( !ResourceRequest.bError )
+		WaitForSingleObject( processQueueSemaphore, INFINITE );
+		if( done )
 		{
-			hr = ResourceRequest.pResource->Process();
+			break;
 		}
 
-		if( FAILED(hr) )
-		{
-			swprintf_s( szMessage, MAX_PATH, L"Processing Thread Error: hr = %x\n", hr );
-			OutputDebugString( szMessage );
+		processRequestsCount ++;
 
-			ResourceRequest.bError = true;
-			if( ResourceRequest.pHR )
-				*ResourceRequest.pHR = hr;
+		// Pop a request off of the ProcessQueue
+		EnterCriticalSection( &processQueueCriticalSection );
+		RESOURCE_REQUEST ResourceRequest = processQueue[0];
+		processQueue.erase(processQueue.begin());
+		LeaveCriticalSection( &processQueueCriticalSection );
+
+		effBOOL result;
+		// Decompress the data
+		if( !ResourceRequest.error )
+		{
+			result = ResourceRequest.resource->Process();
+		}
+
+		if( !result )
+		{
+			swprintf_s(szMessage, MAX_PATH, L"Processing Thread Error.\n");
+			OutputDebugString(szMessage);
+
+			ResourceRequest.error = effTRUE;
+			if( ResourceRequest.result != NULL )
+			{
+				*ResourceRequest.result = result;
+			}
 		}
 
 		// Add it to the RenderThreadQueue
-		ResourceRequest.bLock = true;
-		EnterCriticalSection( &m_csRenderThreadQueue );
-		m_RenderThreadQueue.push_back( ResourceRequest );
-		LeaveCriticalSection( &m_csRenderThreadQueue );
+		ResourceRequest.lock = effTRUE;
+		EnterCriticalSection( &renderThreadQueueCriticalSection );
+		enderThreadQueue.push_back( ResourceRequest );
+		LeaveCriticalSection( &renderThreadQueueCriticalSection );
 	}
 
-	m_bProcessThreadDone = true;
+	processThreadDone = effTRUE;
 	return 0;
 }
 
@@ -278,40 +288,40 @@ effUINT EFF3DAsyncLoader::ProcessingThreadProc()
 // Create 1 IO thread and multiple processing threads to handle all of our background
 // data loading.
 //--------------------------------------------------------------------------------------
-bool EFF3DAsyncLoader::InitAsyncLoadingThreadObjects(effUINT NumProcessingThreads)
+effBOOL EFF3DAsyncLoader::InitAsyncLoadingThreadObjects(effUINT NumProcessingThreads)
 {
 	LONG MaxSemaphoreCount = LONG_MAX;
 
 	// Create 2 semaphores
-	m_hIOQueueSemaphore = CreateSemaphore(NULL, 0, MaxSemaphoreCount, NULL);
-	m_hProcessQueueSemaphore = CreateSemaphore(NULL, 0, MaxSemaphoreCount, NULL);
+	IOQueueSemaphore = CreateSemaphore(NULL, 0, MaxSemaphoreCount, NULL);
+	processQueueSemaphore = CreateSemaphore(NULL, 0, MaxSemaphoreCount, NULL);
 
 	// Create the queue critical sections
-	InitializeCriticalSection(&m_csIOQueue);
-	InitializeCriticalSection(&m_csProcessQueue);
-	InitializeCriticalSection(&m_csRenderThreadQueue);
+	InitializeCriticalSection(&IOQueueCriticalSection);
+	InitializeCriticalSection(&processQueueCriticalSection);
+	InitializeCriticalSection(&renderThreadQueueCriticalSection);
 
 	// Create the Processing threads
-	m_NumProcessingThreads = NumProcessingThreads;
-	m_phProcessThreads = new effHANDLE[m_NumProcessingThreads];
+	processingThreadsCount = NumProcessingThreads;
+	processThreads = EFFNEW effHANDLE[processingThreadsCount];
 	
-	if( !m_phProcessThreads )
+	if( !processThreads )
 	{
-		return false;
+		return effFALSE;
 	}
 
-	for( effUINT i = 0; i < m_NumProcessingThreads; i++ )
+	for( effUINT i = 0; i < processingThreadsCount; i++ )
 	{
-		m_phProcessThreads[i] = (effHANDLE)_beginthreadex(NULL, 0, _ProcessingThreadProc, (effVOID *)this,
+		processThreads[i] = (effHANDLE)_beginthreadex(NULL, 0, _ProcessingThreadProc, (effVOID *)this,
 			CREATE_SUSPENDED, NULL);
 		// we would set thread affinity here if we wanted to lock this thread to a processor
-		ResumeThread(m_phProcessThreads[i]);
+		ResumeThread(processThreads[i]);
 	}
 
 	// Create the IO thread
-	m_hIOThread = (effHANDLE)_beginthreadex(NULL, 0, _FileIOThreadProc, (effVOID *)this, CREATE_SUSPENDED, NULL);
+	IOThread = (effHANDLE)_beginthreadex(NULL, 0, _FileIOThreadProc, (effVOID *)this, CREATE_SUSPENDED, NULL);
 	// we would set thread affinity here if we wanted to lock this thread to a processor
-	ResumeThread(m_hIOThread);
+	ResumeThread(IOThread);
 
 	return true;
 }
@@ -321,27 +331,29 @@ bool EFF3DAsyncLoader::InitAsyncLoadingThreadObjects(effUINT NumProcessingThread
 //--------------------------------------------------------------------------------------
 effVOID EFF3DAsyncLoader::DestroyAsyncLoadingThreadObjects()
 {
-	m_bDone = true;
+	done = effTRUE;
 
-	ReleaseSemaphore( m_hIOQueueSemaphore, 1, NULL );
-	ReleaseSemaphore( m_hProcessQueueSemaphore, 1, NULL );
+	ReleaseSemaphore(IOQueueSemaphore, 1, NULL);
+	ReleaseSemaphore(processQueueSemaphore, 1, NULL);
 
-	while( !m_bIOThreadDone || !m_bProcessThreadDone )
+	while( !IOThreadDone || !processThreadDone )
 	{
 		Sleep( 100 );
 	}
 
-	CloseHandle( m_hIOQueueSemaphore );
-	CloseHandle( m_hProcessQueueSemaphore );
+	CloseHandle(IOQueueSemaphore);
+	CloseHandle(processQueueSemaphore);
 
-	DeleteCriticalSection( &m_csIOQueue );
-	DeleteCriticalSection( &m_csProcessQueue );
-	DeleteCriticalSection( &m_csRenderThreadQueue );
+	DeleteCriticalSection(&IOQueueCriticalSection);
+	DeleteCriticalSection(&processQueueCriticalSection);
+	DeleteCriticalSection(&renderThreadQueueCriticalSection);
 
-	for( effUINT i = 0; i < m_NumProcessingThreads; i++ )
-		CloseHandle( m_phProcessThreads[i] );
+	for( effUINT i = 0; i < processingThreadsCount; i++ )
+	{
+		CloseHandle(processThreads[i]);
+	}
 
-	CloseHandle( m_hIOThread );
+	CloseHandle(IOThread);
 }
 
 //--------------------------------------------------------------------------------------
@@ -351,83 +363,86 @@ effVOID EFF3DAsyncLoader::DestroyAsyncLoadingThreadObjects()
 // how many items are in the queue, the graphics thread doesn't stall trying to process
 // all of them.
 //--------------------------------------------------------------------------------------
-effVOID EFF3DAsyncLoader::ProcessDeviceWorkItems( effUINT CurrentNumResourcesToService, BOOL bRetryLoads )
+effVOID EFF3DAsyncLoader::ProcessDeviceWorkItems(effUINT currentToServiceResourcesNum, BOOL retryLoads )
 {
-	effHRESULT hr = S_OK;
-
-	if ( m_RenderThreadQueue.size() == 0 )
+	if ( enderThreadQueue.size() == 0 )
 	{
 		return;
 	}
 
-	EnterCriticalSection( &m_csRenderThreadQueue );
-	effUINT numJobs = m_RenderThreadQueue.size();
-	LeaveCriticalSection( &m_csRenderThreadQueue );
+	EnterCriticalSection( &renderThreadQueueCriticalSection );
+	effUINT numJobs = enderThreadQueue.size();
+	LeaveCriticalSection( &renderThreadQueueCriticalSection );
 
-	for( effUINT i = 0; i < numJobs && i < CurrentNumResourcesToService; i++ )
+	for( effUINT i = 0; i < numJobs && i < currentToServiceResourcesNum; i++ )
 	{
-		EnterCriticalSection( &m_csRenderThreadQueue );
-		RESOURCE_REQUEST ResourceRequest = m_RenderThreadQueue[0];
-		m_RenderThreadQueue.erase(m_RenderThreadQueue.begin());
-		LeaveCriticalSection( &m_csRenderThreadQueue );
+		EnterCriticalSection( &renderThreadQueueCriticalSection );
+		RESOURCE_REQUEST ResourceRequest = enderThreadQueue[0];
+		enderThreadQueue.erase(enderThreadQueue.begin());
+		LeaveCriticalSection( &renderThreadQueueCriticalSection );
 
-		if( ResourceRequest.bLock )
+		if( ResourceRequest.lock )
 		{
-			if( !ResourceRequest.bError )
+			if( !ResourceRequest.error )
 			{
-				bool bFail = false;
-				if ( ResourceRequest.pResource->CreateRuntimeResource(m_pDevice) )
+				effBOOL fail = effFALSE;
+				effBOOL result = effTRUE;
+				if ( ResourceRequest.resource->CreateRuntimeResource(device) )
 				{
-					hr = ResourceRequest.pResource->Lock();
+					result = ResourceRequest.resource->Lock();
 
-					if( FAILED(hr) && bRetryLoads )
+					if( !result && retryLoads )
 					{
 						// add it back to the list
-						EnterCriticalSection( &m_csRenderThreadQueue );
-						m_RenderThreadQueue.push_back( ResourceRequest );
-						LeaveCriticalSection( &m_csRenderThreadQueue );
+						EnterCriticalSection( &renderThreadQueueCriticalSection );
+						enderThreadQueue.push_back( ResourceRequest );
+						LeaveCriticalSection( &renderThreadQueueCriticalSection );
 
 						// move on to the next guy
 						continue;
 					}
-					else if( FAILED(hr) )
+					else if( !result )
 					{
-						bFail = true;
+						fail = effTRUE;
 					}
 				}
 				else
 				{
-					bFail = true;
+					fail = effTRUE;
 				}
 
-				if ( bFail )
+				if ( fail )
 				{
-					ResourceRequest.bError = true;
-					if( ResourceRequest.pHR )
-						*ResourceRequest.pHR = hr;
+					ResourceRequest.error = effTRUE;
+					if( ResourceRequest.result != NULL )
+					{
+						*ResourceRequest.result = result;
+					}
 				}
 
 			}
 
-			ResourceRequest.bCopy = true;
-			EnterCriticalSection( &m_csIOQueue );
-			m_IOQueue.push_back( ResourceRequest );
-			LeaveCriticalSection( &m_csIOQueue );
+			ResourceRequest.copy = effTRUE;
+			EnterCriticalSection(&IOQueueCriticalSection);
+			IOQueue.push_back(ResourceRequest);
+			LeaveCriticalSection(&IOQueueCriticalSection);
 
 			// Signal that we have something to copy
-			ReleaseSemaphore( m_hIOQueueSemaphore, 1, NULL );
+			ReleaseSemaphore(IOQueueSemaphore, 1, NULL);
 		}
 		else
 		{
-			if( !ResourceRequest.bError )
+			if( !ResourceRequest.error )
 			{
-				HRESULT hr = ResourceRequest.pResource->Unlock();
-				if( ResourceRequest.pHR )
-					*ResourceRequest.pHR = hr;
+				effBOOL result = ResourceRequest.resource->Unlock();
+				if( ResourceRequest.result )
+				{
+					*ResourceRequest.result = result;
+				}
 			}
 
 			// Decrement num oustanding resources
-			m_NumOustandingResources --;
+			oustandingResourcesCount--;
 		}
 	}
 }

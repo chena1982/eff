@@ -11,7 +11,7 @@
 
 EFF3D_BEGIN
 
-class EFF3DIRenderable;
+class EFF3DRenderable;
 
 class EFF3DAutoParamDataSource
 {
@@ -19,9 +19,9 @@ public:
 	EFF3DAutoParamDataSource();
 	~EFF3DAutoParamDataSource();
 public:
-	effVOID										SetRenderable(EFF3DIRenderable * pRenderable);
+	effVOID										SetRenderable(EFF3DRenderable * renderable) { this->renderable = renderable; }
 protected:
-	EFF3DIRenderable	 *						m_pRenderable;
+	EFF3DRenderable *							renderable;
 };
 
 EFF3D_END

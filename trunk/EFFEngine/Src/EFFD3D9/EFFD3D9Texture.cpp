@@ -12,7 +12,7 @@
 #include "EFFD3D9Device.h"
 #include "EFFD3D9Texture.h"
 
-#define new EFFNEW
+////#define new EFFNEW
 
 
 EFFD3D9Texture::EFFD3D9Texture()
@@ -67,9 +67,8 @@ effHRESULT EFFD3D9Texture::UnlockRect(effUINT Level)
 	return m_pTexture->UnlockRect(Level);
 }
 
-effUINT EFFD3D9Texture::CalculateSize()
+effVOID EFFD3D9Texture::CalculateSize()
 {
-	return 0;
 }
 
 
@@ -96,16 +95,16 @@ effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & strFilePath)
 	GetCurrentDirectory(MAX_PATH,szDir);
 
 	EFFSTLFile file;
-	if ( !file.Open("../EditorRes/popup.png","rb") )
+	if ( !file.Open(_effT("../EditorRes/popup.png"), _effT("rb")) )
 	{
 		return effFALSE;
 	}
 
-	m_uiDataSize = file.Length();
+	dataSize = file.Length();
 
-	m_pData = new effBYTE[m_uiDataSize];
+	data = EFFNEW effBYTE[dataSize];
 	
-	file.Read(m_pData,m_uiDataSize);
+	file.Read(data, dataSize);
 	file.Close();
 
 
@@ -119,7 +118,7 @@ effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * pDevice)
 
 	EFFD3D9Device * pD3D9Device = (EFFD3D9Device *)pDevice;
 	
-	if ( FAILED(hr = D3DXCreateTextureFromFileInMemory(pD3D9Device->GetD3DDevice(),m_pData,m_uiDataSize,&m_pTexture)) )
+	if ( FAILED(hr = D3DXCreateTextureFromFileInMemory(pD3D9Device->GetD3D9Device(), data, dataSize, &m_pTexture)) )
 	{
 		return effFALSE;
 	}
@@ -140,21 +139,21 @@ effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * pDevice)
 }
 
 
-effHRESULT EFFD3D9Texture::Lock()
+effBOOL EFFD3D9Texture::Lock()
 {
-	return m_pTexture->LockRect(0,&m_lockedRect,NULL,0);
+	return FAILED(m_pTexture->LockRect(0, &m_lockedRect, NULL, 0));
 }
 
 
-effHRESULT EFFD3D9Texture::Unlock()
+effBOOL EFFD3D9Texture::Unlock()
 {
-	return m_pTexture->UnlockRect(0);
+	return FAILED(m_pTexture->UnlockRect(0));
 }
 
 effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
 {
 	effBYTE * pDest = (effBYTE *)m_lockedRect.pBits;
-	effBYTE * pSrc = m_pData;
+	effBYTE * pSrc = data;
 	for ( effUINT i = 0; i < m_ImageInfo.Height; i++ )
 	{
 		effUINT uiSize = sizeof(effUINT)*m_ImageInfo.Width;

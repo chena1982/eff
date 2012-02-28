@@ -13,6 +13,7 @@
 #include "EFFReflection.h"
 #include "EFFProperty.h"
 #include "EFFSTLFile.h"
+#include "EFFUtility.h"
 
 EFFBASE_BEGIN
 
@@ -31,26 +32,6 @@ struct EFFBASE_API ClassID
 	}
 };
 
-class EFFBASE_API AnsiUnicodeStringConvert
-{
-public:
-	static const effCHAR * W2A(const effWCHAR * str);
-	static const effWCHAR * A2W(const effCHAR * str);
-
-private:
-	static effCHAR charBuffer[1024];
-	static effWCHAR wcharBuffer[1024];
-};
-
-#if defined UNICODE || defined _UNICODE
-	#define EFFSTRING2ANSI(str) AnsiUnicodeStringConvert::W2A((str.c_str()))
-	#define ANSI2EFFSTRING(str) AnsiUnicodeStringConvert::A2W(str)
-#else
-	#define EFFSTRING2ANSI(str) (str).c_str()
-	#define ANSI2EFFSTRING(str) str
-#endif
-
-
 class EFFClass;
 
 void EFFRegisterClass(EFFClass * pClass);
@@ -66,9 +47,6 @@ ClassID EFFBASE_API ClassIDFromString(const effString & className);
 
 #define RTTI_CLASS(T)	((EFFClass *)(&T::runtimeInfoClass##T))
 #define RTTI_CLASSID(T)	((EFFClass *)(&T::runtimeInfoClass##T))->GetID()
-
-
-
 
 #define RTTI_DECLARE_BASE(CLASS)\
 public:\
@@ -107,6 +85,8 @@ public:\
 		virtual EFFClass * GetRuntimeClass() const;\
 	};
 
+
+
 #define RTTI_IMPLEMENT_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
 	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
 	EFFClass * CLASS##::GetThisClass()\
@@ -124,7 +104,14 @@ public:\
 		for ( effUINT i = 0; i < properties.size(); i++ )\
 		{\
 			EFFProperty * curProperty = properties[i];\
-			curProperty->GetSavePropertyFP()(file, this, curProperty);\
+			if ( curProperty->GetClass()->IsPODType() && !curProperty->GetIsSTLContainer() )\
+			{\
+				curProperty->GetSavePropertyFP()(file, this, curProperty);\
+			}\
+			else\
+			{\
+				curProperty->SaveToFile(file, ((effBYTE *)this) +  curProperty->GetOffset());\
+			}\
 		}\
 	}\
 	void CLASS##::SaveToFile(const effString & filePath)\
@@ -173,6 +160,9 @@ public:\
 
 
 
+
+
+
 class EFFBASE_API EFFClass
 {
 	friend class RegisterProperty;
@@ -213,25 +203,15 @@ public:
 private:
 	EFFClass(const EFFClass & rhs) {}
 public:
-	EFFClass * GetBaseClass() const 
-	{
-		return baseClass;
-	}
+	inline EFFClass * GetBaseClass() const { return baseClass; }
 
-	const effString & GetClassName() const
-	{
-		return className;
-	}
+	inline const effString & GetClassName() const { return className; }
 
-	effUINT GetVersion() const
-	{
-		return version;
-	}
+	inline effUINT GetVersion() const { return version; }
 
-	const ClassID & GetID() const
-	{
-		return id; 
-	}
+	inline const ClassID & GetID() const { return id; }
+
+	inline effBOOL IsPODType() const { return isPOD; }
 
 	std::vector<EFFProperty *> & GetProperties()
 	{
@@ -271,25 +251,70 @@ public:
 		return false;
 	}
 
-	template<typename ClassType, typename PropertyType>
-	inline static effString GetClassName(PropertyType ClassType::*member)
+	template<typename PropertyType>
+	effBOOL GetProperty(const effString & propertyName, effVOID * baseAddress, PropertyType & result)
 	{
-		return GetClassName(member, boost::is_pod<PropertyType>());
+		for ( effUINT i = 0; i < properties.size(); i++ )
+		{
+			if ( properties[i]->name == propertyName )
+			{
+				result = *((PropertyType *)((effBYTE *)baseAddress + properties[i]->GetOffset()));
+				return effTRUE;
+			}
+		}
+
+		return effFALSE;
 	}
 
-	template<typename ClassType, typename PropertyType>
+	//GetClassName-------------------------------------------------------------------------------------------------
+	/*template<typename PropertyType, typename IsPODType>
+	class ClassNameTrait
+	{
+	public:
+		effString operator ()()
+		{
+			return effString("class name trait error");
+
+		}
+	};
+
+	template<typename PropertyType>
+	class ClassNameTrait<PropertyType, boost::true_type>
+	{
+	public:
+		effString operator ()()
+		{
+			return getPODTypeClassName(typeid(PropertyType).name());
+		}
+	};
+
+	template<typename PropertyType>
+	class ClassNameTrait<PropertyType, boost::false_type>
+	{
+	public:
+		effString operator ()()
+		{
+			effString className = PropertyType::GetThisClass()->className;
+			return className;
+		}
+	};
+
+
+	template<>
+	class ClassNameTrait<effString, boost::true_type>
+	{
+	public:
+		effString operator ()()
+		{
+			return _effT("effString");
+		}
+	};*/
+
+	/*template<typename ClassType, typename PropertyType>
 	inline static effString GetClassName(PropertyType ClassType::*member, boost::true_type)
 	{
-		const char * propertyTypeName = typeid(PropertyType).name();
-		if ( strcmp(propertyTypeName, "int") == 0 )
-		{
-			return effString(_effT("effINT"));
-		}
-		else if ( strcmp(propertyTypeName, "float") == 0 )
-		{
-			return effString(_effT("effFLOAT"));
-		}
-		return effString(_effT("unkown pod type"));
+		const effCHAR * propertyTypeName = typeid(PropertyType).name();
+		return getPODTypeClassName(propertyTypeName);
 	}
 
 	template<typename ClassType, typename PropertyType>
@@ -312,31 +337,21 @@ public:
 	{
 		return effString(_effT("effString"));
 	};
-#endif
+#endif*/
 
 
 
 
-	template<class ClassType, class PropertyType>
-	void AddProperty(PropertyType ClassType::*member, const effString & name)
+	//AddProperty-------------------------------------------------------------------------------------------------
+	/*template<typename ClassType, typename PropertyType>
+	effVOID AddProperty(PropertyType ClassType::*member, const effString & name)
 	{
-		EFFClass * propertyClass = EFFGetClass(GetClassName(member, boost::is_pod<PropertyType>()));
-		_addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
-	}
+		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
+		EFFProperty * addedProperty = addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
 
-
-protected:
-	inline void _addProperty(effLONG offset, effLONG size, const effString & name, EFFClass * Class)
-	{
-		EFFProperty * addedProperty = EFFNEW EFFProperty();
-		addedProperty->offset = offset;
-		addedProperty->size = size;
-		addedProperty->name = name;
-		addedProperty->Class = Class;
-
-		if ( Class->isPOD )
+		if ( propertyClass->isPOD )
 		{
-			if ( Class->className == _effT("effString") )
+			if ( propertyClass->className == _effT("effString") )
 			{
 				addedProperty->savePropertyFP = &SaveStringProperty;
 			}
@@ -345,13 +360,78 @@ protected:
 				addedProperty->savePropertyFP = &SavePODProperty;
 			}
 		}
+	}
+
+
+	//vector property
+	template<typename ClassType, typename PropertyType>
+	effVOID AddProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
+	{
+
+		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
+		EFFProperty * addedProperty = addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
+		addedProperty->isSTLContainer = effTRUE;
+		addedProperty->isPointer = effFALSE;
+		addedProperty->savePropertyFP = SaveVectorProperty<PropertyType>;
+
+	}
+
+	template<typename ClassType, typename PropertyType>
+	effVOID AddPODProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
+	{
+		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
+		EFFProperty * addedProperty = addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
+		addedProperty->isSTLContainer = effTRUE;
+		addedProperty->isPointer = effFALSE;
+		addedProperty->savePropertyFP = SavePODVectorProperty<PropertyType>;
+	}
+
+	template<typename ClassType, typename PropertyType>
+	effVOID AddProperty(std::vector<PropertyType *> ClassType::*member, const effString & name)
+	{
+		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
+		EFFProperty * addedProperty = addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
+		addedProperty->isSTLContainer = effTRUE;
+		addedProperty->isPointer = effTRUE;
+
+		if ( propertyClass->isPOD )
+		{
+			BOOST_ASSERT_MSG(effFALSE, "dont't support pod pointer vector property.");
+		}
 		else
 		{
-
+			addedProperty->savePropertyFP = SavePointerVectorProperty<PropertyType>;
 		}
+	}*/
 
-		properties.push_back(addedProperty);
+	
+	template<typename ClassType, typename PropertyType>
+	effVOID AddProperty(PropertyType ClassType::*member, const effString & name)
+	{
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
+		addProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
 	}
+
+	template<typename ClassType, typename PropertyType>
+	effVOID AddProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
+	{
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
+		addProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+	}
+
+	template<typename ClassType, typename PropertyType>
+	effVOID AddProperty(std::vector<PropertyType *> ClassType::*member, const effString & name)
+	{
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
+		addProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+	}
+protected:
+	effVOID addProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name);
+	//static effString		getPODTypeClassName(const effCHAR * propertyTypeName);
+
+
+
+
 
 protected:
 	ClassID										id;
@@ -366,6 +446,7 @@ protected:
 template<class T>
 class EFFClassImpl : public EFFClass
 {
+	typedef T classType;
 public:
 	virtual effVOID * CreateObject() { return new T; }
 
@@ -403,7 +484,7 @@ public:
 	RegisterProperty(const effString & podPropertyTypeName, EFFClass * Class, effULONG offset, effULONG size, const effString & name)
 	{
 		EFFClass * propertyClass = EFFGetClass(podPropertyTypeName);
-		Class->_addProperty(offset, size, name, propertyClass);
+		//Class->addProperty(offset, size, name, propertyClass);
 	}
 
 };

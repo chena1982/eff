@@ -9,7 +9,7 @@
 #define __EFFBase_2008_12_12__
 
 
-#include ".\EFFBase\EFFBaseBaseDefines.h"
+#include ".\EFFBase\EFFBaseDefines.h"
 #include ".\EFFBase\EFFMemory.h"
 #include ".\EFFBase\EFFSerialize.h"
 #include ".\EFFBase\EFFRtti.h"
@@ -21,6 +21,7 @@
 #include ".\EFFBase\EFFComponent.h"
 #include ".\EFFBase\EFFIProxy.h"
 #include ".\EFFBase\EFFEvent.h"
+#include ".\EFFBase\EFFSTLRttiWrap.h"
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

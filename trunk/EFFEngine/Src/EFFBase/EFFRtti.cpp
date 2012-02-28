@@ -8,9 +8,8 @@
 
 #include "stdafx.h"
 #include "EFFRtti.h"
+#include "EFFProperty.h"
 
-
-#define new EFFNEW
 
 EFFBASE_BEGIN
 
@@ -136,9 +135,54 @@ ClassID ClassIDFromString(const effString & className)
 	return classId;
 }
 
+effVOID EFFClass::addProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name)
+{
+	addedProperty->SetOffset(offset);
+	addedProperty->SetSize(size);
+	addedProperty->SetName(name);
+	//addedProperty->SetClass(propertyClass);
+	EFFClass * propertyClass = addedProperty->GetClass();
+
+	if ( propertyClass != NULL && propertyClass->isPOD )
+	{
+		if ( propertyClass->className == _effT("effString") )
+		{
+			addedProperty->SetSavePropertyFP(SaveStringProperty);
+		}
+		else
+		{
+			addedProperty->SetSavePropertyFP(SavePODProperty);
+		}
+	}
+
+	properties.push_back(addedProperty);
+}
 
 
+/*effString EFFClass::getPODTypeClassName(const effCHAR * propertyTypeName)
+{
+	if ( strcmp(propertyTypeName, "int") == 0 )
+	{
+		return effString(_effT("effINT"));
+	}
+	else if ( strcmp(propertyTypeName, "float") == 0 )
+	{
+		return effString(_effT("effFLOAT"));
+	}
+	return effString(_effT("unkown pod type"));
+}*/
 
-
+effString GetPODTypeClassName(const effCHAR * propertyTypeName)
+{
+	if ( strcmp(propertyTypeName, "int") == 0 )
+	{
+		return effString(_effT("effINT"));
+	}
+	else if ( strcmp(propertyTypeName, "float") == 0 )
+	{
+		return effString(_effT("effFLOAT"));
+	}
+	return effString(_effT("unkown pod type"));
+}
 
 EFFBASE_END

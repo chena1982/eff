@@ -1,5 +1,5 @@
 /******************************************************************************
-	created:	2008-12-15   0:48
+	created:	2008-12-15   1:21
 	file path:	d:\EFF\EFFEngine\Include\EFF3D\EFF3DRenderQueue.h
 	author:		ChenA
 	
@@ -10,24 +10,24 @@
 
 EFF3D_BEGIN
 
-class EFF3DRenderQueueGroup;
-class EFF3DAutoParamDataSource;
-class EFF3DIRenderable;
+class EFF3DRenderable;
 class EFF3DDevice;
+
+
 
 class EFF3DRenderQueue
 {
 public:
-	EFF3DRenderQueue();
-	~EFF3DRenderQueue();
+	EFF3DRenderQueue() {}
+	virtual ~EFF3DRenderQueue() {}
 public:
-	effVOID											AddRenderable(EFF3DIRenderable * pRenderable);
-	effVOID											RemoveRenderable(EFF3DIRenderable * pRenderable);
-	effVOID											Render(	EFF3DDevice * pDevice,EFF3DAutoParamDataSource * pDataSource);
+	virtual effVOID						AddRenderable(EFF3DRenderable * renderable) {}
+	virtual effVOID						RemoveRenderable(EFF3DRenderable * renderable) {}
+	//virtual EFF3DIRenderable *	GetFirstRenderable() = 0;
+	//virtual EFF3DIRenderable *	GetNextRenderable() = 0;
+	virtual effVOID						Render(EFF3DDevice * device) {}
 protected:
-	EFF3DRenderQueueGroup *				GetRenderQueueGroup(EFF3DIRenderable * pRenderable,effUINT uiRGQIndex);
-protected:
-	std::map<effUINT,EFF3DRenderQueueGroup *>					m_mapRQG;
+	std::vector<EFF3DRenderable *>		renderables;
 };
 
 EFF3D_END

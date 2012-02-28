@@ -25,7 +25,7 @@
 //如果要使用调试版的python26_d.lib，boost.python也需要使用python26_d.lib，这时需要定义BOOST_DEBUG_PYTHON，否则会链接到使用python26.lib的boost.python库
 #include <boost/python/detail/wrap_python.hpp>
 
-#include "EFFBaseBaseDefines.h"
+#include "EFFBaseDefines.h"
 #include "EFFMemory.h"
 
 

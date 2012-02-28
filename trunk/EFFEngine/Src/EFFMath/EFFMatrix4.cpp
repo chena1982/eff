@@ -11,7 +11,7 @@
 #include "EFFVector3.h"
 #include "EFFMatrix4.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFFMatrix4::EFFMatrix4()
 {

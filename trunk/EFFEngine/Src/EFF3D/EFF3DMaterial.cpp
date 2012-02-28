@@ -15,7 +15,7 @@
 
 #include <boost/python.hpp>
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 

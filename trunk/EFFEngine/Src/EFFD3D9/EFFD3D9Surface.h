@@ -22,15 +22,15 @@ public:
 	virtual effHRESULT					LockRect(EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags);
 	virtual effHRESULT					UnlockRect();
 
-	effUINT									CalculateSize();
-	effBOOL									Reload();
-	effVOID									Unload();
+	effVOID								CalculateSize();
+	effBOOL								Reload();
+	effVOID								Unload();
 
 protected:
-	effBOOL									LoadDataFromFile(const effString & strFilePath);
-	effBOOL									CreateRuntimeResource(EFF3DDevice * pDevice);
+	effBOOL								LoadDataFromFile(const effString & strFilePath);
+	effBOOL								CreateRuntimeResource(EFF3DDevice * pDevice);
 protected:
-	LPDIRECT3DSURFACE9				m_pSurface;
+	LPDIRECT3DSURFACE9					m_pSurface;
 };
 
 #endif

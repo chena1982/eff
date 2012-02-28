@@ -12,6 +12,7 @@
 
 #include "EFFFile.h"
 #include "EFFProperty.h"
+#include "EFFRtti.h"
 
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
@@ -41,6 +42,23 @@ struct ArgReadBin
 };
 
 
+
+
+
+
+
+template<typename PropertyType>
+inline void SaveProperty(EFFFile * file, PropertyType & data)
+{
+	data.SaveToFile(file);
+}
+
+inline void SaveProperty(EFFFile * file, effString & data)
+{
+}
+
+
+
 inline void SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
 {
 	effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
@@ -55,7 +73,88 @@ inline void SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty *
 	file->Write(source, property->GetSize());
 }
 
-template<typename T>
+template<typename PropertyType, typename IsPOD>
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+
+}
+
+template<typename PropertyType>
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+}
+
+/*template<typename PropertyType>
+inline void SavePODVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+	std::vector<PropertyType> & datas = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + property->GetOffset()));
+	std::vector<PropertyType>::iterator it = datas.begin();
+
+	effUINT size = datas.size();
+	file->Write(&size, 4);
+
+	if ( !property->GetClass()->IsPODType() )
+	{
+		BOOST_ASSERT_MSG(effFALSE, "code should not go here.");
+		return;
+	}
+
+	if ( property->GetClass()->GetClassName() == _effT("effString") )
+	{
+		for ( ; it != datas.end(); it++ )
+		{
+			effString & element = *((effString *)(effVOID *)(&(*it)));
+			effUINT length = element.length();
+			file->Write(&length, 4);
+			file->Write((effVOID *)element.c_str(), length * sizeof(effTCHAR));
+		}
+	}
+	else
+	{
+		effULONG vectorOffset = reinterpret_cast<effULONG>((effVOID *)&datas[0]) - reinterpret_cast<effULONG>((effVOID *)&datas);
+		effVOID * source = (effVOID *)((effBYTE *)baseAddress + property->GetOffset() + vectorOffset);
+		file->Write(source, property->GetSize() * datas.size());
+	}
+
+}
+
+template<typename PropertyType>
+inline void SaveVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+	std::vector<PropertyType> & datas = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + property->GetOffset()));
+	std::vector<PropertyType>::iterator it = datas.begin();
+
+	effUINT size = datas.size();
+	file->Write(&size, 4);
+
+	for ( effUINT i = 0; i < datas.size(); i++ )
+	{
+		PropertyType & element = datas[i];
+		element.SaveToFile(file);
+	}
+}
+
+template<typename PropertyType>
+inline void SavePointerVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+{
+	std::vector<PropertyType *> & datas = *((std::vector<PropertyType *> *)((effBYTE *)baseAddress + property->GetOffset()));
+	std::vector<PropertyType *>::iterator it = datas.begin();
+
+	effUINT size = datas.size();
+	file->Write(&size, 4);
+
+
+	for ( effUINT i = 0; i < datas.size(); i++ )
+	{
+		PropertyType * element = datas[i];
+		element->SaveToFile(file);
+	}		
+
+}*/
+
+
+
+/*template<typename T>
 inline void SaveProperty(T & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
 	pArgWriteBin->pFile->Write(&data,sizeof(T));
@@ -137,7 +236,7 @@ inline void SaveProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost
 	{
 		data[i].SaveToFile(pArgWriteBin->pFile);
 	}
-}
+}*/
 
 
 EFFBASE_END

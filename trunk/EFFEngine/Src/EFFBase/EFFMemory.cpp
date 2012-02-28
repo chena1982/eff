@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFMemory.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 
 #ifdef _DEBUG

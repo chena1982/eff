@@ -52,7 +52,7 @@ documentation and/or software.
 #include <iostream>
 
 
-#define new EFFNEW
+//#define new EFFNEW
 
 
 // MD5 simple initialization method

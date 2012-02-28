@@ -61,7 +61,13 @@
     <ClCompile Include="..\..\..\Src\EFFBase\md5.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFBaseBaseDefines.cpp">
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFBaseDefines.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFSTLRttiWrap.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFUtility.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Src\EFFBase\malloc.h">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFBaseBaseDefines.h">
-      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFEvent.h">
       <Filter>Base</Filter>
@@ -123,6 +126,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Src\EFFBase\md5.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFSTLRttiWrap.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFBaseDefines.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\EFFBase\EFFUtility.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

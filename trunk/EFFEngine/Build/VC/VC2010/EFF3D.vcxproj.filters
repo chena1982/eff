@@ -64,18 +64,6 @@
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.cpp">
       <Filter>渲染流程框架</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DIRenderable.cpp">
-      <Filter>渲染流程框架</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp">
-      <Filter>渲染流程框架</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroup.cpp">
-      <Filter>渲染流程框架</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.cpp">
-      <Filter>渲染流程框架</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAsyncLoader.cpp">
       <Filter>资源管理</Filter>
     </ClCompile>
@@ -102,6 +90,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.cpp">
       <Filter>地形\MyTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DObject.cpp">
+      <Filter>用户接口</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderable.cpp">
+      <Filter>渲染流程框架</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueManager.cpp">
+      <Filter>渲染流程框架</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.cpp">
+      <Filter>渲染流程框架</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp">
+      <Filter>渲染流程框架</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,21 +137,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.h">
       <Filter>渲染流程框架</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIRenderable.h">
-      <Filter>渲染流程框架</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueue.h">
-      <Filter>渲染流程框架</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueGroup.h">
-      <Filter>渲染流程框架</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.h">
-      <Filter>渲染流程框架</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIEntity.h">
-      <Filter>用户接口</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DBaseDefines.h">
       <Filter>Base</Filter>
@@ -184,5 +172,20 @@
       <Filter>地形\MyTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DObject.h">
+      <Filter>用户接口</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderable.h">
+      <Filter>渲染流程框架</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueManager.h">
+      <Filter>渲染流程框架</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueue.h">
+      <Filter>渲染流程框架</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.h">
+      <Filter>渲染流程框架</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

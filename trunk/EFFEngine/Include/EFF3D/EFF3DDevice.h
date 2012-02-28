@@ -18,7 +18,7 @@ class EFF3DIndexBuffer;
 class EFF3DSurface;
 class EFF3DAsyncLoader;
 class EFF3DImageManager;
-class EFF3DIResource;
+class EFF3DResource;
 class EFF3DAutoParamDataSource;
 class EFF3DMaterial;
 
@@ -85,13 +85,15 @@ public:
 public:
 	EFF3DImageManager *			GetImageManager() { return m_pImageManager; }
 	EFF3DAsyncLoader *			GetAsyncLoader() { return m_pAsyncLoader; }
+	EFF3DAutoParamDataSource *	GetAutoParamDataSource() { return m_pAutoParamDataSource; }
+
 	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
 	effVOID						SetBackBufferSize(effINT nWidth,effINT nHeight);
 	effINT						GetBackBufferWidth() { return m_nWidth; }
 	effINT						GetBackBufferHeight() { return m_nHeight; }
 
 protected:
-	virtual EFF3DIResource *	CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
+	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
 	virtual effHRESULT			DrawQuad(EFFRect * pRect);
 private:
 

@@ -12,7 +12,7 @@
 #include "EFF3DIndexBuffer.h"
 #include "EFF3DTerrainROAMImproveTileData.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 
@@ -38,9 +38,9 @@ EFF3DTerrainROAMImproveTileData::~EFF3DTerrainROAMImproveTileData()
 {
 }
 
-effUINT EFF3DTerrainROAMImproveTileData::CalculateSize()
+effVOID EFF3DTerrainROAMImproveTileData::CalculateSize()
 {
-	return 0;
+
 }
 
 effBOOL EFF3DTerrainROAMImproveTileData::Reload()

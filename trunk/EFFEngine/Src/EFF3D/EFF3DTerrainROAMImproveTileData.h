@@ -89,7 +89,7 @@ protected:
 
 	};
 public:
-	virtual effUINT								CalculateSize();
+	virtual effVOID								CalculateSize();
 	virtual effBOOL								Reload();
 	virtual effVOID								Unload();
 

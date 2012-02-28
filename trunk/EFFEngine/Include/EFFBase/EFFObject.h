@@ -13,28 +13,28 @@
 
 EFFBASE_BEGIN
 
-class EFFBASE_API EFFObject
+class EFFBASE_API EFFObject : public EFFReferenceCount
 {
 	friend class EFFObjectManager;
-	RTTI_DECLARE_BASE(EFFObject)
+	RTTI_DECLARE(EFFObject, EFFReferenceCount)
 public:
 	virtual ~EFFObject();
 
-private:
+protected:
 	EFFObject();
-	effULONG			AddRef();
-	effULONG			Release();
 	void				SetObjectID(effULONG objectId) { this->objectId = objectId; }
 public:
 	EFFComponent *		GetComponent(ClassID & classID);
+	EFFComponent *		GetComponent(effINT index);
+	effINT				GetComponentCount() { return components.size(); }
+
 	EFFComponent *		AddComponent(ClassID & classID);
 	effULONG			GetObjectID() { return objectId; }
-	effULONG			GetRef() { return refCount; }
+
 
 protected:
 	effULONG						objectId;
-	effULONG						refCount;
-	std::vector<EFFComponent *>		componentArray;
+	std::vector<EFFComponent *>		components;
 };
 
 

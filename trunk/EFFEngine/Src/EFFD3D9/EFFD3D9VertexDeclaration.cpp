@@ -10,7 +10,7 @@
 #include "EFFD3D9VertexDeclaration.h"
 #include "EFFD3D9Device.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 
 EFFD3D9VertexDeclaration::EFFD3D9VertexDeclaration()
@@ -52,7 +52,7 @@ LPDIRECT3DVERTEXDECLARATION9 EFFD3D9VertexDeclaration::GetD3D9VertexDeclaration(
 		d3delems[i].Usage = 0;
 		d3delems[i].UsageIndex = 0;
 
-		HRESULT hr = pDevice->GetD3DDevice()->CreateVertexDeclaration(d3delems, &m_pVertexDeclaration);
+		HRESULT hr = pDevice->GetD3D9Device()->CreateVertexDeclaration(d3delems, &m_pVertexDeclaration);
 
 		if ( FAILED(hr) )
 		{

@@ -16,18 +16,26 @@ class EFFObject;
 
 
 
-class EFFObjectManager
+class EFFBASE_API EFFObjectManager
 {
+	RTTI_DECLARE_BASE(EFFObjectManager);
 public:
 	EFFObjectManager();
-	~EFFObjectManager();
+	virtual ~EFFObjectManager();
 public:
-	EFFObject *			CreateObject(ClassID & classId);
-	void				ReleaseObject(EFFObject * object);
-	EFFObject *			GetObject(ClassID & classId, effULONG objectId);
+	EFFObject *			CreateObject(EFFClass * Class);
+	effVOID				ReleaseObject(EFFObject * object);
+	EFFObject *			GetObject(effUINT objectId);
 protected:
-	std::map<ClassID, std::map<effULONG, EFFObject *>>		objectMap;
+	effVOID				CalculateNextId();
+protected:
+	effUINT							currentId;
+	std::vector<effUINT>			recycledIds;
+	std::map<effUINT, EFFObject *>	objects;
 };
+
+EFFBASE_API effVOID EFFRegisterObjectManager(EFFObjectManager * objectManager);
+EFFBASE_API EFFObjectManager * EFFGetObjectManager(EFFClass * Class);
 
 EFFBASE_END
 

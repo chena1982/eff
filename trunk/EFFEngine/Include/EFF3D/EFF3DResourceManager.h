@@ -10,7 +10,7 @@
 
 EFF3D_BEGIN
 
-class EFF3DIResource;
+class EFF3DResource;
 class EFF3DDevice;
 
 #define DECLARE_CREATE_FROM_FILE(N)\
@@ -22,7 +22,7 @@ EFF3DIResource *		CreateFromFile(const effString & strFilePath,__REPEAT(N, __ARG
 template<__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
 EFF3DIResource *		CreateFromFileImpl(const effString & strFilePath,__REPEAT(N, __ARG__, __COMMA__, __NOTHING__));
 
-class EFF3D_API EFF3DResourceManager
+class EFF3D_API EFF3DResourceManager : public EFFObjectManager
 {
 public:
 	EFF3DResourceManager();
@@ -37,18 +37,18 @@ public:
 
 	//为了便于调试，这里不用宏来生成代码，手动把宏展开
 
-	template<class T0>
-	EFF3DIResource * CreateFromFile(const effString & strFilePath,T0 t0)
+	template<typename T0>
+	EFF3DResource * CreateFromFile(const effString & filePath, T0 t0)
 	{
-		ResourceMap::iterator it = m_mapResources.find(strFilePath);
-		if ( it != m_mapResources.end() )
+		ResourceMap::iterator it = resources.find(filePath);
+		if ( it != resources.end() )
 		{
 			it->second->AddRef();
 			return it->second;
 		}
 
-		EFF3DIResource * ret = NULL;
-		OnCreateFromFile(&strFilePath, t0, &ret);
+		EFF3DResource * ret = NULL;
+		OnCreateFromFile(&filePath, t0, &ret);
 
 		if ( ret != NULL )
 		{
@@ -58,8 +58,8 @@ public:
 		return ret;
 	}
 
-	template<class T0,class T1>
-	EFF3DIResource * CreateFromFile(const effString & strFilePath,T0 t0,T1 t1)
+	template<typename T0, typename T1>
+	EFF3DResource * CreateFromFile(const effString & filePath, T0 t0, T1 t1)
 	{
 		ResourceMap::iterator it = m_mapResources.find(strFilePath);
 		if ( it != m_mapResources.end() )
@@ -68,7 +68,7 @@ public:
 			return it->second;
 		}
 
-		EFF3DIResource * ret = NULL;
+		EFF3DResource * ret = NULL;
 		OnCreateFromFile(strFilePath, t0, t1, &ret);
 		if ( ret != NULL )
 		{
@@ -82,31 +82,25 @@ public:
 	//DECLARE_CREATE_FROM_FILE_IMPL(1)
 	//DECLARE_CREATE_FROM_FILE_IMPL(2)
 public:
-	EFF3DIResource *							AsyncCreateFromFile(const effString & strFilePath,EFF3DRESOURCETYPE resourceType,EFF3DDevice * pDevice);
-
-
-
-
-
+	EFF3DResource *					AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType, EFF3DDevice * device);
 protected:
-	effVOID										AddFirstCreateResource(EFF3DIResource * res);
-	effVOID										AddResource(EFF3DIResource * res);
-	effVOID										CalculateNextId();
+	effVOID							AddFirstCreateResource(EFF3DResource * res);
+	effVOID							AddResource(EFF3DResource * res);
+
 public:
-	typedef std::map<effString,EFF3DIResource *>			ResourceMap;
-	typedef std::map<effULONG,EFF3DIResource *>		ResourceIdMap;
+	typedef std::map<effString, EFF3DResource *>	ResourceMap;
+	//typedef std::map<effULONG, EFF3DResource *>		ResourceIdMap;
 protected:
-	ResourceMap						m_mapResources;
-	ResourceIdMap						m_mapResourcesById;
-	effULONG								m_ulCurrentId;
-	effUINT							m_dwMemoryUsage;
-	effUINT							m_dwVideoMemoryUsage;
-	effUINT							m_dwAGPMemroyUsage;
-	std::vector<effULONG>		m_aryRecoveredId;
-	effBOOL								m_bLastIdIsRecovered;
+	ResourceMap						resources;
+	//ResourceIdMap					resourcesId;
 
-	EFFEvent								OnCreateFromFile;
-	EFFEvent								OnAsyncCreateFromFile;
+	effUINT							memoryUsed;
+	effUINT							videoMemoryUsed;
+	effUINT							AGPMemroyUsed;
+
+
+	EFFEvent						OnCreateFromFile;
+	EFFEvent						OnAsyncCreateFromFile;
 };
 
 

@@ -22,19 +22,19 @@ public:
 	effHRESULT								LockRect(effUINT Level,EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags);
 	effHRESULT								UnlockRect(effUINT Level);
 
-	effUINT									CalculateSize();
+	effVOID									CalculateSize();
 	effBOOL									Reload();
 	effVOID									Unload();
 protected:
 	effBOOL									LoadDataFromFile(const effString & strFilePath);
 	effBOOL									CreateRuntimeResource(EFF3DDevice * pDevice);
-	effHRESULT								Lock();
-	effHRESULT								Unlock();
+	effBOOL									Lock();
+	effBOOL									Unlock();
 	effBOOL									CopyDataToRuntimeResource();
 protected:
-	LPDIRECT3DTEXTURE9				m_pTexture;
+	LPDIRECT3DTEXTURE9						m_pTexture;
 	EFF3DDevice *							m_pDevice;
-	D3DLOCKED_RECT					m_lockedRect;
+	D3DLOCKED_RECT							m_lockedRect;
 };
 
 #endif

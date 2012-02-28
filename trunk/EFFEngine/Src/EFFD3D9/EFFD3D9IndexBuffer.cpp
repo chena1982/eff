@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFD3D9IndexBuffer.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFFD3D9IndexBuffer::EFFD3D9IndexBuffer()
 {

@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFF3DMyTerrain.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 

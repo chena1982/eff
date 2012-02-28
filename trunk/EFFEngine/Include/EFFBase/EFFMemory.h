@@ -110,9 +110,7 @@
 		#define EFFNEW	new(__FILE__,__LINE__)
 	#else
 		#define EFFNEW	new
-	#endif 
-
-	#undef new
+	#endif
 #else
 	#define EFFNEW new
 #endif //end of _NOEFFNEW

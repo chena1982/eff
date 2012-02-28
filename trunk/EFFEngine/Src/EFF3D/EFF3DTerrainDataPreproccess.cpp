@@ -13,7 +13,7 @@
 #include "EFF3DTerrainROAMImproveTileData.h"
 #include "EFF3DTerrainDataPreproccess.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 //地形网格的大小是16384*16384，分辨率是10m，贴图的大小是16385*16385
 //地形tile的大小是513*513

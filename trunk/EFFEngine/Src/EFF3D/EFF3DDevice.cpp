@@ -16,7 +16,7 @@
 #include "EFF3DEffect.h"
 #include "EFF3DDevice.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 

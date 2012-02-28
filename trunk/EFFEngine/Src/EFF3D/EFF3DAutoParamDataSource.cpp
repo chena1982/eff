@@ -9,13 +9,13 @@
 #include "stdafx.h"
 #include "EFF3DAutoParamDataSource.h"
 
-#define new EFFNEW
+////#define new EFFNEW
 
 EFF3D_BEGIN
 
 EFF3DAutoParamDataSource::EFF3DAutoParamDataSource()
 {
-	m_pRenderable = NULL;
+	renderable = NULL;
 }
 
 EFF3DAutoParamDataSource::~EFF3DAutoParamDataSource()
@@ -23,9 +23,5 @@ EFF3DAutoParamDataSource::~EFF3DAutoParamDataSource()
 }
 
 
-effVOID EFF3DAutoParamDataSource::SetRenderable(EFF3DIRenderable * pRenderable)
-{
-	m_pRenderable = pRenderable;
-}
 
 EFF3D_END

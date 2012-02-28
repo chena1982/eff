@@ -34,25 +34,21 @@ class EFF3DDevice;
 //   6.数据拷贝完成之后解锁运行时资源
 //其中io只有一个线程，数据处理线程可以有多个
 
-class EFF3D_API EFF3DIResource : public EFFIUnknown
+/*class EFF3D_API EFF3DIResource : public EFFComponent
 {
-	RTTI_DECLARE_PURE(EFF3DIResource,EFFIUnknown)
+	RTTI_DECLARE_PURE(EFF3DIResource, EFFComponent)
 
-	EFFIUNKNOWN_DECLARE
 
-	BEGIN_INTERFACE_TABLE(EFF3DIResource)
-		IMPLEMENTS_INTERFACE(EFFIUnknown)
-	END_INTERFACE_TABLE()
 
 	friend class EFF3DAsyncLoader;
 public:
 
 	virtual effVOID								SetOrigin(const effString & strOrigin) = 0;
-	virtual const effString &				GetOrigin() const = 0;
+	virtual const effString &					GetOrigin() const = 0;
 	virtual effVOID								SetName(const effString & strName) = 0;
-	virtual const effString &				GetName() const = 0;
+	virtual const effString &					GetName() const = 0;
 	virtual effVOID								SetResourceManager(EFF3DResourceManager * pManager) = 0;
-	virtual EFF3DResourceManager *	GetResourceManager() const = 0;
+	virtual EFF3DResourceManager *				GetResourceManager() const = 0;
 	virtual effVOID								SetUnloaded(effBOOL bUnloaded) = 0;
 	virtual effBOOL								IsUnloaded() const = 0;
 	virtual effBOOL								IsLoaded() const = 0;
@@ -72,23 +68,23 @@ protected:
 	virtual effBOOL								Process() = 0;
 	virtual effBOOL								CreateRuntimeResource(EFF3DDevice * pDevice) = 0;
 
-	virtual effHRESULT						Lock() = 0;
+	virtual effHRESULT							Lock() = 0;
 	virtual effBOOL								CopyDataToRuntimeResource() = 0;
-	virtual effHRESULT						Unlock() = 0;
+	virtual effHRESULT							Unlock() = 0;
 
 	virtual effVOID								LoadResourceError() = 0;
 	virtual effVOID								LoadResourceEnd() = 0;
-};
+};*/
 
-class EFF3D_API EFF3DResource : public EFF3DIResource
+class EFF3D_API EFF3DResource : public EFFObject
 {
 
-
+	RTTI_DECLARE(EFF3DResource, EFFObject)
 
 protected:
-	EFF3DResource() : m_bUnloaded(effFALSE), m_bIsLoaded(effFALSE), m_dwMemorySize(0), m_dwVideoMemorySize(0),
-					m_dwAGPMeorySize(0), m_pManager(NULL),m_pData(NULL),m_pRuntimeResourceLockPtr(NULL),
-					m_uiDataSize(0)
+	EFF3DResource() : isUnloaded(effFALSE), isLoaded(effFALSE), memorySize(0), videoMemorySize(0),
+					AGPMeorySize(0), manager(NULL), data(NULL), runtimeResourceLockPtr(NULL),
+					dataSize(0)
 	{ 
 	}
 public:
@@ -99,99 +95,57 @@ public:
 
 
 
-	effVOID SetOrigin(const effString & strOrigin)
-	{
-		m_strOrigin = strOrigin;
-	}
+	effVOID SetOrigin(const effString & originPath) { this->originPath = originPath; }
+	const effString & GetOriginPath() const { return originPath; }
 
-	const effString & GetOrigin() const
-	{
-		return m_strOrigin;
-	}
+	effVOID SetName(const effString & name) { this->name = name; }
+	const effString & GetName() const { return name; }
 
-	effVOID SetName(const effString & strName)
-	{
-		m_strName = strName;
-	}
+	effVOID SetResourceManager(EFF3DResourceManager * manager) { this->manager = manager; }
+	EFF3DResourceManager * GetResourceManager() const { return manager; }
 
-	const effString & GetName() const 
-	{ 
-		return m_strName; 
-	}
+	effVOID SetUnloaded(effBOOL isUnloaded) { this->isUnloaded = isUnloaded; }
+	effBOOL IsUnloaded() const { return isUnloaded; }
 
-	effVOID SetResourceManager(EFF3DResourceManager * pManager)
-	{
-		m_pManager = pManager;
-	}
+	effBOOL IsLoaded() const { return isLoaded; }
 
-	EFF3DResourceManager * GetResourceManager() const
-	{
-		return m_pManager;
-	}
+	effUINT GetMemorySize() const { return memorySize; }
+	effUINT GetVideoMemorySize() const { return videoMemorySize; }
+	effUINT GetAGPMemorySize() const { return AGPMeorySize; }
 
-	effVOID SetUnloaded(effBOOL bUnloaded)
-	{
-		m_bUnloaded = bUnloaded;
-	}
-
-	effBOOL IsUnloaded() const
-	{
-		return m_bUnloaded;
-	}
-
-
-	effBOOL IsLoaded() const
-	{
-		return m_bIsLoaded;
-	}
-
-	effUINT GetMemorySize() const
-	{ 
-		return m_dwMemorySize; 
-	}
-
-	effUINT GetVideoMemorySize() const
-	{
-		return m_dwVideoMemorySize;
-	}
-
-	effUINT GetAGPMemorySize() const
-	{
-		return m_dwAGPMeorySize;
-	}
-
-
-protected:
-
-	effBOOL									LoadDataFromFile(const effString & strFilePath) { return effTRUE; }
-	effBOOL									Process() { return effTRUE; }
-	effBOOL									CreateRuntimeResource(EFF3DDevice * pDevice) { return effTRUE; }
-
-	effHRESULT								Lock() { return S_OK; }
-	effBOOL									CopyDataToRuntimeResource() { return effTRUE; }
-	effHRESULT								Unlock() { return S_OK; }
-
-	effVOID									LoadResourceError() {}
-	effVOID									LoadResourceEnd() { m_bIsLoaded = effTRUE; }
 public:
-	EFFEvent									OnBeforeCreate;
-	EFFEvent									OnAfterCreate;
 
-	EFFEvent									OnUnload;
+	virtual effBOOL					LoadDataFromFile(const effString & filePath) { return effTRUE; }
+	virtual effBOOL					Process() { return effTRUE; }
+	virtual effBOOL					CreateRuntimeResource(EFF3DDevice * pDevice) { return effTRUE; }
+
+	virtual effBOOL					Lock() { return effTRUE; }
+	virtual effBOOL					CopyDataToRuntimeResource() { return effTRUE; }
+	virtual effBOOL					Unlock() { return effTRUE; }
+
+	virtual effVOID					LoadResourceError() {}
+	virtual effVOID					LoadResourceEnd() { isLoaded = effTRUE; }
+
+	virtual effVOID					CalculateSize() {}
+public:
+	EFFEvent						OnBeforeCreate;
+	EFFEvent						OnAfterCreate;
+
+	EFFEvent						OnUnload;
 
 protected:
-	effString									m_strName;
-	effString									m_strGroup;
-	effBOOL									m_bUnloaded;
-	effBOOL									m_bIsLoaded;
-	effUINT									m_dwMemorySize;
-	effUINT									m_dwVideoMemorySize;
-	effUINT									m_dwAGPMeorySize;
-	effString									m_strOrigin;
-	EFF3DResourceManager *			m_pManager;
-	effBYTE *									m_pData;
-	effUINT									m_uiDataSize;
-	effVOID *									m_pRuntimeResourceLockPtr;
+	effString						name;
+	effString						groupName;
+	effBOOL							isUnloaded;
+	effBOOL							isLoaded;
+	effUINT							memorySize;
+	effUINT							videoMemorySize;
+	effUINT							AGPMeorySize;
+	effString						originPath;
+	EFF3DResourceManager *			manager;
+	effBYTE *						data;
+	effUINT							dataSize;
+	effVOID *						runtimeResourceLockPtr;
 
 };
 

@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFSTLFile.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFFBASE_BEGIN
 

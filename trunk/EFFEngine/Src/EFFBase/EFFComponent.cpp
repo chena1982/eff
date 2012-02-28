@@ -9,14 +9,29 @@
 #include "stdafx.h"
 #include "EFFComponent.h"
 
-#define new EFFNEW
+
 
 
 
 
 EFFBASE_BEGIN
 
+RTTI_IMPLEMENT_BASE(EFFReferenceCount, 0)
+RTTI_IMPLEMENT(EFFComponent, 0)
 
-RTTI_IMPLEMENT_BASE_PURE(EFFComponent, 0)
+
+effUINT EFFReferenceCount::AddRef()
+{
+	return ++refCount;
+}
+
+effVOID EFFReferenceCount::Release()
+{
+	refCount--;
+	if ( refCount == 0 )
+	{
+		delete this;
+	}
+}
 
 EFFBASE_END

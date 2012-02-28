@@ -9,14 +9,14 @@
 #include "stdafx.h"
 #include "EFF3DResource.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 
 
-EFFIUNKNOWN_IMPLEMENT(EFF3DIResource)
+//EFFIUNKNOWN_IMPLEMENT(EFF3DIResource)
 
-RTTI_IMPLEMENT_PURE(EFF3DIResource,0)
+RTTI_IMPLEMENT(EFF3DResource, 0)
 
 
 

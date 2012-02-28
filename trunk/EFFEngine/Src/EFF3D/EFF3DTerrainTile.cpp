@@ -12,14 +12,14 @@
 #include "EFF3DTerrainTileData.h"
 #include "EFF3DTerrainTile.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFF3D_BEGIN
 
-EFF3DTerrainTile::EFF3DTerrainTile(EFF3DITerrainTileData * pTileData,EFF3DMaterial * pMaterial /* = NULL */,EFF3DIEntity * pEntity /* = NULL */) : EFF3DRenderable(pMaterial,pEntity)
+EFF3DTerrainTile::EFF3DTerrainTile(EFF3DITerrainTileData * tileData, EFF3DMaterial * material /* = NULL */, EFF3DObject * object /* = NULL */) : EFF3DRenderable(material, object)
 {
-	m_pTileData = pTileData;
-	m_nCurrentLevel = 0;
+	this->tileData = tileData;
+	currentLevel = 0;
 }
 
 EFF3DTerrainTile::~EFF3DTerrainTile()
@@ -27,15 +27,15 @@ EFF3DTerrainTile::~EFF3DTerrainTile()
 
 }
 
-effVOID EFF3DTerrainTile::Render(EFF3DDevice * pDevice)
+effVOID EFF3DTerrainTile::Render(EFF3DDevice * device)
 {
-	if ( m_pTileData != NULL )
+	if ( tileData != NULL )
 	{
-		pDevice->SetFVF(EFF3DFVF_XYZ);
-		pDevice->SetStreamSource(0,m_pTileData->GetVertexBuffer(m_nCurrentLevel,pDevice),0,sizeof(effFLOAT)*3);
-		pDevice->SetIndices(m_pTileData->GetIndexBuffer(m_nCurrentLevel,pDevice));
+		device->SetFVF(EFF3DFVF_XYZ);
+		device->SetStreamSource(0, tileData->GetVertexBuffer(currentLevel, device), 0, sizeof(effFLOAT)*3);
+		device->SetIndices(tileData->GetIndexBuffer(currentLevel, device));
 
-		pDevice->DrawIndexedPrimitive(EFF3DPT_TRIANGLESTRIP,0,0,m_pTileData->GetVerticesNum(m_nCurrentLevel),0,m_pTileData->GetIndicesNum(m_nCurrentLevel)-2);
+		device->DrawIndexedPrimitive(EFF3DPT_TRIANGLESTRIP, 0, 0, tileData->GetVerticesNum(currentLevel), 0, tileData->GetIndicesNum(currentLevel)-2);
 		//pDevice->DrawIndexedPrimitive(EFF3DPT_TRIANGLELIST,0,0,m_pTileData->GetVerticesNum(m_nCurrentLevel),0,m_pTileData->GetIndicesNum(m_nCurrentLevel)/3);
 	}
 

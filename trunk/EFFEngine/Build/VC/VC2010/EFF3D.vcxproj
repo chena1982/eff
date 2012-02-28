@@ -177,6 +177,7 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DObject.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\stdafx.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DDevice.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DEffect.cpp" />
@@ -185,10 +186,10 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTexture.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DVertexDeclaration.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.cpp" />
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DIRenderable.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderable.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueManager.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp" />
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroup.cpp" />
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAsyncLoader.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DResource.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DResourceManager.cpp" />
@@ -210,11 +211,11 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DVertexBuffer.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DVertexDeclaration.h" />
     <ClInclude Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.h" />
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIRenderable.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderable.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueManager.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueue.h" />
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueGroup.h" />
-    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueGroupSolid.h" />
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIEntity.h" />
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DObject.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DBaseDefines.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DAsyncLoader.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DResource.h" />

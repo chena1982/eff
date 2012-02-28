@@ -57,7 +57,7 @@ protected:
 	virtual ~EFF3DImageManager();
 public:
 
-	effVOID CreateFromFileImpl(const effString * strFilePath,EFF3DRESOURCETYPE resourceType,EFF3DIResource ** pR);
+	effVOID CreateFromFileImpl(const effString * strFilePath, EFF3DRESOURCETYPE resourceType, EFF3DResource ** result);
 };
 
 EFF3D_END

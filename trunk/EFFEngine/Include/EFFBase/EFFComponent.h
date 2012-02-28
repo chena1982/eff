@@ -14,16 +14,31 @@ EFFBASE_BEGIN
 
 
 
-class EFFBASE_API EFFComponent
+class EFFBASE_API EFFReferenceCount
 {
-	RTTI_DECLARE_BASE_PURE(EFFComponent)
+	RTTI_DECLARE_BASE(EFFReferenceCount)
 
 public:
-	EFFComponent() {}
-	virtual ~EFFComponent() {}
+	virtual	~EFFReferenceCount() {}
+protected:
+	EFFReferenceCount() { refCount = 0; }
+
+public:
+	effUINT			GetRef() { return refCount; }
+	effUINT			AddRef();
+	effVOID			Release();
+protected:
+	effUINT			refCount;
 };
 
-
+class EFFBASE_API EFFComponent : public EFFReferenceCount
+{
+	RTTI_DECLARE(EFFComponent, EFFReferenceCount)
+public:
+	virtual ~EFFComponent() {}
+protected:
+	EFFComponent() {}
+};
 
 
 EFFBASE_END

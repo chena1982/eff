@@ -10,7 +10,7 @@
 #include "EFFGlobal.h"
 #include "EFFObjectManager.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 EFFBASE_BEGIN
 

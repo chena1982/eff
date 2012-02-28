@@ -9,6 +9,6 @@
 #include "stdafx.h"
 #include "EFFRect.h"
 
-#define new EFFNEW
+//#define new EFFNEW
 
 
