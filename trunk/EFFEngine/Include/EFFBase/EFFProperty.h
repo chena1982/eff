@@ -21,16 +21,22 @@ class EFFFile;
 #pragma warning(disable:4251)
 
 
-
-
-
 typedef effVOID (* SavePropertyFP)(EFFFile * file, effVOID * baseAddress, EFFProperty * property);
 
 
 class EFFBASE_API EFFProperty
 {
 	friend class EFFClass;
-protected:
+public:
+	enum STLContainerType
+	{
+		ContainerType_None,
+		ContainerType_Vector,
+		ContainerType_Map,
+		ContainerType_List,
+	};
+
+public:
 	EFFProperty()
 	{
 		offset = 0;
@@ -42,7 +48,7 @@ protected:
 
 		isPointer = effFALSE;
 		isArray = effFALSE;
-		isSTLContainer = effFALSE;
+		stlContainerType = ContainerType_None;
 		savePropertyFP = NULL;
 	}
 public:
@@ -60,7 +66,8 @@ public:
 	virtual effString			GetName() { return name; }
 	virtual EFFClass *			GetClass() { return Class; }
 	virtual effBOOL				GetIsPointer() { return isPointer; }
-	virtual effBOOL				GetIsSTLContainer() { return isSTLContainer; }
+	virtual effBOOL				GetIsSTLContainer() { return stlContainerType != ContainerType_None; }
+	virtual STLContainerType	GetSTLContainerType() { return stlContainerType; }
 	virtual SavePropertyFP		GetSavePropertyFP() { return savePropertyFP; }
 
 
@@ -77,7 +84,7 @@ protected:
 	EFFClass *				Class;
 	effBOOL					isPointer;
 	effBOOL					isArray;
-	effBOOL					isSTLContainer;
+	STLContainerType		stlContainerType;
 	SavePropertyFP			savePropertyFP;
 };
 
@@ -90,9 +97,11 @@ template<typename PropertyType>
 class EFFPropertyImpl<PropertyType, boost::true_type> : public EFFProperty
 {
 	friend class EFFClass;
+public:
 	EFFPropertyImpl()
 	{
 		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
+		isPointer = boost::is_pointer<PropertyType>();
 	}
 public:
 	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress) {}
@@ -102,6 +111,34 @@ template<typename PropertyType>
 class EFFPropertyImpl<PropertyType, boost::false_type> : public EFFProperty
 {
 	friend class EFFClass;
+public:
+	EFFPropertyImpl()
+	{
+		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
+		isPointer = boost::is_pointer<PropertyType>();
+	}
+public:
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	{
+		if ( !isPointer )
+		{
+			PropertyType & data = *(PropertyType *)baseAddress;
+			data.SaveToFile(file);
+		}
+		else
+		{
+			PropertyType & data = **(PropertyType **)baseAddress;
+			data.SaveToFile(file);
+		}
+	}
+
+};
+
+template<typename PropertyType>
+class EFFPropertyImpl<PropertyType &, boost::false_type> : public EFFProperty
+{
+	friend class EFFClass;
+public:
 	EFFPropertyImpl()
 	{
 		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
@@ -128,11 +165,11 @@ template<typename PropertyType>
 class EFFPropertyImpl<std::vector<PropertyType>, boost::false_type> : public EFFProperty
 {
 	friend class EFFClass;
-
+public:
 	EFFPropertyImpl()
 	{
 		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
-		isSTLContainer = effTRUE;
+		stlContainerType = EFFProperty::ContainerType_Vector;
 		//BOOST_ASSERT(!boost::is_pointer<PropertyType>());
 		isPointer = effFALSE;
 	}
@@ -150,14 +187,33 @@ public:
 };
 
 template<typename PropertyType>
-class EFFPropertyImpl<std::vector<PropertyType *>, boost::false_type> : public EFFProperty
+class EFFPropertyImpl<std::vector<PropertyType>, boost::true_type> : public EFFProperty
 {
 	friend class EFFClass;
-
+public:
 	EFFPropertyImpl()
 	{
 		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
-		isSTLContainer = effTRUE;
+		stlContainerType = EFFProperty::ContainerType_Vector;
+		//BOOST_ASSERT(!boost::is_pointer<PropertyType>());
+		isPointer = effFALSE;
+	}
+public:
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	{
+	}
+
+};
+
+template<typename PropertyType>
+class EFFPropertyImpl<std::vector<PropertyType *>, boost::false_type> : public EFFProperty
+{
+	friend class EFFClass;
+public:
+	EFFPropertyImpl()
+	{
+		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
+		stlContainerType = EFFProperty::ContainerType_Vector;
 		//BOOST_ASSERT(boost::is_pointer<PropertyType>());
 		isPointer = effTRUE;
 	}
@@ -174,40 +230,7 @@ public:
 
 };
 
-template<typename PropertyType>
-class EFFPropertyImpl<std::vector<PropertyType>, boost::true_type> : public EFFProperty
-{
-	friend class EFFClass;
 
-	EFFPropertyImpl()
-	{
-		Class = EFFGetClass(ClassNameTrait<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>()());
-		isSTLContainer = effTRUE;
-		isPointer = boost::is_pointer<PropertyType>();
-	}
-public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
-	{
-		if ( Class->GetClassName() == _effT("effString") )
-		{
-			std::vector<effString> & datas = *(std::vector<effString> *)baseAddress;
-			for ( effUINT i = 0; i < datas.size(); i++ )
-			{
-				effUINT length = datas[i].length();
-				file->Write(&length, 4);
-				file->Write((effVOID *)datas[i].c_str(), length * sizeof(effTCHAR));
-			}
-		}
-		else
-		{
-			std::vector<PropertyType> & datas = *(std::vector<PropertyType> *)baseAddress;
-			effUINT size = datas.size();
-			file->Write(&size, sizeof(effUINT));
-			file->Write(&datas[0], sizeof(PropertyType) * datas.size());
-		}
-	}
-
-};
 
 /*class EFFStringProperty : public EFFProperty
 {

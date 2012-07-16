@@ -16,11 +16,11 @@ class EFF3DVertexBuffer;
 class EFF3DVertexDeclaration;
 class EFF3DIndexBuffer;
 class EFF3DSurface;
-class EFF3DAsyncLoader;
 class EFF3DImageManager;
 class EFF3DResource;
-class EFF3DAutoParamDataSource;
 class EFF3DMaterial;
+class EFF3DShader;
+class EFF3DSceneManager;
 
 class EFF3D_API EFF3DDevice
 {
@@ -37,82 +37,99 @@ public:
 	//第3种方案麻烦且没什么意义，第1种方案和第2种方案比的话，我觉得游戏这个行业还是D3D使用更方便，所以选择使用第2种方案
 
 
-	virtual effHRESULT			BeginScene() = 0;
-	virtual effHRESULT			EndScene() = 0;
-	virtual effHRESULT			Clear(effUINT Count,const EFFRect * pRects,effUINT Flags,EFF3DCOLOR Color,effFLOAT Z,effUINT Stencil) = 0;
-	virtual effHRESULT			Present(const EFFRect * pSourceRect,const EFFRect * pDestRect) = 0;
-
+	virtual effBOOL				BeginScene() = 0;
+	virtual effBOOL				EndScene() = 0;
+	virtual effBOOL				Clear(effUINT count, const EFFRect * rects, effUINT flags, EFF3DCOLOR color, effFLOAT z, effUINT stencil) = 0;
+	virtual effBOOL				Present(const EFFRect * sourceRect, const EFFRect * destRect) = 0;
+	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height) = 0;
 	
-	virtual effHRESULT			CreateTexture(effUINT Width,effUINT Height,effUINT Levels,effUINT Usage,EFF3DFORMAT Format,EFF3DPOOL Pool,
-													EFF3DTexture** ppTexture) = 0;
-	virtual effHRESULT			CreateRenderTarget(effUINT Width,effUINT Height,EFF3DFORMAT Format,EFF3DMULTISAMPLE_TYPE MultiSample,
-													effUINT MultisampleQuality,effBOOL Lockable,EFF3DSurface** ppSurface) = 0;
-	virtual effHRESULT			CreateDepthStencilSurface(effUINT Width,effUINT Height,EFF3DFORMAT Format,EFF3DMULTISAMPLE_TYPE MultiSample,
-													effUINT MultisampleQuality,effBOOL Discard,EFF3DSurface** ppSurface) = 0;
+	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
+													EFF3DTexture ** txture) = 0;
+
+	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture) = 0;
+
+	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
+													effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface) = 0;
+
+	virtual effBOOL				CreateDepthStencilSurface(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
+													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface) = 0;
 	
-	virtual effHRESULT			CreateIndexBuffer(effUINT Length,effUINT Usage,EFF3DFORMAT Format,EFF3DPOOL Pool,
-													EFF3DIndexBuffer** ppIndexBuffer) = 0;
-	virtual effHRESULT			CreateVertexBuffer(effUINT Length,effUINT Usage,effUINT FVF,EFF3DPOOL Pool,EFF3DVertexBuffer** ppVertexBuffer) = 0;
-	virtual effHRESULT			CreateVertexDeclaration(const EFF3DVERTEXELEMENT * pVertexElements,EFF3DVertexDeclaration** ppDecl) = 0;
+	virtual effBOOL				CreateIndexBuffer(effUINT length, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
+													EFF3DIndexBuffer ** indexBuffer) = 0;
 
-	virtual effHRESULT			DrawIndexedPrimitive(EFF3DPRIMITIVETYPE Type,effINT BaseVertexIndex,effUINT MinIndex,effUINT NumVertices,
-													effUINT StartIndex,effUINT PrimitiveCount) = 0;
-	virtual effHRESULT			DrawIndexedPrimitiveUP(EFF3DPRIMITIVETYPE PrimitiveType,effUINT MinVertexIndex,effUINT NumVertices,effUINT PrimitiveCount,
-													const void * pIndexData,EFF3DFORMAT IndexDataFormat,
-													const void* pVertexStreamZeroData,effUINT VertexStreamZeroStride) = 0;
-	virtual effHRESULT			DrawPrimitive(EFF3DPRIMITIVETYPE PrimitiveType,effUINT StartVertex,effUINT PrimitiveCount) = 0;
-	virtual effHRESULT			DrawPrimitiveUP(EFF3DPRIMITIVETYPE PrimitiveType,effUINT PrimitiveCount,const void* pVertexStreamZeroData,
-													effUINT VertexStreamZeroStride) = 0;
+	virtual effBOOL				CreateVertexBuffer(effUINT length, effUINT usage, effUINT FVF, EFF3DPOOL pool, EFF3DVertexBuffer ** vertexBuffer) = 0;
 
-	virtual effHRESULT			SetTransform(EFF3DTRANSFORMSTATETYPE State,const EFFMatrix4 * pMatrix) = 0;
-	virtual effHRESULT			SetFVF(effUINT FVF) = 0;
-	virtual effHRESULT			SetVertexDeclaration(EFF3DVertexDeclaration * pDecl) = 0;
-	virtual effHRESULT			SetStreamSource(effUINT StreamNumber,EFF3DVertexBuffer * pStreamData,effUINT OffsetInBytes,effUINT Stride) = 0;
-	virtual effHRESULT			SetIndices(EFF3DIndexBuffer * pIndexData) = 0;
-	virtual effHRESULT			SetRenderState(EFF3DRENDERSTATETYPE State,effUINT Value) = 0;
-	virtual effHRESULT			SetTextureStageState(effUINT Stage,EFF3DTEXTURESTAGESTATETYPE Type,effUINT Value) = 0;
-	virtual effHRESULT			SetRenderTarget(effUINT RenderTargetIndex,EFF3DSurface * pRenderTarget) = 0;
-	virtual effHRESULT			SetTexture(effUINT Sampler,EFF3DBaseTexture * pTexture) = 0;
-	virtual effHRESULT			SetDepthStencilSurface(EFF3DSurface * pNewZStencil) = 0;
+	virtual effBOOL				CreateVertexDeclaration(const EFF3DVERTEXELEMENT * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
+
+	virtual effBOOL				DrawIndexedPrimitive(EFF3DPRIMITIVETYPE type, effINT baseVertexIndex, effUINT minIndex,effUINT numVertices,
+													effUINT startIndex, effUINT primitiveCount) = 0;
+
+	virtual effBOOL				DrawIndexedPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT minVertexIndex, effUINT numVertices, effUINT primitiveCount,
+													const effVOID * indexData, EFF3DFORMAT indexDataFormat,
+													const effVOID * vertexStreamZeroData, effUINT vertexStreamZeroStride) = 0;
+
+	virtual effBOOL				DrawPrimitive(EFF3DPRIMITIVETYPE primitiveType, effUINT startVertex, effUINT primitiveCount) = 0;
+
+	virtual effBOOL				DrawPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData,
+													effUINT vertexStreamZeroStride) = 0;
+
+	virtual effBOOL				SetTransform(EFF3DTRANSFORMSTATETYPE state, const EFFMatrix4 * matrix) = 0;
+	virtual effBOOL				SetFVF(effUINT FVF) = 0;
+	virtual effBOOL				SetVertexDeclaration(EFF3DVertexDeclaration * decl) = 0;
+	virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBuffer * streamData, effUINT offsetInBytes, effUINT stride) = 0;
+	virtual effBOOL				SetIndices(EFF3DIndexBuffer * indexData) = 0;
+	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
+	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
+	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget) = 0;
+	virtual effBOOL				SetTexture(effUINT sampler, EFF3DBaseTexture * texture) = 0;
+	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil) = 0;
+
+	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
+
 
 	//下面是一些经过包装的方便使用的接口，这样使用引擎的人既可以快速方便的渲染一些东西，也可以使用上面的接口，以便于更细粒度的控制
 	//不至于像某些引擎全部包装好了，你必须按照它的模式写代码，想增加一些功能时想要更细粒度的控制却发现不可能
 
-	virtual effHRESULT			DrawQuad(EFF3DTexture * pTexture,EFF3DMaterial * pMaterial = NULL,EFFRect * pRect = NULL);
+	virtual effBOOL				DrawQuad(EFF3DTexture * texture, EFF3DMaterial * material = NULL, EFFRect * rect = NULL);
 public:
 	virtual effVOID				Release() = 0;
 
 public:
-	EFF3DImageManager *			GetImageManager() { return m_pImageManager; }
-	EFF3DAsyncLoader *			GetAsyncLoader() { return m_pAsyncLoader; }
-	EFF3DAutoParamDataSource *	GetAutoParamDataSource() { return m_pAutoParamDataSource; }
+	inline EFF3DImageManager *	GetImageManager() { return imageManager; }
+	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
+	
+
 
 	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
-	effVOID						SetBackBufferSize(effINT nWidth,effINT nHeight);
-	effINT						GetBackBufferWidth() { return m_nWidth; }
-	effINT						GetBackBufferHeight() { return m_nHeight; }
+	effVOID						SetBackBufferSize(effINT width,effINT weight);
+	effINT						GetBackBufferWidth() { return width; }
+	effINT						GetBackBufferHeight() { return height; }
 
 protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
-	virtual effHRESULT			DrawQuad(EFFRect * pRect);
+	virtual effBOOL				DrawQuad(EFFRect * rect);
+protected:
+	effVOID						Init();
+	friend effBOOL EFF3D_API	Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
+
+
 private:
 
-	EFF3DImageManager *			m_pImageManager;
-	EFF3DAsyncLoader *			m_pAsyncLoader;
+	EFF3DImageManager *			imageManager;
+
 
 	//Awesomium::WebCore *		m_pWebCore;
 
-	effINT						m_nWidth;
-	effINT						m_nHeight;
+	effINT						width;
+	effINT						height;
 
-	EFF3DAutoParamDataSource *		m_pAutoParamDataSource;
+	EFF3DSceneManager *			sceneManager;
+
 };
 
 
-typedef effBOOL (*effCREATE3DDEVICE)(EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,effINT nWidth,effINT nHeight,effBOOL bFSA,effBOOL bMultiThread,effUINT dwDSFormat);
-
-effBOOL EFF3D_API Create3DDevice(effLPCTSTR pszDllName,EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,effINT nWidth,effINT nHeight,effBOOL bFSA = effFALSE,effBOOL bMultiThread = effFALSE,effUINT dwDSFormat = EFF3DFMT_D16);
-
+static EFF3DDevice * device;
+EFF3D_API EFF3DDevice * GetDevice();
 
 EFF3D_END
 

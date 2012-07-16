@@ -12,22 +12,78 @@ EFF3D_BEGIN
 
 class EFF3DRenderable;
 class EFF3DDevice;
-
+class EFF3DCamera;
+class EFF3DSceneManager;
 
 
 class EFF3DRenderQueue
 {
 public:
+	union OpaqueRenderOrder
+	{
+		struct OrderBitsDefine
+		{
+			effWORD fullscreenLayer : 2,
+			camera : 3,
+			renderLayer : 5,
+			transparencyType : 2,
+			shader : 16,
+			texture : 16,
+			pass : 4,
+			depth : 16;
+		};
+		OrderBitsDefine orderBits; 
+		effUINT64 orderUINT64;
+	};
+
+	union TransparentRenderOrder
+	{
+		struct OrderBitsDefine
+		{
+
+			effWORD fullscreenLayer : 2,
+			camera : 3,
+			renderLayer : 5,
+			transparencyType : 2,
+			depth : 16,
+			shader : 16,
+			texture : 16,
+			pass : 4;
+		};
+		OrderBitsDefine orderBits;
+		effUINT64 orderUINT64;
+	};
+
+
+	struct RenderQueueElement
+	{
+		EFF3DRenderable *	renderable;
+		effUINT64			renderOrder;
+		EFF3DCamera *		camera;
+		effINT				renderLayer;
+	};
+public:
 	EFF3DRenderQueue() {}
 	virtual ~EFF3DRenderQueue() {}
 public:
-	virtual effVOID						AddRenderable(EFF3DRenderable * renderable) {}
-	virtual effVOID						RemoveRenderable(EFF3DRenderable * renderable) {}
+	virtual effVOID						AddRenderable(EFF3DRenderable * renderable);
+	virtual effVOID						RemoveRenderable(EFF3DRenderable * renderable);
 	//virtual EFF3DIRenderable *	GetFirstRenderable() = 0;
 	//virtual EFF3DIRenderable *	GetNextRenderable() = 0;
-	virtual effVOID						Render(EFF3DDevice * device) {}
+	virtual effVOID						Render(EFF3DDevice * device);
+
+public:
+	effVOID								SetSceneManager(EFF3DSceneManager * sceneManager) { this->sceneManager = sceneManager; }
 protected:
-	std::vector<EFF3DRenderable *>		renderables;
+	effVOID								Sort();
+	EFF3DMaterial *						GetMaterial(RenderQueueElement & renderQueueElement);
+
+
+protected:
+	effVOID								CalculateRenderOrder(RenderQueueElement & renderQueueElement);
+protected:
+	std::vector<RenderQueueElement>		renderables;
+	EFF3DSceneManager *					sceneManager;
 };
 
 EFF3D_END

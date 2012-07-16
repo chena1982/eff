@@ -18,7 +18,7 @@ public:
 	virtual ~EFF3DVertexBuffer() {}
 public:
 	virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc) = 0;
-	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags) = 0;
+	virtual effHRESULT				Lock(effUINT OffsetToLock, effUINT SizeToLock, effVOID ** ppbData, effUINT Flags) = 0;
 	virtual effHRESULT				Unlock() = 0;
 };
 

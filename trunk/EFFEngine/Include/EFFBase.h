@@ -21,7 +21,8 @@
 #include ".\EFFBase\EFFComponent.h"
 #include ".\EFFBase\EFFIProxy.h"
 #include ".\EFFBase\EFFEvent.h"
-#include ".\EFFBase\EFFSTLRttiWrap.h"
+#include ".\EFFBase\Reflection4CppEnum.h"
+#include ".\EFFBase\EFFThread.h"
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

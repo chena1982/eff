@@ -23,18 +23,20 @@ public:
 	EFFObjectManager();
 	virtual ~EFFObjectManager();
 public:
-	EFFObject *			CreateObject(EFFClass * Class);
-	effVOID				ReleaseObject(EFFObject * object);
-	EFFObject *			GetObject(effUINT objectId);
+	std::map<effUINT, EFFObject *>			GetObjects() { return objects; }
+public:
+	EFFObject *								CreateObject(EFFClass * Class);
+	effVOID									ReleaseObject(EFFObject * object);
+	EFFObject *								GetObject(effUINT objectId);
 protected:
-	effVOID				CalculateNextId();
+	effVOID									CalculateNextId();
 protected:
-	effUINT							currentId;
-	std::vector<effUINT>			recycledIds;
-	std::map<effUINT, EFFObject *>	objects;
+	effUINT									currentId;
+	std::vector<effUINT>					recycledIds;
+	std::map<effUINT, EFFObject *>			objects;
 };
 
-EFFBASE_API effVOID EFFRegisterObjectManager(EFFObjectManager * objectManager);
+EFFBASE_API effVOID EFFRegisterObjectManager(EFFClass * Class, EFFObjectManager * objectManager);
 EFFBASE_API EFFObjectManager * EFFGetObjectManager(EFFClass * Class);
 
 EFFBASE_END

@@ -40,10 +40,10 @@ void EFFUnRegisterClass(EFFClass * pClass);
 EFFBASE_API void * EFFCreateObject(const effString & className);
 EFFBASE_API void * EFFCreateObject(const ClassID & classId);
 
-EFFBASE_API EFFClass * EFFGetClass(const effString & className);
-EFFBASE_API EFFClass * EFFGetClass(const ClassID & classId);
-ClassID EFFBASE_API ClassIDFromString(const effString & className);
-
+EFFBASE_API EFFClass *	EFFGetClass(const effString & className);
+EFFBASE_API EFFClass *	EFFGetClass(const ClassID & classId);
+EFFBASE_API ClassID		ClassIDFromString(const effString & className);
+EFFBASE_API effVOID		SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name);
 
 #define RTTI_CLASS(T)	((EFFClass *)(&T::runtimeInfoClass##T))
 #define RTTI_CLASSID(T)	((EFFClass *)(&T::runtimeInfoClass##T))->GetID()
@@ -81,6 +81,17 @@ public:\
 		typedef CLASS##POD classThis;\
 		friend EFFClassImpl<CLASS>;\
 		static EFFClassImpl<CLASS> runtimeInfoClass##CLASS##POD;\
+		static EFFClass * GetThisClass();\
+		virtual EFFClass * GetRuntimeClass() const;\
+	};
+
+#define RTTI_DECLARE_PURE_POD(CLASS)\
+	class CLASS##POD\
+	{\
+	public:\
+		typedef CLASS##POD classThis;\
+		friend EFFPureVirtualClassImpl<CLASS>;\
+		static EFFPureVirtualClassImpl<CLASS> runtimeInfoClass##CLASS##POD;\
 		static EFFClass * GetThisClass();\
 		virtual EFFClass * GetRuntimeClass() const;\
 	};
@@ -149,6 +160,17 @@ public:\
 		return GetThisClass();\
 	}
 
+#define RTTI_IMPLEMENT_PURE_POD_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
+	EFFPureVirtualClassImpl<CLASS> CLASS##POD::runtimeInfoClass##CLASS##POD(VERSION, effTRUE, NAME, BASECLASS);\
+	EFFClass * CLASS##POD##::GetThisClass()\
+	{\
+		return RTTI_CLASS(CLASS##POD);\
+	}\
+	EFFClass * CLASS##POD##::GetRuntimeClass() const\
+	{\
+		return GetThisClass();\
+	}
+
 #define RTTI_IMPLEMENT_BASE(CLASS, VERSION)				RTTI_IMPLEMENT_INTERNAL(CLASS, VERSION, _effT(#CLASS), NULL)
 #define RTTI_IMPLEMENT_BASE_PURE(CLASS, VERSION)		RTTI_IMPLEMENT_PURE_INTERNAL(CLASS, VERSION, _effT(#CLASS), NULL)
 
@@ -156,7 +178,7 @@ public:\
 #define RTTI_IMPLEMENT_PURE(CLASS, VERSION)				RTTI_IMPLEMENT_PURE_INTERNAL(CLASS, VERSION, _effT(#CLASS), CLASS::classBase::GetThisClass())
 
 #define RTTI_IMPLEMENT_POD(CLASS)						RTTI_IMPLEMENT_POD_INTERNAL(CLASS, 0, _effT(#CLASS), NULL)
-
+#define RTTI_IMPLEMENT_PURE_POD(CLASS)					RTTI_IMPLEMENT_PURE_POD_INTERNAL(CLASS, 0, _effT(#CLASS), NULL)
 
 
 
@@ -205,7 +227,7 @@ private:
 public:
 	inline EFFClass * GetBaseClass() const { return baseClass; }
 
-	inline const effString & GetClassName() const { return className; }
+	effString GetName() const { return className; }
 
 	inline effUINT GetVersion() const { return version; }
 
@@ -218,37 +240,37 @@ public:
 		return properties;
 	}
 	
-	friend bool operator == (const EFFClass & class1,const EFFClass & class2)
+	friend effBOOL operator == (const EFFClass & class1, const EFFClass & class2)
 	{
 		return class1.id == class2.id && class1.version == class2.version;
 	}
 
-	bool IsKindOf(const EFFClass * effClass)
+	effBOOL IsKindOf(const EFFClass * effClass)
 	{
 		EFFClass * Class = this;
 		while( Class != NULL )
 		{
 			if( Class == effClass )
 			{
-				return true;
+				return effTRUE;
 			}
 			Class = Class->GetBaseClass();
 		}
-		return false;
+		return effFALSE;
 	}
 
-	bool IsKindOf(ClassID & id)
+	effBOOL IsKindOf(const ClassID & id)
 	{
 		EFFClass * Class = this;
 		while( Class != NULL )
 		{
 			if( Class->id == id )
 			{
-				return true;
+				return effTRUE;
 			}
 			Class = Class->GetBaseClass();
 		}
-		return false;
+		return effFALSE;
 	}
 
 	template<typename PropertyType>
@@ -265,6 +287,44 @@ public:
 
 		return effFALSE;
 	}
+
+	template<typename PropertyType>
+	effBOOL GetProperty(const effString & propertyName, effVOID * baseAddress, effUINT index, PropertyType & result)
+	{
+		for ( effUINT i = 0; i < properties.size(); i++ )
+		{
+			if ( properties[i]->name == propertyName )
+			{
+				if ( properties[i]->stlContainerType == EFFProperty::ContainerType_Vector )
+				{
+					std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + properties[i]->GetOffset()));
+					result = propertyVector[index];
+					return effTRUE;
+				}
+			}
+		}
+
+		return effFALSE;
+	}
+
+	template<typename PropertyType, typename Visitor>
+	effVOID PropertyForEach(const effString & propertyName, effVOID * baseAddress, Visitor visitor)
+	{
+		for ( effUINT i = 0; i < properties.size(); i++ )
+		{
+			if ( properties[i]->name == propertyName )
+			{
+				if ( properties[i]->stlContainerType == EFFProperty::ContainerType_Vector )
+				{
+					//PropertyForEachString(baseAddress, visitor);
+					std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + properties[i]->GetOffset()));
+					for_each(propertyVector.begin(), propertyVector.end(), visitor);
+				}
+			}
+		}
+	}
+
+
 
 	//GetClassName-------------------------------------------------------------------------------------------------
 	/*template<typename PropertyType, typename IsPODType>
@@ -408,25 +468,29 @@ public:
 	template<typename ClassType, typename PropertyType>
 	effVOID AddProperty(PropertyType ClassType::*member, const effString & name)
 	{
-		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
-		addProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+		properties.push_back(addedProperty);
 	}
+
 
 	template<typename ClassType, typename PropertyType>
 	effVOID AddProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
 	{
-		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
-		addProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+		properties.push_back(addedProperty);
 	}
 
 	template<typename ClassType, typename PropertyType>
 	effVOID AddProperty(std::vector<PropertyType *> ClassType::*member, const effString & name)
 	{
 		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
-		addProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
+		properties.push_back(addedProperty);
 	}
 protected:
-	effVOID addProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name);
+	
 	//static effString		getPODTypeClassName(const effCHAR * propertyTypeName);
 
 
@@ -494,10 +558,67 @@ public:
 
 RTTI_DECLARE_POD(effString)
 RTTI_DECLARE_POD(effINT)
+RTTI_DECLARE_POD(effUINT)
 RTTI_DECLARE_POD(effFLOAT)
+RTTI_DECLARE_POD(effBOOL)
+RTTI_DECLARE_PURE_POD(effVOID)
 
 
 
+template<typename PropertyType>
+class GetParameterProperty
+{
+public:
+	GetParameterProperty(const effString & name)
+	{
+		parameterProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		SetProperty(parameterProperty, 0, sizeof(PropertyType), name);
+	}
+	EFFProperty * parameterProperty;
+};
+
+
+
+template<>
+class GetParameterProperty<effVOID>
+{
+public:
+	GetParameterProperty(const effString & name)
+	{
+		parameterProperty = EFFNEW EFFPropertyImpl<effVOID, EFF_IS_POD<effVOID, boost::true_type>::type>();
+		SetProperty(parameterProperty, 0, 0, name);
+	}
+	EFFProperty * parameterProperty;
+};
+
+
+
+
+template<typename PropertyType>
+class GetParameterProperty<std::vector<PropertyType>>
+{
+public:
+	GetParameterProperty(const effString & name)
+	{
+		parameterProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		SetProperty(parameterProperty, 0, sizeof(PropertyType), name);
+	}
+
+	EFFProperty * parameterProperty;
+};
+
+template<typename PropertyType>
+class GetParameterProperty<std::vector<PropertyType *>>
+{
+public:
+	GetParameterProperty(const effString & name)
+	{
+		parameterProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		SetProperty(parameterProperty, 0, sizeof(PropertyType), name);
+	}
+
+	EFFProperty * parameterProperty;
+};
 
 EFFBASE_END
 

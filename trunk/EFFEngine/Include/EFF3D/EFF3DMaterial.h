@@ -11,26 +11,24 @@
 
 EFF3D_BEGIN
 
-class EFF3DEffect;
+class EFF3DShader;
 
 class EFF3D_API EFF3DMaterial
 {
 public:
 	EFF3DMaterial();
-	~EFF3DMaterial();
-public:
-	EFF3DEffect *				GetEffect() { return m_pEffect; }
-	effBOOL						CreateFromFile(const effCHAR * szFilePath);
-public:
-	EFFEvent						OnMaterialBeforeRender;
-	EFFEvent						OnMaterialEndRender;
+	virtual ~EFF3DMaterial();
 
-	EFFEvent						OnRenderableBeforeRender;
-	EFFEvent						OnRenderableEndRender;
-
+public:
+	virtual effVOID				BeforeMaterialRender() {}
+	virtual effVOID				AfterMaterialRender() {}
+public:
+	effBOOL						CreateFromFile(const effString & filePath);
+public:
+	inline EFF3DShader *		GetShader() { return shader; }
 protected:
-	EFF3DEffect *				m_pEffect;
-	PyObject *					m_pScriptModule;
+	EFF3DShader *				shader;
+	//PyObject *					m_pScriptModule;
 };
 
 EFF3D_END

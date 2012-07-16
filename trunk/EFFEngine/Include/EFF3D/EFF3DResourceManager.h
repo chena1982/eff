@@ -24,6 +24,7 @@ EFF3DIResource *		CreateFromFileImpl(const effString & strFilePath,__REPEAT(N, _
 
 class EFF3D_API EFF3DResourceManager : public EFFObjectManager
 {
+	RTTI_DECLARE(EFF3DResourceManager, EFFObjectManager)
 public:
 	EFF3DResourceManager();
 	virtual ~EFF3DResourceManager();
@@ -37,10 +38,17 @@ public:
 
 	//为了便于调试，这里不用宏来生成代码，手动把宏展开
 
-	template<typename T0>
+	/*template<typename T0>
 	EFF3DResource * CreateFromFile(const effString & filePath, T0 t0)
 	{
-		ResourceMap::iterator it = resources.find(filePath);
+		effString name;
+		effINT pos = filePath.rfind('\\');
+		if ( pos != -1 )
+		{
+			name = filePath.substr(pos, filePath.length() - pos);
+		}
+
+		ResourceMap::iterator it = resources.find(name);
 		if ( it != resources.end() )
 		{
 			it->second->AddRef();
@@ -61,7 +69,14 @@ public:
 	template<typename T0, typename T1>
 	EFF3DResource * CreateFromFile(const effString & filePath, T0 t0, T1 t1)
 	{
-		ResourceMap::iterator it = m_mapResources.find(strFilePath);
+		effString name;
+		effINT pos = filePath.rfind('\\');
+		if ( pos != -1 )
+		{
+			name = filePath.substr(pos, filePath.length() - pos);
+		}
+
+		ResourceMap::iterator it = m_mapResources.find(name);
 		if ( it != m_mapResources.end() )
 		{
 			it->second->AddRef();
@@ -76,7 +91,7 @@ public:
 		}
 
 		return ret;
-	}
+	}*/
 
 	//DECLARE_CREATE_FROM_FILE_IMPL(0)
 	//DECLARE_CREATE_FROM_FILE_IMPL(1)
@@ -84,8 +99,10 @@ public:
 public:
 	EFF3DResource *					AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType, EFF3DDevice * device);
 protected:
-	effVOID							AddFirstCreateResource(EFF3DResource * res);
 	effVOID							AddResource(EFF3DResource * res);
+	//effVOID							AddResource(EFF3DResource * res);
+
+	EFF3DResource *					GetResource(const effString & filePath);
 
 public:
 	typedef std::map<effString, EFF3DResource *>	ResourceMap;

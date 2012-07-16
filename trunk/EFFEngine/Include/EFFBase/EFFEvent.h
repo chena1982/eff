@@ -9,20 +9,16 @@
 #define __EFFEvent_2008_12_15__
 
 #include <boost/function.hpp>
-#include "EFFReflection.h"
-
-#undef new
-
 #include <boost/python.hpp>
 
-//#define new EFFNEW
+#include "EFFReflection.h"
 
 EFFBASE_BEGIN
 
 
 #define __EFFEVENTCALL_MEMBER_FUNCTION__(N)\
-template <class R,class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
-EFFEventCall(C * pDelegatee,R (C::*memberFunctionAddress)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
+template <class R, class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+EFFEventCall(C * pDelegatee, R (C::*memberFunctionAddress)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
 {\
 	m_pFunction = __callable_factory__<R>::create(memberFunctionAddress);\
 	m_pDelegatee = (__delegatee__ *)pDelegatee;\
@@ -202,15 +198,17 @@ public:
 		(m_pDelegatee->*m)(t0,t1,t2);
 	}
 
-	__callable__ *			m_pFunction;
+	__callable__ *		m_pFunction;
 	__delegatee__ *		m_pDelegatee;
 
 	PyObject *			m_pPyDelegatee;
 	union
 	{
 		PyObject *		m_pPyFunction;
-		char *				m_pPyFunctionName;
+		char *			m_pPyFunctionName;
 	};
+
+
 };
 
 
@@ -231,8 +229,6 @@ void operator () (__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
 		(*m_aryFunction[i])(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
 	}\
 }
-
-
 
 class EFFBASE_API EFFEvent
 {
@@ -277,6 +273,7 @@ public:
 	std::vector<EFFEventCall *> m_aryFunction;
 
 };
+
 
 EFFBASE_END
 

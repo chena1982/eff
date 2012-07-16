@@ -8,7 +8,9 @@
 #ifndef __EFFMathBaseDefines_2008_12_13__
 #define __EFFMathBaseDefines_2008_12_13__
 
-
+#define EFFMATH_BEGIN	namespace EFFMATH {
+#define EFFMATH_END		}
+#define USE_EFFMATH		using namespace EFFMATH;
 
 #ifndef EFFMATH_EXPORTS
 	#ifndef _EFFMATHLIB

@@ -12,6 +12,7 @@
 #include ".\EFFMath\EFFRect.h"
 #include ".\EFFMath\EFFMatrix4.h"
 #include ".\EFFMath\EFFVector3.h"
+#include ".\EFFMath\EFFVector4.h"
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

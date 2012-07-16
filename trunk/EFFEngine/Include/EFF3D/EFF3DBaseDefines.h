@@ -14,6 +14,9 @@
 #define EFF3D_END		}
 #define USE_EFF3D		using namespace EFF3D;
 
+#define CAMERA_MAX_RENDER_LAYER 32
+#define OBJECT_MAX_RENDER_LAYER 4
+
 typedef struct _EFF3DCOLORVALUE
 {
 	effFLOAT r;
@@ -29,15 +32,15 @@ typedef struct EFF3DXCOLOR
 public:
 	EFF3DXCOLOR() {}
 	EFF3DXCOLOR( effUINT argb );
-	EFF3DXCOLOR( const FLOAT * );
+	EFF3DXCOLOR( const effFLOAT * );
 	EFF3DXCOLOR( const EFF3DCOLORVALUE& );
-	EFF3DXCOLOR( FLOAT r, FLOAT g, FLOAT b, FLOAT a );
+	EFF3DXCOLOR( effFLOAT r, effFLOAT g, effFLOAT b, effFLOAT a );
 
 	// casting
 	operator effUINT () const;
 
-	operator FLOAT* ();
-	operator const FLOAT* () const;
+	operator effFLOAT* ();
+	operator const effFLOAT* () const;
 
 	operator EFF3DCOLORVALUE* ();
 	operator const EFF3DCOLORVALUE* () const;
@@ -48,8 +51,8 @@ public:
 	// assignment operators
 	EFF3DXCOLOR& operator += ( const EFF3DXCOLOR& );
 	EFF3DXCOLOR& operator -= ( const EFF3DXCOLOR& );
-	EFF3DXCOLOR& operator *= ( FLOAT );
-	EFF3DXCOLOR& operator /= ( FLOAT );
+	EFF3DXCOLOR& operator *= ( effFLOAT );
+	EFF3DXCOLOR& operator /= ( effFLOAT );
 
 	// unary operators
 	EFF3DXCOLOR operator + () const;
@@ -58,10 +61,10 @@ public:
 	// binary operators
 	EFF3DXCOLOR operator + ( const EFF3DXCOLOR& ) const;
 	EFF3DXCOLOR operator - ( const EFF3DXCOLOR& ) const;
-	EFF3DXCOLOR operator * ( FLOAT ) const;
-	EFF3DXCOLOR operator / ( FLOAT ) const;
+	EFF3DXCOLOR operator * ( effFLOAT ) const;
+	EFF3DXCOLOR operator / ( effFLOAT ) const;
 
-	friend EFF3DXCOLOR operator * (FLOAT, const EFF3DXCOLOR& );
+	friend EFF3DXCOLOR operator * (effFLOAT, const EFF3DXCOLOR& );
 
 	effBOOL operator == ( const EFF3DXCOLOR& ) const;
 	effBOOL operator != ( const EFF3DXCOLOR& ) const;
@@ -174,8 +177,8 @@ typedef enum _EFF3DPOOL
 
 #ifndef MAKEFOURCC
 #define MAKEFOURCC(ch0, ch1, ch2, ch3)                              \
-	((effUINT)(BYTE)(ch0) | ((effUINT)(BYTE)(ch1) << 8) |       \
-	((effUINT)(BYTE)(ch2) << 16) | ((effUINT)(BYTE)(ch3) << 24 ))
+	((effUINT)(effBYTE)(ch0) | ((effUINT)(effBYTE)(ch1) << 8) |       \
+	((effUINT)(effBYTE)(ch2) << 16) | ((effUINT)(effBYTE)(ch3) << 24 ))
 #endif /* defined(MAKEFOURCC) */
 
 typedef enum _EFF3DFORMAT
@@ -941,27 +944,27 @@ enum EFF3DSurfaceType
 
 struct EFF3DIMAGE_INFO
 {
-	effUINT Width;
-	effUINT Height;
-	effUINT Depth;
-	effUINT MipLevels;
-	EFF3DFORMAT Format;
-	EFF3DRESOURCETYPE ResourceType;
-	EFF3DIMAGE_FILEFORMAT ImageFileFormat;
+	effUINT width;
+	effUINT height;
+	effUINT depth;
+	effUINT mipLevels;
+	EFF3DFORMAT format;
+	EFF3DRESOURCETYPE resourceType;
+	EFF3DIMAGE_FILEFORMAT imageFileFormat;
 
-	effUINT Usage;
-	EFF3DPOOL Pool;
-	effUINT Filter;
-	effUINT MipFilter;
-	EFF3DCOLOR ColorKey;
-	EFF3DSurfaceType	SurfaceType;
-	effBOOL	bDepthStencil;
-	EFF3DFORMAT DepthStencilFormat;
-	EFF3DMULTISAMPLE_TYPE MultiSample;
-	effUINT MultisampleQuality;
-	effBOOL bDiscard;
-	effULONG TextureHandle;
-	effUINT TextureLevel;
+	effUINT usage;
+	EFF3DPOOL pool;
+	effUINT filter;
+	effUINT mipFilter;
+	EFF3DCOLOR colorKey;
+	EFF3DSurfaceType surfaceType;
+	effBOOL	depthStencil;
+	EFF3DFORMAT depthStencilFormat;
+	EFF3DMULTISAMPLE_TYPE multiSample;
+	effUINT multisampleQuality;
+	effBOOL discard;
+	effULONG textureHandle;
+	effUINT textureLevel;
 };
 
 

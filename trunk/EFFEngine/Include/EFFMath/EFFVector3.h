@@ -9,7 +9,7 @@
 #define __EFFVector3_2009_12_30__
 
 
-
+EFFMATH_BEGIN
 
 
 class EFFMATH_API EFFVector3
@@ -89,6 +89,11 @@ inline effFLOAT EFFVector3::Dot(const EFFVector3 * pV)
 {
 	return EFFVec3Dot(this,pV);
 }
+
+
+EFFMATH_END
+
+
 #endif
 
 

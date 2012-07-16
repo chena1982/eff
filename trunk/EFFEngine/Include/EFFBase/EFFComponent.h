@@ -12,7 +12,7 @@
 
 EFFBASE_BEGIN
 
-
+class EFFObject;
 
 class EFFBASE_API EFFReferenceCount
 {
@@ -31,13 +31,25 @@ protected:
 	effUINT			refCount;
 };
 
+
+
 class EFFBASE_API EFFComponent : public EFFReferenceCount
 {
 	RTTI_DECLARE(EFFComponent, EFFReferenceCount)
 public:
 	virtual ~EFFComponent() {}
+public:
+	inline effBOOL		GetEnabled() { return enabled; }
+	inline effVOID		SetEnabled(effBOOL enabled) { this->enabled = enabled; }
+
+	inline EFFObject *	GetObject() { return object; }
+	inline effVOID		SetObject(EFFObject * object) { this->object = object; }
 protected:
-	EFFComponent() {}
+	EFFComponent();
+
+protected:
+	effBOOL			enabled;
+	EFFObject *		object;
 };
 
 

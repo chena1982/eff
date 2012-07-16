@@ -38,7 +38,7 @@ class EFF3D_API EFF3DTexture : public EFF3DBaseTexture
 protected:
 	EFF3DTexture()
 	{
-		m_ImageInfo.ResourceType = EFF3DRTYPE_TEXTURE;
+		m_ImageInfo.resourceType = EFF3DRTYPE_TEXTURE;
 	}
 	virtual ~EFF3DTexture() {};
 public:
@@ -57,7 +57,11 @@ protected:
 	virtual ~EFF3DImageManager();
 public:
 
-	effVOID CreateFromFileImpl(const effString * strFilePath, EFF3DRESOURCETYPE resourceType, EFF3DResource ** result);
+	EFF3DResource * CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType);
+protected:
+	inline effVOID	SetDevice(EFF3DDevice * device) { this->device = device; }
+protected:
+	EFF3DDevice *	device;
 };
 
 EFF3D_END

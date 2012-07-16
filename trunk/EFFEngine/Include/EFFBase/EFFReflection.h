@@ -64,7 +64,7 @@ std::string EFFBASE_API getClassNameFromTypeName(const char * pszTypeName);
 #define __PARAM__(N)         t##N
 #define __PYTHON_PARAM__(N)	ptr(t##N)
 #define __NOT_VIRTUAL__
-#define __ADD_METHOD_ARGS__(N) pInfo->m_vArgsName.push_back(getClassNameFromTypeName(typeid(T##N).name()));
+#define __ADD_METHOD_ARGS__(N) info->argTypes.push_back(GetParameterProperty<T##N>(_effT("")).parameterProperty);
 #define __SEMICOLON__   ;
 
 //被委托人
@@ -75,19 +75,19 @@ class	__delegatee__
 class __callable__info__
 {
 public:
-	std::string m_strMethodName;
-	std::string m_strReturnTypeName;
-	std::vector<std::string> m_vArgsName;
+	std::string						methodName;
+	EFFProperty *					returnType;
+	EFFProperty *					classType;
+	std::vector<EFFProperty *>		argTypes;
 };
 
 class __callable__
 {
 public:
-	__callable__() { pInfo = new __callable__info__; }
-	virtual ~__callable__() { SF_DELETE(pInfo); }
-
+	__callable__() { info = EFFNEW __callable__info__; }
+	virtual ~__callable__() { SF_DELETE(info); }
 public:
-	__callable__info__ *		pInfo;
+	__callable__info__ *	info;
 };
 
 
@@ -137,7 +137,7 @@ protected:\
 
 
 #define __MEMBER_CALLABLE__(N)\
-template <typename R,class C  __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+template <typename R, class C  __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
 class __member_callable##N##__ : public __callable__\
 {\
 public:\
@@ -148,8 +148,8 @@ public:\
 	__member_callable##N##__(FunctionPtrTypeReal m)\
 	{\
 		funcPtr = (FunctionPtrType)m;\
-		pInfo->m_strReturnTypeName = getClassNameFromTypeName(typeid(R).name());								/*得到返回值类型*/  \
-		__REPEAT(N,__ADD_METHOD_ARGS__,__SEMICOLON__,__NOTHING__);			/*得到参数类型*/  \
+		info->returnType = GetParameterProperty<R>(_effT("")).parameterProperty; /*得到返回值类型*/ \
+		__REPEAT(N, __ADD_METHOD_ARGS__, __SEMICOLON__, __NOTHING__); /*得到参数类型*/ \
 	}\
 public:\
 	FunctionPtrType		funcPtr;\
@@ -194,7 +194,7 @@ public:
 	__CREATE_CALLABLE__(4)
 
 
-	//__CREATE_MEMBER_CALLABLE__(0)
+	__CREATE_MEMBER_CALLABLE__(0)
 	__CREATE_MEMBER_CALLABLE__(1)
 	__CREATE_MEMBER_CALLABLE__(2)
 	__CREATE_MEMBER_CALLABLE__(3)

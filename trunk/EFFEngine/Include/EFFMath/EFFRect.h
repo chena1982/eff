@@ -9,6 +9,8 @@
 #define __EFFRect_2008_12_12__
 
 
+EFFMATH_BEGIN
+
 struct EFFRECT
 {
 	effLONG		nLeft;
@@ -25,5 +27,7 @@ public:
 public:
 
 };
+
+EFFMATH_END
 
 #endif

@@ -79,7 +79,7 @@ protected:
 class EFF3D_API EFF3DResource : public EFFObject
 {
 
-	RTTI_DECLARE(EFF3DResource, EFFObject)
+	RTTI_DECLARE_PURE(EFF3DResource, EFFObject)
 
 protected:
 	EFF3DResource() : isUnloaded(effFALSE), isLoaded(effFALSE), memorySize(0), videoMemorySize(0),
@@ -115,9 +115,11 @@ public:
 
 public:
 
-	virtual effBOOL					LoadDataFromFile(const effString & filePath) { return effTRUE; }
+	virtual effBOOL					LoadDataFromFile(const effString & filePath) = 0;
 	virtual effBOOL					Process() { return effTRUE; }
 	virtual effBOOL					CreateRuntimeResource(EFF3DDevice * pDevice) { return effTRUE; }
+	virtual effBOOL					Unload() { return effTRUE; }
+	virtual effBOOL					Reload() { return effTRUE; }
 
 	virtual effBOOL					Lock() { return effTRUE; }
 	virtual effBOOL					CopyDataToRuntimeResource() { return effTRUE; }

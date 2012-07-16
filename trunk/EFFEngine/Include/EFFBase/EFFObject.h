@@ -22,19 +22,23 @@ public:
 
 protected:
 	EFFObject();
-	void				SetObjectID(effULONG objectId) { this->objectId = objectId; }
+	void				SetID(effULONG id) { this->id = id; }
 public:
-	EFFComponent *		GetComponent(ClassID & classID);
-	EFFComponent *		GetComponent(effINT index);
+	EFFComponent *		GetComponent(const ClassID & classID);
+	EFFComponent *		GetComponent(effINT index) { return components[index]; }
 	effINT				GetComponentCount() { return components.size(); }
 
-	EFFComponent *		AddComponent(ClassID & classID);
-	effULONG			GetObjectID() { return objectId; }
+	EFFComponent *		AddComponent(const ClassID & classID);
+	effULONG			GetID() { return id; }
+
+	effString			GetName() { return name; }
+	effVOID				SetName(const effString & name) { this->name = name; }
 
 
 protected:
-	effULONG						objectId;
+	effULONG						id;
 	std::vector<EFFComponent *>		components;
+	effString						name;
 };
 
 

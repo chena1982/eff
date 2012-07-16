@@ -10,7 +10,8 @@
 
 EFF3D_BEGIN
 
-class EFF3DIResource;
+class EFF3DResource;
+class EFF3DDevice;
 
 effVOID WarmIOCache(effBYTE* pData, effUINT size);
 
