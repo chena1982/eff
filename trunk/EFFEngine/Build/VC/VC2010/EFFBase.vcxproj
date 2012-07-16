@@ -137,9 +137,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFBaseDefines.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\EFFComponent.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFMemberFunction.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFMessageCenter.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\EFFProperty.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\EFFReflection.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\EFFSTLRttiWrap.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFThread.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\EFFUtility.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\stdafx.cpp" />
     <ClCompile Include="..\..\..\Src\EFFBase\EFFMemory.cpp" />
@@ -155,10 +158,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFComponent.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFMemberFunction.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFProperty.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFReflection.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFSTLRttiWrap.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFThread.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\Reflection4CppEnum.h" />
     <ClInclude Include="..\..\..\Src\EFFBase\EFFUtility.h" />
     <ClInclude Include="..\..\..\Src\EFFBase\stdafx.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMemory.h" />

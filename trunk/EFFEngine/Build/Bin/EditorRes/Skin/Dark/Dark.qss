@@ -71,7 +71,9 @@ QWidget#scene > QToolBar > QLabel { width : 20px; }
 QToolBar > QLineEdit { border : 6px 6px 6px 6px;
 					   border-image : url(./EditorRes/Skin/Dark/search_lineedit_border.png) 6 6 6 6 repeat repeat;
 					   height : 2px;
-					   margin : 0px 4px; }
+					   margin : 0px 4px;
+					   min-width : 160px;
+					   max-width : 160px; }
 
 QWidget#inspectorHead { background-color : rgb(64, 64, 64); }
 
@@ -92,7 +94,30 @@ QDockWidget > QWidget > QWidget#transform { border-top : 1px solid rgb(79, 79, 7
 QDockWidget > QWidget > QWidget#transform > QLabel { margin : 0px 2px 0px 2px;
 													 min-height : 17px;
 													 max-height : 17px;
-													 color : rgb(180, 180, 180); }																																										
+													 color : rgb(180, 180, 180); }
+													 
+													 
+QWidget#componentPanel { border-top : 1px solid rgb(79, 79, 79);
+						 margin : 0px;
+						 padding : 0px;
+						 background-color : rgb(56, 56, 56); }
+
+QWidget#componentPanel > QToolBar { min-height : 17px;
+									max-height : 17px; }	
+									
+QWidget#componentPanel > QWidget > QLabel { color : rgb(180, 180, 180); }
+
+QCheckBox#expand { margin : 0px;
+				   padding : 0px; }
+
+QCheckBox#expand::indicator:checked { color : rgb(180, 180, 180);
+									  image : url(./EditorRes/Skin/Dark/expand_checkbox_checked.png); }
+
+QCheckBox#expand::indicator:unchecked { color : rgb(180, 180, 180);
+										image : url(./EditorRes/Skin/Dark/expand_checkbox_unchecked.png); }
+
+QWidget#componentPanel > QWidget { color : rgb(180, 180, 180); }	 									 
+												 													 																																									
 
 QTabBar { background-color : rgb(163, 163, 163); }
 

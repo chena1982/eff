@@ -46,9 +46,6 @@
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DDevice.cpp">
       <Filter>底层渲染接口</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DEffect.cpp">
-      <Filter>底层渲染接口</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMaterial.cpp">
       <Filter>底层渲染接口</Filter>
     </ClCompile>
@@ -97,14 +94,17 @@
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderable.cpp">
       <Filter>渲染流程框架</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueManager.cpp">
-      <Filter>渲染流程框架</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.cpp">
-      <Filter>渲染流程框架</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp">
       <Filter>渲染流程框架</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DCamera.cpp">
+      <Filter>底层渲染接口</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DShader.cpp">
+      <Filter>底层渲染接口</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DSceneManager.cpp">
+      <Filter>底层渲染接口</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,9 +112,6 @@
       <Filter>预编译</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DDevice.h">
-      <Filter>底层渲染接口</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DEffect.h">
       <Filter>底层渲染接口</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIndexBuffer.h">
@@ -178,14 +175,17 @@
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderable.h">
       <Filter>渲染流程框架</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueManager.h">
-      <Filter>渲染流程框架</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueue.h">
       <Filter>渲染流程框架</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.h">
-      <Filter>渲染流程框架</Filter>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DCamera.h">
+      <Filter>底层渲染接口</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DShader.h">
+      <Filter>底层渲染接口</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSceneManager.h">
+      <Filter>底层渲染接口</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

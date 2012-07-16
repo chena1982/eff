@@ -130,12 +130,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector4.cpp" />
     <ClCompile Include="..\..\..\Src\EFFMath\stdafx.cpp" />
     <ClCompile Include="..\..\..\Src\EFFMath\EFFMatrix4.cpp" />
     <ClCompile Include="..\..\..\Src\EFFMath\EFFRect.cpp" />
     <ClCompile Include="..\..\..\Src\EFFMath\EFFVector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFVector4.h" />
     <ClInclude Include="..\..\..\Src\EFFMath\stdafx.h" />
     <ClInclude Include="..\..\..\Include\EFFMath\EFFMathBaseDefines.h" />
     <ClInclude Include="..\..\..\Include\EFFMath\EFFMatrix4.h" />

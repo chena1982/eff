@@ -25,6 +25,9 @@
     <ClCompile Include="..\..\..\Src\EFFMath\EFFVector3.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector4.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFFMath\stdafx.h">
@@ -43,5 +46,8 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFMath.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFVector4.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

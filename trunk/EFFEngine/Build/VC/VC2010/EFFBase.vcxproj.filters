@@ -70,6 +70,15 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFUtility.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFMemberFunction.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFThread.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFMessageCenter.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFFBase\stdafx.h">
@@ -137,6 +146,18 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Src\EFFBase\EFFUtility.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFMemberFunction.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\Reflection4CppEnum.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFThread.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

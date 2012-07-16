@@ -177,19 +177,19 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DCamera.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DObject.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DSceneManager.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\stdafx.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DDevice.cpp" />
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DEffect.cpp" />
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DShader.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMaterial.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DSurface.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTexture.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DVertexDeclaration.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderable.cpp" />
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueManager.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueue.cpp" />
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DAsyncLoader.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DResource.cpp" />
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DResourceManager.cpp" />
@@ -201,9 +201,11 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DCamera.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSceneManager.h" />
     <ClInclude Include="..\..\..\Src\EFF3D\stdafx.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DDevice.h" />
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DEffect.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DShader.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DIndexBuffer.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DMaterial.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSurface.h" />
@@ -212,9 +214,7 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DVertexDeclaration.h" />
     <ClInclude Include="..\..\..\Src\EFF3D\EFF3DAutoParamDataSource.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderable.h" />
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueueManager.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DRenderQueue.h" />
-    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DRenderQueueSolid.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DObject.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DBaseDefines.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DAsyncLoader.h" />
@@ -228,11 +228,6 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClInclude Include="..\..\..\Src\EFF3D\EFF3DMyTerrain.h" />
     <ClInclude Include="..\..\..\Src\EFF3D\EFF3DMyTerrainTile.h" />
     <ClInclude Include="..\..\..\Include\EFF3D.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="EFFBase.vcxproj">
-      <Project>{e8c10a63-6f4a-4d58-bac6-30d1a1eced8d}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

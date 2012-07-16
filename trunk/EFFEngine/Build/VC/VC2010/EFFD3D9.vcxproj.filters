@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\..\Src\EFFD3D9\stdafx.cpp">
       <Filter>预编译</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFD3D9\EFFD3D9Shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\EFFD3D9\EFFD3D9BaseDefines.h">
@@ -66,6 +69,9 @@
       <Filter>预编译</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFD3D9.h" />
+    <ClInclude Include="..\..\..\Include\EFFD3D9\EFFD3D9Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Src\EFFD3D9\Exports.def" />
