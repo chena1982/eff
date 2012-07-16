@@ -34,4 +34,12 @@ effVOID EFFReferenceCount::Release()
 	}
 }
 
+EFFComponent::EFFComponent()
+{
+	SetEnabled(effTRUE);
+	object = NULL;
+}
+
+
+
 EFFBASE_END

@@ -35,11 +35,9 @@
 USE_EFFBASE
 
 #include "EFFMath.h"
-
+USE_EFFMATH
 //#include "WebCore.h"
 
 #include "EFF3DBaseDefines.h"
-
-
 
 

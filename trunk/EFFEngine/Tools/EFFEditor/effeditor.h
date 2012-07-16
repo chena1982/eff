@@ -18,6 +18,12 @@ public:
 	EFFEditorMainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~EFFEditorMainWindow();
 
+public:
+	bool LoadLayout(const QString & filePath);
+	EFFEditorInspectorPanel * GetInspectorPanel() { return m_pInspectorPanel; }
+	EFFEditorHierarchyPanel * GetHierarchyPanel() { return m_pHierarchyPanel; }
+public:
+	void closeEvent(QCloseEvent *event);
 private:
 	Ui::EFFEditorClass ui;
 

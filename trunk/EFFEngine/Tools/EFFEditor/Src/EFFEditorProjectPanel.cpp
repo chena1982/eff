@@ -20,6 +20,8 @@ EFFEditorProjecPanel::EFFEditorProjecPanel(QWidget * parent) : QDockWidget(paren
 	QObject::connect(this, SIGNAL(visibilityChanged(bool)), this, SLOT(titleBarAddOrDeleteTab(bool)));*/
 
 	setWindowTitle(tr("Project"));
+	setObjectName(tr("ProjectPanel"));
+	setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
 	//hide the title bar
 	/*QWidget* lTitleBar = titleBarWidget();
 	QWidget* lEmptyWidget = new QWidget();

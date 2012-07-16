@@ -12,3 +12,7 @@
 //#define new EFFNEW
 
 
+EFFMATH_BEGIN
+
+
+EFFMATH_END

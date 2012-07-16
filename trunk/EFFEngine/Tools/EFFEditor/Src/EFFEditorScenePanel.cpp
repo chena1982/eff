@@ -10,9 +10,13 @@
 #include "EFFEditorScenePanel.h"
 #include "EFFEditorDockWidgetTitleBar.h"
 
+#include "EFFEditorSceneRenderThread.h"
+
 extern QMainWindow * g_pMainWindow;
 
 #define TOOLBAR_MIN_HEIGHT 16
+
+unsigned int g_renderThreadId;
 
 EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParent)
 {
@@ -38,6 +42,7 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 	connect(m_pTitleBar->getTabBar(), SIGNAL(currentChanged(int)), this, SLOT(test(int)));*/
 
 	setWindowTitle(tr("Scene"));
+	setObjectName(tr("ScenePanel"));
 
 	setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
 
@@ -65,6 +70,13 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 	m_pToolbar->layout()->setContentsMargins(0, 0, 0, 0);
 	//m_pMainLayout->getContentsMargins(&left, &top, &right, &bottom);
 
+
+	/*RenderThreadStartParam * param = new RenderThreadStartParam();
+	param->hWnd = (HWND)m_pRealTimeContent->winId();
+	param->width = m_pRealTimeContent->width();
+	param->height = m_pRealTimeContent->height();
+	_beginthreadex(NULL, 0, RenderThread, param, 0, &g_renderThreadId);*/
+
 }
 
 
@@ -73,16 +85,12 @@ EFFEditorScenePanel::~EFFEditorScenePanel()
 
 }
 
-void EFFEditorScenePanel::test(int index)
-{
-	int z = 0;
-}
 
-class EFFEditorUIScenePanelDrawModeAction : public  QWidgetAction
+class EFFEditorScenePanelDrawModeAction : public  QWidgetAction
 {
 public:
-	EFFEditorUIScenePanelDrawModeAction(QObject * pParent) : QWidgetAction(pParent) {};
-	~EFFEditorUIScenePanelDrawModeAction() {}
+	EFFEditorScenePanelDrawModeAction(QObject * pParent) : QWidgetAction(pParent) {};
+	~EFFEditorScenePanelDrawModeAction() {}
 public:
 	QWidget * createWidget (QWidget * pParent)
 	{
@@ -102,11 +110,11 @@ public:
 	}
 };
 
-class EFFEditorUIScenePanelRenderModeAction : public  QWidgetAction
+class EFFEditorScenePanelRenderModeAction : public  QWidgetAction
 {
 public:
-	EFFEditorUIScenePanelRenderModeAction(QObject * pParent) : QWidgetAction(pParent) {};
-	~EFFEditorUIScenePanelRenderModeAction() {}
+	EFFEditorScenePanelRenderModeAction(QObject * pParent) : QWidgetAction(pParent) {};
+	~EFFEditorScenePanelRenderModeAction() {}
 public:
 	QWidget * createWidget (QWidget * pParent)
 	{
@@ -129,24 +137,6 @@ public:
 
 void EFFEditorScenePanel::createToolbar()
 {
-
-	/*m_pToolbar = new QWidget();
-	m_pToolbar->setObjectName("toolbar");
-	m_pToolbar->setMaximumHeight(16);
-
-	QHBoxLayout * toolbarLayout = new QHBoxLayout();
-	toolbarLayout->setContentsMargins(0, 0, 0, 0);
-
-	QPushButton * pRenderModeButton = new QPushButton();
-	QMenu * pRenderModeMenu = new QMenu(pRenderModeButton);
-	pRenderModeMenu->addMenu(tr("Textured"));
-	pRenderModeMenu->addMenu(tr("Wireframe"));
-	pRenderModeButton->setMenu(pRenderModeMenu);
-
-	toolbarLayout->addWidget(pRenderModeButton, 0, Qt::AlignLeft);
-	m_pToolbar->setLayout(toolbarLayout);*/
-
-
 	m_pToolbar = new QToolBar(NULL);
 	m_pToolbar->setMinimumHeight(TOOLBAR_MIN_HEIGHT);
 
@@ -227,24 +217,6 @@ void EFFEditorScenePanel::createToolbar()
 
 }
 
-void EFFEditorScenePanel::titleBarAddOrDeleteTab(bool bAdd)
-{
-	//m_pTitleBar->dockWidgetsTabified(this, bAdd);
-
-	/*QList<QDockWidget *> tdws = g_pMainWindow->tabifiedDockWidgets(this);
-
-	for ( int i = 0; i < tdws.size(); ++i )
-	{
-		QWidget * pWidget = tdws[i]->widget();
-		tdws[i]->setWidget(NULL);
-		m_pStackedWidget->addWidget(pWidget);
-		m_pTitleBar->getTabBar()->addTab(tdws[i]->windowTitle());
-		//tdws[i]->setFloating(true);
-		//tdws[i]->hide();
-		g_pMainWindow->removeDockWidget(tdws[i]);
-		m_pTitleBar->resetQss();
-	}*/
-}
 
 void EFFEditorScenePanel::drawModeMenuPressed(QAction * action)
 {
@@ -257,3 +229,12 @@ void EFFEditorScenePanel::renderModeMenuPressed(QAction * action)
 	QToolButton * renderMode = qobject_cast<QToolButton *>(action->parentWidget()->parentWidget());
 	renderMode->setText(action->text());
 }
+
+void EFFEditorScenePanel::resizeEvent(QResizeEvent * resizeEvent)
+{
+
+	QDockWidget::resizeEvent(resizeEvent);
+	//GetDevice()->Reset(effTRUE, resizeEvent->size().width(), resizeEvent->size().height());
+	return;
+}
+

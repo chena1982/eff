@@ -13,6 +13,8 @@
 
 //#define new EFFNEW
 
+EFFMATH_BEGIN
+
 EFFMatrix4::EFFMatrix4()
 {
 }
@@ -80,3 +82,6 @@ EFFMatrix4 * EFFMatrixLookAtLH(EFFMatrix4 *pOut,const EFFVector3 *pEye,const EFF
 
 	return pOut;
 }
+
+
+EFFMATH_END

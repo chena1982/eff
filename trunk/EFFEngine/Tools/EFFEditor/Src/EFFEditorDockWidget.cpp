@@ -9,9 +9,9 @@
 #include "stdafx.h"
 #include "EFFEditorDockWidget.h"
 #include "EFFEditorDockWidgetTitleBar.h"
+#include "EFFEditor.h"
 
-
-extern QMainWindow * g_pMainWindow;
+extern EFFEditorMainWindow * g_pMainWindow;
 
 
 char * QTabBarStyleSheet0 = "QTabBar { background-color : rgb(163, 163, 163); } \

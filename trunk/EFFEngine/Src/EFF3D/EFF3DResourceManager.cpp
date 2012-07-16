@@ -7,15 +7,18 @@
 ******************************************************************************/
 
 #include "stdafx.h"
+
 #include "EFF3DDevice.h"
 #include "EFF3DResource.h"
 #include "EFF3DAsyncLoader.h"
+#include "EFF3DSceneManager.h"
 #include "EFF3DResourceManager.h"
-
 
 //#define new EFFNEW
 
 EFF3D_BEGIN
+
+RTTI_IMPLEMENT(EFF3DResourceManager, 0)
 
 EFF3DResourceManager::EFF3DResourceManager()
 {
@@ -50,58 +53,66 @@ IMPL_CREATE_FROM_FILE(2)*/
 
 
 
-effVOID EFF3DResourceManager::AddFirstCreateResource(EFF3DResource * res)
+effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
 {
-	//res->SetObjectID(m_ulCurrentId);
-	CalculateNextId();
 	effString originPath = res->GetOriginPath();
 	effINT pos = originPath.rfind('\\');
 	if ( pos != -1 )
 	{
 		originPath = originPath.substr(pos, originPath.length() - pos);
-		//strName += res->GetObjectID();
 	}
 	res->SetName(originPath);
 	res->SetResourceManager(this);
 	res->CalculateSize();
 	memoryUsed += res->GetMemorySize();
-	AddResource(res);
-}
 
-effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
-{
-	//ClassLevelLockable<EFF3DResourceManager>::Lock lock;
 	resources[res->GetName()] = res;
-	//resourcesId[res->GetObjectID()] = res;
 }
 
-
-
-
-EFF3DResource * EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType, EFF3DDevice * device)
+EFF3DResource * EFF3DResourceManager::GetResource(const effString & filePath)
 {
+	effString name;
+	effINT pos = filePath.rfind('\\');
+	if ( pos != -1 )
+	{
+		name = filePath.substr(pos, filePath.length() - pos);
+	}
 
-	ResourceMap::iterator it = resources.find(filePath);
+	ResourceMap::iterator it = resources.find(name);
 	if ( it != resources.end() )
 	{
 		it->second->AddRef();
 		return it->second;
 	}
 
-	EFF3DResource * res = device->CreateEmptyResource(resourceType);
-	if ( res == NULL )
+	return NULL;
+}
+
+
+EFF3DResource * EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType, EFF3DDevice * device)
+{
+	
+	//BOOST_ASSERT(Class->IsKindOf(EFF3DResource::GetThisClass()));
+
+	EFF3DResource * resource = GetResource(filePath);
+
+	if ( resource != NULL )
+	{
+		return resource;
+	}
+
+	resource = device->CreateEmptyResource(resourceType);
+	if ( resource == NULL )
 	{
 		return NULL;
 	}
 
+	AddResource(resource);
+
 	effBOOL hr;
-	device->GetAsyncLoader()->AddWorkItem(res, &hr);
+	device->GetSceneManager()->GetAsyncLoader()->AddWorkItem(resource, &hr);
 
-
-	AddFirstCreateResource(res);
-	
-
-	return res;
+	return resource;
 }
 
 EFF3D_END

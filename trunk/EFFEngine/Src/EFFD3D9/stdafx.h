@@ -22,6 +22,10 @@
 #include <cassert>
 #include <cstdio>
 #include <iostream>
+#include <stdexcept>
+
+#include <Cg/cg.h>
+#include <Cg/cgD3D9.h>
 
 #include "d3d9.h"
 #include "d3dx9.h"
@@ -30,12 +34,12 @@
 #include <boost/python/detail/wrap_python.hpp>
 
 #include "EFFBase.h"
-
 USE_EFFBASE
 
 #include "EFFMath.h"
-#include "EFF3D.h"
+USE_EFFMATH
 
+#include "EFF3D.h"
 USE_EFF3D
 
 #include "EFFD3D9BaseDefines.h"

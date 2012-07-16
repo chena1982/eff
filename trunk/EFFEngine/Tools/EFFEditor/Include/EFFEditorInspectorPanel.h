@@ -11,14 +11,17 @@
 class EFFEditorUIDockWidgetTitleBar;
 class EFFEditorUITransformPanel;
 
+
 class EFFEditorInspectorPanel : public QDockWidget
 {
 	Q_OBJECT
 public:
 	EFFEditorInspectorPanel(QWidget * parent);
 	~EFFEditorInspectorPanel();
-
+public:
 	QSize sizeHint() const { return QSize(300, -1); }
+public:
+	effVOID BindObject(EFFObject * object);
 public slots:
 	void titleBarAddOrDeleteTab(bool bAdd);
 
@@ -26,8 +29,9 @@ private:
 	EFFEditorUIDockWidgetTitleBar *			m_pTitleBar;
 	EFFEditorUITransformPanel *				m_pTransformPanel;
 
-	QVBoxLayout *										m_pMainLayout;
-	QWidget *											m_pContent;
+	QVBoxLayout *							m_pMainLayout;
+	QWidget *								m_pContent;
+	std::map<EFFComponent *, QWidget *>		m_ComponentPanels;
 };
 
 #endif

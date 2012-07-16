@@ -17,11 +17,15 @@ public:
 	EFFEditorHierarchyPanel(QWidget * parent);
 	~EFFEditorHierarchyPanel();
 
+public:
+	void AddObject(EFFObject * object);
+
 public slots:
-		void titleBarAddOrDeleteTab(bool bAdd);
+	void titleBarAddOrDeleteTab(bool bAdd);
 
 private:
 	EFFEditorUIDockWidgetTitleBar *			m_pTitleBar;
+	QTreeWidget *							m_pTreeWidget;
 };
 
 #endif

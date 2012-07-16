@@ -32,26 +32,26 @@ effHRESULT EFFD3D9Texture::GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc)
 	return m_pTexture->GetLevelDesc(Level,(D3DSURFACE_DESC *)pDesc);
 }
 
-effHRESULT EFFD3D9Texture::GetSurfaceLevel(effUINT Level,EFF3DSurface ** ppSurfaceLevel)
+effHRESULT EFFD3D9Texture::GetSurfaceLevel(effUINT level, EFF3DSurface ** surfaceLevel)
 {
 	assert(m_pTexture != NULL);
 
-	EFFD3D9Surface * pSurface = new EFFD3D9Surface;
+	EFFD3D9Surface * effD3D9Surface = EFFNEW EFFD3D9Surface();
 
-	effHRESULT hr = m_pTexture->GetSurfaceLevel(Level,&pSurface->m_pSurface);
+	effHRESULT hr = m_pTexture->GetSurfaceLevel(level, &effD3D9Surface->m_pSurface);
 	
 	if ( FAILED(hr) ) 
 	{
-		SF_DELETE(pSurface);
+		SF_DELETE(effD3D9Surface);
 		return hr;
 	}
 
-	pSurface->m_ImageInfo.SurfaceType = GetFromTexture_Surface;
-	pSurface->m_ImageInfo.TextureLevel = Level;
+	effD3D9Surface->m_ImageInfo.surfaceType = GetFromTexture_Surface;
+	effD3D9Surface->m_ImageInfo.textureLevel = level;
 
 	//m_pDevice->m_pImageManager->AddFirstCreateResource(pSurface,std::string(_ucT("Surface")));
 
-	*ppSurfaceLevel = pSurface;
+	*surfaceLevel = effD3D9Surface;
 	return hr;
 }
 
@@ -74,16 +74,17 @@ effVOID EFFD3D9Texture::CalculateSize()
 
 effBOOL EFFD3D9Texture::Reload()
 {
-	if ( m_ImageInfo.Pool == EFF3DPOOL_MANAGED )
+	if ( m_ImageInfo.pool == EFF3DPOOL_MANAGED )
 	{
 		return effTRUE;
 	}
 	return effTRUE;
 }
 
-effVOID EFFD3D9Texture::Unload()
+effBOOL EFFD3D9Texture::Unload()
 {
 	SF_RELEASE(m_pTexture);
+	return effTRUE;
 }
 
 
@@ -128,12 +129,12 @@ effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * pDevice)
 	memset(&desc,0,sizeof(desc));
 	m_pTexture->GetLevelDesc(0,&desc);
 
-	m_ImageInfo.Width = desc.Width;
-	m_ImageInfo.Height = desc.Height;
-	m_ImageInfo.MipLevels = 0;
-	m_ImageInfo.Usage = desc.Usage;
-	m_ImageInfo.Format = (EFF3DFORMAT)desc.Format;
-	m_ImageInfo.Pool = (EFF3DPOOL)desc.Pool;
+	m_ImageInfo.width = desc.Width;
+	m_ImageInfo.height = desc.Height;
+	m_ImageInfo.mipLevels = 0;
+	m_ImageInfo.usage = desc.Usage;
+	m_ImageInfo.format = (EFF3DFORMAT)desc.Format;
+	m_ImageInfo.pool = (EFF3DPOOL)desc.Pool;
 
 	return effTRUE;
 }
@@ -152,14 +153,14 @@ effBOOL EFFD3D9Texture::Unlock()
 
 effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
 {
-	effBYTE * pDest = (effBYTE *)m_lockedRect.pBits;
-	effBYTE * pSrc = data;
-	for ( effUINT i = 0; i < m_ImageInfo.Height; i++ )
+	effBYTE * dest = (effBYTE *)m_lockedRect.pBits;
+	effBYTE * src = data;
+	for ( effUINT i = 0; i < m_ImageInfo.height; i++ )
 	{
-		effUINT uiSize = sizeof(effUINT)*m_ImageInfo.Width;
-		memcpy(pDest,pSrc,uiSize);
-		pDest += m_lockedRect.Pitch;
-		pSrc+= uiSize;
+		effUINT size = sizeof(effUINT)*m_ImageInfo.width;
+		memcpy(dest, src, size);
+		dest += m_lockedRect.Pitch;
+		src += size;
 	}
 	return effTRUE;
 }

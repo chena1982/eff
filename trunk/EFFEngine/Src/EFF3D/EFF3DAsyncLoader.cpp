@@ -363,7 +363,7 @@ effVOID EFF3DAsyncLoader::DestroyAsyncLoadingThreadObjects()
 // how many items are in the queue, the graphics thread doesn't stall trying to process
 // all of them.
 //--------------------------------------------------------------------------------------
-effVOID EFF3DAsyncLoader::ProcessDeviceWorkItems(effUINT currentToServiceResourcesNum, BOOL retryLoads )
+effVOID EFF3DAsyncLoader::ProcessDeviceWorkItems(effUINT currentToServiceResourcesNum, effBOOL retryLoads )
 {
 	if ( enderThreadQueue.size() == 0 )
 	{

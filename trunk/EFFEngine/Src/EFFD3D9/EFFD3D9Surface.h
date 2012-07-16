@@ -24,7 +24,7 @@ public:
 
 	effVOID								CalculateSize();
 	effBOOL								Reload();
-	effVOID								Unload();
+	effBOOL								Unload();
 
 protected:
 	effBOOL								LoadDataFromFile(const effString & strFilePath);

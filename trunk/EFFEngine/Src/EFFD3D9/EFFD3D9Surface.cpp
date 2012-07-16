@@ -56,15 +56,16 @@ effBOOL EFFD3D9Surface::CreateRuntimeResource(EFF3DDevice * pDevice)
 
 effBOOL EFFD3D9Surface::Reload()
 {
-	if ( m_ImageInfo.Pool == EFF3DPOOL_MANAGED )
+	if ( m_ImageInfo.pool == EFF3DPOOL_MANAGED )
 	{
 		return effTRUE;
 	}
 	return effTRUE;
 }
 
-effVOID EFFD3D9Surface::Unload()
+effBOOL EFFD3D9Surface::Unload()
 {
 	SF_RELEASE(m_pSurface);
+	return effTRUE;
 }
 

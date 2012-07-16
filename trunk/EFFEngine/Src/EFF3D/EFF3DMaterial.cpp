@@ -23,8 +23,8 @@ using namespace boost::python;
 
 EFF3DMaterial::EFF3DMaterial()
 {
-	m_pEffect = NULL;
-	m_pScriptModule = NULL;
+	shader = NULL;
+	//m_pScriptModule = NULL;
 }
 
 
@@ -39,13 +39,13 @@ EFF3DMaterial * GetCurrentMaterial()
 	return g_pCurrentMaterial;
 }
 
-effBOOL EFF3DMaterial::CreateFromFile(const effCHAR * szFilePath)
+effBOOL EFF3DMaterial::CreateFromFile(const effString & filePath)
 {
 
 
 	g_pCurrentMaterial = this;
 
-	m_pScriptModule = PyImport_ImportModule(szFilePath);//这里是要调用的文件名
+	/*m_pScriptModule = PyImport_ImportModule(szFilePath);//这里是要调用的文件名
 	if ( m_pScriptModule != NULL )
 	{
 		PyObject * pFunc = PyObject_GetAttrString(m_pScriptModule, "InitMaterialScript");//这里是要调用的函数名
@@ -65,7 +65,7 @@ effBOOL EFF3DMaterial::CreateFromFile(const effCHAR * szFilePath)
 	else
 	{
 		PyErr_Print();
-	}
+	}*/
 
 
 
@@ -76,7 +76,7 @@ effBOOL EFF3DMaterial::CreateFromFile(const effCHAR * szFilePath)
 
 
 
-BOOST_PYTHON_MODULE(EFF3D)
+/*BOOST_PYTHON_MODULE(EFF3D)
 {
 
 
@@ -85,7 +85,7 @@ BOOST_PYTHON_MODULE(EFF3D)
 	;
 
 	def("GetCurrentMaterial",&GetCurrentMaterial,return_value_policy<reference_existing_object>());
-}
+}*/
 
 
 

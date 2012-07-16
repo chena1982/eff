@@ -10,6 +10,7 @@
 #include "EFFEditorInspectorPanel.h"
 #include "EFFEditorDockWidgetTitleBar.h"
 #include "EFFEditorTransformPanel.h"
+#include "EFFEditorComponentPanel.h"
 
 EFFEditorInspectorPanel::EFFEditorInspectorPanel(QWidget * parent) : QDockWidget(parent)
 {
@@ -20,12 +21,8 @@ EFFEditorInspectorPanel::EFFEditorInspectorPanel(QWidget * parent) : QDockWidget
 	QObject::connect(this, SIGNAL(visibilityChanged(bool)), this, SLOT(titleBarAddOrDeleteTab(bool)));*/
 
 	setWindowTitle(tr("Inspector"));
-	//hide the title bar
-	/*QWidget* lTitleBar = titleBarWidget();
-	QWidget* lEmptyWidget = new QWidget();
-	setTitleBarWidget(lEmptyWidget);
-	delete lTitleBar;*/
-
+	setObjectName(tr("InspectorPanel"));
+	setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
 
 	m_pContent = new QWidget(this);
 
@@ -98,3 +95,18 @@ void EFFEditorInspectorPanel::titleBarAddOrDeleteTab(bool bAdd)
 {
 	m_pTitleBar->dockWidgetsTabified(this, bAdd);
 }
+
+
+effVOID EFFEditorInspectorPanel::BindObject(EFFObject * object)
+{
+	effINT componentCount = object->GetComponentCount();
+
+	for ( effINT i = 0; i < componentCount; i++ )
+	{
+		EFFEditorComponentPanel * componentPanel = new EFFEditorComponentPanel();
+		componentPanel->BindComponent(object->GetComponent(i));
+		effINT index = m_pMainLayout->count() - 1;
+		m_pMainLayout->insertWidget(index, componentPanel);
+	}
+}
+

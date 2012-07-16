@@ -48,8 +48,9 @@ effBOOL EFF3DTerrainROAMImproveTileData::Reload()
 	return effTRUE;
 }
 
-effVOID EFF3DTerrainROAMImproveTileData::Unload()
+effBOOL EFF3DTerrainROAMImproveTileData::Unload()
 {
+	return effTRUE;
 }
 
 effBOOL IsVertexOnTileEdge(effINT nX,effINT nZ)

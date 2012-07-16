@@ -20,9 +20,19 @@ std::map<EFFClass *, EFFObjectManager *> objectManagers;
 
 effVOID EFFRegisterObjectManager(EFFClass * Class, EFFObjectManager * objectManager)
 {
-	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.find(Class);
+	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.begin();
 
-	if ( it == objectManagers.end() )
+	effBOOL alreadyHave = effFALSE;
+	for ( ; it != objectManagers.end(); it++ )
+	{
+		if ( Class->IsKindOf(it->first) )
+		{
+			alreadyHave = effTRUE;
+			break;
+		}
+	}
+
+	if ( !alreadyHave )
 	{
 		objectManagers[Class] = objectManager;
 	}
@@ -31,10 +41,13 @@ effVOID EFFRegisterObjectManager(EFFClass * Class, EFFObjectManager * objectMana
 
 EFFObjectManager * EFFGetObjectManager(EFFClass * Class)
 {
-	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.find(Class);
-	if ( it != objectManagers.end() )
+	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.begin();
+	for ( ; it != objectManagers.end(); it++ )
 	{
-		return it->second;
+		if ( Class->IsKindOf(it->first) )
+		{
+			return it->second;
+		}
 	}
 
 	return NULL;
@@ -58,7 +71,7 @@ EFFObject * EFFObjectManager::CreateObject(EFFClass * Class)
 	EFFObject * object = static_cast<EFFObject *>(EFFCreateObject(Class->GetID()));
 
 	CalculateNextId();
-	object->SetObjectID(currentId);
+	object->SetID(currentId);
 	object->AddRef();
 
 	BOOST_ASSERT(objects.find(currentId) == objects.end());
@@ -73,11 +86,11 @@ void EFFObjectManager::ReleaseObject(EFFObject * object)
 	BOOST_ASSERT(object != NULL);
 
 
-	std::map<effUINT, EFFObject *>::iterator it = objects.find(object->GetObjectID());
+	std::map<effUINT, EFFObject *>::iterator it = objects.find(object->GetID());
 	if ( it != objects.end() )
 	{
 		effUINT refCount = object->GetRef();
-		effUINT objectId = object->GetObjectID();
+		effUINT objectId = object->GetID();
 		object->Release();
 		if ( refCount == 1 )
 		{

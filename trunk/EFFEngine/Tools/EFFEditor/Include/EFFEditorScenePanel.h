@@ -18,12 +18,11 @@ class EFFEditorScenePanel : public QDockWidget
 public:
 	EFFEditorScenePanel(QWidget * pParent);
 	~EFFEditorScenePanel();
-
+public:
+	void resizeEvent(QResizeEvent * resizeEvent);
 public slots:
-	void titleBarAddOrDeleteTab(bool bAdd);
 	void drawModeMenuPressed(QAction *);
 	void renderModeMenuPressed(QAction *);
-	void test(int index);
 protected:
 	void createToolbar();
 private:

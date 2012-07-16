@@ -16,7 +16,7 @@
 
 EFF3D_BEGIN
 
-EFF3DTerrainTile::EFF3DTerrainTile(EFF3DITerrainTileData * tileData, EFF3DMaterial * material /* = NULL */, EFF3DObject * object /* = NULL */) : EFF3DRenderable(material, object)
+EFF3DTerrainTile::EFF3DTerrainTile(EFF3DITerrainTileData * tileData, EFF3DMaterial * material /* = NULL */, EFF3DObject * object /* = NULL */) : EFF3DRenderable()
 {
 	this->tileData = tileData;
 	currentLevel = 0;

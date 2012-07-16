@@ -37,6 +37,6 @@ public:
 
 private:
 	EFFEditorUITabBar *						m_pTabBar;
-	QWidget *									m_pEmptyTitleBar;
+	QWidget *								m_pEmptyTitleBar;
 };
 #endif

@@ -45,7 +45,10 @@ const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
 
 RTTI_IMPLEMENT_POD(effString)
 RTTI_IMPLEMENT_POD(effINT)
+RTTI_IMPLEMENT_POD(effUINT)
 RTTI_IMPLEMENT_POD(effFLOAT)
+RTTI_IMPLEMENT_POD(effBOOL)
+RTTI_IMPLEMENT_PURE_POD(effVOID)
 
 //不直接使用全局静态变量，因为无法保证全局静态变量的初始化顺序，如果别的静态变量比mapEFFRunTimeTypeInfo先初始化，
 //而且这个静态变量在构造函数里调用了EFFRegisterClass，那么程序会Crash
@@ -135,7 +138,7 @@ ClassID ClassIDFromString(const effString & className)
 	return classId;
 }
 
-effVOID EFFClass::addProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name)
+effVOID SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name)
 {
 	addedProperty->SetOffset(offset);
 	addedProperty->SetSize(size);
@@ -143,9 +146,9 @@ effVOID EFFClass::addProperty(EFFProperty * addedProperty, effLONG offset, effLO
 	//addedProperty->SetClass(propertyClass);
 	EFFClass * propertyClass = addedProperty->GetClass();
 
-	if ( propertyClass != NULL && propertyClass->isPOD )
+	if ( propertyClass != NULL && propertyClass->IsPODType() )
 	{
-		if ( propertyClass->className == _effT("effString") )
+		if ( propertyClass->GetName() == _effT("effString") )
 		{
 			addedProperty->SetSavePropertyFP(SaveStringProperty);
 		}
@@ -155,7 +158,7 @@ effVOID EFFClass::addProperty(EFFProperty * addedProperty, effLONG offset, effLO
 		}
 	}
 
-	properties.push_back(addedProperty);
+
 }
 
 
@@ -182,6 +185,15 @@ effString GetPODTypeClassName(const effCHAR * propertyTypeName)
 	{
 		return effString(_effT("effFLOAT"));
 	}
+	else if ( strcmp(propertyTypeName, "void") == 0 )
+	{
+		return effString(_effT("effVOID"));
+	}
+	else if ( strcmp(propertyTypeName, "bool") == 0 )
+	{
+		return effString(_effT("effBOOL"));
+	}
+
 	return effString(_effT("unkown pod type"));
 }
 

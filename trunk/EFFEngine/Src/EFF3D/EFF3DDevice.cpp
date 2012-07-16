@@ -9,28 +9,40 @@
 #include "stdafx.h"
 
 #include "EFF3DResourceManager.h"
-#include "EFF3DAsyncLoader.h"
+#include "EFF3DSceneManager.h"
 #include "EFF3DTexture.h"
-#include "EFF3DAutoParamDataSource.h"
 #include "EFF3DMaterial.h"
-#include "EFF3DEffect.h"
+#include "EFF3DShader.h"
 #include "EFF3DDevice.h"
 
 //#define new EFFNEW
 
 EFF3D_BEGIN
 
-effBOOL EFF3D_API  Create3DDevice(effLPCTSTR pszDllName,EFF3DDevice** lpp3DDevice ,effBOOL bWindow,HWND hWnd,effINT nWidth,effINT nHeight,effBOOL bFSA/* = effFALSE*/,effBOOL bMultiThread/* = effFALSE*/,effUINT dwDSFormat/* = EFF3DFMT_D16*/)
+EFF3DDevice * GetDevice()
 {
-	HMODULE hDLL = LoadLibrary(pszDllName);
+	return device;
+}
+
+typedef effBOOL (*effCREATE3DDEVICE)(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
+
+effBOOL EFF3D_API Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height)
+{
+	HMODULE hDLL = LoadLibrary(dllName.c_str());
 	if ( hDLL != NULL )
 	{
-		effCREATE3DDEVICE realCreate3DDevice = (effCREATE3DDEVICE)GetProcAddress((HMODULE)hDLL,"effCreate3DDevice");
-		if (realCreate3DDevice==0)
+		effCREATE3DDEVICE realCreate3DDevice = (effCREATE3DDEVICE)GetProcAddress((HMODULE)hDLL, "effCreate3DDevice");
+		if ( realCreate3DDevice == NULL )
 		{
 			return effFALSE;
 		}
-		return realCreate3DDevice(lpp3DDevice,bWindow,hWnd,nWidth,nHeight,bFSA,bMultiThread,dwDSFormat);
+
+		effBOOL succeed = realCreate3DDevice(eff3DDevice, window, hWnd, width, height);
+		if ( succeed )
+		{
+			device = *eff3DDevice;
+			device->Init();
+		}
 	}
 	return effFALSE;
 }
@@ -38,77 +50,82 @@ effBOOL EFF3D_API  Create3DDevice(effLPCTSTR pszDllName,EFF3DDevice** lpp3DDevic
 
 EFF3DDevice::EFF3DDevice()
 {
-	Py_Initialize();//使用python之前，要调用Py_Initialize();这个函数进行初始化
+	//Py_Initialize();//使用python之前，要调用Py_Initialize();这个函数进行初始化
 
-	ilInit();
+	//ilInit();
 
-	m_pImageManager = new EFF3DImageManager();
-	
-	m_pAsyncLoader = new EFF3DAsyncLoader(this,1);
+
 
 	//m_pWebCore = new Awesomium::WebCore();
 
-	m_nWidth = 0;
-	m_nHeight = 0;
+	width = 0;
+	height = 0;
 	//m_pImageManager->CreateFromFile(_effT(""),EFF3DRTYPE_TEXTURE);
 
-	m_pAutoParamDataSource = new EFF3DAutoParamDataSource;
+
 }
 
 EFF3DDevice::~EFF3DDevice()
 {
-	Py_Finalize();//调用Py_Finalize，这个根Py_Initialize相对应的。
+	//Py_Finalize();//调用Py_Finalize，这个根Py_Initialize相对应的。
 
-	SF_DELETE(m_pImageManager);
-
+	SF_DELETE(imageManager);
+	SF_DELETE(sceneManager);
 	//SF_DELETE(m_pWebCore);
+}
 
-	SF_DELETE(m_pAutoParamDataSource);
+effVOID EFF3DDevice::Init()
+{
+	imageManager = EFFNEW EFF3DImageManager();
+	EFFRegisterObjectManager(EFF3DImageManager::GetThisClass(), imageManager);
+	
+	sceneManager = EFFNEW EFF3DSceneManager();
 }
 
 struct QuadVertex
 {
 	effFLOAT			x,y,z,rhw;
 	effFLOAT			u,v;
-	const static effUINT	fvf = EFF3DFVF_XYZRHW | EFF3DFVF_TEX1;
+	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_TEX1;
 };
 
 
 
-effHRESULT EFF3DDevice::DrawQuad(EFFRect * pRect)
+
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 {
 
 	static QuadVertex vertices[6];
 
-	EFFRect rect;
-	if ( pRect == NULL )
+	EFFRect quadRect;
+	if ( rect == NULL )
 	{
-		rect.nLeft = 0;
-		rect.nRight = m_nWidth;
-		rect.nTop = 0;
-		rect.nBottom = m_nHeight;
+		quadRect.nLeft = 0;
+		quadRect.nRight = width;
+		quadRect.nTop = 0;
+		quadRect.nBottom = height;
 	}
 	else
 	{
-		rect = *pRect;
+		quadRect = *rect;
 	}
 
-	vertices[0].x = (effFLOAT)rect.nLeft - 0.5f;
-	vertices[0].y = (effFLOAT)rect.nTop - 0.5f;
+	vertices[0].x = (effFLOAT)quadRect.nLeft - 0.5f;
+	vertices[0].y = (effFLOAT)quadRect.nTop - 0.5f;
 	vertices[0].z = 0.0f;
 	vertices[0].rhw = 1.0f;
 	vertices[0].u = 0.0f;
 	vertices[0].v = 0.0f;
 
-	vertices[1].x = (effFLOAT)rect.nRight - 0.5f;
-	vertices[1].y = (effFLOAT)rect.nTop - 0.5f;
+	vertices[1].x = (effFLOAT)quadRect.nRight - 0.5f;
+	vertices[1].y = (effFLOAT)quadRect.nTop - 0.5f;
 	vertices[1].z = 0.0f;
 	vertices[1].rhw = 1.0f;
 	vertices[1].u = 1.0f;
 	vertices[1].v = 0.0f;
 
-	vertices[2].x = (effFLOAT)rect.nRight - 0.5f;
-	vertices[2].y = (effFLOAT)rect.nBottom - 0.5f;
+	vertices[2].x = (effFLOAT)quadRect.nRight - 0.5f;
+	vertices[2].y = (effFLOAT)quadRect.nBottom - 0.5f;
 	vertices[2].z = 0.0f;
 	vertices[2].rhw = 1.0f;
 	vertices[2].u = 1.0f;
@@ -118,56 +135,47 @@ effHRESULT EFF3DDevice::DrawQuad(EFFRect * pRect)
 	vertices[4] = vertices[2];
 
 
-	vertices[5].x = (effFLOAT)rect.nLeft - 0.5f;
-	vertices[5].y = (effFLOAT)rect.nBottom - 0.5f;
+	vertices[5].x = (effFLOAT)quadRect.nLeft - 0.5f;
+	vertices[5].y = (effFLOAT)quadRect.nBottom - 0.5f;
 	vertices[5].z = 0.0f;
 	vertices[5].rhw = 1.0f;
 	vertices[5].u = 0.0f;
 	vertices[5].v = 1.0f;
 
 	SetFVF(QuadVertex::fvf);
-	return DrawPrimitiveUP(EFF3DPT_TRIANGLELIST,2,vertices,sizeof(QuadVertex));
+	return DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, vertices, sizeof(QuadVertex));
 }
 
-effHRESULT EFF3DDevice::DrawQuad(EFF3DTexture * pTexture,EFF3DMaterial * pMaterial /* = NULL */,EFFRect * pRect /* = NULL */)
+effBOOL EFF3DDevice::DrawQuad(EFF3DTexture * texture, EFF3DMaterial * material /* = NULL */, EFFRect * rect /* = NULL */)
 {
-	SetTexture(0,pTexture);
+	SetTexture(0, texture);
 	effHRESULT hr;
 
 
-	if ( pMaterial != NULL )
+	if ( material != NULL )
 	{
-		EFF3DEffect * pEffect = pMaterial->GetEffect();
+		EFF3DShader * shader = material->GetShader();
 
-		if ( pEffect != NULL )
+		if ( shader != NULL )
 		{
-			pEffect->UpdateAutoParametersPerEffect(this,m_pAutoParamDataSource);
-
-			effUINT uiPass;
-			pEffect->Begin(&uiPass,0);
-			for ( effUINT i = 0; i < uiPass; i++ )
-			{
-				pEffect->BeginPass(i);
-				hr = DrawQuad(pRect);
-				pEffect->EndPass();
-			}
-			pEffect->End();
+			//shader->UpdateAutoParametersPerShader(this, autoParamDataSource);
+			hr = DrawQuad(rect);
 		}
 	}
 	else
 	{
-		SetTextureStageState(0,EFF3DTSS_COLOROP,EFF3DTOP_SELECTARG1);
-		SetTextureStageState(0,EFF3DTSS_COLORARG1,EFF3DTA_TEXTURE);
-		hr = DrawQuad(pRect);
+		SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
+		SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TEXTURE);
+		hr = DrawQuad(rect);
 	}
 
-	return hr;
+	return SUCCEEDED(hr);
 }
 
-effVOID EFF3DDevice::SetBackBufferSize(effINT nWidth,effINT nHeight)
+effVOID EFF3DDevice::SetBackBufferSize(effINT width, effINT height)
 {
-	m_nWidth = nWidth;
-	m_nHeight = nHeight;
+	this->width = width;
+	this->height = height;
 }
 
 EFF3D_END

@@ -12,22 +12,40 @@
 
 class EFFEditorComponentPanel : public QWidget
 {
+	Q_OBJECT
+public:
+	enum PropertyNameType
+	{
+		Normal,
+		HasChild,
+		Child,
+	};
 public:
 	EFFEditorComponentPanel();
 	~EFFEditorComponentPanel();
 
 
 public:
-	template<class T>
-	void addComponentPanel(T * pComponent) {};
+
 
 
 	void BindComponent(EFFComponent * component);
 
 	void createTransformPanel();
+
+public slots:
+	void ToggleHasChildProperty(int state);
+
 protected:
-	EFFObject * object;
-	QVBoxLayout * mainLayout;
+	QWidget * AddPropertyName(const effString & propertyName, PropertyNameType propertyNameType);
+	void AddPropertyValue(EFFComponent * component, EFFProperty * addedProperty, QWidget * lineWidget);
+
+	void AddProperyValueString(const effString & propertyValue, QWidget * lineWidget);
+	void AddProperyValueBool(effBOOL propertyValue, QWidget * lineWidget);
+
+protected:
+	EFFComponent *	m_pComponent;
+	QVBoxLayout *	m_pMainLayout;
 };
 
 #endif

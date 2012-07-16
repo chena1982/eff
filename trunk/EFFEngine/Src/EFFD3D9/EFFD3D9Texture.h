@@ -13,6 +13,7 @@
 class EFFD3D9Texture : public EFF3DTexture
 {
 	friend class EFFD3D9Device;
+	friend class EFFD3D9Shader;
 public:
 	EFFD3D9Texture();
 	virtual ~EFFD3D9Texture();
@@ -24,7 +25,7 @@ public:
 
 	effVOID									CalculateSize();
 	effBOOL									Reload();
-	effVOID									Unload();
+	effBOOL									Unload();
 protected:
 	effBOOL									LoadDataFromFile(const effString & strFilePath);
 	effBOOL									CreateRuntimeResource(EFF3DDevice * pDevice);

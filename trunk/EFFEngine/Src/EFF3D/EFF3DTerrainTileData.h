@@ -23,10 +23,10 @@ public:
 	~EFF3DITerrainTileData() {}
 
 public:
-	virtual EFF3DVertexBuffer *			GetVertexBuffer(effINT nLevel,EFF3DDevice * pDevice) = 0;
+	virtual EFF3DVertexBuffer *					GetVertexBuffer(effINT nLevel,EFF3DDevice * pDevice) = 0;
 	virtual effINT								GetVerticesNum(effINT nLevel) = 0;
 	virtual effINT								GetVerticesStride() = 0;
-	virtual EFF3DIndexBuffer *			GetIndexBuffer(effINT nLevel,EFF3DDevice * pDevice) = 0;
+	virtual EFF3DIndexBuffer *					GetIndexBuffer(effINT nLevel,EFF3DDevice * pDevice) = 0;
 	virtual effINT								GetIndicesNum(effINT nLevel) = 0;
 	virtual effINT								GetTileX() = 0;
 	virtual effINT								GetTileZ() = 0;

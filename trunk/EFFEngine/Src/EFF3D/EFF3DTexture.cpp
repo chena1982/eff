@@ -9,20 +9,20 @@
 #include "stdafx.h"
 #include "EFF3DTexture.h"
 #include "EFF3DSurface.h"
-
+#include "EFF3DDevice.h"
 //#define new EFFNEW
 
 EFF3D_BEGIN
 
 EFF3DImageManager::EFF3DImageManager()
 {
-	OnCreateFromFile += EFFEventCall(this,&EFF3DImageManager::CreateFromFileImpl);
+	//OnCreateFromFile += EFFEventCall(this, &EFF3DImageManager::CreateFromFileImpl);
 
 
 
-	//EFF3DResource * pR = (EFF3DResource *)(void *)0x8708;
-	effString s = _effT("ChenA");
-	//OnCreateFromFile(&s,EFF3DRTYPE_TEXTURE,pR);
+	//EFF3DResource * pR = NULL;
+	//effString s = _effT("ChenA");
+	//OnCreateFromFile(_effT("ChenA"), EFF3DRTYPE_TEXTURE, pR);
 
 }
 
@@ -31,12 +31,25 @@ EFF3DImageManager::~EFF3DImageManager()
 }
 
 
-effVOID EFF3DImageManager::CreateFromFileImpl(const effString * strFilePath, EFF3DRESOURCETYPE resourceType, EFF3DResource ** result)
+EFF3DResource * EFF3DImageManager::CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType)
 {
+	EFF3DResource * resource = GetResource(filePath);
+
+	if ( resource != NULL )
+	{
+		return resource;
+	}
+
 	if ( resourceType == EFF3DRTYPE_TEXTURE )
 	{
-		int z = 0;
+		EFF3DTexture * texture = NULL;
+		if ( device->CreateTextureFromFile(filePath, &texture) )
+		{
+			AddResource(texture);
+			return texture;
+		}
 	}
+	return NULL;
 }
 
 EFF3D_END
