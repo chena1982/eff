@@ -13,28 +13,25 @@
 #include "qtpropertymanager.h"
 #include <QtTreePropertyBrowser>
 
-class QtReferencePropertyManager : public QtStringPropertyManager
-{
-	Q_OBJECT
 
-public:
-	QtReferencePropertyManager(QObject * parent = NULL) : QtStringPropertyManager(parent) {}
-};
 
 
 EFFEditorComponentPanel::EFFEditorComponentPanel()
 {
-	QToolBar * pToolbar = new QToolBar();
-	
 	setObjectName(tr("componentPanel"));
 
+	//setMinimumSize(QSize(-1, 100));
+
 	m_pMainLayout = new QVBoxLayout();
+
+	QToolBar * pToolbar = new QToolBar();
 	m_pMainLayout->addWidget(pToolbar);
-	m_pMainLayout->setContentsMargins(1, 1, 1, 1);
+
+	m_pMainLayout->setContentsMargins(0, 0, 0, 0);
 	m_pMainLayout->setSpacing(0);
 
 	setLayout(m_pMainLayout);
-	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+	//setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 }
 
 
@@ -48,25 +45,22 @@ void EFFEditorComponentPanel::createTransformPanel()
 
 }
 
+void EFFEditorComponentPanel::paintEvent(QPaintEvent *)
+{
+	QStyleOption opt;
+	opt.init(this);
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
 void EFFEditorComponentPanel::BindComponent(EFFComponent * component)
 {
-
-	//QtTreePropertyBrowser * propertyGrid = new QtTreePropertyBrowser(this);
-	//propertyGrid->setObjectName(tr("propertyGrid"));
-	//treeWidget->setColumnCount(2);
-	//QtStringPropertyManager * stringManager = new QtStringPropertyManager();
-
 	EFFClass * componentClass = component->GetRuntimeClass();
 	std::vector<EFFProperty *> componentProperties = componentClass->GetProperties();
 	for ( effINT i = 0; i < componentProperties.size(); i++ )
 	{
 		EFFProperty * componentProperty = componentProperties[i];
 
-
-
-		/*QPalette palette;
-		palette.setColor(QPalette::Background, QColor(255, 0, 0));
-		propertyNameWidget->setPalette(palette);*/
 		QWidget * lineWidget;
 		if ( componentProperty->GetIsSTLContainer() )
 		{
@@ -78,27 +72,28 @@ void EFFEditorComponentPanel::BindComponent(EFFComponent * component)
 		}
 
 		AddPropertyValue(component, componentProperty, lineWidget);
-
 	}
 
+	m_pComponent = component;
 
 }
 
 QWidget * EFFEditorComponentPanel::AddPropertyName(const effString & propertyName, PropertyNameType propertyNameType)
 {
 	QString qPropertyName(EFFSTRING2ANSI(propertyName));
-	//propertyGrid->addProperty(stringManager->addProperty(qname));
 
 	QWidget * lineWidget = new QWidget(this);
 	m_pMainLayout->addWidget(lineWidget);
 
-	QHBoxLayout * propertyLineLayout = new QHBoxLayout();
-	propertyLineLayout->setContentsMargins(0, 0, 0, 0);
+	m_LineWidgets.push_back(lineWidget);
 
-	lineWidget->setLayout(propertyLineLayout);
+	QHBoxLayout * lineLayout = new QHBoxLayout();
+	lineLayout->setContentsMargins(0, 0, 0, 0);
+
+	lineWidget->setLayout(lineLayout);
 
 	QHBoxLayout * propertyNameLayout = new QHBoxLayout();
-	propertyLineLayout->addLayout(propertyNameLayout, 5);
+	lineLayout->addLayout(propertyNameLayout, 5);
 
 	QLabel * propertyNameWidget = new QLabel(lineWidget);
 	propertyNameWidget->setText(qPropertyName);
@@ -106,11 +101,13 @@ QWidget * EFFEditorComponentPanel::AddPropertyName(const effString & propertyNam
 
 	if ( propertyNameType == HasChild )
 	{
-		QCheckBox * expandWidget = new QCheckBox(lineWidget);
-		expandWidget->setObjectName(tr("expand"));
-		propertyNameLayout->addWidget(expandWidget);
+		QCheckBox * branchWidget = new QCheckBox(lineWidget);
+		branchWidget->setObjectName(tr("branch"));
+		propertyNameLayout->addWidget(branchWidget);
 
-		QObject::connect(expandWidget, SIGNAL(stateChanged(int)), this, SLOT(ToggleHasChildProperty(int)));
+		QObject::connect(branchWidget, SIGNAL(stateChanged(int)), this, SLOT(BranchWidgetClicked(int)));
+
+		m_BranchPropertyNameWidgetPairs[branchWidget] = propertyNameWidget;
 	}
 	else if ( propertyNameType == Normal )
 	{
@@ -126,9 +123,6 @@ QWidget * EFFEditorComponentPanel::AddPropertyName(const effString & propertyNam
 	return lineWidget;
 }
 
-void test(const effString & element)
-{
-}
 
 void EFFEditorComponentPanel::AddPropertyValue(EFFComponent * component, EFFProperty * addedProperty, QWidget * lineWidget)
 {
@@ -146,12 +140,11 @@ void EFFEditorComponentPanel::AddPropertyValue(EFFComponent * component, EFFProp
 			effString propertyClassName = addedProperty->GetClass()->GetName();
 			if ( propertyClassName == _effT("effString") )
 			{
-				componentClass->PropertyForEach<effString>(addedProperty->GetName(), component, 
-									[=, this](const effString & propertyValue)
-									{
-										QWidget * elementLineWidget = AddPropertyName(_effT("Element"), Child);
-										AddProperyValueString(propertyValue, elementLineWidget);
-									});
+				addedProperty->ForEach<effString>(component, [=, this](const effString & propertyValue)
+													{
+														QWidget * elementLineWidget = AddPropertyName(_effT("Element"), Child);
+														AddProperyValueString(propertyValue, elementLineWidget);
+													});
 
 			}
 
@@ -162,13 +155,13 @@ void EFFEditorComponentPanel::AddPropertyValue(EFFComponent * component, EFFProp
 			if ( propertyClassName == _effT("effBOOL") )
 			{
 				effBOOL propertyValue;
-				componentClass->GetProperty(addedProperty->GetName(), component, propertyValue);
+				addedProperty->GetValue(component, propertyValue);
 				AddProperyValueBool(propertyValue, lineWidget);
 			}
 			else if ( propertyClassName == _effT("effString") )
 			{
 				effString propertyValue;
-				componentClass->GetProperty(addedProperty->GetName(), component, propertyValue);
+				addedProperty->GetValue(component, propertyValue);
 				AddProperyValueString(propertyValue, lineWidget);
 			}
 
@@ -202,11 +195,53 @@ void EFFEditorComponentPanel::AddProperyValueBool(effBOOL propertyValue, QWidget
 					
 	propertyValueWidget->setCheckState(propertyValue ? Qt::Checked : Qt::Unchecked);
 
-	propertyValueLayout->addWidget(propertyValueWidget, 5, Qt::AlignLeft);
+	propertyValueLayout->addWidget(propertyValueWidget, 5, Qt::AlignLeft | Qt::AlignVCenter);
 
 }
 
-void EFFEditorComponentPanel::ToggleHasChildProperty(int state)
+void EFFEditorComponentPanel::BranchWidgetClicked(int state)
 {
-	int z = 0;
+	QCheckBox * branchWidget = (QCheckBox *)QObject::sender();
+
+	QWidget * lineWidget = branchWidget->parentWidget();
+
+	auto it = m_BranchPropertyNameWidgetPairs.find(branchWidget);
+	if ( it != m_BranchPropertyNameWidgetPairs.end() )
+	{
+		QLabel * propertyNameWidget = it->second;
+		QString qPropertyName = propertyNameWidget->text();
+
+		
+
+		EFFProperty * componentProperty = m_pComponent->GetProperty(effString((effTCHAR *)qPropertyName.utf16()));
+
+		if ( componentProperty == NULL )
+		{
+			return;
+		}
+
+		effINT elementCount = componentProperty->GetElementCount(m_pComponent);
+
+		for ( effUINT i = 0; i < m_LineWidgets.size(); i++ )
+		{
+			if ( m_LineWidgets[i] == lineWidget )
+			{
+				for ( effUINT j = i + 1; j < i + 1 + elementCount; j++ )
+				{
+					if ( state == Qt::Checked )
+					{
+						m_LineWidgets[j]->hide();
+					}
+					else if ( state == Qt::Unchecked )
+					{
+						m_LineWidgets[j]->show();
+					}
+				}
+				break;
+			}
+		}
+
+
+
+	}
 }

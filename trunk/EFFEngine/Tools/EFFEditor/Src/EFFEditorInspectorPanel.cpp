@@ -27,7 +27,7 @@ EFFEditorInspectorPanel::EFFEditorInspectorPanel(QWidget * parent) : QDockWidget
 	m_pContent = new QWidget(this);
 
 	m_pMainLayout = new QVBoxLayout();
-	m_pMainLayout->setContentsMargins(1, 1, 1, 1);
+	m_pMainLayout->setContentsMargins(2, 1, 1, 1);
 	m_pMainLayout->setSpacing(0);
 
 
@@ -71,14 +71,12 @@ EFFEditorInspectorPanel::EFFEditorInspectorPanel(QWidget * parent) : QDockWidget
 
 	m_pMainLayout->addWidget(inspectorHeadPanel);
 
-	m_pTransformPanel = new EFFEditorUITransformPanel(NULL);
+	m_pTransformPanel = new EFFEditorTransformPanel();
 	m_pMainLayout->addWidget(m_pTransformPanel);
-
 
 	//Ìî³äÊ£ÓàÇøÓò
 	QWidget * pWidget = new QWidget();
 	m_pMainLayout->addWidget(pWidget, 1);
-
 
 
 	m_pContent->setLayout(m_pMainLayout);

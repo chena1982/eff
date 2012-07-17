@@ -8,11 +8,11 @@
 #ifndef __EFFEditorUITransformPanel_2010_9_6__
 #define __EFFEditorUITransformPanel_2010_9_6__
 
-class EFFEditorUITransformPanel : public QWidget
+class EFFEditorTransformPanel : public QWidget
 {
 public:
-	EFFEditorUITransformPanel(QWidget * pParent);
-	~EFFEditorUITransformPanel();
+	EFFEditorTransformPanel();
+	~EFFEditorTransformPanel();
 
 public:
 	//QSize sizeHint() const { return minimumSizeHint(); }

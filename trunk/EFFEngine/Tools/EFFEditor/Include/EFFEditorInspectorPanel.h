@@ -9,7 +9,7 @@
 #define __EFFEditorInspectorPanel_2010_9_5__
 
 class EFFEditorUIDockWidgetTitleBar;
-class EFFEditorUITransformPanel;
+class EFFEditorTransformPanel;
 
 
 class EFFEditorInspectorPanel : public QDockWidget
@@ -27,7 +27,7 @@ public slots:
 
 private:
 	EFFEditorUIDockWidgetTitleBar *			m_pTitleBar;
-	EFFEditorUITransformPanel *				m_pTransformPanel;
+	EFFEditorTransformPanel *				m_pTransformPanel;
 
 	QVBoxLayout *							m_pMainLayout;
 	QWidget *								m_pContent;

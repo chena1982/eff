@@ -74,7 +74,7 @@ void test()
 
 	//AClass->AddProperty(&A::m_u, _effT("sss"));
 	a->m_u.push_back(1);
-	AClass->AddProperty(&A::m_s, _effT("name"));
+	AClass->AddProperty(&A::m_s, _effT("Name"));
 	//AClass->AddProperty(&A::m_b, _effT("Bzz"));
 	AClass->AddProperty(&A::m_v, _effT("Vector"));
 	//AClass->AddProperty(&A::m_n, _effT("string pointer Vector"));

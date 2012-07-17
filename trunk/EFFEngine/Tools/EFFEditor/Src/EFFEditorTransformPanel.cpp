@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFEditorTransformPanel.h"
 
-EFFEditorUITransformPanel::EFFEditorUITransformPanel(QWidget * pParent) : QWidget(pParent)
+EFFEditorTransformPanel::EFFEditorTransformPanel()
 {
 	setObjectName("transform");
 
@@ -17,12 +17,12 @@ EFFEditorUITransformPanel::EFFEditorUITransformPanel(QWidget * pParent) : QWidge
 }
 
 
-EFFEditorUITransformPanel::~EFFEditorUITransformPanel()
+EFFEditorTransformPanel::~EFFEditorTransformPanel()
 {
 
 }
 
-void EFFEditorUITransformPanel::create()
+void EFFEditorTransformPanel::create()
 {
 	QToolBar * pToolbar = new QToolBar();
 	

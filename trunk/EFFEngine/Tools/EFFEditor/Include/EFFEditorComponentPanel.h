@@ -33,8 +33,11 @@ public:
 
 	void createTransformPanel();
 
+public:
+	void paintEvent(QPaintEvent *);
+
 public slots:
-	void ToggleHasChildProperty(int state);
+	void BranchWidgetClicked(int state);
 
 protected:
 	QWidget * AddPropertyName(const effString & propertyName, PropertyNameType propertyNameType);
@@ -46,6 +49,9 @@ protected:
 protected:
 	EFFComponent *	m_pComponent;
 	QVBoxLayout *	m_pMainLayout;
+
+	std::map<QCheckBox *, QLabel *>	m_BranchPropertyNameWidgetPairs;
+	std::vector<QWidget *>			m_LineWidgets;
 };
 
 #endif
