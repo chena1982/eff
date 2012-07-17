@@ -13,6 +13,7 @@
 EFFBASE_BEGIN
 
 class EFFObject;
+class EFFProperty;
 
 class EFFBASE_API EFFReferenceCount
 {
@@ -44,6 +45,9 @@ public:
 
 	inline EFFObject *	GetObject() { return object; }
 	inline effVOID		SetObject(EFFObject * object) { this->object = object; }
+
+public:
+	EFFProperty *		GetProperty(const effString & name);
 protected:
 	EFFComponent();
 

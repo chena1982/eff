@@ -273,56 +273,9 @@ public:
 		return effFALSE;
 	}
 
-	template<typename PropertyType>
-	effBOOL GetProperty(const effString & propertyName, effVOID * baseAddress, PropertyType & result)
-	{
-		for ( effUINT i = 0; i < properties.size(); i++ )
-		{
-			if ( properties[i]->name == propertyName )
-			{
-				result = *((PropertyType *)((effBYTE *)baseAddress + properties[i]->GetOffset()));
-				return effTRUE;
-			}
-		}
 
-		return effFALSE;
-	}
 
-	template<typename PropertyType>
-	effBOOL GetProperty(const effString & propertyName, effVOID * baseAddress, effUINT index, PropertyType & result)
-	{
-		for ( effUINT i = 0; i < properties.size(); i++ )
-		{
-			if ( properties[i]->name == propertyName )
-			{
-				if ( properties[i]->stlContainerType == EFFProperty::ContainerType_Vector )
-				{
-					std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + properties[i]->GetOffset()));
-					result = propertyVector[index];
-					return effTRUE;
-				}
-			}
-		}
 
-		return effFALSE;
-	}
-
-	template<typename PropertyType, typename Visitor>
-	effVOID PropertyForEach(const effString & propertyName, effVOID * baseAddress, Visitor visitor)
-	{
-		for ( effUINT i = 0; i < properties.size(); i++ )
-		{
-			if ( properties[i]->name == propertyName )
-			{
-				if ( properties[i]->stlContainerType == EFFProperty::ContainerType_Vector )
-				{
-					//PropertyForEachString(baseAddress, visitor);
-					std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + properties[i]->GetOffset()));
-					for_each(propertyVector.begin(), propertyVector.end(), visitor);
-				}
-			}
-		}
-	}
 
 
 

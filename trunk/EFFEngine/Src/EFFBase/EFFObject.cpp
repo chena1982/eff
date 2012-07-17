@@ -52,4 +52,20 @@ EFFComponent * EFFObject::AddComponent(const ClassID & classID)
 	return component;
 }
 
+
+EFFProperty * EFFObject::GetProperty(const effString & propertyName)
+{
+	EFFClass * objectClass = GetRuntimeClass();
+	auto prperties = objectClass->GetProperties();
+	for ( effUINT i = 0; i < prperties.size(); i++ )
+	{
+		if ( prperties[i]->GetName() == propertyName )
+		{
+			return prperties[i];
+		}
+	}
+
+	return NULL;
+}
+
 EFFBASE_END

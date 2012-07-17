@@ -11,6 +11,7 @@
 #include <boost\type_traits.hpp>
 #include "EFFUtility.h"
 
+
 EFFBASE_BEGIN
 
 class EFFClass;
@@ -72,6 +73,43 @@ public:
 
 
 	virtual effVOID				SaveToFile(EFFFile * file, effVOID * baseAddress) = 0;
+
+public:
+	template<typename PropertyType>
+	effBOOL GetValue(effVOID * baseAddress, PropertyType & result)
+	{
+		result = *((PropertyType *)((effBYTE *)baseAddress + offset));
+		return effTRUE;
+	}
+
+	template<typename PropertyType>
+	effBOOL GetElement(effVOID * baseAddress, effUINT index, PropertyType & result)
+	{
+		if ( stlContainerType == EFFProperty::ContainerType_Vector )
+		{
+			std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + offset));
+			result = propertyVector[index];
+			return effTRUE;
+		}
+
+
+		return effFALSE;
+	}
+
+	effINT GetElementCount(effVOID * baseAddress);
+
+	template<typename PropertyType, typename Visitor>
+	effVOID ForEach(effVOID * baseAddress, Visitor visitor)
+	{
+
+		if ( stlContainerType == EFFProperty::ContainerType_Vector )
+		{
+			//PropertyForEachString(baseAddress, visitor);
+			std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + offset));
+			for_each(propertyVector.begin(), propertyVector.end(), visitor);
+		}
+	}
+
 protected:
 	effUINT					offset;
 	effUINT					size;
