@@ -99,24 +99,26 @@ QDockWidget > QWidget > QWidget#transform > QLabel { margin : 0px 2px 0px 2px;
 													 
 QWidget#componentPanel { border-top : 1px solid rgb(79, 79, 79);
 						 margin : 0px;
-						 padding : 0px;
-						 background-color : rgb(56, 56, 56); }
+						 padding : 0px; }
 
 QWidget#componentPanel > QToolBar { min-height : 17px;
 									max-height : 17px; }	
-									
+
+QWidget#componentPanel > QWidget { color : rgb(255, 0, 0); }
+
 QWidget#componentPanel > QWidget > QLabel { color : rgb(180, 180, 180); }
 
-QCheckBox#expand { margin : 0px;
+
+QCheckBox#branch { margin : 0px;
 				   padding : 0px; }
 
-QCheckBox#expand::indicator:checked { color : rgb(180, 180, 180);
-									  image : url(./EditorRes/Skin/Dark/expand_checkbox_checked.png); }
+QCheckBox#branch::indicator:checked { color : rgb(180, 180, 180);
+									  image : url(./EditorRes/Skin/Dark/branch_checkbox_checked.png); }
 
-QCheckBox#expand::indicator:unchecked { color : rgb(180, 180, 180);
-										image : url(./EditorRes/Skin/Dark/expand_checkbox_unchecked.png); }
+QCheckBox#branch::indicator:unchecked { color : rgb(180, 180, 180);
+										image : url(./EditorRes/Skin/Dark/branch_checkbox_unchecked.png); }
 
-QWidget#componentPanel > QWidget { color : rgb(180, 180, 180); }	 									 
+	 									 
 												 													 																																									
 
 QTabBar { background-color : rgb(163, 163, 163); }
