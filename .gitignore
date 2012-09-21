@@ -1,2 +1,13 @@
 
 /trunk/EFFEngine/Temp
+/trunk/EFFEngine/Tools/EFFEditor/Debug
+/trunk/EFFEngine/Tools/EFFEditor/EFFEditor.vcxproj.filters
+/trunk/EFFEngine/Tools/EFFEditor/EFFEditor.vcxproj.user
+/trunk/EFFEngine/Tools/EFFEditor/EFFEditor.sdf
+/trunk/EFFEngine/Tools/EFFEditor/EFFEditor.opensdf
+/trunk/EFFEngine/Tools/EFFEditor/Deleted
+/trunk/EFFEngine/Tools/EFFEditor/GeneratedFiles
+/trunk/EFFEngine/Tools/EFFEditor/EFFEditor.ncb
+/trunk/EFFEngine/Tools/EFFEditor/EFFEditor.suo
+/trunk/EFFEngine/Tools/EFFEditor/ipch
+/trunk/EFFEngine/Build/Bin/EditorRes/Layout/Saved.layout

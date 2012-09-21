@@ -26,19 +26,16 @@ public:
 
 
 public:
-
-
-
 	void BindComponent(EFFComponent * component);
 
-	void createTransformPanel();
+	void CreateTitle();
 
 public:
 	void paintEvent(QPaintEvent *);
 
 public slots:
-	void BranchWidgetClicked(int state);
-
+	void PropertyBranchWidgetClicked(int state);
+	void ComponentBranchWidgetClicked(int state);
 protected:
 	QWidget * AddPropertyName(const effString & propertyName, PropertyNameType propertyNameType);
 	void AddPropertyValue(EFFComponent * component, EFFProperty * addedProperty, QWidget * lineWidget);
@@ -49,6 +46,8 @@ protected:
 protected:
 	EFFComponent *	m_pComponent;
 	QVBoxLayout *	m_pMainLayout;
+	QWidget *		m_pContent;
+	QVBoxLayout *	m_pContentLayout;
 
 	std::map<QCheckBox *, QLabel *>	m_BranchPropertyNameWidgetPairs;
 	std::vector<QWidget *>			m_LineWidgets;

@@ -9,7 +9,7 @@
 #define WIN32_LEAN_AND_MEAN             // 从 Windows 头中排除极少使用的资料
 // Windows 头文件:
 #include <windows.h>
-
+#include <WinSock2.h>
 
 // TODO: 在此处引用程序需要的其他头文件
 #include "malloc.h"
@@ -19,11 +19,13 @@
 #include <hash_map>
 #include <map>
 #include <vector>
+#include <iostream>
+#include <io.h>
 
 //#include <Python.h>
 //因为要使用boost.python，所以用下面的这个头文件代替Python.h，不然会链接到python26_d.lib
 //如果要使用调试版的python26_d.lib，boost.python也需要使用python26_d.lib，这时需要定义BOOST_DEBUG_PYTHON，否则会链接到使用python26.lib的boost.python库
-#include <boost/python/detail/wrap_python.hpp>
+//#include <boost/python/detail/wrap_python.hpp>
 
 #include "EFFBaseDefines.h"
 #include "EFFMemory.h"

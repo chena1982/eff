@@ -4,11 +4,21 @@
 #include "stdafx.h"
 #include <fstream>
 
+class A;
+
 class B
 {
 	RTTI_DECLARE_BASE(B)
 	int t;
 
+	void * test(int * z, A & d, A * s)
+	{
+		return NULL;
+	}
+
+	void test1()
+	{
+	}
 };
 
 class A
@@ -47,7 +57,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	effString * p = (effString *)EFFCreateObject(_effT("effString"));
 	*p = effString(_effT("nihao"));
 
+	effString str = _effT("込込");
+	effUINT hash = EFFStringHash(str.c_str()).GetHash();
 
+	effUINT hash2 = EFFStringHash(_effT("込込")).GetHash();
+	if ( hash == hash2 )
+	{
+		int z = 4;
+	}
 	
 	A * a = (A *)EFFCreateObject(_effT("A"));
 	a->m_z = 10;
@@ -66,7 +83,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//AClass->AddProperty(&A::m_r, _effT("B"));
 
 	effString name;
-	A::GetThisClass()->GetProperty(_effT("name"), a, name);
+	//A::GetThisClass()->GetProperty(_effT("name"), a, name);
 
 	B * b = (B *)EFFCreateObject(_effT("B"));
 	b->t = 100;
@@ -75,6 +92,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	a->m_t.push_back(b);
 
 	a->SaveToFile(_effT("111"));
+
+	EFFEvent test;
+	test += EFFEventCall(b, &B::test1);
+	test();
 
 	std::vector<B *> z;
 	z.push_back(new B());

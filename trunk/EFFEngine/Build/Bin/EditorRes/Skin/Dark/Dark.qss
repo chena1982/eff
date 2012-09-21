@@ -7,13 +7,14 @@ QMainWindow::separator { background-color : rgb(41, 41, 41);
 
 QWidget { margin : 0px;
 		  border : 0px;
-		  padding : 0px; }
+		  padding : 0px;
+		  color : rgb(180, 180, 180); }
 
 QDockWidget::title { margin : 0px;
-					 color : rgb(255, 0, 0);
+					 color : rgb(180, 180, 180); /*不起作用，详情见http://stackoverflow.com/questions/9126764/qdockwidget-title-bar-font-color*/
 					 border : 0px;
 					 padding : 0px;
-					 text-align : left center;
+					 text-align : left;
 					 height : 8px; }
 
 QPushButton { border : 4px;
@@ -26,7 +27,7 @@ QLineEdit { border : 2px;
 			height : 12px;
 			color : rgb(180, 180, 180); }
 
-QCheckBox { margin : 2px 1px 1px 1px;
+QCheckBox { margin : 3px 0px 0px 1px;
 			min-height : 13px;
 			max-height : 13px;
 			min-width : 13px;
@@ -86,27 +87,28 @@ QWidget#inspectorHead > QLabel { margin : 0px 2px 0px 2px;
 
 
 	
-QDockWidget > QWidget > QWidget#transform { border-top : 1px solid rgb(79, 79, 79);
-											background-color : rgb(56, 56, 56); }
+QWidget#transform { border-top : 1px solid rgb(79, 79, 79);
+					background-color : rgb(56, 56, 56); }
 																				
 
 																				
-QDockWidget > QWidget > QWidget#transform > QLabel { margin : 0px 2px 0px 2px;
-													 min-height : 17px;
-													 max-height : 17px;
-													 color : rgb(180, 180, 180); }
+QWidget#transform > QLabel { margin : 0px 2px 0px 2px;
+							 min-height : 17px;
+							 max-height : 17px;
+							 color : rgb(180, 180, 180); }
 													 
 													 
 QWidget#componentPanel { border-top : 1px solid rgb(79, 79, 79);
 						 margin : 0px;
 						 padding : 0px; }
 
-QWidget#componentPanel > QToolBar { min-height : 17px;
-									max-height : 17px; }	
+QWidget#componentPanel > QToolBar { min-height : 19px;
+									max-height : 19px; }	
 
-QWidget#componentPanel > QWidget { color : rgb(255, 0, 0); }
 
-QWidget#componentPanel > QWidget > QLabel { color : rgb(180, 180, 180); }
+QWidget#componentPanel > QWidget > QWidget > QLabel { color : rgb(180, 180, 180); }
+
+QLabel#componentTypeName { margin : 0px 2px 0px 4px; }
 
 
 QCheckBox#branch { margin : 0px;

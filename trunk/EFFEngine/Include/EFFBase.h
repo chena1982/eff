@@ -23,6 +23,7 @@
 #include ".\EFFBase\EFFEvent.h"
 #include ".\EFFBase\Reflection4CppEnum.h"
 #include ".\EFFBase\EFFThread.h"
+#include ".\EFFBase\EFFStringHash.h"
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

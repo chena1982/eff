@@ -19,7 +19,7 @@ EFFBASE_BEGIN
 
 struct EFFBASE_API ClassID
 {
-	unsigned __int64 classId[2];
+	effUINT64 classId[2];
 
 	bool operator == (const ClassID & c) const
 	{
@@ -30,6 +30,10 @@ struct EFFBASE_API ClassID
 	{
 		return classId[0] < c.classId[0];
 	}
+
+public:
+	effUINT64 High() { return classId[0]; }
+	effUINT64 Low() { return classId[1]; }
 };
 
 class EFFClass;

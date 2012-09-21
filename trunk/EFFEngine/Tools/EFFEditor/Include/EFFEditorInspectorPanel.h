@@ -20,6 +20,7 @@ public:
 	~EFFEditorInspectorPanel();
 public:
 	QSize sizeHint() const { return QSize(300, -1); }
+	//void paintEvent(QPaintEvent *);
 public:
 	effVOID BindObject(EFFObject * object);
 public slots:

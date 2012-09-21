@@ -108,3 +108,10 @@ effVOID EFFEditorInspectorPanel::BindObject(EFFObject * object)
 	}
 }
 
+/*void EFFEditorInspectorPanel::paintEvent(QPaintEvent *)
+{
+	QStyleOption opt;
+	opt.init(this);
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}*/
