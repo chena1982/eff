@@ -15,14 +15,7 @@
 
 // TODO: 在此处引用程序需要的其他头文件
 
-#include <string>
-#include <hash_map>
-#include <map>
-#include <vector>
-#include <cassert>
-#include <cstdio>
-#include <iostream>
-#include <stdexcept>
+
 
 #include <Cg/cg.h>
 #include <Cg/cgD3D9.h>
@@ -31,7 +24,8 @@
 #include "d3dx9.h"
 
 //#include <Python.h>
-#include <boost/python/detail/wrap_python.hpp>
+//#include <boost/python/detail/wrap_python.hpp>
+
 
 #include "EFFBase.h"
 USE_EFFBASE

@@ -49,7 +49,7 @@ effUINT EFFSTLFile::Write(effVOID * buffer, effUINT size)
 	return fwrite(buffer, size, 1, file);
 }
 
-void EFFSTLFile::Close()
+effVOID EFFSTLFile::Close()
 {
 	if ( file != NULL )
 	{
@@ -58,10 +58,11 @@ void EFFSTLFile::Close()
 	}
 }
 
-unsigned int EFFSTLFile::Length()
+effUINT EFFSTLFile::Length()
 {
 	int n = _fileno(file);  
-	return _filelength(n);
+	//return _filelength(n);
+	return 0;
 }
 
 EFFBASE_END

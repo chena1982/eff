@@ -8,10 +8,30 @@
 #ifndef __EFFObject_2008_12_10__
 #define __EFFObject_2008_12_10__
 
-#include "EFFComponent.h"
+
 
 
 EFFBASE_BEGIN
+
+class EFFProperty;
+
+class EFFBASE_API EFFReferenceCount
+{
+	RTTI_DECLARE_BASE(EFFReferenceCount)
+public:
+	virtual	~EFFReferenceCount() {}
+protected:
+	EFFReferenceCount() { refCount = 0; }
+
+public:
+	effUINT			GetRef() { return refCount; }
+	effUINT			AddRef();
+	effVOID			Release();
+protected:
+	effUINT			refCount;
+};
+
+
 
 class EFFBASE_API EFFObject : public EFFReferenceCount
 {
@@ -24,11 +44,7 @@ protected:
 	EFFObject();
 	void				SetID(effUINT id) { this->id = id; }
 public:
-	EFFComponent *		GetComponent(const ClassID & classID);
-	EFFComponent *		GetComponent(effINT index) { return components[index]; }
-	effINT				GetComponentCount() { return components.size(); }
 
-	EFFComponent *		AddComponent(const ClassID & classID);
 	effUINT				GetID() { return id; }
 
 	effString			GetName() { return name; }
@@ -36,10 +52,10 @@ public:
 
 	EFFProperty *		GetProperty(const effString & name);
 protected:
-	effUINT							id;
-	std::vector<EFFComponent *>		components;
-	effString						name;
+	effUINT				id;
+	effString			name;
 };
+
 
 
 EFFBASE_END

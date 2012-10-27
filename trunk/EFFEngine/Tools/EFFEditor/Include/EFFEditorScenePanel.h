@@ -12,6 +12,8 @@ class EFFEditorUIDockWidgetTitleBar;
 
 #include "EFFEditorDockWidget.h"
 
+class EFFEditorRealTimeWidget;
+
 class EFFEditorScenePanel : public QDockWidget
 {
 	Q_OBJECT
@@ -32,6 +34,7 @@ private:
 	QVBoxLayout *											m_pMainLayout;
 	QWidget *												m_pContent;
 	QToolBar *												m_pToolbar;
+	//EFFEditorRealTimeWidget *								m_pRealTimeContent;
 	QWidget *												m_pRealTimeContent;
 
 };

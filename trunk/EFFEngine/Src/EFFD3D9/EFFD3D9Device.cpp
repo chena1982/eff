@@ -167,27 +167,30 @@ EFFD3D9Device::~EFFD3D9Device()
 {
 	cgD3D9SetDevice(NULL);
 	cgDestroyContext(cgContext);
+
+	SF_RELEASE(D3D9Device);
+	SF_RELEASE(D3D9);
 }
 
 
 effBOOL EFFD3D9Device::BeginScene()
 {
-	return D3D9Device->BeginScene();
+	return SUCCEEDED(D3D9Device->BeginScene());
 }
 
 effBOOL EFFD3D9Device::EndScene()
 {
-	return D3D9Device->EndScene();
+	return SUCCEEDED(D3D9Device->EndScene());
 }
 
 effBOOL EFFD3D9Device::Clear(effUINT count, const EFFRect * rects, effUINT flags, EFF3DCOLOR color, effFLOAT z, effUINT stencil)
 {
-	return D3D9Device->Clear(count,(const D3DRECT *)rects, flags, color, z, stencil);
+	return SUCCEEDED(D3D9Device->Clear(count,(const D3DRECT *)rects, flags, color, z, stencil));
 }
 
 effBOOL EFFD3D9Device::Present(const EFFRect * sourceRect, const EFFRect * destRect)
 {
-	return D3D9Device->Present((const RECT *)sourceRect, (const RECT *)destRect, NULL, NULL);
+	return SUCCEEDED(D3D9Device->Present((const RECT *)sourceRect, (const RECT *)destRect, NULL, NULL));
 }
 
 effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
@@ -568,4 +571,5 @@ effBOOL EFFD3D9Device::SetShader(EFF3DShader * shader)
 
 effVOID EFFD3D9Device::Release()
 {
+	delete this;
 }

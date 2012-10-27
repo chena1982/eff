@@ -11,6 +11,7 @@
 
 #include <QtGui>
 
+#include <json.h>
 
 #include "EFFBase.h"
 USE_EFFBASE
@@ -20,3 +21,6 @@ USE_EFFMATH
 
 #include "EFF3D.h"
 USE_EFF3D
+
+
+#include "MMOEncapsulation.h"

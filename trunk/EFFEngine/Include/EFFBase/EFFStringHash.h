@@ -8,6 +8,7 @@
 #ifndef __EFFStringHash_2012_9_21__
 #define __EFFStringHash_2012_9_21__
 
+//http://www.altdevblogaday.com/2011/10/27/quasi-compile-time-string-hashing/
 
 EFFBASE_BEGIN
 

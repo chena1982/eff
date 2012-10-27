@@ -69,6 +69,9 @@ QToolButton::menu-indicator:pressed, QToolButton::menu-indicator:open { position
 
 QWidget#scene > QToolBar > QLabel { width : 20px; }
 
+QWidget#realtime { background-color : rgb(255, 0, 0); }
+QWidget#toolbar { background-color : rgb(41, 41, 41); }
+
 QToolBar > QLineEdit { border : 6px 6px 6px 6px;
 					   border-image : url(./EditorRes/Skin/Dark/search_lineedit_border.png) 6 6 6 6 repeat repeat;
 					   height : 2px;

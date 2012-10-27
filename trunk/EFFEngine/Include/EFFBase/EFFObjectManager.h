@@ -8,7 +8,7 @@
 #ifndef __EFFObjectManager_2008_12_10__
 #define __EFFObjectManager_2008_12_10__
 
-#include "EFFRtti.h"
+
 
 EFFBASE_BEGIN
 

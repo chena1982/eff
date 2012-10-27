@@ -57,6 +57,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	effString * p = (effString *)EFFCreateObject(_effT("effString"));
 	*p = effString(_effT("nihao"));
 
+	char tttt = 0xc8;
+	effUINT yu = ((effUINT)tttt);
+
 	effString str = _effT("¹þ¹þ");
 	effUINT hash = EFFStringHash(str.c_str()).GetHash();
 

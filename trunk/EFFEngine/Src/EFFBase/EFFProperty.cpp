@@ -3,7 +3,7 @@
 
 #include "EFFProperty.h"
 #include "EFFFile.h"
-#include "EFFRtti.h"
+
 
 
 EFFBASE_BEGIN

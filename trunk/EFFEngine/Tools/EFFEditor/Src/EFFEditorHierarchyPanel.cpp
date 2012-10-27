@@ -64,7 +64,7 @@ void EFFEditorHierarchyPanel::titleBarAddOrDeleteTab(bool bAdd)
 }
 
 
-void EFFEditorHierarchyPanel::AddObject(EFFObject * object)
+void EFFEditorHierarchyPanel::AddObject(EFFGameObject * object)
 {
 	QTreeWidgetItem * objectWI = new QTreeWidgetItem(QStringList(QString(EFFSTRING2ANSI(object->GetName()))));
 	m_pTreeWidget->insertTopLevelItem(0, objectWI);

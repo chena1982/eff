@@ -22,7 +22,7 @@ public:
 	QSize sizeHint() const { return QSize(300, -1); }
 	//void paintEvent(QPaintEvent *);
 public:
-	effVOID BindObject(EFFObject * object);
+	effVOID BindObject(EFFGameObject * object);
 public slots:
 	void titleBarAddOrDeleteTab(bool bAdd);
 

@@ -13,23 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="预编译">
+      <UniqueIdentifier>{185103d3-1680-469b-aea9-fd9e75a1e7f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Src\MMOEncapsulation\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOEncapsulation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\MMOEncapsulation\stdafx.cpp">
+      <Filter>预编译</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\MMOEncapsulation\stdafx.h">
-      <Filter>Header Files</Filter>
+      <Filter>预编译</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Src\MMOEncapsulation\targetver.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\MMOEncapsulation\MMOApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\MMOEncapsulation.h" />
+    <ClInclude Include="..\..\..\Include\MMOEncapsulation\MMOEncapsulationBaseDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -354,6 +354,8 @@ effVOID EFF3DAsyncLoader::DestroyAsyncLoadingThreadObjects()
 	}
 
 	CloseHandle(IOThread);
+
+	SF_DELETE(processThreads);
 }
 
 //--------------------------------------------------------------------------------------

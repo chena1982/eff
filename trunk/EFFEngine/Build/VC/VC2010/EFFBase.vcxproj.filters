@@ -73,9 +73,6 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFMemberFunction.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFThread.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFMessageCenter.cpp">
       <Filter>Base</Filter>
     </ClCompile>
@@ -86,6 +83,9 @@
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFStringHash.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFGameObject.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
@@ -160,9 +160,6 @@
     <ClInclude Include="..\..\..\Include\EFFBase\Reflection4CppEnum.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFThread.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFStringHash.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFGameObject.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

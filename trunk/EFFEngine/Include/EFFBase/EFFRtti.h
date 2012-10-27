@@ -38,11 +38,11 @@ public:
 
 class EFFClass;
 
-void EFFRegisterClass(EFFClass * pClass);
-void EFFUnRegisterClass(EFFClass * pClass);
+effVOID EFFRegisterClass(EFFClass * pClass);
+effVOID EFFUnRegisterClass(EFFClass * pClass);
 
-EFFBASE_API void * EFFCreateObject(const effString & className);
-EFFBASE_API void * EFFCreateObject(const ClassID & classId);
+EFFBASE_API effVOID * EFFCreateObject(const effString & className);
+EFFBASE_API effVOID * EFFCreateObject(const ClassID & classId);
 
 EFFBASE_API EFFClass *	EFFGetClass(const effString & className);
 EFFBASE_API EFFClass *	EFFGetClass(const ClassID & classId);

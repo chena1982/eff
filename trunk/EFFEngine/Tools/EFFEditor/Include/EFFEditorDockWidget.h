@@ -18,7 +18,7 @@ class EFFEditorUIDockWidget : public QDockWidget
 	Q_OBJECT
 public:
 	EFFEditorUIDockWidget(QWidget * pParent, const QString & strTitle);
-	~EFFEditorUIDockWidget();
+	virtual ~EFFEditorUIDockWidget();
 
 public:
 

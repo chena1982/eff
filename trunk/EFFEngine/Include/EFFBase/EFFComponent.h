@@ -8,33 +8,16 @@
 #ifndef __EFFComponent_2008_12_1__
 #define __EFFComponent_2008_12_1__
 
-#include "EFFRtti.h"
+
+#include "EFFObject.h"
 
 EFFBASE_BEGIN
 
-class EFFObject;
+
 class EFFProperty;
 
-class EFFBASE_API EFFReferenceCount
-{
-	RTTI_DECLARE_BASE(EFFReferenceCount)
 
-public:
-	virtual	~EFFReferenceCount() {}
-protected:
-	EFFReferenceCount() { refCount = 0; }
-
-public:
-	effUINT			GetRef() { return refCount; }
-	effUINT			AddRef();
-	effVOID			Release();
-protected:
-	effUINT			refCount;
-};
-
-
-
-class EFFBASE_API EFFComponent : public EFFReferenceCount
+class EFFBASE_API EFFComponent : public EFFObject
 {
 	RTTI_DECLARE(EFFComponent, EFFReferenceCount)
 public:

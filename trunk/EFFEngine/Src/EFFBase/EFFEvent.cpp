@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFEvent.h"
 
-#include <boost/python.hpp>
+//#include <boost/python.hpp>
 
 //#define new EFFNEW
 
@@ -24,15 +24,15 @@ EFFEvent::~EFFEvent()
 {
 }
 
-using namespace boost::python;
+//using namespace boost::python;
 
 
-BOOST_PYTHON_MODULE(EFFBase)
+/*BOOST_PYTHON_MODULE(EFFBase)
 {
 	class_<EFFEvent>("EFFEvent")
 		.def("AddScriptEventCall",&EFFEvent::AddScriptEventCall)
 		.def("AddScriptMemberEventCall",&EFFEvent::AddScriptMemberEventCall)
 		;
-}
+}*/
 
 EFFBASE_END

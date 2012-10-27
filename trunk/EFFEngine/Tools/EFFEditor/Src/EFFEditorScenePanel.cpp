@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFEditorScenePanel.h"
 #include "EFFEditorDockWidgetTitleBar.h"
-
+#include "EFFEditorRealTimeWidget.h"
 #include "EFFEditorSceneRenderThread.h"
 
 extern QMainWindow * g_pMainWindow;
@@ -54,10 +54,44 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 	//m_pMainLayout->setSpacing(0);
 
 	createToolbar();
-	m_pRealTimeContent = new QWidget();
-	m_pRealTimeContent->setObjectName("realtime");
+	m_pRealTimeContent = new QWidget(m_pContent);
+	//m_pRealTimeContent->setObjectName("realtime");
 
-	m_pMainLayout->addWidget(m_pToolbar);
+	bool twoLayer = true;
+	EFFEditorRealTimeWidget * bottomWidget = NULL;
+	if ( twoLayer )
+	{
+		QStackedLayout * stackedLayout = new QStackedLayout;
+		stackedLayout->setStackingMode(QStackedLayout::StackAll);
+
+		bottomWidget = new EFFEditorRealTimeWidget(m_pRealTimeContent);
+		bottomWidget->setObjectName("realtime");
+
+		QWidget * topWidget = new QWidget(m_pRealTimeContent);
+		topWidget->setObjectName("transparency");
+	
+		QVBoxLayout * transparencyLayout = new QVBoxLayout();
+		transparencyLayout->addWidget(m_pToolbar);
+		QWidget * temp = new QWidget(topWidget);
+		transparencyLayout->addWidget(temp, 1);
+		topWidget->setLayout(transparencyLayout);
+
+		//topWidget->setAttribute(Qt::WA_NoSystemBackground, true);
+	
+		stackedLayout->addWidget(topWidget);		
+		stackedLayout->addWidget(bottomWidget);
+
+
+		m_pRealTimeContent->setLayout(stackedLayout);
+
+		
+	}
+	else
+	{
+		m_pMainLayout->addWidget(m_pToolbar);
+	}
+
+
 	m_pMainLayout->addWidget(m_pRealTimeContent, 1);
 
 
@@ -71,12 +105,20 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 	//m_pMainLayout->getContentsMargins(&left, &top, &right, &bottom);
 
 
-	/*RenderThreadStartParam * param = new RenderThreadStartParam();
-	param->hWnd = (HWND)m_pRealTimeContent->winId();
-	param->width = m_pRealTimeContent->width();
-	param->height = m_pRealTimeContent->height();
-	_beginthreadex(NULL, 0, RenderThread, param, 0, &g_renderThreadId);*/
 
+
+	if ( twoLayer )
+	{
+		bottomWidget->Init();
+	}
+	else
+	{
+		RenderThreadStartParam * param = new RenderThreadStartParam();
+		param->hWnd = (HWND)m_pRealTimeContent->winId();
+		param->width = m_pRealTimeContent->width();
+		param->height = m_pRealTimeContent->height();
+		_beginthreadex(NULL, 0, RenderThread, param, 0, &g_renderThreadId);
+	}
 }
 
 
@@ -138,6 +180,7 @@ public:
 void EFFEditorScenePanel::createToolbar()
 {
 	m_pToolbar = new QToolBar(NULL);
+	m_pToolbar->setObjectName("toolbar");
 	m_pToolbar->setMinimumHeight(TOOLBAR_MIN_HEIGHT);
 
 	m_pToolbar->addWidget(new QLabel());
@@ -222,6 +265,32 @@ void EFFEditorScenePanel::drawModeMenuPressed(QAction * action)
 {
 	QToolButton * drawMode = qobject_cast<QToolButton *>(action->parentWidget()->parentWidget());
 	drawMode->setText(action->text());
+
+	if ( action->text() == tr("Wireframe") )
+	{
+		static bool firstTime = true;
+
+		static EFFNetClient * client = NULL;
+		if ( firstTime )
+		{
+			client = new EFFNetClient();
+			client->Init();
+			client->Connect(_effT("tcp://localhost:5555"));
+			firstTime = false;
+		}
+
+		EFFObjectManager * objectManager = EFFGetObjectManager(EFFGameObject::GetThisClass());
+
+		EFFGameObject * gameObject = (EFFGameObject *)objectManager->GetObject(1);
+
+		EFFComponent * component = gameObject->GetComponent(0);
+
+		client->Send(gameObject, effString(_effT("Name")));
+
+
+
+		//client->Shutdown();
+	}
 }
 
 void EFFEditorScenePanel::renderModeMenuPressed(QAction * action)

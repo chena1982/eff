@@ -18,7 +18,7 @@ public:
 	~EFFEditorHierarchyPanel();
 
 public:
-	void AddObject(EFFObject * object);
+	void AddObject(EFFGameObject * object);
 
 public slots:
 	void titleBarAddOrDeleteTab(bool bAdd);

@@ -62,7 +62,9 @@ void test()
 {
 
 	EFFObjectManager * objectManager = new EFFObjectManager();
-	EFFObject * object = objectManager->CreateObject(EFFObject::GetThisClass());
+	EFFGameObject * object = (EFFGameObject *)objectManager->CreateObject(EFFGameObject::GetThisClass());
+
+	EFFRegisterObjectManager(object->GetRuntimeClass(), objectManager);
 
 	//A * a = (A *)EFFCreateObject(_effT("A"));
 	A * a = (A *)object->AddComponent(A::GetThisClass()->GetID());

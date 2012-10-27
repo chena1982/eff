@@ -8,8 +8,8 @@
 #ifndef __EFFEvent_2008_12_15__
 #define __EFFEvent_2008_12_15__
 
-#include <boost/function.hpp>
-#include <boost/python.hpp>
+//#include <boost/function.hpp>
+//#include <boost/python.hpp>
 
 #include "EFFReflection.h"
 
@@ -62,13 +62,9 @@ void operator ()(C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const\
 	}\
 }*/
 
-using namespace boost::python;
+//using namespace boost::python;
 
-#define __EFFEVENTCALL_INVOKE__(N)\
-template <__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
-void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
-{\
-	if ( m_pPyFunction != NULL )\
+	/*if ( m_pPyFunction != NULL )\
 	{\
 		if ( m_pPyDelegatee != NULL )\
 		{\
@@ -79,7 +75,12 @@ void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
 			call<void>(m_pPyFunction,__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
 		}\
 	}\
-	else\
+	else\*/
+
+#define __EFFEVENTCALL_INVOKE__(N)\
+template <__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
+void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
+{\
 	{\
 		typedef void (__delegatee__::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
 		effBYTE * pBaseAddress = (effBYTE *)m_pFunction;\
@@ -112,13 +113,13 @@ class EFFEventCall
 public:
 	EFFEventCall()
 	{
-		m_pPyDelegatee = NULL;
-		m_pPyFunction = NULL;
+		//m_pPyDelegatee = NULL;
+		//m_pPyFunction = NULL;
 		m_pFunction = NULL;
 		m_pDelegatee = NULL;
 	}
 
-	EFFEventCall(PyObject * pPyFunction)
+	/*EFFEventCall(PyObject * pPyFunction)
 	{
 		m_pPyDelegatee = NULL;
 		m_pPyFunction = pPyFunction;
@@ -132,12 +133,12 @@ public:
 		m_pPyFunctionName = pszPyFunctionName;
 		m_pFunction = NULL;
 		m_pDelegatee = NULL;
-	}
+	}*/
 
 	EFFEventCall(const EFFEventCall & eventCall)
 	{
-		this->m_pPyDelegatee = eventCall.m_pPyDelegatee;
-		this->m_pPyFunction = eventCall.m_pPyFunction;
+		//this->m_pPyDelegatee = eventCall.m_pPyDelegatee;
+		//this->m_pPyFunction = eventCall.m_pPyFunction;
 		this->m_pFunction = eventCall.m_pFunction;
 		this->m_pDelegatee = eventCall.m_pDelegatee;
 	}
@@ -148,7 +149,7 @@ public:
 	//0个参数的时候不能特化，因为没有模板参数
 	void operator () () const
 	{
-		if ( m_pPyFunction != NULL )
+		/*if ( m_pPyFunction != NULL )
 		{
 			if ( m_pPyDelegatee != NULL )
 			{
@@ -159,7 +160,7 @@ public:
 				call<void>(m_pPyFunction);
 			}
 		}
-		else
+		else*/
 		{
 			typedef void (__delegatee__::*MethodType)();
 			effBYTE * pBaseAddress = (effBYTE *)m_pFunction;
@@ -201,12 +202,12 @@ public:
 	__callable__ *		m_pFunction;
 	__delegatee__ *		m_pDelegatee;
 
-	PyObject *			m_pPyDelegatee;
+	/*PyObject *			m_pPyDelegatee;
 	union
 	{
 		PyObject *		m_pPyFunction;
 		char *			m_pPyFunctionName;
-	};
+	};*/
 
 
 };
@@ -258,7 +259,7 @@ public:
 		m_aryFunction.push_back(pEventCall);
 	}
 
-	effVOID AddScriptEventCall(PyObject * pPyFunction)
+	/*effVOID AddScriptEventCall(PyObject * pPyFunction)
 	{
 		EFFEventCall * pEventCall = new EFFEventCall(pPyFunction);
 		m_aryFunction.push_back(pEventCall);
@@ -268,7 +269,7 @@ public:
 	{
 		EFFEventCall * pEventCall = new EFFEventCall(pPyDelegatee,pszPyFunctionName);
 		m_aryFunction.push_back(pEventCall);
-	}
+	}*/
 
 	std::vector<EFFEventCall *> m_aryFunction;
 

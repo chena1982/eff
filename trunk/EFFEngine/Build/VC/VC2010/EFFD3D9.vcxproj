@@ -112,7 +112,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;$(DXSDK_DIR)Include;$(CG_INC_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;$(DXSDK_DIR)Include;$(CG_INC_PATH);..\..\..\Lib\jsoncpp-src-0.5.0\include\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

@@ -117,7 +117,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\DevIL\include\IL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\DevIL\include\IL;..\..\..\Lib\jsoncpp-src-0.5.0\include\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

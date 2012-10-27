@@ -100,7 +100,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\jsoncpp-src-0.5.0\include\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MMOENCAPSULATION_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -114,14 +114,18 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Src\MMOEncapsulation\dllmain.cpp" />
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOEncapsulation.cpp" />
+    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOApplication.cpp" />
     <ClCompile Include="..\..\..\Src\MMOEncapsulation\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Include\MMOEncapsulation.h" />
+    <ClInclude Include="..\..\..\Include\MMOEncapsulation\MMOApplication.h" />
+    <ClInclude Include="..\..\..\Include\MMOEncapsulation\MMOEncapsulationBaseDefines.h" />
     <ClInclude Include="..\..\..\Src\MMOEncapsulation\stdafx.h" />
     <ClInclude Include="..\..\..\Src\MMOEncapsulation\targetver.h" />
   </ItemGroup>

@@ -95,7 +95,7 @@ void EFFEditorInspectorPanel::titleBarAddOrDeleteTab(bool bAdd)
 }
 
 
-effVOID EFFEditorInspectorPanel::BindObject(EFFObject * object)
+effVOID EFFEditorInspectorPanel::BindObject(EFFGameObject * object)
 {
 	effINT componentCount = object->GetComponentCount();
 

@@ -8,6 +8,13 @@
 #ifndef __EFFBase_2008_12_12__
 #define __EFFBase_2008_12_12__
 
+#include <string>
+#include <hash_map>
+#include <map>
+#include <vector>
+#include <iostream>
+
+#include <json.h>
 
 #include ".\EFFBase\EFFBaseDefines.h"
 #include ".\EFFBase\EFFMemory.h"
@@ -22,8 +29,12 @@
 #include ".\EFFBase\EFFIProxy.h"
 #include ".\EFFBase\EFFEvent.h"
 #include ".\EFFBase\Reflection4CppEnum.h"
-#include ".\EFFBase\EFFThread.h"
+//#include ".\EFFBase\EFFThread.h"
 #include ".\EFFBase\EFFStringHash.h"
+#include ".\EFFBase\EFFNetClient.h"
+#include ".\EFFBase\EFFNetServer.h"
+#include ".\EFFBase\EFFGameObject.h"
+
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

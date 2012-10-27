@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "EFFReflection.h"
-#include "EFFRtti.h"
 
 //#define new EFFNEW
 

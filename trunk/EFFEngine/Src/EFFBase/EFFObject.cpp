@@ -13,44 +13,40 @@
 
 EFFBASE_BEGIN
 
+
+RTTI_IMPLEMENT_BASE(EFFReferenceCount, 0)
 RTTI_IMPLEMENT(EFFObject, 0)
+
+
+
+effUINT EFFReferenceCount::AddRef()
+{
+	return ++refCount;
+}
+
+effVOID EFFReferenceCount::Release()
+{
+	refCount--;
+	if ( refCount == 0 )
+	{
+		delete this;
+	}
+}
+
+
 
 EFFObject::EFFObject()
 {
 	id = 0;
+	GetThisClass()->AddProperty(&EFFObject::name, _effT("Name"));
 }
 
 EFFObject::~EFFObject()
 {
-	components.clear();
-}
 
-//这里暂时有个问题，如果一个Object包含了两个动态组件，如果这两个动态组件都支持同一个接口，那么
-//无法判断返回哪个接口
-EFFComponent * EFFObject::GetComponent(const ClassID & classID)
-{	
-	std::vector<EFFComponent *>::iterator it = components.begin();
-
-	for ( ; it != components.end(); it++ )
-	{
-		if ( (*it)->GetRuntimeClass()->IsKindOf(classID) )
-		{
-			return *it;
-		}
-	}
-	return NULL;
 }
 
 
-
-
-EFFComponent * EFFObject::AddComponent(const ClassID & classID)
-{
-	EFFComponent * component = static_cast<EFFComponent *>(EFFCreateObject(classID));
-	component->SetObject(this);
-	components.push_back(component);
-	return component;
-}
 
 
 EFFProperty * EFFObject::GetProperty(const effString & propertyName)
