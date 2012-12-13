@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'EFFEditorInspectorPanel.h'
 **
-** Created: Wed Oct 24 23:05:32 2012
+** Created: Thu Dec 13 22:24:23 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.0)
 **
 ** WARNING! All changes made in this file will be lost!

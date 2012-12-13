@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'effeditor.ui'
 **
-** Created: Sat Oct 27 20:48:03 2012
+** Created: Thu Dec 13 22:24:24 2012
 **      by: Qt User Interface Compiler version 4.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
