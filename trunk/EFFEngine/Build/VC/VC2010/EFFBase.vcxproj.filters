@@ -108,9 +108,6 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFGlobal.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFIProxy.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFObject.h">
       <Filter>Base</Filter>
     </ClInclude>

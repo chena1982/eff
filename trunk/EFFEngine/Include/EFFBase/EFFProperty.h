@@ -9,8 +9,7 @@
 #define __EFFProperty_2011_22_48__
 
 #include <boost\type_traits.hpp>
-#include "EFFUtility.h"
-
+#include "EFFStringHash.h"
 
 EFFBASE_BEGIN
 
@@ -22,7 +21,7 @@ class EFFFile;
 #pragma warning(disable:4251)
 
 
-typedef effVOID (* SavePropertyFP)(EFFFile * file, effVOID * baseAddress, EFFProperty * property);
+typedef effVOID (* SavePropertyFP)(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary);
 
 
 class EFFBASE_API EFFProperty
@@ -57,7 +56,7 @@ public:
 
 	virtual effVOID				SetOffset(effUINT offset) { this->offset = offset; }
 	virtual effVOID				SetSize(effUINT size) { this->size = size; }
-	virtual effVOID				SetName(const effString & name) { this->name = name; }
+	virtual effVOID				SetName(const effString & name);
 	virtual effVOID				SetClass(EFFClass * propertyClass) { Class = propertyClass; }
 	virtual effVOID				SetIsPointer(effBOOL isPointer) { this->isPointer = isPointer; }
 	virtual effVOID				SetSavePropertyFP(SavePropertyFP savePropertyFP) { this->savePropertyFP = savePropertyFP; }
@@ -65,6 +64,7 @@ public:
 	virtual effUINT				GetOffset() { return offset; }
 	virtual effUINT				GetSize() { return size; }
 	virtual effString			GetName() { return name; }
+	virtual EFFStringHash		GetNameHash() { return nameHash; }
 	virtual EFFClass *			GetClass() { return Class; }
 	virtual effBOOL				GetIsPointer() { return isPointer; }
 	virtual effBOOL				GetIsSTLContainer() { return stlContainerType != ContainerType_None; }
@@ -72,7 +72,7 @@ public:
 	virtual SavePropertyFP		GetSavePropertyFP() { return savePropertyFP; }
 
 
-	virtual effVOID				SaveToFile(EFFFile * file, effVOID * baseAddress) = 0;
+	virtual effVOID				SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary) = 0;
 
 public:
 	template<typename PropertyType>
@@ -116,6 +116,7 @@ protected:
 
 
 	effString				name;
+	EFFStringHash			nameHash;
 	effVOID *				defaultValue;
 	effVOID *				minValue;
 	effVOID *				maxValue;
@@ -142,7 +143,10 @@ public:
 		isPointer = boost::is_pointer<PropertyType>();
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress) {}
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
+	{
+		savePropertyFP(file, baseAddress, this, isBinary);
+	}
 };
 
 template<typename PropertyType>
@@ -156,17 +160,17 @@ public:
 		isPointer = boost::is_pointer<PropertyType>();
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
 		if ( !isPointer )
 		{
 			PropertyType & data = *(PropertyType *)baseAddress;
-			data.SaveToFile(file);
+			data.SaveToFile(file, isBinary);
 		}
 		else
 		{
 			PropertyType & data = **(PropertyType **)baseAddress;
-			data.SaveToFile(file);
+			data.SaveToFile(file, isBinary);
 		}
 	}
 
@@ -183,17 +187,17 @@ public:
 		isPointer = boost::is_pointer<PropertyType>();
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
 		if ( !isPointer )
 		{
 			PropertyType & data = *(PropertyType *)baseAddress;
-			data.SaveToFile(file);
+			data.SaveToFile(file, isBinary);
 		}
 		else
 		{
 			PropertyType & data = **(PropertyType **)baseAddress;
-			data.SaveToFile(file);
+			data.SaveToFile(file, isBinary);
 		}
 	}
 
@@ -212,13 +216,13 @@ public:
 		isPointer = effFALSE;
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
 		std::vector<PropertyType> & datas = *(std::vector<PropertyType> *)baseAddress;
 
 		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
-			datas[i].SaveToFile(file);
+			datas[i].SaveToFile(file, isBinary);
 		}
 	}
 
@@ -237,7 +241,7 @@ public:
 		isPointer = effFALSE;
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
 	}
 
@@ -256,13 +260,13 @@ public:
 		isPointer = effTRUE;
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
 		std::vector<PropertyType *> & datas = *(std::vector<PropertyType *> *)baseAddress;
 
 		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
-			datas[i]->SaveToFile(file);
+			datas[i]->SaveToFile(file, isBinary);
 		}
 	}
 

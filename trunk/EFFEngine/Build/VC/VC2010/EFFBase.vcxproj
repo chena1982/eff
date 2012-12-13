@@ -67,7 +67,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\jsoncpp-src-0.5.0\include\json;..\..\..\Lib\zeromq-3.2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\jsoncpp-src-0.5.0\include\json;..\..\..\Lib\zeromq-3.2.0\include;..\..\..\Lib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEBUG;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -77,11 +77,14 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>dbghelp.lib;lib_json.lib;Ws2_32.lib;libzmq_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dbghelp.lib;lib_json.lib;Ws2_32.lib;libzmq_d.lib;libyaml-cppmdd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;..\..\..\Lib\zeromq-3.2.0\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;..\..\..\Lib\zeromq-3.2.0\lib\Win32;..\..\..\Lib\yaml-cpp\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>false</GenerateMapFile>
@@ -223,7 +226,6 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFEvent.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFFile.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFGlobal.h" />
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFIProxy.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFObject.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFObjectManager.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFRtti.h" />

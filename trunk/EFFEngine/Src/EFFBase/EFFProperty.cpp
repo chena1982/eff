@@ -41,12 +41,19 @@ effVOID EFFPODProperty::SaveToFile(EFFFile * file, effVOID * baseAddress)
 	effVOID * source = (effVOID *)((effBYTE *)baseAddress + offset);
 	file->Write(source, size);
 }*/
+
+effVOID	EFFProperty::SetName(const effString & name)
+{
+	this->name = name;
+	nameHash.CalculateHash(name);
+}
+
 effINT EFFProperty::GetElementCount(effVOID * baseAddress)
 {
 	if ( stlContainerType == EFFProperty::ContainerType_Vector )
 	{
 		effString propertyClassName = Class->GetName();
-		if ( propertyClassName == _effT("effString") )
+		if ( nameHash == EFFStringHash(_effT("effString")) )
 		{
 			std::vector<effString> & propertyVector = *((std::vector<effString> *)((effBYTE *)baseAddress + offset));
 			return propertyVector.size();

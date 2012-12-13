@@ -34,20 +34,21 @@ struct FnvHash<N, 1>
 		return (2166136261u ^ ch) * 16777619u;
 	}
 };
- 
+
+//±‡“Î ±hash
 class EFFBASE_API EFFStringHash
 {
 public:
 
-	class ConstCharWrapper
+	/*class ConstCharWrapper
 	{
 	public:
 		EFFINLINE ConstCharWrapper(const effTCHAR * str) : wrapperStr(str) {}
 		const effTCHAR * wrapperStr;
-	};
+	};*/
  
-	EFFStringHash(ConstCharWrapper str)
-	: hash(CalculateFNV(str.wrapperStr))
+	EFFStringHash(const effString & str)
+	: hash(CalculateFNV(str.c_str()))
 	{
 	}
 
@@ -57,8 +58,17 @@ public:
 	{
 	}
 
-	EFFINLINE effUINT GetHash() { return hash; }
+	EFFStringHash() { hash = 0; }
 
+	EFFStringHash(const EFFStringHash & stringHash) { hash = stringHash.hash; }
+
+public:
+
+	effVOID CalculateHash(const effString & str) { hash = CalculateFNV(str.c_str()); }
+
+	EFFINLINE effUINT GetHash() const { return hash; }
+
+	effBOOL operator == (const EFFStringHash & stringHash) { return hash == stringHash.GetHash(); }
 protected:
 	effUINT hash;
 };

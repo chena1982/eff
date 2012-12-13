@@ -19,7 +19,7 @@ class EFFProperty;
 
 class EFFBASE_API EFFComponent : public EFFObject
 {
-	RTTI_DECLARE(EFFComponent, EFFReferenceCount)
+	RTTI_DECLARE(EFFComponent, EFFObject)
 public:
 	virtual ~EFFComponent() {}
 public:

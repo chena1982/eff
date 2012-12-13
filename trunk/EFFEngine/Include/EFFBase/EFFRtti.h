@@ -59,8 +59,9 @@ public:\
 	static EFFClassImpl<CLASS> runtimeInfoClass##CLASS;\
 	static EFFClass * GetThisClass();\
 	virtual EFFClass * GetRuntimeClass() const;\
-	virtual void SaveToFile(EFFFile * pFile);\
-	virtual void SaveToFile(const effString & filePath);
+	virtual effVOID SaveToFile(EFFFile * file, effBOOL isBinary);\
+	virtual effVOID SaveToFile(const effString & filePath, effBOOL isBinary);\
+	virtual effVOID SaveComponents(EFFFile * file, effBOOL isBinary) {};
 
 #define	RTTI_DECLARE(CLASS, BASECLASS)\
 	RTTI_DECLARE_BASE(CLASS)\
@@ -112,33 +113,38 @@ public:\
 	{\
 		return GetThisClass();\
 	}\
-	void CLASS##::SaveToFile(EFFFile * file)\
+	void CLASS##::SaveToFile(EFFFile * file, effBOOL isBinary)\
 	{\
 		EFFClass * Class = GetRuntimeClass();\
 		std::vector<EFFProperty *> & properties = Class->GetProperties();\
 		for ( effUINT i = 0; i < properties.size(); i++ )\
 		{\
 			EFFProperty * curProperty = properties[i];\
-			if ( curProperty->GetClass()->IsPODType() && !curProperty->GetIsSTLContainer() )\
-			{\
-				curProperty->GetSavePropertyFP()(file, this, curProperty);\
-			}\
-			else\
-			{\
-				curProperty->SaveToFile(file, ((effBYTE *)this) +  curProperty->GetOffset());\
-			}\
+			curProperty->SaveToFile(file, this, isBinary);\
 		}\
+		SaveComponents(file, isBinary);\
 	}\
-	void CLASS##::SaveToFile(const effString & filePath)\
+	void CLASS##::SaveToFile(const effString & filePath, effBOOL isBinary)\
 	{\
 		EFFSTLFile file;\
-		if ( !file.Open(filePath, _effT("wb")) )\
+		if ( isBinary )\
 		{\
-			return;\
+			if ( !file.Open(filePath, _effT("wb")) )\
+			{\
+				return;\
+			}\
 		}\
-		SaveToFile(&file);\
+		else\
+		{\
+			if ( !file.Open(filePath, _effT("wt")) )\
+			{\
+				return;\
+			}\
+		}\
+		SaveToFile(&file, isBinary);\
 		file.Close();\
 	}
+
 
 
 
@@ -197,6 +203,7 @@ public:
 		:version(version), isPOD(isPOD), className(name), baseClass(baseClass)
 	{
 		id = ClassIDFromString(name);
+		classNameHash.CalculateHash(name);
 		EFFRegisterClass(this);
 	}
 
@@ -207,6 +214,7 @@ public:
 		id = rhs.id;
 		version = rhs.version;
 		className = rhs.className;
+		classNameHash = rhs.classNameHash;
 		baseClass = rhs.baseClass;
 		return *this;
 	}
@@ -232,6 +240,8 @@ public:
 	inline EFFClass * GetBaseClass() const { return baseClass; }
 
 	effString GetName() const { return className; }
+
+	EFFStringHash GetNameHash() const { return classNameHash; }
 
 	inline effUINT GetVersion() const { return version; }
 
@@ -459,6 +469,7 @@ protected:
 	effUINT										version;
 	effBOOL										isPOD;
 	effString									className;
+	EFFStringHash								classNameHash;
 	EFFClass *									baseClass;
 	std::vector<EFFProperty *>					properties;
 };

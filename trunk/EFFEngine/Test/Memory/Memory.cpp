@@ -57,8 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	effString * p = (effString *)EFFCreateObject(_effT("effString"));
 	*p = effString(_effT("nihao"));
 
-	char tttt = 0xc8;
-	effUINT yu = ((effUINT)tttt);
+
 
 	effString str = _effT("¹þ¹þ");
 	effUINT hash = EFFStringHash(str.c_str()).GetHash();
@@ -94,7 +93,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	a->m_v.push_back(_effT("chenwu"));
 	a->m_t.push_back(b);
 
-	a->SaveToFile(_effT("111"));
+	a->SaveToFile(_effT("111"), effFALSE);
 
 	EFFEvent test;
 	test += EFFEventCall(b, &B::test1);

@@ -121,7 +121,7 @@ effVOID SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, c
 
 	if ( propertyClass != NULL && propertyClass->IsPODType() )
 	{
-		if ( propertyClass->GetName() == _effT("effString") )
+		if ( propertyClass->GetNameHash() == EFFStringHash(_effT("effString")) )
 		{
 			addedProperty->SetSavePropertyFP(SaveStringProperty);
 		}

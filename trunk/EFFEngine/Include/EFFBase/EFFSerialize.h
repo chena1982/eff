@@ -15,6 +15,7 @@
 
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
+#include <yaml-cpp/yaml.h>
 
 EFFBASE_BEGIN
 
@@ -58,28 +59,41 @@ inline void SaveProperty(EFFFile * file, effString & data)
 
 
 
-inline void SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+inline void SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
 {
 	effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
-	effUINT length = data.length();
-	file->Write(&length, 4);
-	file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
+
+	if ( isBinary )
+	{
+
+		effUINT length = data.length();
+		file->Write(&length, 4);
+		file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
+	}
+	else
+	{
+		effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
+
+		YAML::Emitter object;
+		object << YAML::Key << EFFSTRING2ANSI(property->GetName());
+		object << YAML::Value << EFFSTRING2ANSI(data);
+	}
 }
 
-inline void SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+inline void SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
 {
 	effVOID * source = (effVOID *)((effBYTE *)baseAddress + property->GetOffset());
 	file->Write(source, property->GetSize());
 }
 
 template<typename PropertyType, typename IsPOD>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
 {
 
 }
 
 template<typename PropertyType>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
 {
 }
 

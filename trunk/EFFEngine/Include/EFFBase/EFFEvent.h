@@ -22,8 +22,6 @@ EFFEventCall(C * pDelegatee, R (C::*memberFunctionAddress)(__REPEAT(N, __TYPE_AR
 {\
 	m_pFunction = __callable_factory__<R>::create(memberFunctionAddress);\
 	m_pDelegatee = (__delegatee__ *)pDelegatee;\
-	m_pPyDelegatee = NULL;\
-	m_pPyFunction = NULL;\
 }
 
 
