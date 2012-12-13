@@ -6,3 +6,11 @@
 /Build/Bin/*.dll
 /Build/Bin/*.pdb
 /Build/Bin/*.exe
+/Temp
+/Test
+/Server
+/Lib/jsoncpp-src-0.5.0/build
+/Tools/EFFEditor/Debug
+/Tools/EFFEditor/GeneratedFiles
+/Build/Bin/*.ilk
+/Build/Bin/Material Lib
