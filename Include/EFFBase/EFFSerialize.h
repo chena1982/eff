@@ -15,7 +15,7 @@
 
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
-#include <yaml-cpp/yaml.h>
+
 
 EFFBASE_BEGIN
 
@@ -72,11 +72,7 @@ inline void SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFPropert
 	}
 	else
 	{
-		effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
 
-		YAML::Emitter object;
-		object << YAML::Key << EFFSTRING2ANSI(property->GetName());
-		object << YAML::Value << EFFSTRING2ANSI(data);
 	}
 }
 
