@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="关卡编辑">
+      <UniqueIdentifier>{7e487954-f03e-48ab-8f4a-538ef70448bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="预编译">
+      <UniqueIdentifier>{094788a7-6393-46c0-b08b-07e628197a58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="界面">
+      <UniqueIdentifier>{b4606edf-5604-455a-bd4d-a79a8cb8306d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Tools\EFFEditor\EFFELevelWindow.cpp">
+      <Filter>关卡编辑</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Tools\EFFEditor\stdafx.cpp">
+      <Filter>预编译</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Tools\EFFEditor\EFFEditor.cpp">
+      <Filter>界面</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Tools\EFFEditor\EFFEditorBaseWindow.cpp">
+      <Filter>界面</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Tools\EFFEditor\EFFEditorFrame.cpp">
+      <Filter>界面</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Tools\EFFEditor\EFFEditorPropertyPanel.cpp">
+      <Filter>界面</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\EFFELevelWindow.h">
+      <Filter>关卡编辑</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\Resource.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\stdafx.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\targetver.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\EFFEditor.h">
+      <Filter>界面</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\EFFEditorBaseWindow.h">
+      <Filter>界面</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\EFFEditorFrame.h">
+      <Filter>界面</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tools\EFFEditor\EFFEditorPropertyPanel.h">
+      <Filter>界面</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Tools\EFFEditor\EFFEditor.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\..\Tools\EFFEditor\small.ico">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\Tools\EFFEditor\EFFEditor.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
