@@ -1,1 +1,8 @@
 
+/Lib/zeromq-3.2.0/bin
+/Lib/zeromq-3.2.0/builds
+/Lib/zeromq-3.2.0/obj
+/Lib/zeromq-3.2.0/obj
+/Build/Bin/*.dll
+/Build/Bin/*.pdb
+/Build/Bin/*.exe
