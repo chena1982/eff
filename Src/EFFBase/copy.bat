@@ -1,0 +1,1 @@
+xcopy .\Include\*.h ..\SDK\Include\EFFBase\ /S /R /Y
