@@ -15,3 +15,4 @@
 /Build/Bin/*.ilk
 /Build/Bin/Material Lib
 /Build/VC/VC2010/*.sdf
+/Tools/EFFEditor/*.sdf
