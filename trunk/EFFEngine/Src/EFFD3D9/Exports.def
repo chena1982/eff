@@ -1,3 +1,0 @@
-LIBRARY
-EXPORTS
-	effCreate3DDevice	@1
