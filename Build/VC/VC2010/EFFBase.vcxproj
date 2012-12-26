@@ -82,9 +82,9 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>dbghelp.lib;lib_json.lib;Ws2_32.lib;libzmq_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dbghelp.lib;lib_json.lib;Ws2_32.lib;libzmq_d.lib;libyaml-cppmdd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;..\..\..\Lib\zeromq-3.2.0\lib\Win32;..\..\..\Lib\yaml-cpp\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;..\..\..\Lib\zeromq-3.2.0\lib\Win32;..\..\..\Lib\yaml-cpp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>false</GenerateMapFile>
@@ -165,6 +165,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFReflection.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFRttiApi.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFSTLRttiWrap.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -215,6 +218,7 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFNetServer.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFProperty.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFReflection.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFRttiApi.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFSTLRttiWrap.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFStringHash.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h" />

@@ -14,7 +14,7 @@
 
 
 // TODO: reference additional headers your program requires here
-
+#include <yaml-cpp\yaml.h>
 
 #include "EFFBase.h"
 USE_EFFBASE

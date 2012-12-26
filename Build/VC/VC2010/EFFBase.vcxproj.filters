@@ -88,6 +88,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFGameObject.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFRttiApi.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFFBase\stdafx.h">
@@ -148,9 +151,6 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFBaseDefines.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMemberFunction.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -170,6 +170,12 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFGameObject.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFRttiApi.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

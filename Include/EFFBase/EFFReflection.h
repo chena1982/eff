@@ -11,7 +11,7 @@
 
 #pragma warning(disable:4251)
 
-#include "EFFSerialize.h"
+
 #include <boost/type_traits.hpp>
 #include <boost/typeof/typeof.hpp>
 #include <boost/function.hpp>
@@ -19,6 +19,7 @@
 EFFBASE_BEGIN
 
 class EFFClass;
+class EFFProperty;
 
 //calculates the offset of a field
 #define __OFFSET__(C, M)\

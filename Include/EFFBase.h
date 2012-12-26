@@ -18,8 +18,9 @@
 
 #include ".\EFFBase\EFFBaseDefines.h"
 #include ".\EFFBase\EFFMemory.h"
-#include ".\EFFBase\EFFSerialize.h"
+#include ".\EFFBase\EFFUtility.h"
 #include ".\EFFBase\EFFRtti.h"
+#include ".\EFFBase\EFFRttiApi.h"
 #include ".\EFFBase\EFFFile.h"
 #include ".\EFFBase\EFFSTLFile.h"
 #include ".\EFFBase\EFFObject.h"
@@ -34,6 +35,7 @@
 #include ".\EFFBase\EFFNetClient.h"
 #include ".\EFFBase\EFFNetServer.h"
 #include ".\EFFBase\EFFGameObject.h"
+
 
 
 #if defined UNICODE || defined _UNICODE

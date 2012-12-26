@@ -10,15 +10,12 @@
 
 
 
-#include "EFFFile.h"
-#include "EFFProperty.h"
 
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
 
 
-EFFBASE_BEGIN
-
+//EFFBASE_BEGIN
 
 
 //struct ArgWriteXml { TiXmlNode *node; String filename; Dword fileVersion; Dword classVersion; };
@@ -41,55 +38,93 @@ struct ArgReadBin
 	//BinFormat format;
 };
 
-
-
-
-
-
+inline YAML::Emitter & operator << (YAML::Emitter & out, const effString & str)
+{
+    out << EFFSTRING2ANSI(str);
+    return out;
+}
 
 template<typename PropertyType>
-inline void SaveProperty(EFFFile * file, PropertyType & data)
+inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
 {
-	data.SaveToFile(file);
+	PropertyType * data = NULL;
+	if ( !property->GetIsPointer() )
+	{
+		data = (PropertyType *)baseAddress;
+	}
+	else
+	{
+		data = *(PropertyType **)baseAddress;
+	}
+
+	if ( isBinary )
+	{
+		file->Write(data, sizeof(PropertyType));
+	}
+	else
+	{
+		*textOut << *data;
+	}
 }
 
-inline void SaveProperty(EFFFile * file, effString & data)
-{
-}
 
-
-
-inline void SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
+inline effVOID SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
 {
 	effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
 
 	if ( isBinary )
 	{
-
 		effUINT length = data.length();
 		file->Write(&length, 4);
 		file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
 	}
 	else
 	{
+		*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
+		*textOut << YAML::Value << EFFSTRING2ANSI(data);
 
 	}
 }
 
-inline void SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
+inline effVOID SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
 {
-	effVOID * source = (effVOID *)((effBYTE *)baseAddress + property->GetOffset());
-	file->Write(source, property->GetSize());
+	if ( isBinary )
+	{
+		effVOID * source = (effVOID *)((effBYTE *)baseAddress + property->GetOffset());
+		file->Write(source, property->GetSize());
+	}
+	else
+	{
+		if ( property->GetClass()->GetNameHash() == EFFStringHash(_effT("int")) )
+		{
+			effINT & value = *((effINT *)((effBYTE *)baseAddress + property->GetOffset()));
+			*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
+			*textOut << YAML::Value << value;
+		}
+		else if ( property->GetClass()->GetNameHash() == EFFStringHash(_effT("float")) )
+		{
+			effFLOAT & value = *((effFLOAT *)((effBYTE *)baseAddress + property->GetOffset()));
+			*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
+			*textOut << YAML::Value << value;
+		}
+		else if ( property->GetClass()->GetNameHash() == EFFStringHash(_effT("unsigned int")) )
+		{
+			effUINT & value = *((effUINT *)((effBYTE *)baseAddress + property->GetOffset()));
+			*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
+			*textOut << YAML::Value << value;
+		}
+	}
 }
 
+
 template<typename PropertyType, typename IsPOD>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
 {
 
 }
 
 template<typename PropertyType>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
 {
 }
 
@@ -248,6 +283,6 @@ inline void SaveProperty(T * data,TN elementNum,ArgWriteBin * pArgWriteBin,boost
 }*/
 
 
-EFFBASE_END
+//EFFBASE_END
 
 #endif

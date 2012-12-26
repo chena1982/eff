@@ -22,18 +22,20 @@
 
 
 
-
+#include <yaml-cpp\yaml.h>
 
 //#include <Python.h>
 //#include <boost/python/detail/wrap_python.hpp>
 
-#include "EFFBase/EFFBaseDefines.h"
-
-
-
-
-
 #include "EFFMathBaseDefines.h"
+
+#include "EFFBase.h"
+USE_EFFBASE
+
+
+
+
+
 
 // TODO: 在此处引用程序需要的其他头文件
 

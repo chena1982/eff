@@ -26,7 +26,7 @@ public:
 	EFFComponent *		GetComponent(effINT index) { return components[index]; }
 	effINT				GetComponentCount() { return components.size(); }
 
-	virtual effVOID		SaveComponentsToFile(EFFFile * file, effBOOL isBinary);
+	virtual effVOID		SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter * textOut);
 protected:
 	std::vector<EFFComponent *>		components;
 };

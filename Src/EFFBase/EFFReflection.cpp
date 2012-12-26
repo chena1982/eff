@@ -8,7 +8,6 @@
 
 #include "stdafx.h"
 #include "EFFReflection.h"
-
 //#define new EFFNEW
 
 EFFBASE_BEGIN

@@ -14,35 +14,36 @@ EFFMATH_BEGIN
 
 class EFFMATH_API EFFVector3
 {
+	RTTI_DECLARE_BASE(EFFVector3)
 public:
 	EFFVector3() {}
-	EFFVector3(effFLOAT x,effFLOAT y,effFLOAT z) : x(x), y(y), z(z) {}
+	EFFVector3(effFLOAT x, effFLOAT y, effFLOAT z) : x(x), y(y), z(z) {}
 
-	effVOID Normalize()
+	inline effVOID Normalize()
 	{
-		effFLOAT fSum = x*x + y*y + z*z;
-		fSum = 1.0f / sqrtf(fSum);
-		x *= fSum;
-		y *= fSum;
-		z *= fSum;
+		effFLOAT sum = x * x + y * y + z * z;
+		sum = 1.0f / sqrtf(sum);
+		x *= sum;
+		y *= sum;
+		z *= sum;
 	}
 
-	effVOID Set(effFLOAT x,effFLOAT y,effFLOAT z)
+	inline effVOID Set(effFLOAT x, effFLOAT y, effFLOAT z)
 	{
 		this->x = x;
 		this->y = y;
 		this->z = z;
 	}
 
-	EFFVector3 & Cross(const EFFVector3 * pV);
+	EFFVector3 & Cross(const EFFVector3 * v);
 
-	effFLOAT Dot(const EFFVector3 * pV);
+	effFLOAT Dot(const EFFVector3 * v);
 
-	EFFVector3 & operator - (const EFFVector3 * pV)
+	inline EFFVector3 & operator - (const EFFVector3 * v)
 	{
-		x -= pV->x;
-		y -= pV->y;
-		z -= pV->z;
+		x -= v->x;
+		y -= v->y;
+		z -= v->z;
 		return *this;
 	}
 
@@ -54,41 +55,42 @@ public:
 
 };
 
-inline EFFMATH_API EFFVector3 * EFFVec3Cross(EFFVector3 * pOut,const EFFVector3 * pV1,const EFFVector3 * pV2)
+inline EFFMATH_API EFFVector3 * EFFVec3Cross(EFFVector3 * out,const EFFVector3 * v1,const EFFVector3 * v2)
 {
-	EFFVector3 out;
-	out.x = pV1->y * pV2->z - pV1->z * pV2->y;
-	out.y = pV1->z * pV2->x - pV1->x * pV2->z;
-	out.z = pV1->x * pV2->y - pV1->y * pV2->x;
-	*pOut = out;
-	return pOut;
+	EFFVector3 temp;
+	temp.x = v1->y * v2->z - v1->z * v2->y;
+	temp.y = v1->z * v2->x - v1->x * v2->z;
+	temp.z = v1->x * v2->y - v1->y * v2->x;
+	*out = temp;
+	return out;
 }
 
-inline EFFMATH_API effFLOAT EFFVec3Dot(const EFFVector3 * pV1,const EFFVector3 * pV2)
+inline EFFMATH_API effFLOAT EFFVec3Dot(const EFFVector3 * v1,const EFFVector3 * v2)
 {
-	return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z;
+	return v1->x * v2->x + v1->y * v2->y + v1->z * v2->z;
 }
 
-inline EFFMATH_API EFFVector3 * EFFVec3Subtract(EFFVector3 * pOut,const EFFVector3 * pV1,const EFFVector3 * pV2)
+inline EFFMATH_API EFFVector3 * EFFVec3Subtract(EFFVector3 * out,const EFFVector3 * v1,const EFFVector3 * v2)
 {
-	EFFVector3 out;
-	out.x = pV1->x - pV2->x;
-	out.y = pV1->y - pV2->y;
-	out.z = pV1->z - pV2->z;
+	EFFVector3 temp;
+	temp.x = v1->x - v2->x;
+	temp.y = v1->y - v2->y;
+	temp.z = v1->z - v2->z;
 
-	*pOut = out;
-	return pOut;
+	*out = temp;
+	return out;
 }
 
-inline EFFVector3 & EFFVector3::Cross(const EFFVector3 * pV)
+inline EFFVector3 & EFFVector3::Cross(const EFFVector3 * v)
 {
-	return *EFFVec3Cross(this,this,pV);
+	return *EFFVec3Cross(this, this, v);
 }
 
-inline effFLOAT EFFVector3::Dot(const EFFVector3 * pV)
+inline effFLOAT EFFVector3::Dot(const EFFVector3 * v)
 {
-	return EFFVec3Dot(this,pV);
+	return EFFVec3Dot(this, v);
 }
+
 
 
 EFFMATH_END

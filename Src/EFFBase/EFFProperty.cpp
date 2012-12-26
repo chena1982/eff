@@ -1,8 +1,6 @@
 #include "stdafx.h"
 
-
 #include "EFFProperty.h"
-#include "EFFFile.h"
 
 
 

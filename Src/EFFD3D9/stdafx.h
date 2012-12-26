@@ -25,7 +25,7 @@
 
 //#include <Python.h>
 //#include <boost/python/detail/wrap_python.hpp>
-
+#include <yaml-cpp\yaml.h>
 
 #include "EFFBase.h"
 USE_EFFBASE
