@@ -43,7 +43,7 @@ EFFBASE_API effVOID *	EFFCreateObject(const ClassID & classId);
 EFFBASE_API EFFClass *	EFFGetClass(const effString & className);
 EFFBASE_API EFFClass *	EFFGetClass(const ClassID & classId);
 
-effVOID SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name);
+EFFBASE_API effVOID SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name);
 
 class EFFBASE_API EFFClass
 {

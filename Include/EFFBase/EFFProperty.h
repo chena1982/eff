@@ -24,7 +24,7 @@ class EFFFile;
 #pragma warning(disable:4251)
 
 
-typedef effVOID (* SavePropertyFP)(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut);
+//typedef effVOID (* SavePropertyFP)(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut);
 
 
 class EFFBASE_API EFFProperty
@@ -52,7 +52,7 @@ public:
 		isPointer = effFALSE;
 		isArray = effFALSE;
 		stlContainerType = ContainerType_None;
-		savePropertyFP = NULL;
+		//savePropertyFP = NULL;
 	}
 public:
 	virtual ~EFFProperty() {}
@@ -62,7 +62,7 @@ public:
 	virtual effVOID				SetName(const effString & name);
 	virtual effVOID				SetClass(EFFClass * propertyClass) { Class = propertyClass; }
 	virtual effVOID				SetIsPointer(effBOOL isPointer) { this->isPointer = isPointer; }
-	virtual effVOID				SetSavePropertyFP(SavePropertyFP savePropertyFP) { this->savePropertyFP = savePropertyFP; }
+	//virtual effVOID				SetSavePropertyFP(SavePropertyFP savePropertyFP) { this->savePropertyFP = savePropertyFP; }
 
 	virtual effUINT				GetOffset() { return offset; }
 	virtual effUINT				GetSize() { return size; }
@@ -72,7 +72,7 @@ public:
 	virtual effBOOL				GetIsPointer() { return isPointer; }
 	virtual effBOOL				GetIsSTLContainer() { return stlContainerType != ContainerType_None; }
 	virtual STLContainerType	GetSTLContainerType() { return stlContainerType; }
-	virtual SavePropertyFP		GetSavePropertyFP() { return savePropertyFP; }
+	//virtual SavePropertyFP		GetSavePropertyFP() { return savePropertyFP; }
 
 
 	virtual effVOID				SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Emitter * textOut) = 0;
@@ -127,7 +127,7 @@ protected:
 	effBOOL					isPointer;
 	effBOOL					isArray;
 	STLContainerType		stlContainerType;
-	SavePropertyFP			savePropertyFP;
+	//SavePropertyFP			savePropertyFP;
 };
 
 

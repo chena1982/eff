@@ -16,7 +16,7 @@ class EFFMATH_API EFFVector3
 {
 	RTTI_DECLARE_BASE(EFFVector3)
 public:
-	EFFVector3() {}
+	EFFVector3() : x(0), y(0), z(0) {}
 	EFFVector3(effFLOAT x, effFLOAT y, effFLOAT z) : x(x), y(y), z(z) {}
 
 	inline effVOID Normalize()
@@ -54,6 +54,19 @@ public:
 
 
 };
+
+inline EFFMATH_API YAML::Emitter & operator << (YAML::Emitter & textOut, const EFFVector3 & v)
+{
+	textOut << YAML::BeginMap;
+	textOut << YAML::Key << "x";
+	textOut << YAML::Value << v.x;
+	textOut << YAML::Key << "y";
+	textOut << YAML::Value << v.y;
+	textOut << YAML::Key << "z";
+	textOut << YAML::Value << v.z;
+	textOut << YAML::EndMap;
+	return textOut;
+}
 
 inline EFFMATH_API EFFVector3 * EFFVec3Cross(EFFVector3 * out,const EFFVector3 * v1,const EFFVector3 * v2)
 {

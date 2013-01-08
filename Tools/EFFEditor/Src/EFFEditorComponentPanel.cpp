@@ -255,7 +255,7 @@ void EFFEditorComponentPanel::AddPropertyValue(EFFComponent * component, EFFProp
 			effString propertyClassName = addedProperty->GetClass()->GetName();
 			if ( propertyClassName == _effT("effString") )
 			{
-				addedProperty->ForEach<effString>(component, [=, this](const effString & propertyValue)
+				addedProperty->ForEach<effString>(component, [&](const effString & propertyValue)
 													{
 														QWidget * elementLineWidget = AddPropertyName(_effT("Element"), Child);
 														AddProperyValueString(propertyValue, elementLineWidget);

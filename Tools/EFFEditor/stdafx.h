@@ -8,10 +8,11 @@
 #include <string>
 #include <vector>
 #include <map>
-
+#include <functional>
 #include <QtGui>
 
 #include <json.h>
+#include <yaml-cpp\yaml.h>
 
 #include "EFFBase.h"
 USE_EFFBASE

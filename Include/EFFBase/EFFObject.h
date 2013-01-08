@@ -44,16 +44,10 @@ protected:
 	EFFObject();
 	void				SetID(effUINT id) { this->id = id; }
 public:
-
 	effUINT				GetID() { return id; }
-
-	effString			GetName() { return name; }
-	effVOID				SetName(const effString & name) { this->name = name; }
-
 	EFFProperty *		GetProperty(const effString & name);
 protected:
 	effUINT				id;
-	effString			name;
 };
 
 

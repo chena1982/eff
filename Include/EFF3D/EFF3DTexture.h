@@ -16,23 +16,20 @@ EFF3D_BEGIN
 
 class  EFF3D_API EFF3DImage : public EFF3DResource
 {
+	RTTI_DECLARE_PURE(EFF3DImage, EFF3DResource)
+public:
+	EFF3DImage() {}
+	virtual ~EFF3DImage() {}
 public:
 	EFF3DIMAGE_INFO & GetImageInfo() { return m_ImageInfo; }
 protected:
 	EFF3DIMAGE_INFO m_ImageInfo;
 };
 
-class EFF3D_API EFF3DBaseTexture : public EFF3DImage
-{
-public:
-
-	EFF3DBaseTexture() {}
-	virtual ~EFF3DBaseTexture() {}
-};
 
 class EFF3DSurface;
 
-class EFF3D_API EFF3DTexture : public EFF3DBaseTexture
+class EFF3D_API EFF3DTexture : public EFF3DImage
 {
 	friend class EFF3DTextureManager;
 protected:

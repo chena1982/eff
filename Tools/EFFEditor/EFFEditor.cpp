@@ -6,6 +6,10 @@
 #include "EFFEditorHierarchyPanel.h"
 #include "EFFEditorScenePanel.h"
 
+extern HANDLE g_hRenderThread;
+extern effBOOL g_bExitRenderThread;
+
+
 EFFEditorMainWindow::EFFEditorMainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
@@ -40,8 +44,6 @@ EFFEditorMainWindow::EFFEditorMainWindow(QWidget *parent, Qt::WFlags flags)
 		LoadLayout(tr("./EditorRes/Layout/Default.layout"));
 	}
 
-
-
 }
 
 EFFEditorMainWindow::~EFFEditorMainWindow()
@@ -74,6 +76,17 @@ void EFFEditorMainWindow::closeEvent(QCloseEvent *event)
 		layoutFile.write(state);
 		layoutFile.close();
     }
+
+	CRITICAL_SECTION criticalSection;
+	InitializeCriticalSection(&criticalSection);
+	EnterCriticalSection(&criticalSection);
+
+	g_bExitRenderThread = effTRUE;
+
+	LeaveCriticalSection(&criticalSection);
+	DeleteCriticalSection(&criticalSection);
+
+	WaitForSingleObject(g_hRenderThread, INFINITE);
 
     QMainWindow::closeEvent(event);
 }

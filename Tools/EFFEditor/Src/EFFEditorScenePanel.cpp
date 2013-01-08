@@ -11,12 +11,14 @@
 #include "EFFEditorDockWidgetTitleBar.h"
 #include "EFFEditorRealTimeWidget.h"
 #include "EFFEditorSceneRenderThread.h"
+#include "EFFEditor.h"
 
-extern QMainWindow * g_pMainWindow;
 
-#define TOOLBAR_MIN_HEIGHT 16
 
 unsigned int g_renderThreadId;
+HANDLE g_hRenderThread;
+
+extern EFFEditorMainWindow * g_pMainWindow;
 
 EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParent)
 {
@@ -51,7 +53,7 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 
 	m_pMainLayout = new QVBoxLayout();
 	m_pMainLayout->setContentsMargins(1, 1, 1, 1);
-	//m_pMainLayout->setSpacing(0);
+	m_pMainLayout->setSpacing(0);
 
 	createToolbar();
 	m_pRealTimeContent = new QWidget(m_pContent);
@@ -61,30 +63,15 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 	EFFEditorRealTimeWidget * bottomWidget = NULL;
 	if ( twoLayer )
 	{
-		QStackedLayout * stackedLayout = new QStackedLayout;
-		stackedLayout->setStackingMode(QStackedLayout::StackAll);
 
-		bottomWidget = new EFFEditorRealTimeWidget(m_pRealTimeContent);
-		bottomWidget->setObjectName("realtime");
+		//m_pToolbar->setParent(this);
+		m_pMainLayout->addWidget(m_pToolbar);
 
-		QWidget * topWidget = new QWidget(m_pRealTimeContent);
-		topWidget->setObjectName("transparency");
-	
-		QVBoxLayout * transparencyLayout = new QVBoxLayout();
-		transparencyLayout->addWidget(m_pToolbar);
-		QWidget * temp = new QWidget(topWidget);
-		transparencyLayout->addWidget(temp, 1);
-		topWidget->setLayout(transparencyLayout);
-
-		//topWidget->setAttribute(Qt::WA_NoSystemBackground, true);
-	
-		stackedLayout->addWidget(topWidget);		
-		stackedLayout->addWidget(bottomWidget);
-
-
-		m_pRealTimeContent->setLayout(stackedLayout);
-
-		
+		/*QWidget * temp = new QWidget();
+		temp->resize(100, 100);
+		temp->setParent(m_pContent);
+		temp->setAttribute(Qt::WA_TranslucentBackground, true);
+		temp->move(100, 100);*/
 	}
 	else
 	{
@@ -95,9 +82,9 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 	m_pMainLayout->addWidget(m_pRealTimeContent, 1);
 
 
-
 	m_pContent->setLayout(m_pMainLayout);
 	setWidget(m_pContent);
+
 
 	int left, right, top, bottom;
 	//m_pToolbar->layout()->getContentsMargins(&left, &top, &right, &bottom);
@@ -107,18 +94,13 @@ EFFEditorScenePanel::EFFEditorScenePanel(QWidget * pParent) : QDockWidget(pParen
 
 
 
-	if ( twoLayer )
-	{
-		bottomWidget->Init();
-	}
-	else
-	{
-		RenderThreadStartParam * param = new RenderThreadStartParam();
-		param->hWnd = (HWND)m_pRealTimeContent->winId();
-		param->width = m_pRealTimeContent->width();
-		param->height = m_pRealTimeContent->height();
-		_beginthreadex(NULL, 0, RenderThread, param, 0, &g_renderThreadId);
-	}
+
+	RenderThreadStartParam * param = new RenderThreadStartParam();
+	param->hWnd = (HWND)m_pRealTimeContent->winId();
+	param->width = m_pRealTimeContent->width();
+	param->height = m_pRealTimeContent->height();
+	g_hRenderThread = (HANDLE)_beginthreadex(NULL, 0, RenderThread, param, 0, &g_renderThreadId);
+
 }
 
 
@@ -189,7 +171,7 @@ void EFFEditorScenePanel::createToolbar()
 	QToolButton * drawMode = new QToolButton();
 	drawMode->setToolButtonStyle(Qt::ToolButtonTextOnly);
 	drawMode->setPopupMode(QToolButton::InstantPopup);
-	drawMode->setObjectName(tr("DrawMode"));
+	drawMode->setObjectName(tr("drawMode"));
 	QMenu * drawModeMenu = new QMenu(drawMode);
 	drawModeMenu->addAction(new QAction(tr("Textured"), drawModeMenu));
 	drawModeMenu->addAction(new QAction(tr("Wireframe"), drawModeMenu));
@@ -206,7 +188,7 @@ void EFFEditorScenePanel::createToolbar()
 	QToolButton * renderMode = new QToolButton();
 	renderMode->setToolButtonStyle(Qt::ToolButtonTextOnly);
 	renderMode->setPopupMode(QToolButton::InstantPopup);
-	renderMode->setObjectName(tr("RenderMode"));
+	renderMode->setObjectName(tr("renderMode"));
 	QMenu * renderModeMenu = new QMenu(renderMode);
 	renderModeMenu->addAction(new QAction(tr("RGB"), renderModeMenu));
 	renderModeMenu->addAction(new QAction(tr("Alpha"), renderModeMenu));
@@ -279,9 +261,9 @@ void EFFEditorScenePanel::drawModeMenuPressed(QAction * action)
 			firstTime = false;
 		}
 
-		EFFObjectManager * objectManager = EFFGetObjectManager(EFFGameObject::GetThisClass());
+		EFFObjectManager * objectManager = EFFGetObjectManager(EFF3DObject::GetThisClass());
 
-		EFFGameObject * gameObject = (EFFGameObject *)objectManager->GetObject(1);
+		EFF3DObject * gameObject = (EFF3DObject *)objectManager->GetObject(1);
 
 		EFFComponent * component = gameObject->GetComponent(0);
 

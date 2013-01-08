@@ -23,7 +23,7 @@ protected:
 public:
 	EFFComponent *		AddComponent(const ClassID & classID);
 	EFFComponent *		GetComponent(const ClassID & classID);
-	EFFComponent *		GetComponent(effINT index) { return components[index]; }
+	EFFComponent *		GetComponent(effINT index);
 	effINT				GetComponentCount() { return components.size(); }
 
 	virtual effVOID		SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter * textOut);

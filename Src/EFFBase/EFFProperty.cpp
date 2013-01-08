@@ -58,7 +58,11 @@ effINT EFFProperty::GetElementCount(effVOID * baseAddress)
 		}
 	}
 
+
+
 	return 0;
+
+
 }
 
 

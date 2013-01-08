@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFObject.h"
 #include "EFFObjectManager.h"
-
+#include "EFFGlobal.h"
 
 
 EFFBASE_BEGIN
@@ -22,17 +22,17 @@ effVOID EFFRegisterObjectManager(EFFClass * Class, EFFObjectManager * objectMana
 {
 	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.begin();
 
-	effBOOL alreadyHave = effFALSE;
+	effBOOL registered = effFALSE;
 	for ( ; it != objectManagers.end(); it++ )
 	{
 		if ( Class->IsKindOf(it->first) )
 		{
-			alreadyHave = effTRUE;
+			registered = effTRUE;
 			break;
 		}
 	}
 
-	if ( !alreadyHave )
+	if ( !registered )
 	{
 		objectManagers[Class] = objectManager;
 	}
@@ -48,6 +48,12 @@ EFFObjectManager * EFFGetObjectManager(EFFClass * Class)
 		{
 			return it->second;
 		}
+	}
+
+	if ( Class->IsKindOf(EFFObject::GetThisClass()) )
+	{
+		EFFContext * context = GetEFFContext();
+		return context->GetObjectManager();
 	}
 
 	return NULL;

@@ -22,7 +22,7 @@ public:
 	QSize sizeHint() const { return QSize(300, -1); }
 	//void paintEvent(QPaintEvent *);
 public:
-	effVOID BindObject(EFFGameObject * object);
+	effVOID BindObject(EFF3DObject * object);
 public slots:
 	void titleBarAddOrDeleteTab(bool bAdd);
 
@@ -33,6 +33,8 @@ private:
 	QVBoxLayout *							m_pMainLayout;
 	QWidget *								m_pContent;
 	std::map<EFFComponent *, QWidget *>		m_ComponentPanels;
+
+	QLineEdit *								m_pNameEdit;
 };
 
 #endif

@@ -14,6 +14,8 @@
 
 EFF3D_BEGIN
 
+RTTI_IMPLEMENT_PURE(EFF3DImage, 0)
+
 EFF3DImageManager::EFF3DImageManager()
 {
 	//OnCreateFromFile += EFFEventCall(this, &EFF3DImageManager::CreateFromFileImpl);

@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include "ui_effeditor.h"
 
+#define TOOLBAR_MIN_HEIGHT 16
 
 class EFFEditorInspectorPanel;
 class EFFEditorProjecPanel;

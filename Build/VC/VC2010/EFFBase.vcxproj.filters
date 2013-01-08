@@ -85,10 +85,10 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFStringHash.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFGameObject.cpp">
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFRttiApi.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFRttiApi.cpp">
+    <ClCompile Include="..\..\..\Src\EFFBase\dllmain.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +167,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFStringHash.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFGameObject.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFRttiApi.h">

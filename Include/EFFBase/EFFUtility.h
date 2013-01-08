@@ -33,6 +33,23 @@ private:
 #endif
 
 
+class ScopeGuard
+{
+public:
+    explicit ScopeGuard(std::function<effVOID ()> onExitScope);
+	~ScopeGuard();
+
+	effVOID Dismiss();
+private:
+    std::function<effVOID ()> onExitScope_;
+    effBOOL dismissed_;
+
+private: // noncopyable
+    ScopeGuard(const ScopeGuard &);
+    ScopeGuard & operator = (const ScopeGuard &);
+};
+
+#define ON_SCOPE_EXIT(callback) ScopeGuard EXIT##_LINE_(callback);
 
 
 

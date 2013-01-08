@@ -34,7 +34,7 @@
 #include ".\EFFBase\EFFStringHash.h"
 #include ".\EFFBase\EFFNetClient.h"
 #include ".\EFFBase\EFFNetServer.h"
-#include ".\EFFBase\EFFGameObject.h"
+//#include ".\EFFBase\EFFGameObject.h"
 
 
 

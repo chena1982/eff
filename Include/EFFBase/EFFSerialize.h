@@ -63,7 +63,8 @@ inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFF
 	}
 	else
 	{
-		*textOut << *data;
+		*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
+		*textOut << YAML::Value << *data;
 	}
 }
 

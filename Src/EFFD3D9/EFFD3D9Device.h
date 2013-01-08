@@ -59,7 +59,7 @@ public:
 	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value);
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value);
 	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget);
-	virtual effBOOL				SetTexture(effUINT sampler, EFF3DBaseTexture * texture);
+	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture);
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil);
 
 	virtual effBOOL				SetShader(EFF3DShader * shader);

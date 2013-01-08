@@ -41,8 +41,8 @@ EFFEditorInspectorPanel::EFFEditorInspectorPanel(QWidget * parent) : QDockWidget
 	QHBoxLayout * nameLayout = new QHBoxLayout();
 	QCheckBox * nameCheckBox = new QCheckBox();
 	nameLayout->addWidget(nameCheckBox);
-	QLineEdit * nameEdit = new QLineEdit();
-	nameLayout->addWidget(nameEdit);
+	m_pNameEdit = new QLineEdit();
+	nameLayout->addWidget(m_pNameEdit);
 	QCheckBox * staticCheckBox = new QCheckBox();
 	nameLayout->addWidget(staticCheckBox);
 	QPushButton * staticButton = new QPushButton();
@@ -95,8 +95,14 @@ void EFFEditorInspectorPanel::titleBarAddOrDeleteTab(bool bAdd)
 }
 
 
-effVOID EFFEditorInspectorPanel::BindObject(EFFGameObject * object)
+effVOID EFFEditorInspectorPanel::BindObject(EFF3DObject * object)
 {
+	EFFProperty * propertyName = object->GetProperty(_effT("name"));
+	effString name;
+	propertyName->GetValue(object, name);
+	m_pNameEdit->setText(QString::fromUtf16((const ushort *)name.c_str()));
+
+
 	effINT componentCount = object->GetComponentCount();
 
 	for ( effINT i = 0; i < componentCount; i++ )

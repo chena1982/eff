@@ -12,7 +12,8 @@
 //#define new EFFNEW
 EFFMATH_BEGIN
 
-RTTI_IMPLEMENT_BASE_CUSTOM_SAVE(EFFVector3, 0)
+RTTI_IMPLEMENT_BASE(EFFVector3, 0)
+/*RTTI_IMPLEMENT_BASE_CUSTOM_SAVE(EFFVector3, 0)
 
 effVOID EFFVector3::SaveToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter * textOut)
 {
@@ -31,6 +32,6 @@ effVOID EFFVector3::SaveToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter *
 		*textOut << YAML::Value << z;
 		*textOut << YAML::EndMap;
 	}
-}
+}*/
 
 EFFMATH_END

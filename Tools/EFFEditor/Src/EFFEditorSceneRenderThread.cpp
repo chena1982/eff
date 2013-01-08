@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "EFFEditorSceneRenderThread.h"
 
-effBOOL g_exitRenderThread = effFALSE;
+effBOOL g_bExitRenderThread = effFALSE;
 
 effUINT WINAPI RenderThread(effVOID * arglist)
 {
@@ -17,7 +17,7 @@ effUINT WINAPI RenderThread(effVOID * arglist)
 	MMOApplication app;
 	app.Init(effTRUE, param->hWnd, param->width, param->height);
 
-	while ( !g_exitRenderThread )
+	while ( !g_bExitRenderThread )
 	{
 		app.Update();
 		app.Render();

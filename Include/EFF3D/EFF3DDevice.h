@@ -10,7 +10,7 @@
 
 EFF3D_BEGIN
 
-class EFF3DBaseTexture;
+class EFF3DImage;
 class EFF3DTexture;
 class EFF3DVertexBuffer;
 class EFF3DVertexDeclaration;
@@ -81,7 +81,7 @@ public:
 	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
 	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget) = 0;
-	virtual effBOOL				SetTexture(effUINT sampler, EFF3DBaseTexture * texture) = 0;
+	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture) = 0;
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
@@ -110,6 +110,7 @@ protected:
 	virtual effBOOL				DrawQuad(EFFRect * rect);
 protected:
 	effVOID						Init();
+	effVOID						InitProperty();
 	friend effBOOL EFF3D_API	Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
 
 

@@ -536,7 +536,7 @@ effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface *
 	return SUCCEEDED(D3D9Device->SetRenderTarget(renderTargetIndex, effD3D9Surface->m_pSurface));
 }
 
-effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DBaseTexture * texture)
+effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DImage * texture)
 {
 	if ( texture != NULL )
 	{

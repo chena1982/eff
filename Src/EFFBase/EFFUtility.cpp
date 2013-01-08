@@ -21,6 +21,9 @@ const effCHAR * AnsiUnicodeStringConvert::W2A(const effWCHAR * str)
 	return charBuffer;
 }
 
+
+
+
 const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
 {
 	effULONG length = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
@@ -32,6 +35,26 @@ const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
 
 	MultiByteToWideChar(CP_ACP, 0, str, -1, &AnsiUnicodeStringConvert::wcharBuffer[0], length);
 	return wcharBuffer;
+}
+
+
+ScopeGuard::ScopeGuard(std::function<effVOID ()> onExitScope)
+{
+	onExitScope_ = onExitScope;
+	dismissed_ = effFALSE;
+}
+
+ScopeGuard::~ScopeGuard()
+{
+    if ( !dismissed_ )
+    {
+        onExitScope_();
+    }
+}
+
+effVOID ScopeGuard::Dismiss()
+{
+    dismissed_ = effTRUE;
 }
 
 effString GetPODTypeClassName(const effCHAR * propertyTypeName)

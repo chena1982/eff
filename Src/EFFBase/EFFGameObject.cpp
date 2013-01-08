@@ -41,6 +41,16 @@ EFFComponent * EFFGameObject::GetComponent(const ClassID & classID)
 	return NULL;
 }
 
+EFFComponent * EFFGameObject::GetComponent(effINT index)
+{
+	if ( index < 0 || index >= (effINT)components.size() )
+	{
+		return NULL;
+	}
+
+	return components[index];
+}
+
 
 
 

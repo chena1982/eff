@@ -9,28 +9,46 @@
 #include "stdafx.h"
 #include "EFFGlobal.h"
 #include "EFFObjectManager.h"
+#include "EFFObject.h"
 
-//#define new EFFNEW
 
 EFFBASE_BEGIN
 
 
 
-EFFGlobal EFFGlobalUnExport::effGlobal;
 
-EFFGlobal & GetEFFGlobal()
+
+EFFContext::EFFContext()
 {
-	return EFFGlobalUnExport::effGlobal;
+	effObjectManager = EFFNEW EFFObjectManager;
 }
 
-EFFGlobal::EFFGlobal()
+EFFContext::~EFFContext()
 {
-	m_pEFFObjectManager = new EFFObjectManager;
+	SF_DELETE(effObjectManager);
 }
 
-EFFGlobal::~EFFGlobal()
+effVOID EFFContext::AddProperty()
 {
-	SF_DELETE(m_pEFFObjectManager);
+
+}
+
+EFFContext * context = NULL;
+
+effVOID InitEFFContext()
+{
+	context = EFFNEW EFFContext();
+}
+
+effVOID ReleaseEFFContext()
+{
+	SF_DELETE(context);
+}
+
+
+EFFContext * GetEFFContext()
+{
+	return context;
 }
 
 EFFBASE_END

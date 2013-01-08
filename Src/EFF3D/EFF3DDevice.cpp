@@ -14,6 +14,7 @@
 #include "EFF3DMaterial.h"
 #include "EFF3DShader.h"
 #include "EFF3DDevice.h"
+#include "EFF3DObject.h"
 
 //#define new EFFNEW
 
@@ -77,9 +78,16 @@ EFF3DDevice::~EFF3DDevice()
 effVOID EFF3DDevice::Init()
 {
 	imageManager = EFFNEW EFF3DImageManager();
-	EFFRegisterObjectManager(EFF3DImageManager::GetThisClass(), imageManager);
+	EFFRegisterObjectManager(EFF3DImage::GetThisClass(), imageManager);
 	
 	sceneManager = EFFNEW EFF3DSceneManager();
+
+	InitProperty();
+}
+
+effVOID EFF3DDevice::InitProperty()
+{
+	EFF3DObjectInitProperty();
 }
 
 struct QuadVertex

@@ -61,13 +61,13 @@ RTTI_IMPLEMENT_BASE(B, 0)
 void test()
 {
 
-	EFFObjectManager * objectManager = new EFFObjectManager();
-	EFFGameObject * object = (EFFGameObject *)objectManager->CreateObject(EFFGameObject::GetThisClass());
+	//EFFObjectManager * objectManager = new EFFObjectManager();
+	//EFF3DObject * object = (EFF3DObject *)objectManager->CreateObject(EFF3DObject::GetThisClass());
 
-	EFFRegisterObjectManager(object->GetRuntimeClass(), objectManager);
+	//EFFRegisterObjectManager(object->GetRuntimeClass(), objectManager);
 
 	//A * a = (A *)EFFCreateObject(_effT("A"));
-	A * a = (A *)object->AddComponent(A::GetThisClass()->GetID());
+	/*A * a = (A *)object->AddComponent(A::GetThisClass()->GetID());
 	a->m_z = 10;
 	a->m_s = _effT("sssssssss");
 	a->m_v.push_back(_effT("ºÍÐ³"));
@@ -86,7 +86,7 @@ void test()
 	AClass->AddProperty(&A::m_bool, _effT("Bool"));
 
 	object->SetName(_effT("test"));
-	g_pMainWindow->GetHierarchyPanel()->AddObject(object);
+	g_pMainWindow->GetHierarchyPanel()->AddObject(object);*/
 }
 
 

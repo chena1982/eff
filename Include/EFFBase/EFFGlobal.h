@@ -13,25 +13,33 @@ EFFBASE_BEGIN
 
 class EFFObjectManager;
 
-class EFFBASE_API EFFGlobal
+class EFFBASE_API EFFContext
 {
-	friend class EFFGlobalUnExport;
+	friend effVOID InitEFFContext();
+	friend effVOID ReleaseEFFContext();
 protected:
-	EFFGlobal();
-	~EFFGlobal();
+	EFFContext();
+	~EFFContext();
+
+
 public:
-	EFFObjectManager *				GetObjectManager() { return m_pEFFObjectManager; }
+	inline EFFObjectManager *	GetObjectManager() { return effObjectManager; }
+
+protected:
+	effVOID AddProperty();
+
 private:
-	EFFObjectManager *				m_pEFFObjectManager;
+	EFFObjectManager *	effObjectManager;
 };
 
-class EFFGlobalUnExport
-{
-public:
-	static EFFGlobal effGlobal;
-};
 
-EFFBASE_API EFFGlobal & GetEFFGlobal();
+
+effVOID InitEFFContext();
+effVOID ReleaseEFFContext();
+
+
+EFFBASE_API EFFContext * GetEFFContext();
+
 
 
 EFFBASE_END

@@ -18,13 +18,19 @@ public:
 	~EFFEditorHierarchyPanel();
 
 public:
-	void AddObject(EFFGameObject * object);
+	void AddObject(EFF3DObject * object);
 
 public slots:
 	void titleBarAddOrDeleteTab(bool bAdd);
-
+	void createMenuPressed(QAction *);
+protected:
+	void createToolbar();
 private:
 	EFFEditorUIDockWidgetTitleBar *			m_pTitleBar;
+
+	QVBoxLayout *							m_pMainLayout;
+	QWidget *								m_pContent;
+	QToolBar *								m_pToolbar;
 	QTreeWidget *							m_pTreeWidget;
 };
 

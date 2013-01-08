@@ -38,7 +38,7 @@ effVOID EFFReferenceCount::Release()
 EFFObject::EFFObject()
 {
 	id = 0;
-	GetThisClass()->AddProperty(&EFFObject::name, _effT("Name"));
+
 }
 
 EFFObject::~EFFObject()
