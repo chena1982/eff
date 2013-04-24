@@ -36,21 +36,21 @@ public:
 		}
 		EFF3DMyTerrainNode *		pParent;
 		EFF3DMyTerrainNode *		pChild[4];
-		effINT								nDepth;
-		effINT								nId;
-		effINT								nLeftTopX;
-		effINT								nLeftTopY;
+		effINT						nDepth;
+		effINT						nId;
+		effINT						nLeftTopX;
+		effINT						nLeftTopY;
 
 		EFF3DMyTerrainTile *		pTile;
 	};
 public:
-	effBOOL								Init();
-	effVOID								Test();
+	effBOOL							Init();
+	effVOID							Test();
 public:
-	virtual effVOID						Render(EFF3DDevice * pDevice);
+	virtual effVOID					Render(EFF3DDevice * pDevice);
 
 protected:
-	effVOID								SplitNode(EFF3DMyTerrainNode * pNode);
+	effVOID							SplitNode(EFF3DMyTerrainNode * pNode);
 private:
 	EFF3DMyTerrainNode *			m_pRootNode;
 };

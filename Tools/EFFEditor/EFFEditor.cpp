@@ -21,6 +21,14 @@ EFFEditorMainWindow::EFFEditorMainWindow(QWidget *parent, Qt::WFlags flags)
 	//setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
 	setDockNestingEnabled(true);
 
+	//m_pMainMenuBar = new QMenuBar(this);
+	//SetMenu(m_pMainMenuBar);
+
+	QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(new QAction(tr("Save"), fileMenu));
+
+	connect(fileMenu, SIGNAL(triggered(QAction *)), this, SLOT(fileMenuPressed(QAction *)));
+
 	m_pScenePanel = new EFFEditorScenePanel(this);
 	addDockWidget(Qt::LeftDockWidgetArea, m_pScenePanel);
 
@@ -43,6 +51,7 @@ EFFEditorMainWindow::EFFEditorMainWindow(QWidget *parent, Qt::WFlags flags)
 	{
 		LoadLayout(tr("./EditorRes/Layout/Default.layout"));
 	}
+
 
 }
 
@@ -91,4 +100,18 @@ void EFFEditorMainWindow::closeEvent(QCloseEvent *event)
     QMainWindow::closeEvent(event);
 }
 
+
+void EFFEditorMainWindow::fileMenuPressed(QAction * action)
+{
+	if ( action->text() == tr("Save") )
+	{
+		EFFObjectManager * objectManager = EFFGetObjectManager(EFF3DObject::GetThisClass());
+		std::map<effUINT, EFFObject *> & objects = objectManager->GetObjects();
+		std::map<effUINT, EFFObject *>::iterator it = objects.begin();
+		for ( ; it != objects.end(); it++ )
+		{
+			it->second->SaveToFile(_effT("1.yaml"), effFALSE);
+		}
+	}
+}
 

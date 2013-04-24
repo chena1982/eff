@@ -97,10 +97,12 @@ void EFFEditorInspectorPanel::titleBarAddOrDeleteTab(bool bAdd)
 
 effVOID EFFEditorInspectorPanel::BindObject(EFF3DObject * object)
 {
-	EFFProperty * propertyName = object->GetProperty(_effT("name"));
 	effString name;
-	propertyName->GetValue(object, name);
+	object->GetPropertyValue(_effT("name"), name);
+
 	m_pNameEdit->setText(QString::fromUtf16((const ushort *)name.c_str()));
+
+	m_pTransformPanel->BindObject(object);
 
 
 	effINT componentCount = object->GetComponentCount();

@@ -74,6 +74,8 @@ namespace YAML
 		// indexing
 		template<typename Key> const Node operator[](const Key& key) const;
 		template<typename Key> Node operator[](const Key& key);
+		const Node operator[](const char * key) const;
+		Node operator[](const char* key);
 		template<typename Key> bool remove(const Key& key);
 
 		const Node operator[](const Node& key) const;
@@ -94,6 +96,7 @@ namespace YAML
 		void Assign(char *rhs);
 
 		void AssignData(const Node& rhs);
+		void AssignData(const std::string& rhs);
 		void AssignNode(const Node& rhs);
 		
 	private:

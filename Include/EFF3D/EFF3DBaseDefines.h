@@ -591,6 +591,7 @@ typedef enum _EFF3DTEXTUREOP
 #define EFF3DTA_TFACTOR           0x00000003  // select EFF3DRS_TEXTUREFACTOR (read only)
 #define EFF3DTA_SPECULAR          0x00000004  // select specular color (read only)
 #define EFF3DTA_TEMP              0x00000005  // select temporary register color (read/write)
+#define EFF3DTA_CONSTANT		  0x00000006  // select texture stage constant
 #define EFF3DTA_COMPLEMENT        0x00000010  // take 1.0 - x (read modifier)
 #define EFF3DTA_ALPHAREPLICATE    0x00000020  // replicate alpha to color components (read modifier)
 
@@ -1148,7 +1149,7 @@ typedef struct EFF3DVERTEXELEMENT
 	effBYTE UsageIndex;
 } EFF3DVERTEXELEMENT, *LPEFF3DVERTEXELEMENT;
 
-struct EFF3DFont
+/*struct EFF3DFont
 {
 	std::string	Name;
 	//UCSize		Size;
@@ -1158,7 +1159,7 @@ struct EFF3DFont
 	effUINT		OutputPrecision;
 	effUINT		Quality;
 	effUINT		PitchAndFamily;
-};
+};*/
 
 /* Flags to construct D3DRS_COLORWRITEENABLE */
 #define EFF3DCOLORWRITEENABLE_RED     (1L<<0)

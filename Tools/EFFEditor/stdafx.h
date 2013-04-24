@@ -9,6 +9,9 @@
 #include <vector>
 #include <map>
 #include <functional>
+#include <fstream>
+
+
 #include <QtGui>
 
 #include <json.h>

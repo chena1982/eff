@@ -12,6 +12,7 @@ EFF3D_BEGIN
 
 class EFF3DTerrainTile;
 class EFF3DDevice;
+class EFF3DTerrainTileData;
 
 class EFF3D_API EFF3DTerrain
 {
@@ -20,17 +21,32 @@ public:
 	~EFF3DTerrain();
 
 public:
-	//effVOID						AddTerrainTile(EFF3DTerrainTile * pTerrainTile);
+	//effVOID				AddTerrainTile(EFF3DTerrainTile * pTerrainTile);
+	effVOID					LoadFromFile(const effString & filePath);
+	virtual effVOID			Render(EFF3DDevice * pDevice);
 
-	virtual effVOID						Render(EFF3DDevice * pDevice) = 0;
+
+	effVOID					AddTile(EFF3DTerrainTileData * tileData);
+
+	effVOID					Init(effINT width, effINT height, effINT tileWidth, effFLOAT horizontalResolution);
+
 protected:
 
+	effINT					width;
+	effINT					height;
+	effINT					tileWidth;
+	effFLOAT				horizontalResolution;
+
+	effINT					tileNumX;
+	effINT					tileNumZ;
+
+	EFF3DTerrainTile **		tiles;
 
 };
 
-effVOID EFF3D_API TerrainPreproccess(effTCHAR * filePath,EFF3DTerrain * pTerrain);
+EFF3D_API effVOID TerrainPreprocess(const effString & filePath, EFF3DTerrain * pTerrain);
 
-effVOID EFF3D_API TestMyTerrain();
+EFF3D_API EFF3DTerrain * TestMyTerrain();
 
 EFF3D_END
 

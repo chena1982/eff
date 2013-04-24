@@ -16,22 +16,18 @@
 
 EFF3D_BEGIN
 
-//地形网格的大小是16384*16384，分辨率是10m，贴图的大小是16385*16385
-//地形tile的大小是513*513
 
-#define TERRAIN_ELEVATION_PIXEL_SIZE	16385
-#define TERRAIN_TILE_PIXEL_SIZE	129
 
-#define TERRAIN_TILE_SPLIT_DEPTH 13 //2 * log2(128) - 1
-
-EFF3DTerrainROAMImproveTileData::EFF3DTerrainROAMImproveTileData(effINT nTileX,effINT nTileZ)
+EFF3DTerrainROAMImproveTileData::EFF3DTerrainROAMImproveTileData(effINT nTileX, effINT nTileZ)
 {
 	m_nTileX = nTileX;
 	m_nTileZ = nTileZ;
 
 	m_pVB = NULL;
 
-	memset(m_pIB,0,sizeof(EFF3DIndexBuffer *)*4);
+	memset(m_pIB, 0, sizeof(EFF3DIndexBuffer *) * 4);
+
+
 }
 
 EFF3DTerrainROAMImproveTileData::~EFF3DTerrainROAMImproveTileData()
@@ -55,8 +51,8 @@ effBOOL EFF3DTerrainROAMImproveTileData::Unload()
 
 effBOOL IsVertexOnTileEdge(effINT nX,effINT nZ)
 {
-	if ( nX == 0 || nX == TERRAIN_TILE_PIXEL_SIZE-1 || 
-		 nZ == 0 || nZ == TERRAIN_TILE_PIXEL_SIZE-1 )
+	if ( nX == 0 || nX == TERRAIN_TILE_PIXEL_SIZE - 1 || 
+		 nZ == 0 || nZ == TERRAIN_TILE_PIXEL_SIZE - 1 )
 	{
 		return effTRUE;
 	}
@@ -64,12 +60,16 @@ effBOOL IsVertexOnTileEdge(effINT nX,effINT nZ)
 	return effFALSE;
 }
 
-effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(effINT16 * pEM,effINT16 * pError,effINT nLevel)
+effVOID	EFF3DTerrainROAMImproveTileData::CalculateVariance(effUINT16 * pVariance)
 {
 
-	effBOOL * pVerticesUsed = new effBOOL[TERRAIN_TILE_PIXEL_SIZE*TERRAIN_TILE_PIXEL_SIZE];
-	memset(m_nIndicesNum,0,sizeof(effINT)*nLevel);
-	memset(m_nVerticesNum,0,sizeof(effINT)*nLevel);
+}
+
+effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(effUINT16 * pEM, effUINT16 * pError, effINT nLevel)
+{
+	effBOOL * pVerticesUsed = new effBOOL[TERRAIN_TILE_PIXEL_SIZE * TERRAIN_TILE_PIXEL_SIZE];
+	memset(m_nIndicesNum, 0, sizeof(effINT) * 4);
+	memset(m_nVerticesNum, 0, sizeof(effINT) * 4);
 
 	for ( effINT i = 0; i < nLevel; i++ )
 	{
@@ -84,17 +84,53 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 		effINT nCenterX = nGridNum / 2;
 		effINT nCenterZ = nGridNum / 2;
 
-		pLeftNode->Set(AL,nCenterX,nCenterZ,0,0,0,nGridNum,pTopNode,NULL,NULL,NULL,pTopNode,pBottomNode,NULL);
-		pBottomNode->Set(AL,nCenterX,nCenterZ,0,nGridNum,nGridNum,nGridNum,NULL,pRightNode,NULL,NULL,pLeftNode,pRightNode,NULL);
-		pRightNode->Set(AL,nCenterX,nCenterZ,nGridNum,nGridNum,nGridNum,0,pBottomNode,pTopNode,NULL,NULL,pBottomNode,pTopNode,NULL);
-		pTopNode->Set(AL,nCenterX,nCenterZ,nGridNum,0,0,0,pRightNode,pLeftNode,NULL,NULL,pRightNode,pLeftNode,NULL);
 
 
-		TessellateTriTree(pBottomNode,pEM,pError[i]);
+
+
+
+		pLeftNode->Set(AL, nCenterX, nCenterZ, 0, 0, 0, nGridNum, pTopNode, NULL, NULL, NULL, pTopNode, pBottomNode, NULL);
+		pBottomNode->Set(AL, nCenterX, nCenterZ, 0, nGridNum, nGridNum, nGridNum, NULL, pRightNode, NULL, NULL, pLeftNode, pRightNode, NULL);
+		pRightNode->Set(AL, nCenterX, nCenterZ, nGridNum, nGridNum, nGridNum, 0, pBottomNode, pTopNode, NULL, NULL, pBottomNode, pTopNode, NULL);
+		pTopNode->Set(AL, nCenterX, nCenterZ, nGridNum, 0, 0, 0, pRightNode, pLeftNode, NULL, NULL, pRightNode, pLeftNode, NULL);
+
+
+
+		effINT varianceCount = TERRAIN_TILE_VARIANCE_NODE_NUM;
+
+		effUINT16 * pLeftVariance = EFFNEW effUINT16[varianceCount];
+		memset(pLeftVariance, 0, sizeof(effUINT16) * varianceCount);
+		CalculateVariance(pEM, pLeftVariance, pLeftNode->nApexX, pLeftNode->nApexZ, pLeftNode->nLeftX, pLeftNode->nLeftZ,
+						  pLeftNode->nRightX, pLeftNode->nRightZ, 1);
+
+		effUINT16 * pBottomVariance = EFFNEW effUINT16[varianceCount];
+		memset(pBottomVariance, 0, sizeof(effUINT16) * varianceCount);
+		CalculateVariance(pEM, pBottomVariance, pBottomNode->nApexX, pBottomNode->nApexZ, pBottomNode->nLeftX, pBottomNode->nLeftZ,
+						  pBottomNode->nRightX, pBottomNode->nRightZ, 1);
+
+		effUINT16 * pRightVariance = EFFNEW effUINT16[varianceCount];
+		memset(pRightVariance, 0, sizeof(effUINT16) * varianceCount);
+		CalculateVariance(pEM, pRightVariance, pRightNode->nApexX, pRightNode->nApexZ, pRightNode->nLeftX, pRightNode->nLeftZ,
+						  pRightNode->nRightX, pRightNode->nRightZ, 1);
+
+		effUINT16 * pTopVariance = EFFNEW effUINT16[varianceCount];
+		memset(pTopVariance, 0, sizeof(effUINT16) * varianceCount);
+		CalculateVariance(pEM, pTopVariance, pTopNode->nApexX, pTopNode->nApexZ, pTopNode->nLeftX, pTopNode->nLeftZ,
+						  pTopNode->nRightX, pTopNode->nRightZ, 1);
+
+
+
+		pLeftNode->pVariance = pLeftVariance;
+		pBottomNode->pVariance = pBottomVariance;
+		pRightNode->pVariance = pRightVariance;
+		pTopNode->pVariance = pTopVariance;
+
+
+		TessellateTriTree(pBottomNode, pEM, pError[i], 1);
 
 		TriTreeNode * pNode = pBottomNode;
 
-		memset(pVerticesUsed,0,sizeof(effINT)*TERRAIN_TILE_PIXEL_SIZE*TERRAIN_TILE_PIXEL_SIZE);
+		memset(pVerticesUsed, 0, sizeof(effINT) * TERRAIN_TILE_PIXEL_SIZE * TERRAIN_TILE_PIXEL_SIZE);
 
 		std::vector<effUINT16> aryIndices;
 
@@ -106,9 +142,9 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 			{
 				effINT nIndex[3];
 
-				nIndex[0] = pNode->nLeftZ*TERRAIN_TILE_PIXEL_SIZE + pNode->nLeftX;
-				nIndex[1] = pNode->nApexZ*TERRAIN_TILE_PIXEL_SIZE + pNode->nApexX;
-				nIndex[2] = pNode->nRightZ*TERRAIN_TILE_PIXEL_SIZE + pNode->nRightX;
+				nIndex[0] = pNode->nLeftZ * TERRAIN_TILE_PIXEL_SIZE + pNode->nLeftX;
+				nIndex[1] = pNode->nApexZ * TERRAIN_TILE_PIXEL_SIZE + pNode->nApexX;
+				nIndex[2] = pNode->nRightZ * TERRAIN_TILE_PIXEL_SIZE + pNode->nRightX;
 
 				//add first triangle' three vertex
 				if ( pPreNode == NULL )
@@ -123,9 +159,9 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 				else
 				{
 					effINT nPreIndex[3];
-					nPreIndex[0] = pPreNode->nLeftZ*TERRAIN_TILE_PIXEL_SIZE + pPreNode->nLeftX;
-					nPreIndex[1] = pPreNode->nApexZ*TERRAIN_TILE_PIXEL_SIZE + pPreNode->nApexX;
-					nPreIndex[2] = pPreNode->nRightZ*TERRAIN_TILE_PIXEL_SIZE + pPreNode->nRightX;
+					nPreIndex[0] = pPreNode->nLeftZ * TERRAIN_TILE_PIXEL_SIZE + pPreNode->nLeftX;
+					nPreIndex[1] = pPreNode->nApexZ * TERRAIN_TILE_PIXEL_SIZE + pPreNode->nApexX;
+					nPreIndex[2] = pPreNode->nRightZ * TERRAIN_TILE_PIXEL_SIZE + pPreNode->nRightX;
 
 
 					for ( effINT j = 0; j < 3; j++ )
@@ -133,7 +169,7 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 		
 						if ( nIndex[j] != nPreIndex[0] && nIndex[j] != nPreIndex[1] && nIndex[j] != nPreIndex[2]  )
 						{
-							//from the second triangle,we need to check if we should add a degenerate edge
+							//from the second triangle, we need to check if we should add a degenerate edge
 
 							static effINT nSharedEdgeVertexIndex[3][2] = { {1,2}, {0,2}, {0,1} };
 							effINT nSize = (effINT)aryIndices.size();
@@ -141,8 +177,8 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 							effINT nSharedEdgeVertexIndex0 = nIndex[nSharedEdgeVertexIndex[j][0]];
 							effINT nSharedEdgeVertexIndex1 = nIndex[nSharedEdgeVertexIndex[j][1]];
 
-							//if the last edge(aryIndices[nSize-1],aryIndices[nSize-2]) in the triangle stripe(aryIndices)  is not the shared edge
-							//(nIndex[nSharedEdgeVertexIndex[j][0]],nIndex[nSharedEdgeVertexIndex[j][1]])
+							//if the last edge(aryIndices[nSize-1], aryIndices[nSize-2]) in the triangle stripe(aryIndices) is not the shared edge
+							//(nIndex[nSharedEdgeVertexIndex[j][0]], nIndex[nSharedEdgeVertexIndex[j][1]])
 							//so we need add a degenerate edge
 							if ( !(((nSharedEdgeVertexIndex0 == aryIndices[nSize-1]) && (nSharedEdgeVertexIndex1 == aryIndices[nSize-2])) ||
 								((nSharedEdgeVertexIndex1 == aryIndices[nSize-1]) && (nSharedEdgeVertexIndex0 == aryIndices[nSize-2]))) )
@@ -202,13 +238,13 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 		}
 
 		m_pIndices[i] = new effUINT16[m_nIndicesNum[i]];
-		memcpy(m_pIndices[i],&aryIndices[0],sizeof(effUINT16)*m_nIndicesNum[i]);
+		memcpy(m_pIndices[i], &aryIndices[0], sizeof(effUINT16) * m_nIndicesNum[i]);
 
 		pNode = pBottomNode;		
 		while ( pNode != NULL )
 		{
 			TriTreeNode * pNext = pNode->pNext;
-			SF_DELETE(pNext);
+			SF_DELETE(pNode);
 			pNode = pNext;
 		}
 
@@ -216,8 +252,8 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 
 
 
-	effINT * pGeneratedVerticesId = new effINT[TERRAIN_TILE_PIXEL_SIZE*TERRAIN_TILE_PIXEL_SIZE];
-	memset(pGeneratedVerticesId,-1,sizeof(effINT)*TERRAIN_TILE_PIXEL_SIZE*TERRAIN_TILE_PIXEL_SIZE);
+	effINT * pGeneratedVerticesId = new effINT[TERRAIN_TILE_PIXEL_SIZE * TERRAIN_TILE_PIXEL_SIZE];
+	memset(pGeneratedVerticesId, -1, sizeof(effINT)*TERRAIN_TILE_PIXEL_SIZE * TERRAIN_TILE_PIXEL_SIZE);
 	effINT nGeneratedVerticesNum = 0;
 
 	std::vector<effFLOAT>	aryVertices;
@@ -251,17 +287,17 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 		m_nVerticesNum[i] = nGeneratedVerticesNum;
 	}
 
-	m_pVertices = new effFLOAT[sizeof(effFLOAT)*3*nGeneratedVerticesNum];
-	memcpy(m_pVertices,&aryVertices[0],sizeof(effFLOAT)*3*nGeneratedVerticesNum);
+	m_pVertices = new effFLOAT[sizeof(effFLOAT) * 3* nGeneratedVerticesNum];
+	memcpy(m_pVertices, &aryVertices[0], sizeof(effFLOAT) * 3 * nGeneratedVerticesNum);
 
 	SFT_DELETE(pVerticesUsed);
 	SFT_DELETE(pGeneratedVerticesId);
 
 }
 
-effVOID EFF3DTerrainROAMImproveTileData::TessellateTriTree(TriTreeNode * pTriNode, effINT16 * pEM, effINT16 nError)
+effVOID EFF3DTerrainROAMImproveTileData::TessellateTriTree(TriTreeNode * pTriNode, effUINT16 * pEM, effUINT16 error, effINT nodeIndex)
 {
-	if ( pTriNode == NULL || pTriNode->nDepth >= (TERRAIN_TILE_SPLIT_DEPTH-1) )
+	if ( pTriNode == NULL || pTriNode->nDepth >= (TERRAIN_TILE_SPLIT_DEPTH - 1) )
 	{
 		return;
 	}
@@ -273,71 +309,114 @@ effVOID EFF3DTerrainROAMImproveTileData::TessellateTriTree(TriTreeNode * pTriNod
 	effINT nIndexRight = pTriNode->nRightZ * TERRAIN_TILE_PIXEL_SIZE + pTriNode->nRightX;
 	effINT nIndexCenter = nCenterZ * TERRAIN_TILE_PIXEL_SIZE + nCenterX;
 
-	effINT16 tolerance = abs(((pEM[nIndexLeft] + pEM[nIndexRight]) >> 1) - pEM[nIndexCenter]);
-	/*if ( tolerance > nError )
+	
+
+
+	//effUINT16 centerY = pEM[nIndexCenter];
+	//effUINT16 interpolateY = (pEM[nIndexLeft] + pEM[nIndexRight]) >> 1;
+	//effUINT16 tolerance = interpolateY > centerY ? interpolateY - centerY : centerY - interpolateY;
+	effUINT16 tolerance = pTriNode->pVariance[nodeIndex - 1];
+
+	if ( tolerance > error )
 	{
 		effBOOL bLeftChildFirst = ReplaceTriTreeNode(pTriNode);
 		if ( bLeftChildFirst )
 		{
-			TessellateTriTree(pTriNode,pEM,nError);
+			TessellateTriTree(pTriNode, pEM, error, nodeIndex << 1);
 		}
 		else
 		{
-			TessellateTriTree(pTriNode->pPre,pEM,nError);
+			TessellateTriTree(pTriNode->pPre, pEM, error, (nodeIndex << 1) + 1);
 		}
 	}
 	else
 	{
-		TessellateTriTree(pTriNode->pNext,pEM,nError);
-	}*/
+		TessellateTriTree(pTriNode->pNext, pEM, error, nodeIndex + 1);
+	}
 
-	if ( tolerance > nError )
+	/*if ( tolerance > error )
 	{
 		// Split this triangle.
-		if( pTriNode->pLeftChild == NULL )
+		if ( pTriNode->pLeftChild == NULL )
 		{
 			SplitTriTreeNode(pTriNode);
 		}
-
 		// If this triangle was split, try to split it's children as well.
 		// Tessellate all the way down to one vertex per height field entry
-		if( pTriNode->pLeftChild != NULL )
+		else
 		{	
-			TessellateTriTree(pTriNode->pLeftChild,pEM,nError);
-			TessellateTriTree(pTriNode->pRightChild,pEM,nError);
+			TessellateTriTree(pTriNode->pLeftChild, pEM, pVariance, error, nodeIndex << 1);
+			TessellateTriTree(pTriNode->pRightChild, pEM, pVariance, error, (nodeIndex << 1) + 1);
 		}
-	}
+	}*/
 
 
 }
 
-/*effBOOL EFF3DTerrainROAMImproveTileData::ReplaceTriTreeNode(TriTreeNode * pTriNode)
+effUINT16 EFF3DTerrainROAMImproveTileData::CalculateVariance(effUINT16 * pEM, effUINT16 * pVariance, effINT nApexZ, effINT nApexX, effINT nLeftZ, effINT nLeftX, effINT nRightZ, effINT nRightX, effINT nNodeIndex)
+{
+	effINT nCenterZ = (nLeftZ + nRightZ) >> 1;
+	effINT nCenterX = (nLeftX + nRightX) >> 1;
+
+	effUINT16 leftY = pEM[nLeftZ * TERRAIN_TILE_PIXEL_SIZE + nLeftX];
+	effUINT16 rightY = pEM[nRightZ * TERRAIN_TILE_PIXEL_SIZE + nRightX];
+
+	// Variance of this triangle is the actual height at it's 
+	// hypotenuse midpoint minus the interpolated height.
+
+	effUINT16 centerY = pEM[nCenterZ * TERRAIN_TILE_PIXEL_SIZE + nCenterX];
+	effUINT16 interpolateY = (leftY + rightY) >> 1;
+	effUINT16 variance = interpolateY > centerY ? interpolateY - centerY : centerY - interpolateY;
+
+	if ( nNodeIndex <= TERRAIN_TILE_VARIANCE_BRANCH_NODE_NUM )
+	{
+		// Compute down the variance tree
+		// Final Variance for this node is the max of it's own variance and that of it's children.
+		effUINT16 childVariance = CalculateVariance(pEM, pVariance, nCenterZ, nCenterX, nApexZ, nApexX, nLeftZ, nLeftX, nNodeIndex << 1);
+		if ( childVariance > variance )
+		{
+			variance = childVariance;
+		}
+
+		childVariance = CalculateVariance(pEM, pVariance, nCenterZ, nCenterX, nRightZ, nRightX, nApexZ, nApexX, (nNodeIndex << 1) + 1);
+		if ( childVariance > variance )
+		{
+			variance = childVariance;
+		}
+	}
+
+	// Store the final variance for this node. Note Variance is never zero.
+	pVariance[nNodeIndex - 1] = variance;
+	return variance;
+}
+
+effBOOL EFF3DTerrainROAMImproveTileData::ReplaceTriTreeNode(TriTreeNode * pTriNode)
 {
 
 	switch (pTriNode->code)
 	{
 	case AL:
-		SplitTriTreeNode(pTriNode,effTRUE,CL,BL);
+		SplitTriTreeNode(pTriNode, effTRUE, CL, BL);
 		return effTRUE;
 	case AR:
-		SplitTriTreeNode(pTriNode,effFALSE,CR,BR);
+		SplitTriTreeNode(pTriNode, effFALSE, CR, BR);
 		return effFALSE;
 	case CL:
-		SplitTriTreeNode(pTriNode,effFALSE,AL,BR);
+		SplitTriTreeNode(pTriNode, effFALSE, AL, BR);
 		return effFALSE;
 	case CR:
-		SplitTriTreeNode(pTriNode,effTRUE,AR,BL);
+		SplitTriTreeNode(pTriNode, effTRUE, AR, BL);
 		return effTRUE;
 	case BL:
-		SplitTriTreeNode(pTriNode,effFALSE,CR,AL);
+		SplitTriTreeNode(pTriNode, effFALSE, CR, AL);
 		return effFALSE;
 	case BR:
-		SplitTriTreeNode(pTriNode,effTRUE,CL,AR);
+		SplitTriTreeNode(pTriNode, effTRUE, CL, AR);
 		return effTRUE;
 	default:
 		return effTRUE;
 	}
-}*/
+}
 
 effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode)
 {
@@ -348,7 +427,7 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 
 	// 1. If not part of a diamond, force-split the base neighbor before splitting the current node.
 	TriTreeNode * pTriBase = pTriNode->pBaseNeighbor;
-	if( pTriBase != NULL && pTriBase->pBaseNeighbor != pTriNode  && pTriBase->pLeftChild == NULL )
+	if ( pTriBase != NULL && pTriBase->pBaseNeighbor != pTriNode && pTriBase->pLeftChild == NULL )
 	{
 		SplitTriTreeNode(pTriBase);
 		pTriBase = pTriNode->pBaseNeighbor;
@@ -373,17 +452,17 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 	pRightChild->pRightNeighbor = pLeftChild;
 
 	// 4. Link our Left Neighbor to the new children
-	if( pLeftNeighbor != NULL )
+	if ( pLeftNeighbor != NULL )
 	{
-		if(pLeftNeighbor->pBaseNeighbor == pTriNode)
+		if ( pLeftNeighbor->pBaseNeighbor == pTriNode )
 		{
 			pLeftNeighbor->pBaseNeighbor = pLeftChild;
 		}
-		else if(pLeftNeighbor->pLeftNeighbor == pTriNode)
+		else if ( pLeftNeighbor->pLeftNeighbor == pTriNode )
 		{
 			pLeftNeighbor->pLeftNeighbor = pLeftChild;
 		}
-		else if(pLeftNeighbor->pRightNeighbor == pTriNode)
+		else if ( pLeftNeighbor->pRightNeighbor == pTriNode )
 		{
 			pLeftNeighbor->pRightNeighbor = pLeftChild;
 		}
@@ -394,17 +473,17 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 	}
 
 	// 5. Link our Right Neighbor to the new children
-	if( pRightNeighbor != NULL )
+	if ( pRightNeighbor != NULL )
 	{
-		if(pRightNeighbor->pBaseNeighbor == pTriNode)
+		if ( pRightNeighbor->pBaseNeighbor == pTriNode )
 		{
 			pRightNeighbor->pBaseNeighbor = pRightChild;
 		}
-		else if(pRightNeighbor->pRightNeighbor == pTriNode)
+		else if ( pRightNeighbor->pRightNeighbor == pTriNode )
 		{
 			pRightNeighbor->pRightNeighbor = pRightChild;
 		}
-		else if(pRightNeighbor->pLeftNeighbor == pTriNode)
+		else if ( pRightNeighbor->pLeftNeighbor == pTriNode )
 		{
 			pRightNeighbor->pLeftNeighbor = pRightChild;
 		}
@@ -415,9 +494,9 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 	}
 
 	// 6. Link our Base Neighbor to the new children
-	if( pTriBase != NULL )
+	if ( pTriBase != NULL )
 	{
-		if( pTriBase->pLeftChild != NULL )
+		if ( pTriBase->pLeftChild != NULL )
 		{
 			pTriBase->pLeftChild->pRightNeighbor = pRightChild;
 			pTriBase->pRightChild->pLeftNeighbor = pLeftChild;
@@ -439,7 +518,7 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 	return;
 }
 
-/*effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode,effBOOL bLeftChildFirst,CODE firstCode,CODE followCode)
+effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode, effBOOL bLeftChildFirst, CODE firstCode, CODE followCode)
 {
 	effINT nCenterX = (pTriNode->nLeftX + pTriNode->nRightX) >> 1;
 	effINT nCenterZ = (pTriNode->nLeftZ + pTriNode->nRightZ) >> 1;
@@ -453,8 +532,8 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 
 
 	TriTreeNode * pRightChild = new TriTreeNode();
-	pRightChild->Set(nCenterX,nCenterZ,nRightX,nRightZ,nApexX,nApexZ);
-	pTriNode->Set(nCenterX,nCenterZ,nApexX,nApexZ,nLeftX,nLeftZ);
+	pRightChild->Set(nCenterX, nCenterZ, nRightX, nRightZ, nApexX, nApexZ);
+	pTriNode->Set(nCenterX, nCenterZ, nApexX, nApexZ, nLeftX, nLeftZ);
 
 	pTriNode->nDepth++;
 	pRightChild->nDepth = pTriNode->nDepth;
@@ -489,36 +568,36 @@ effVOID EFF3DTerrainROAMImproveTileData::SplitTriTreeNode(TriTreeNode * pTriNode
 		pTriNode->code = followCode;
 		pRightChild->code = firstCode;
 	}
-}*/
+}
 
 effVOID EFF3DTerrainROAMImproveTileData::CreateTriTreeChildNode(TriTreeNode * pTriNode)
 {
 	switch (pTriNode->code)
 	{
 	case AL:
-		CreateTriTreeChildNode(pTriNode,effTRUE,CL,BL);
+		CreateTriTreeChildNode(pTriNode, effTRUE, CL, BL);
 		break;
 	case AR:
-		CreateTriTreeChildNode(pTriNode,effFALSE,CR,BR);
+		CreateTriTreeChildNode(pTriNode, effFALSE, CR, BR);
 		break;
 	case CL:
-		CreateTriTreeChildNode(pTriNode,effFALSE,AL,BR);
+		CreateTriTreeChildNode(pTriNode, effFALSE, AL, BR);
 		break;
 	case CR:
-		CreateTriTreeChildNode(pTriNode,effTRUE,AR,BL);
+		CreateTriTreeChildNode(pTriNode, effTRUE, AR, BL);
 		break;
 	case BL:
-		CreateTriTreeChildNode(pTriNode,effFALSE,CR,AL);
+		CreateTriTreeChildNode(pTriNode, effFALSE, CR, AL);
 		break;
 	case BR:
-		CreateTriTreeChildNode(pTriNode,effTRUE,CL,AR);
+		CreateTriTreeChildNode(pTriNode, effTRUE, CL, AR);
 		break;
 	default:
 		break;
 	}
 }
 
-effVOID EFF3DTerrainROAMImproveTileData::CreateTriTreeChildNode(TriTreeNode * pTriNode,effBOOL bLeftChildFirst,CODE firstCode,CODE secondCode)
+effVOID EFF3DTerrainROAMImproveTileData::CreateTriTreeChildNode(TriTreeNode * pTriNode, effBOOL bLeftChildFirst, CODE firstCode, CODE secondCode)
 {
 	effINT nCenterX = (pTriNode->nLeftX + pTriNode->nRightX) >> 1;
 	effINT nCenterZ = (pTriNode->nLeftZ + pTriNode->nRightZ) >> 1;
@@ -533,8 +612,8 @@ effVOID EFF3DTerrainROAMImproveTileData::CreateTriTreeChildNode(TriTreeNode * pT
 	TriTreeNode * pLeftChild = pTriNode->pLeftChild;
 	TriTreeNode * pRightChild = pTriNode->pRightChild;
 
-	pLeftChild->Set(nCenterX,nCenterZ,nApexX,nApexZ,nLeftX,nLeftZ);
-	pRightChild->Set(nCenterX,nCenterZ,nRightX,nRightZ,nApexX,nApexZ);
+	pLeftChild->Set(nCenterX, nCenterZ, nApexX, nApexZ, nLeftX, nLeftZ);
+	pRightChild->Set(nCenterX, nCenterZ, nRightX, nRightZ, nApexX, nApexZ);
 
 
 	pLeftChild->nDepth = pTriNode->nDepth + 1;
@@ -579,35 +658,37 @@ effVOID EFF3DTerrainROAMImproveTileData::CreateTriTreeChildNode(TriTreeNode * pT
 
 
 
-EFF3DVertexBuffer * EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT nLevel,EFF3DDevice * pDevice)
+EFF3DVertexBuffer * EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT nLevel, EFF3DDevice * pDevice)
 {
 
 	if ( m_pVB == NULL )
 	{
-		pDevice->CreateVertexBuffer(m_nVerticesNum[nLevel]*sizeof(effFLOAT)*3,0,EFF3DFVF_XYZ,EFF3DPOOL_MANAGED,&m_pVB);
+		pDevice->CreateVertexBuffer(m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, EFF3DFVF_XYZ, EFF3DPOOL_MANAGED, &m_pVB);
+
+		effUINT offset = 0;
+		if ( nLevel > 0 )
+		{
+			offset = m_nVerticesNum[nLevel-1] * sizeof(effFLOAT) * 3;
+		}
+
+		effUINT size = m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3;
+		if ( nLevel > 0 )
+		{
+			size -= m_nVerticesNum[nLevel-1] * sizeof(effFLOAT) * 3;
+		}
+
+		effHRESULT hr;
+		effVOID * pData = NULL;
+		if ( !FAILED(hr = m_pVB->Lock(offset, size, &pData, 0)) )
+		{
+			memcpy(pData, &m_pVertices[offset], size);
+
+			m_pVB->Unlock();
+		}
 	}
 
 
-	effUINT uiOffset = 0;
-	if ( nLevel > 0 )
-	{
-		uiOffset = m_nVerticesNum[nLevel-1]*sizeof(effFLOAT)*3;
-	}
 
-	effUINT uiSize = m_nVerticesNum[nLevel]*sizeof(effFLOAT)*3;
-	if ( nLevel > 0 )
-	{
-		uiSize -= m_nVerticesNum[nLevel-1]*sizeof(effFLOAT)*3;
-	}
-
-	effHRESULT hr;
-	effVOID * pData = NULL;
-	if ( !FAILED(hr = m_pVB->Lock(uiOffset,uiSize,&pData,0)) )
-	{
-		memcpy(pData,&m_pVertices[uiOffset],uiSize);
-
-		m_pVB->Unlock();
-	}
 
 	return m_pVB;
 }
@@ -622,21 +703,22 @@ effINT EFF3DTerrainROAMImproveTileData::GetVerticesStride()
 	return sizeof(effFLOAT) * 3;
 }
 
-EFF3DIndexBuffer * EFF3DTerrainROAMImproveTileData::GetIndexBuffer(effINT nLevel,EFF3DDevice * pDevice)
+EFF3DIndexBuffer * EFF3DTerrainROAMImproveTileData::GetIndexBuffer(effINT nLevel, EFF3DDevice * pDevice)
 {
 	if ( m_pIB[nLevel] == NULL )
 	{
-		effINT nSize = sizeof(effUINT16)*m_nIndicesNum[nLevel];
-		pDevice->CreateIndexBuffer(nSize,0,EFF3DFMT_INDEX16,EFF3DPOOL_MANAGED,&m_pIB[nLevel]);
+		effINT nSize = sizeof(effUINT16) * m_nIndicesNum[nLevel];
+		pDevice->CreateIndexBuffer(nSize, 0, EFF3DFMT_INDEX16, EFF3DPOOL_MANAGED, &m_pIB[nLevel]);
 
 		effHRESULT hr;
 		effVOID * pData;
-		if ( !FAILED(hr = m_pIB[nLevel]->Lock(0,0,&pData,0)) )
+		if ( !FAILED(hr = m_pIB[nLevel]->Lock(0, 0, &pData, 0)) )
 		{
-			memcpy(pData,m_pIndices[nLevel],nSize);
+			memcpy(pData, m_pIndices[nLevel], nSize);
 			m_pIB[nLevel]->Unlock();
 		}
 	}
+
 	return m_pIB[nLevel];
 }
 

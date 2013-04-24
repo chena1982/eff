@@ -215,6 +215,12 @@ namespace YAML
 		m_pMemory->merge(*rhs.m_pMemory);
 	}
 
+	inline void Node::AssignData(const std::string& rhs)
+	{
+		EnsureNodeExists();
+		m_pNode->set_scalar(rhs.c_str());
+	}
+
 	inline void Node::AssignNode(const Node& rhs)
 	{
 		rhs.EnsureNodeExists();
@@ -333,6 +339,17 @@ namespace YAML
 		detail::node& value = m_pNode->get(detail::to_value(key), m_pMemory);
 		return Node(value, m_pMemory);
 	}
+
+	inline const Node Node::operator[](const char * key) const
+	{
+		return this->operator[]<std::string>(key);
+	}
+
+	inline Node Node::operator[](const char * key)
+	{
+		return this->operator[]<std::string>(key);
+	}
+
 	
 	template<typename Key>
 	inline bool Node::remove(const Key& key)

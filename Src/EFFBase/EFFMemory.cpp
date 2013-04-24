@@ -16,7 +16,7 @@
 
 	static unsigned int g_dwAllocTimes = 0;
 	
-	MemoryInfo g_MemoryInfo;
+	/*MemoryInfo g_MemoryInfo;
 
 	void __cdecl _effTrace(LPCSTR lpszFormat, ...)
 	{
@@ -90,7 +90,7 @@
 		}
 
 		dlfree((void *)(((char *)memory) - sizeof(AllocInfo)));
-	}
+	}*/
 
 
 

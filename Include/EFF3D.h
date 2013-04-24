@@ -26,7 +26,11 @@
 #include "EFF3D/EFF3DResourceManager.h"
 #include "EFF3D/EFF3DAsyncLoader.h"
 #include "EFF3D/EFF3DTerrain.h"
+#include "EFF3D/EFF3DCamera.h"
 //#include "EFF3D/EFF3DForm.h"
+#include "EFF3D/EFF3DImgui.h"
+#include "EFF3D/EFF3DImguiRender.h"
+#include "EFF3D/EFF3DFont.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 

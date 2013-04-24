@@ -38,23 +38,23 @@ struct ArgReadBin
 	//BinFormat format;
 };
 
-inline YAML::Emitter & operator << (YAML::Emitter & out, const effString & str)
+inline YAML::Node & operator << (YAML::Node & node, const effString & str)
 {
-    out << EFFSTRING2ANSI(str);
-    return out;
+    //out << EFFSTRING2ANSI(str);
+    return node;
 }
 
 template<typename PropertyType>
-inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
+inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary, YAML::Node & node)
 {
 	PropertyType * data = NULL;
-	if ( !property->GetIsPointer() )
+	if ( !Property->GetIsPointer() )
 	{
-		data = (PropertyType *)baseAddress;
+		data = (PropertyType *)((effBYTE *)baseAddress + Property->GetOffset());
 	}
 	else
 	{
-		data = *(PropertyType **)baseAddress;
+		data = *(PropertyType **)((effBYTE *)baseAddress + Property->GetOffset());
 	}
 
 	if ( isBinary )
@@ -63,15 +63,14 @@ inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFF
 	}
 	else
 	{
-		*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
-		*textOut << YAML::Value << *data;
+		node[EFFSTRING2ANSI(Property->GetName())] = *data;
 	}
 }
 
 
-inline effVOID SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
+inline effVOID SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary, YAML::Node & node)
 {
-	effString & data = *((effString *)((effBYTE *)baseAddress + property->GetOffset()));
+	effString & data = *((effString *)((effBYTE *)baseAddress + Property->GetOffset()));
 
 	if ( isBinary )
 	{
@@ -81,51 +80,46 @@ inline effVOID SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProp
 	}
 	else
 	{
-		*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
-		*textOut << YAML::Value << EFFSTRING2ANSI(data);
-
+		node[EFFSTRING2ANSI(Property->GetName())] = EFFSTRING2ANSI(data);
 	}
 }
 
-inline effVOID SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
+inline effVOID SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary, YAML::Node & node)
 {
 	if ( isBinary )
 	{
-		effVOID * source = (effVOID *)((effBYTE *)baseAddress + property->GetOffset());
-		file->Write(source, property->GetSize());
+		effVOID * source = (effVOID *)((effBYTE *)baseAddress + Property->GetOffset());
+		file->Write(source, Property->GetSize());
 	}
 	else
 	{
-		if ( property->GetClass()->GetNameHash() == EFFStringHash(_effT("int")) )
+		if ( Property->GetClass()->GetNameHash() == EFFStringHash(_effT("int")) )
 		{
-			effINT & value = *((effINT *)((effBYTE *)baseAddress + property->GetOffset()));
-			*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
-			*textOut << YAML::Value << value;
+			effINT & value = *((effINT *)((effBYTE *)baseAddress + Property->GetOffset()));
+			node[EFFSTRING2ANSI(Property->GetName())] = value;
 		}
-		else if ( property->GetClass()->GetNameHash() == EFFStringHash(_effT("float")) )
+		else if ( Property->GetClass()->GetNameHash() == EFFStringHash(_effT("float")) )
 		{
-			effFLOAT & value = *((effFLOAT *)((effBYTE *)baseAddress + property->GetOffset()));
-			*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
-			*textOut << YAML::Value << value;
+			effFLOAT & value = *((effFLOAT *)((effBYTE *)baseAddress + Property->GetOffset()));
+			node[EFFSTRING2ANSI(Property->GetName())] = value;
 		}
-		else if ( property->GetClass()->GetNameHash() == EFFStringHash(_effT("unsigned int")) )
+		else if ( Property->GetClass()->GetNameHash() == EFFStringHash(_effT("unsigned int")) )
 		{
-			effUINT & value = *((effUINT *)((effBYTE *)baseAddress + property->GetOffset()));
-			*textOut << YAML::Key << EFFSTRING2ANSI(property->GetName());
-			*textOut << YAML::Value << value;
+			effUINT & value = *((effUINT *)((effBYTE *)baseAddress + Property->GetOffset()));
+			node[EFFSTRING2ANSI(Property->GetName())] = value;
 		}
 	}
 }
 
 
 template<typename PropertyType, typename IsPOD>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Node & node)
 {
 
 }
 
 template<typename PropertyType>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Node & node)
 {
 }
 

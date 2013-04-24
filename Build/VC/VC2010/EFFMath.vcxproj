@@ -131,13 +131,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector4.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFAabb.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFMathFunction.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFPlane3.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFPolygon3.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFSegment3.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector2.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector4.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFMath\stdafx.cpp" />
-    <ClCompile Include="..\..\..\Src\EFFMath\EFFMatrix4.cpp" />
-    <ClCompile Include="..\..\..\Src\EFFMath\EFFRect.cpp" />
-    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector3.cpp" />
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFMatrix4.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFRect.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFAabb.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFFPU.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFMathFunction.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFPlane3.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFPolygon3.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFSegment3.h" />
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFVector2.h" />
     <ClInclude Include="..\..\..\Include\EFFMath\EFFVector4.h" />
     <ClInclude Include="..\..\..\Src\EFFMath\stdafx.h" />
     <ClInclude Include="..\..\..\Include\EFFMath\EFFMathBaseDefines.h" />

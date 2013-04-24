@@ -63,7 +63,7 @@ effBOOL EFFD3D9Shader::SetTexture(const EFF3DShaderParameter * parameter, const 
 {
 	const EFFD3D9ShaderParameter * d3d9ShaderParameter = (const EFFD3D9ShaderParameter *)parameter;
 	const EFFD3D9Texture * d3d9Texture = (const EFFD3D9Texture *)texture;
-	return SUCCEEDED(cgD3D9SetTexture(d3d9ShaderParameter->cgParameter, d3d9Texture->m_pTexture));
+	return SUCCEEDED(cgD3D9SetTexture(d3d9ShaderParameter->cgParameter, d3d9Texture->texture));
 }
 
 effBOOL EFFD3D9Shader::CreateFromFile(const effString & filePath, EFF3DDevice * device)

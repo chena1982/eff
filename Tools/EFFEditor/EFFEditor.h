@@ -2,6 +2,7 @@
 #define EFFEDITOR_H
 
 #include <QtGui/QMainWindow>
+#include <QtGui/QMenuBar>
 #include "ui_effeditor.h"
 
 #define TOOLBAR_MIN_HEIGHT 16
@@ -23,15 +24,21 @@ public:
 	bool LoadLayout(const QString & filePath);
 	EFFEditorInspectorPanel * GetInspectorPanel() { return m_pInspectorPanel; }
 	EFFEditorHierarchyPanel * GetHierarchyPanel() { return m_pHierarchyPanel; }
+
+
+public slots:
+	void fileMenuPressed(QAction *);
 public:
 	void closeEvent(QCloseEvent *event);
+
 private:
 	Ui::EFFEditorClass ui;
 
-	EFFEditorInspectorPanel *					m_pInspectorPanel;
-	EFFEditorProjecPanel *						m_pProjectPanel;
-	EFFEditorHierarchyPanel *					m_pHierarchyPanel;
-	EFFEditorScenePanel *						m_pScenePanel;
+	QMenuBar *						m_pMainMenuBar;
+	EFFEditorInspectorPanel *		m_pInspectorPanel;
+	EFFEditorProjecPanel *			m_pProjectPanel;
+	EFFEditorHierarchyPanel *		m_pHierarchyPanel;
+	EFFEditorScenePanel *			m_pScenePanel;
 };
 
 #endif // EFFEDITOR_H

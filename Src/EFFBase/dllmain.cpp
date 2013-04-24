@@ -11,17 +11,18 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
-		case DLL_THREAD_ATTACH:
 			{
 				EFFBase::InitEFFContext();
 			}
 			break;
+		case DLL_THREAD_ATTACH:
+			break;
 		case DLL_THREAD_DETACH:
+			break;
+		case DLL_PROCESS_DETACH:
 			{
 				EFFBase::ReleaseEFFContext();
 			}
-			break;
-		case DLL_PROCESS_DETACH:
 			break;
 	}
 	return TRUE;

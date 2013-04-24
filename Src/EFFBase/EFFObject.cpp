@@ -14,7 +14,7 @@
 EFFBASE_BEGIN
 
 
-RTTI_IMPLEMENT_BASE(EFFReferenceCount, 0)
+RTTI_IMPLEMENT_BASE_NO_SAVE(EFFReferenceCount, 0)
 RTTI_IMPLEMENT(EFFObject, 0)
 
 
@@ -55,7 +55,7 @@ EFFProperty * EFFObject::GetProperty(const effString & propertyName)
 	auto prperties = objectClass->GetProperties();
 	for ( effUINT i = 0; i < prperties.size(); i++ )
 	{
-		if ( prperties[i]->GetName() == propertyName )
+		if ( prperties[i]->GetNameHash() == EFFStringHash(propertyName) )
 		{
 			return prperties[i];
 		}

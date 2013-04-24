@@ -13,9 +13,17 @@
 EFF3D_BEGIN
 
 
+//地形网格的大小是16384*16384，分辨率是10m，贴图的大小是16385*16385
+//地形tile的大小是513*513
 
+#define TERRAIN_ELEVATION_PIXEL_SIZE	16385
+#define TERRAIN_TILE_PIXEL_SIZE			33
 
-class EFF3D_API EFF3DTerrainROAMImproveTileData : public EFF3DITerrainTileData
+#define TERRAIN_TILE_SPLIT_DEPTH		9	//2 * log2(32) - 1		
+#define TERRAIN_TILE_VARIANCE_NODE_NUM			((1 << TERRAIN_TILE_SPLIT_DEPTH) - 1)
+#define TERRAIN_TILE_VARIANCE_BRANCH_NODE_NUM	((1 << (TERRAIN_TILE_SPLIT_DEPTH - 1)) - 1)
+
+class EFF3D_API EFF3DTerrainROAMImproveTileData : public EFF3DTerrainTileData
 {
 public:
 	EFF3DTerrainROAMImproveTileData(effINT nTileX,effINT nTileZ);
@@ -42,24 +50,37 @@ protected:
 		effINT				nRightX;
 		effINT				nRightZ;
 
-		TriTreeNode *	pPre;
-		TriTreeNode *	pNext;
-		TriTreeNode *	pLeftChild;
-		TriTreeNode *	pRightChild;
-		TriTreeNode *	pBaseNeighbor;
-		TriTreeNode *	pLeftNeighbor;
-		TriTreeNode *	pRightNeighbor;
+		TriTreeNode *		pPre;
+		TriTreeNode *		pNext;
+		TriTreeNode *		pLeftChild;
+		TriTreeNode *		pRightChild;
+		TriTreeNode *		pBaseNeighbor;
+		TriTreeNode *		pLeftNeighbor;
+		TriTreeNode *		pRightNeighbor;
 
 		CODE				code;
 		effINT				nDepth;
+		effUINT16 *			pVariance;
+		effINT				varianceIndex;
 
-		TriTreeNode() : pPre(NULL),pNext(NULL),pLeftChild(NULL),pRightChild(NULL),
-								pBaseNeighbor(NULL),pLeftNeighbor(NULL),pRightNeighbor(NULL),nDepth(0)
+		TriTreeNode()
 		{
+			pPre = NULL;
+			pNext = NULL;
+			pLeftChild = NULL;
+			pRightChild = NULL;
+			pBaseNeighbor = NULL;
+			pLeftNeighbor = NULL;
+			pRightNeighbor = NULL;
+			nDepth = 0;
+			pVariance = NULL;
+			varianceIndex = 0;
 		}
 
-		effVOID Set(CODE code,effINT nApexX, effINT nApexZ, effINT nLeftX, effINT nLeftZ, effINT nRightX, effINT nRightZ,TriTreeNode * pPre,TriTreeNode * pNext,
-							TriTreeNode * pLeftChild,TriTreeNode * pRightChild,TriTreeNode * pLeftNeighbor,TriTreeNode * pRightNeighbor,TriTreeNode * pBaseNeighbor)
+		effVOID Set(CODE code, effINT nApexX, effINT nApexZ, effINT nLeftX, effINT nLeftZ, 
+					effINT nRightX, effINT nRightZ, TriTreeNode * pPre, TriTreeNode * pNext,
+					TriTreeNode * pLeftChild, TriTreeNode * pRightChild, TriTreeNode * pLeftNeighbor,
+					TriTreeNode * pRightNeighbor, TriTreeNode * pBaseNeighbor)
 		{
 			this->code = code;
 			this->nApexX = nApexX;
@@ -75,6 +96,7 @@ protected:
 			this->pLeftNeighbor = pLeftNeighbor;
 			this->pRightNeighbor = pRightNeighbor;
 			this->pBaseNeighbor = pBaseNeighbor;
+			this->pVariance = pVariance;
 		}
 
 		effVOID Set(effINT nApexX, effINT nApexZ, effINT nLeftX, effINT nLeftZ, effINT nRightX, effINT nRightZ)
@@ -96,24 +118,26 @@ public:
 	virtual effBOOL								Unload();
 
 
-	virtual EFF3DVertexBuffer *					GetVertexBuffer(effINT nLevel,EFF3DDevice * pDevice);
+	virtual EFF3DVertexBuffer *					GetVertexBuffer(effINT nLevel, EFF3DDevice * pDevice);
 	virtual effINT								GetVerticesNum(effINT nLevel);
 	virtual effINT								GetVerticesStride();
-	virtual EFF3DIndexBuffer *					GetIndexBuffer(effINT nLevel,EFF3DDevice * pDevice);
+	virtual EFF3DIndexBuffer *					GetIndexBuffer(effINT nLevel, EFF3DDevice * pDevice);
 	virtual effINT								GetIndicesNum(effINT nLevel);
 	virtual effINT								GetTileX() { return m_nTileX; }
 	virtual effINT								GetTileZ() { return m_nTileZ; }
 
-	effVOID										GenerateGeometryDataFromElevationMap(effINT16 * pEM,effINT16 * pError,effINT nLevel);
-
+	effVOID										GenerateGeometryDataFromElevationMap(effUINT16 * pEM, effUINT16 * pError, effINT nLevel);
+	effVOID										CalculateVariance(effUINT16 * pVariance);
 
 protected:
 
-	effVOID										TessellateTriTree(TriTreeNode * pTriNode, effINT16 * pEM, effINT16 nError);
-	//effBOOL										ReplaceTriTreeNode(TriTreeNode * pTriNode);
+	effVOID										TessellateTriTree(TriTreeNode * pTriNode, effUINT16 * pEM, effUINT16 error, effINT nodeIndex);
+	effUINT16									CalculateVariance(effUINT16 * pEM, effUINT16 * pVariance, effINT nApexX, effINT nApexZ, effINT nLeftX, effINT nLeftZ, effINT nRightX, effINT nRightZ, effINT nNodeIndex);
+	effBOOL										ReplaceTriTreeNode(TriTreeNode * pTriNode);
 	effVOID										CreateTriTreeChildNode(TriTreeNode * pTriNode);
-	effVOID										CreateTriTreeChildNode(TriTreeNode * pTriNode,effBOOL bLeftChildFirst,CODE firstCode,CODE secondCode);
+	effVOID										CreateTriTreeChildNode(TriTreeNode * pTriNode, effBOOL bLeftChildFirst, CODE firstCode, CODE secondCode);
 	effVOID										SplitTriTreeNode(TriTreeNode * pTriNode);
+	effVOID										SplitTriTreeNode(TriTreeNode * pTriNode, effBOOL bLeftChildFirst, CODE firstCode, CODE followCode);
 private:
 	effINT										m_nTileX;
 	effINT										m_nTileZ;

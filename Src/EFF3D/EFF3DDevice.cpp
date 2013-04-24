@@ -20,6 +20,8 @@
 
 EFF3D_BEGIN
 
+static EFF3DDevice * device = NULL;
+
 EFF3DDevice * GetDevice()
 {
 	return device;
@@ -49,11 +51,56 @@ effBOOL EFF3D_API Create3DDevice(const effString & dllName, EFF3DDevice ** eff3D
 }
 
 
+struct EFF3DFormatInfo
+{
+	effUINT bpp;
+	effUINT rmask;
+	effUINT gmask;
+	effUINT bmask;
+	effUINT amask;
+	EFF3DFORMAT format;
+};
+
+
+EFF3DFormatInfo formatInfo[] =
+{
+	{ 1, 0xe0, 0x1c, 0x03, 0, EFF3DFMT_R3G3B2 },
+	{ 1, 0xFF, 0, 0, 0, EFF3DFMT_A8 },
+	{ 2, 0xf800, 0x07e0, 0x001f, 0x0000, EFF3DFMT_R5G6B5 },
+	{ 2, 0x7c00, 0x03e0, 0x001f, 0x8000, EFF3DFMT_A1R5G5B5 },
+	{ 2, 0x7c00, 0x03e0, 0x001f, 0x0000, EFF3DFMT_X1R5G5B5 },
+	{ 2, 0x0f00, 0x00f0, 0x000f, 0xf000, EFF3DFMT_A4R4G4B4 },
+	{ 2, 0x0f00, 0x00f0, 0x000f, 0x0000, EFF3DFMT_X4R4G4B4 },
+	{ 2, 0x00e0, 0x001c, 0x0003, 0xff00, EFF3DFMT_A8R3G3B2 },
+	{ 3, 0xff0000, 0x00ff00, 0x0000ff, 0x000000, EFF3DFMT_R8G8B8 },
+	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, EFF3DFMT_A8R8G8B8 },
+	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x00000000, EFF3DFMT_X8R8G8B8 },
+	{ 4, 0x3ff00000, 0x000ffc00, 0x000003ff, 0xc0000000, EFF3DFMT_A2B10G10R10 },
+	{ 4, 0x000003ff, 0x000ffc00, 0x3ff00000, 0xc0000000, EFF3DFMT_A2R10G10B10 },
+	{ 4, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, EFF3DFMT_G16R16 },
+	{ 4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000, EFF3DFMT_A8B8G8R8 },
+	{ 4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0x00000000, EFF3DFMT_X8B8G8R8 },
+};
+
+effINT EFF3DGetPixelSizeFromFormat(EFF3DFORMAT format)	
+{
+	effINT elementCount = sizeof(formatInfo) / sizeof(EFF3DFormatInfo);
+	for ( effINT i = 0; i < elementCount; i++ )
+	{
+		if ( formatInfo[i].format == format )
+		{
+			return formatInfo[i].bpp;
+		}
+	}
+
+	return 0;
+}
+
 EFF3DDevice::EFF3DDevice()
 {
 	//Py_Initialize();//使用python之前，要调用Py_Initialize();这个函数进行初始化
 
-	//ilInit();
+	ilInit();
 
 
 
@@ -83,19 +130,14 @@ effVOID EFF3DDevice::Init()
 	sceneManager = EFFNEW EFF3DSceneManager();
 
 	InitProperty();
+
+	SetRenderState(EFF3DRS_LIGHTING, effFALSE);
 }
 
 effVOID EFF3DDevice::InitProperty()
 {
 	EFF3DObjectInitProperty();
 }
-
-struct QuadVertex
-{
-	effFLOAT			x,y,z,rhw;
-	effFLOAT			u,v;
-	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_TEX1;
-};
 
 
 
@@ -108,32 +150,32 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	EFFRect quadRect;
 	if ( rect == NULL )
 	{
-		quadRect.nLeft = 0;
-		quadRect.nRight = width;
-		quadRect.nTop = 0;
-		quadRect.nBottom = height;
+		quadRect.left = 0.0f;
+		quadRect.right = (effFLOAT)width;
+		quadRect.top = 0.0f;
+		quadRect.bottom = (effFLOAT)height;
 	}
 	else
 	{
 		quadRect = *rect;
 	}
 
-	vertices[0].x = (effFLOAT)quadRect.nLeft - 0.5f;
-	vertices[0].y = (effFLOAT)quadRect.nTop - 0.5f;
+	vertices[0].x = (effFLOAT)quadRect.left + 0.5f;
+	vertices[0].y = (effFLOAT)quadRect.top + 0.5f;
 	vertices[0].z = 0.0f;
 	vertices[0].rhw = 1.0f;
 	vertices[0].u = 0.0f;
 	vertices[0].v = 0.0f;
 
-	vertices[1].x = (effFLOAT)quadRect.nRight - 0.5f;
-	vertices[1].y = (effFLOAT)quadRect.nTop - 0.5f;
+	vertices[1].x = (effFLOAT)quadRect.right - 0.5f;
+	vertices[1].y = (effFLOAT)quadRect.top + 0.5f;
 	vertices[1].z = 0.0f;
 	vertices[1].rhw = 1.0f;
 	vertices[1].u = 1.0f;
 	vertices[1].v = 0.0f;
 
-	vertices[2].x = (effFLOAT)quadRect.nRight - 0.5f;
-	vertices[2].y = (effFLOAT)quadRect.nBottom - 0.5f;
+	vertices[2].x = (effFLOAT)quadRect.right - 0.5f;
+	vertices[2].y = (effFLOAT)quadRect.bottom - 0.5f;
 	vertices[2].z = 0.0f;
 	vertices[2].rhw = 1.0f;
 	vertices[2].u = 1.0f;
@@ -143,8 +185,8 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	vertices[4] = vertices[2];
 
 
-	vertices[5].x = (effFLOAT)quadRect.nLeft - 0.5f;
-	vertices[5].y = (effFLOAT)quadRect.nBottom - 0.5f;
+	vertices[5].x = (effFLOAT)quadRect.left + 0.5f;
+	vertices[5].y = (effFLOAT)quadRect.bottom - 0.5f;
 	vertices[5].z = 0.0f;
 	vertices[5].rhw = 1.0f;
 	vertices[5].u = 0.0f;
@@ -154,9 +196,9 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	return DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, vertices, sizeof(QuadVertex));
 }
 
-effBOOL EFF3DDevice::DrawQuad(EFF3DTexture * texture, EFF3DMaterial * material /* = NULL */, EFFRect * rect /* = NULL */)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color, EFF3DMaterial * material)
 {
-	SetTexture(0, texture);
+	//SetTexture(0, texture);
 	effHRESULT hr;
 
 
@@ -173,7 +215,11 @@ effBOOL EFF3DDevice::DrawQuad(EFF3DTexture * texture, EFF3DMaterial * material /
 	else
 	{
 		SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
-		SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TEXTURE);
+		SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_CONSTANT);
+		SetTextureStageState(0, EFF3DTSS_CONSTANT, color);
+
+		SetRenderState(EFF3DRS_AMBIENT, color);
+
 		hr = DrawQuad(rect);
 	}
 

@@ -119,8 +119,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\dllmain.cpp" />
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOApplication.cpp" />
+    <ClCompile Include="..\..\..\Src\MMOEncapsulation\dllmain.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOApplication.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\MMOEncapsulation\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>

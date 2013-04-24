@@ -26,6 +26,9 @@ public:
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture);
 
+	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, EFF3DFORMAT format, effINT width, effINT height,
+													effINT level, EFF3DTexture ** texture);
+
 	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface);
 
@@ -58,6 +61,7 @@ public:
 	virtual effBOOL				SetIndices(EFF3DIndexBuffer * indexData);
 	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value);
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value);
+	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value);
 	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget);
 	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture);
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil);
@@ -84,7 +88,9 @@ protected:
 effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dpp, HWND hWnd);
 effVOID InitWindow(effINT width, effINT height, effBOOL enableAA, D3DPRESENT_PARAMETERS * d3dpp, effUINT depthStencilFormat);
 
-effBOOL EFFD3D9_API effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
+EFFD3D9_API effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
+
+
 
 
 #endif

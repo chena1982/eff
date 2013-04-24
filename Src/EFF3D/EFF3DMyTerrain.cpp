@@ -43,8 +43,8 @@ effBOOL EFF3DMyTerrain::Init()
 effVOID EFF3DMyTerrain::SplitNode(EFF3DMyTerrainNode * pNode)
 {
 
-	static effINT nXOffset[4] = { 0 , 1, 0 ,1 };
-	static effINT nYOffset[4] = { 0 , 0, 1 ,1 };
+	static effINT nXOffset[4] = { 0, 1, 0, 1 };
+	static effINT nYOffset[4] = { 0, 0, 1, 1 };
 
 	if ( pNode->nDepth >=3 )
 	{
@@ -56,7 +56,7 @@ effVOID EFF3DMyTerrain::SplitNode(EFF3DMyTerrainNode * pNode)
 	//深度为pNode->nDepth的完全四叉树的节点的个数
 	effINT nNodeNum2 = ( (effINT)pow(4.f,pNode->nDepth) - 1 ) / ( 4 - 1 );
 
-	effINT nHalfLength = (TERRAIN_TILE_PIXEL_SIZE - 1) * (effINT)pow(2.f,(TERRAIN_TILE_SPLIT_DEPTH - pNode->nDepth));
+	effINT nHalfLength = (TERRAIN_TILE_PIXEL_SIZE - 1) * (effINT)pow(2.f, (TERRAIN_TILE_SPLIT_DEPTH - pNode->nDepth));
 
 	for ( effINT i = 0; i < 4; i++ )
 	{

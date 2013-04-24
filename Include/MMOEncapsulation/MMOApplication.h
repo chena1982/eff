@@ -10,6 +10,8 @@
 
 
 
+
+
 class MMO_API MMOApplication
 {
 public:
@@ -17,10 +19,13 @@ public:
 	~MMOApplication();
 
 public:
-	effBOOL Init(effBOOL window, HWND hWnd, effINT width, effINT height);
-	effVOID	Update();
-	effVOID Render();
+	effBOOL Init(effBOOL window, effINT width, effINT height);
+	effVOID Run();
 
+protected:
+	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height);
+	effVOID	Update();
+	effVOID Render(effFLOAT elapsedTime);
 protected:
 	EFF3DDevice * device;
 };

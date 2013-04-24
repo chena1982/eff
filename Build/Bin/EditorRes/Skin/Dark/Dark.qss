@@ -4,6 +4,8 @@ QMainWindow { background-color : rgb(41, 41, 41); }
 QMainWindow::separator { background-color : rgb(41, 41, 41);
 						 width : 2px; }
 
+QMenuBar { border : 0px;
+		   color : red; }
 
 QWidget { margin : 0px;
 		  border : 0px;

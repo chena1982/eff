@@ -13,7 +13,7 @@ EFFEditorTransformPanel::EFFEditorTransformPanel()
 {
 	setObjectName("transform");
 
-	create();
+	Create();
 }
 
 
@@ -22,8 +22,11 @@ EFFEditorTransformPanel::~EFFEditorTransformPanel()
 
 }
 
-void EFFEditorTransformPanel::create()
+void EFFEditorTransformPanel::Create()
 {
+
+	QDoubleValidator * doubleValidator = new QDoubleValidator();
+
 	QToolBar * pToolbar = new QToolBar();
 	
 	QVBoxLayout * pMainLayout = new QVBoxLayout();
@@ -43,23 +46,23 @@ void EFFEditorTransformPanel::create()
 	QLabel * pPosXLabel = new QLabel(NULL);
 	pPosXLabel->setText(tr("X"));
 	pPosLayout->addWidget(pPosXLabel);
-	QLineEdit * pPosXLineEdit = new QLineEdit();
-	//pPosXLineEdit->setText(tr("1111"));
-	pPosLayout->addWidget(pPosXLineEdit, 1);
+	m_pPosXLineEdit = new QLineEdit();
+	m_pPosXLineEdit->setValidator(doubleValidator);
+	pPosLayout->addWidget(m_pPosXLineEdit, 1);
 
 	QLabel * pPosYLabel = new QLabel(NULL);
 	pPosYLabel->setText(tr("Y"));
 	pPosLayout->addWidget(pPosYLabel);
-	QLineEdit * pPosYLineEdit = new QLineEdit();
-	//pPosYLineEdit->setText(tr("1111"));
-	pPosLayout->addWidget(pPosYLineEdit, 1);
+	m_pPosYLineEdit = new QLineEdit();
+	m_pPosYLineEdit->setValidator(doubleValidator);
+	pPosLayout->addWidget(m_pPosYLineEdit, 1);
 
 	QLabel * pPosZLabel = new QLabel();
 	pPosZLabel->setText(tr("Z"));
 	pPosLayout->addWidget(pPosZLabel);
-	QLineEdit * pPosZLineEdit = new QLineEdit();
-	//pPosZLineEdit->setText(tr("1111"));
-	pPosLayout->addWidget(pPosZLineEdit, 1);
+	m_pPosZLineEdit = new QLineEdit();
+	m_pPosZLineEdit->setValidator(doubleValidator);
+	pPosLayout->addWidget(m_pPosZLineEdit, 1);
 
 	pMainLayout->addLayout(pPosLayout);
 
@@ -77,23 +80,23 @@ void EFFEditorTransformPanel::create()
 	QLabel * pRotXLabel = new QLabel();
 	pRotXLabel->setText(tr("X"));
 	pRotLayout->addWidget(pRotXLabel);
-	QLineEdit * pRotXLineEdit = new QLineEdit();
-	//pRotXLineEdit->setText(tr("1111"));
-	pRotLayout->addWidget(pRotXLineEdit, 1);
+	m_pRotXLineEdit = new QLineEdit();
+	m_pRotXLineEdit->setValidator(doubleValidator);
+	pRotLayout->addWidget(m_pRotXLineEdit, 1);
 
 	QLabel * pRotYLabel = new QLabel();
 	pRotYLabel->setText(tr("Y"));
 	pRotLayout->addWidget(pRotYLabel);
-	QLineEdit * pRotYLineEdit = new QLineEdit();
-	//pRotYLineEdit->setText(tr("1111"));
-	pRotLayout->addWidget(pRotYLineEdit, 1);
+	m_pRotYLineEdit = new QLineEdit();
+	m_pRotYLineEdit->setValidator(doubleValidator);
+	pRotLayout->addWidget(m_pRotYLineEdit, 1);
 
 	QLabel * pRotZLabel = new QLabel();
 	pRotZLabel->setText(tr("Z"));
 	pRotLayout->addWidget(pRotZLabel);
-	QLineEdit * pRotZLineEdit = new QLineEdit();
-	//pRotZLineEdit->setText(tr("1111"));
-	pRotLayout->addWidget(pRotZLineEdit, 1);
+	m_pRotZLineEdit = new QLineEdit();
+	m_pRotZLineEdit->setValidator(doubleValidator);
+	pRotLayout->addWidget(m_pRotZLineEdit, 1);
 
 	pMainLayout->addLayout(pRotLayout);
 
@@ -110,27 +113,57 @@ void EFFEditorTransformPanel::create()
 	QLabel * pScaleXLabel = new QLabel();
 	pScaleXLabel->setText(tr("X"));
 	pScaleLayout->addWidget(pScaleXLabel);
-	QLineEdit * pScaleXLineEdit = new QLineEdit();
-	//pScaleXLineEdit->setText(tr("1111"));
-	pScaleLayout->addWidget(pScaleXLineEdit, 1);
+	m_pScaleXLineEdit = new QLineEdit();
+	m_pScaleXLineEdit->setValidator(doubleValidator);
+	pScaleLayout->addWidget(m_pScaleXLineEdit, 1);
 
 	QLabel * pScaleYLabel = new QLabel();
 	pScaleYLabel->setText(tr("Y"));
 	pScaleLayout->addWidget(pScaleYLabel);
-	QLineEdit * pScaleYLineEdit = new QLineEdit();
-	//pScaleYLineEdit->setText(tr("1111"));
-	pScaleLayout->addWidget(pScaleYLineEdit, 1);
+	m_pScaleYLineEdit = new QLineEdit();
+	m_pScaleYLineEdit->setValidator(doubleValidator);
+	pScaleLayout->addWidget(m_pScaleYLineEdit, 1);
 
 	QLabel * pScaleZLabel = new QLabel();
 	pScaleZLabel->setText(tr("Z"));
 	pScaleLayout->addWidget(pScaleZLabel);
-	QLineEdit * pScaleZLineEdit = new QLineEdit();
-	//pScaleZLineEdit->setText(tr("1111"));
-	pScaleLayout->addWidget(pScaleZLineEdit, 1);
+	m_pScaleZLineEdit = new QLineEdit();
+	m_pScaleZLineEdit->setValidator(doubleValidator);
+	pScaleLayout->addWidget(m_pScaleZLineEdit, 1);
 
 	pMainLayout->addLayout(pScaleLayout);
 
 
 	setLayout(pMainLayout);
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+}
+
+effVOID EFFEditorTransformPanel::BindObject(EFF3DObject * object)
+{
+	m_pBindedObject = object;
+
+	Update();
+}
+
+void EFFEditorTransformPanel::Update()
+{
+	EFFVector3 temp;
+	m_pBindedObject->GetPropertyValue(_effT("pos"), temp);
+
+	m_pPosXLineEdit->setText(QString().setNum(temp.x));
+	m_pPosYLineEdit->setText(QString().setNum(temp.x));
+	m_pPosZLineEdit->setText(QString().setNum(temp.x));
+
+
+	m_pBindedObject->GetPropertyValue(_effT("rot"), temp);
+
+	m_pRotXLineEdit->setText(QString().setNum(temp.x));
+	m_pRotYLineEdit->setText(QString().setNum(temp.x));
+	m_pRotZLineEdit->setText(QString().setNum(temp.x));
+
+	m_pBindedObject->GetPropertyValue(_effT("scale"), temp);
+
+	m_pScaleXLineEdit->setText(QString().setNum(temp.x));
+	m_pScaleYLineEdit->setText(QString().setNum(temp.x));
+	m_pScaleZLineEdit->setText(QString().setNum(temp.x));
 }

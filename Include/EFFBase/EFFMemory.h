@@ -16,7 +16,7 @@
 
 	#ifdef _DEBUG
 
-		struct AllocInfo
+		/*struct AllocInfo
 		{
 		public:
 			const char * file;
@@ -75,7 +75,7 @@
 		inline void _cdecl operator delete [] (void * pMem)
 		{
 			EFFMemoryDelete(pMem,0,0);
-		}
+		}*/
 
 	#else
 
@@ -107,7 +107,7 @@
 	#undef EFFNEW
 
 	#ifdef _DEBUG
-		#define EFFNEW	new(__FILE__,__LINE__)
+		#define EFFNEW	new
 	#else
 		#define EFFNEW	new
 	#endif

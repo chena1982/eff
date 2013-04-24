@@ -15,7 +15,7 @@ class EFF3DCamera;
 class EFF3DRenderQueue;
 class EFF3DAsyncLoader;
 class EFF3DMaterial;
-
+class EFF3DTerrain;
 
 
 class EFF3DSceneManager
@@ -30,10 +30,14 @@ public:
 
 	effVOID								SetCameraLayerMaterial(effINT cameraLayer, EFF3DMaterial * material);
 
+	effBOOL								LoadTerrain(const effString & filePath);
+
 public:
 	inline std::vector<EFF3DCamera *>	GetCameras() { return cameras; }
 	inline EFF3DAsyncLoader *			GetAsyncLoader() { return asyncLoader; }
 	inline EFF3DMaterial *				GetRenderLayerMaterial(effINT renderLayer) { return renderLayerMaterial[renderLayer]; }
+
+
 protected:
 
 	std::vector<EFF3DCamera *>			cameras;
@@ -41,6 +45,8 @@ protected:
 	EFF3DAsyncLoader *					asyncLoader;
 
 	EFF3DMaterial *						renderLayerMaterial[CAMERA_MAX_RENDER_LAYER];
+
+	EFF3DTerrain *						terrain;
 };
 
 EFF3D_END

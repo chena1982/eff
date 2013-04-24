@@ -46,6 +46,19 @@ protected:
 public:
 	effUINT				GetID() { return id; }
 	EFFProperty *		GetProperty(const effString & name);
+
+	template<typename PropertyType>
+	effBOOL	GetPropertyValue(const effString & name, PropertyType & result)
+	{
+		EFFProperty * Property = GetProperty(name);
+
+		if ( Property == NULL )
+		{
+			return effFALSE;
+		}
+
+		return Property->GetValue(this, result);
+	}
 protected:
 	effUINT				id;
 };

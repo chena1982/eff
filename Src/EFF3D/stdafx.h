@@ -11,7 +11,7 @@
 // Windows 头文件:
 #include <windows.h>
 
-
+#include <fstream>
 
 // TODO: 在此处引用程序需要的其他头文件
 
@@ -30,5 +30,6 @@ USE_EFFMATH
 //#include "WebCore.h"
 
 #include "EFF3DBaseDefines.h"
+#include "EFF3DObject.h"
 
 

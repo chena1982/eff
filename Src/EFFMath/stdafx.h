@@ -18,8 +18,9 @@
 #include <hash_map>
 #include <map>
 #include <vector>
-
-
+#include <fstream>
+#include <cmath>
+#include <cstdlib>
 
 
 #include <yaml-cpp\yaml.h>
@@ -27,10 +28,13 @@
 //#include <Python.h>
 //#include <boost/python/detail/wrap_python.hpp>
 
-#include "EFFMathBaseDefines.h"
-
 #include "EFFBase.h"
 USE_EFFBASE
+
+#include "EFFMathBaseDefines.h"
+#include "EFFFPU.h"
+
+
 
 
 

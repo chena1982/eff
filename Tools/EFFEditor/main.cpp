@@ -56,7 +56,7 @@ public:
 };
 
 RTTI_IMPLEMENT(A, 0)
-RTTI_IMPLEMENT_BASE(B, 0)
+RTTI_IMPLEMENT_BASE_NO_SAVE(B, 0)
 
 void test()
 {

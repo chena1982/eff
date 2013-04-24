@@ -48,6 +48,9 @@ public:
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture) = 0;
 
+	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, EFF3DFORMAT format, effINT width, effINT height,
+													effINT level, EFF3DTexture ** texture) = 0;
+
 	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface) = 0;
 
@@ -80,6 +83,7 @@ public:
 	virtual effBOOL				SetIndices(EFF3DIndexBuffer * indexData) = 0;
 	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
+	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value) = 0;
 	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget) = 0;
 	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture) = 0;
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil) = 0;
@@ -90,7 +94,7 @@ public:
 	//下面是一些经过包装的方便使用的接口，这样使用引擎的人既可以快速方便的渲染一些东西，也可以使用上面的接口，以便于更细粒度的控制
 	//不至于像某些引擎全部包装好了，你必须按照它的模式写代码，想增加一些功能时想要更细粒度的控制却发现不可能
 
-	virtual effBOOL				DrawQuad(EFF3DTexture * texture, EFF3DMaterial * material = NULL, EFFRect * rect = NULL);
+	virtual effBOOL				DrawQuad(EFFRect * rect, effDWORD color, EFF3DMaterial * material);
 public:
 	virtual effVOID				Release() = 0;
 
@@ -128,9 +132,24 @@ private:
 
 };
 
+struct QuadVertex
+{
+	effFLOAT			x,y,z,rhw;
+	effFLOAT			u,v;
+	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_TEX1;
+};
 
-static EFF3DDevice * device;
+struct QuadColoredVertex
+{
+	effFLOAT			x,y,z,rhw;
+	effUINT				color;
+
+	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_DIFFUSE;
+};
+
 EFF3D_API EFF3DDevice * GetDevice();
+EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DFORMAT format);
+
 
 EFF3D_END
 

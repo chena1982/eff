@@ -100,11 +100,11 @@ EFFComponent * EFF3DObject::AddComponent(const ClassID & classID)
 	return component;
 }
 
-effVOID	EFF3DObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter * textOut)
+effVOID	EFF3DObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node)
 {
 	for ( effUINT i = 0; i < components.size(); i++ )
 	{
-		components[i]->SaveToFile(file, isBinary, textOut);
+		components[i]->SaveToFile(file, isBinary, node);
 	}
 }
 

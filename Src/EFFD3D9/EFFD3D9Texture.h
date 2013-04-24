@@ -33,9 +33,9 @@ protected:
 	effBOOL									Unlock();
 	effBOOL									CopyDataToRuntimeResource();
 protected:
-	LPDIRECT3DTEXTURE9						m_pTexture;
-	EFF3DDevice *							m_pDevice;
-	D3DLOCKED_RECT							m_lockedRect;
+	LPDIRECT3DTEXTURE9						texture;
+	EFF3DDevice *							device;
+	D3DLOCKED_RECT							lockedRect;
 };
 
 #endif

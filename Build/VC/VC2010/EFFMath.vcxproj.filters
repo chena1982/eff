@@ -28,6 +28,24 @@
     <ClCompile Include="..\..\..\Src\EFFMath\EFFVector4.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFAabb.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFMathFunction.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFVector2.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFSegment3.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFPlane3.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFMath\EFFPolygon3.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFFMath\stdafx.h">
@@ -47,6 +65,27 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFMath.h" />
     <ClInclude Include="..\..\..\Include\EFFMath\EFFVector4.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFAabb.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFMathFunction.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFFPU.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFVector2.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFSegment3.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFPlane3.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFMath\EFFPolygon3.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

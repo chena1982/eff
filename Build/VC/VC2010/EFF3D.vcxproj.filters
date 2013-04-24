@@ -73,9 +73,6 @@
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrain.cpp">
       <Filter>地形</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrainDataPreproccess.cpp">
-      <Filter>地形</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrainROAMImproveTileData.cpp">
       <Filter>地形</Filter>
     </ClCompile>
@@ -104,6 +101,21 @@
       <Filter>底层渲染接口</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DSceneManager.cpp">
+      <Filter>底层渲染接口</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DTerrainDataPreprocess.cpp">
+      <Filter>地形</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DFrustum.cpp">
+      <Filter>底层渲染接口</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DImgui.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DImguiRender.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DFont.cpp">
       <Filter>底层渲染接口</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,9 +162,6 @@
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DTerrain.h">
       <Filter>地形</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainDataPreproccess.h">
-      <Filter>地形</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainROAMImproveTileData.h">
       <Filter>地形</Filter>
     </ClInclude>
@@ -185,6 +194,21 @@
       <Filter>底层渲染接口</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSceneManager.h">
+      <Filter>底层渲染接口</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\EFF3D\EFF3DTerrainDataPreprocess.h">
+      <Filter>地形</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DFrustum.h">
+      <Filter>底层渲染接口</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DImguiRender.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DImgui.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DFont.h">
       <Filter>底层渲染接口</Filter>
     </ClInclude>
   </ItemGroup>

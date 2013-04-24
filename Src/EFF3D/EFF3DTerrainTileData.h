@@ -16,11 +16,11 @@ class EFF3DVertexBuffer;
 class EFF3DIndexBuffer;
 class EFF3DDevice;
 
-class EFF3D_API EFF3DITerrainTileData : public EFF3DResource
+class EFF3D_API EFF3DTerrainTileData : public EFF3DResource
 {
 public:
-	EFF3DITerrainTileData() {}
-	~EFF3DITerrainTileData() {}
+	EFF3DTerrainTileData() {}
+	~EFF3DTerrainTileData() {}
 
 public:
 	virtual EFF3DVertexBuffer *					GetVertexBuffer(effINT nLevel,EFF3DDevice * pDevice) = 0;

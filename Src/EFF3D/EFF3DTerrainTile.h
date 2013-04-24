@@ -12,19 +12,23 @@
 
 EFF3D_BEGIN
 
-class EFF3DITerrainTileData;
+class EFF3DTerrainTileData;
 
 class EFF3DTerrainTile : public EFF3DRenderable
 {
+	friend class EFF3DTerrain;
 public:
-	EFF3DTerrainTile(EFF3DITerrainTileData * tileData, EFF3DMaterial * material = NULL, EFF3DObject * object = NULL);
+	EFF3DTerrainTile(EFF3DTerrainTileData * tileData);
 	~EFF3DTerrainTile();
 public:
-	virtual effVOID					Render(EFF3DDevice * device);
-	EFF3DITerrainTileData *			GetTerrainTileData() { return tileData; }
+	virtual effVOID				Render(EFF3DDevice * device);
+
+protected:
+	//effVOID						SetTerrainTileData(EFF3DTerrainTileData * tileData) { this->tileData = tileData; }
+	EFF3DTerrainTileData *		GetTerrainTileData() { return tileData; }
 private:
-	EFF3DITerrainTileData *			tileData;
-	effINT							currentLevel;
+	EFF3DTerrainTileData *		tileData;
+	effINT						currentLevel;
 };
 
 EFF3D_END

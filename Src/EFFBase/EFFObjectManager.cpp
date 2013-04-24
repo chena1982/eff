@@ -14,7 +14,7 @@
 
 EFFBASE_BEGIN
 
-RTTI_IMPLEMENT_BASE(EFFObjectManager, 0)
+RTTI_IMPLEMENT_BASE_NO_SAVE(EFFObjectManager, 0)
 
 std::map<EFFClass *, EFFObjectManager *> objectManagers;
 

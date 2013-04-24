@@ -157,6 +157,10 @@ namespace YAML
 			pMemory->merge(*value.m_pMemory);
 			return *value.m_pNode;
 		}
+		
+		inline node& node_data::convert_to_node(const char* rhs, shared_memory_holder pMemory) {
+			return convert_to_node<std::string>( rhs, pMemory );
+		}
 	}
 }
 

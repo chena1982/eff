@@ -17,9 +17,26 @@ public:
 public:
 	//QSize sizeHint() const { return minimumSizeHint(); }
 	//QSize minimumSizeHint()  const { return QSize(260, -1); }
-
+	effVOID BindObject(EFF3DObject * object);
 protected:
-	void create();
+	void Create();
+	void Update();
+protected:
+
+	QLineEdit * m_pPosXLineEdit;
+	QLineEdit * m_pPosYLineEdit;
+	QLineEdit * m_pPosZLineEdit;
+
+	QLineEdit * m_pRotXLineEdit;
+	QLineEdit * m_pRotYLineEdit;
+	QLineEdit * m_pRotZLineEdit;
+
+	QLineEdit * m_pScaleXLineEdit;
+	QLineEdit * m_pScaleYLineEdit;
+	QLineEdit * m_pScaleZLineEdit;
+
+	EFF3DObject * m_pBindedObject;
+
 };
 
 #endif

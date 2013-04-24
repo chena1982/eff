@@ -23,7 +23,7 @@ public:
 	EFFObjectManager();
 	virtual ~EFFObjectManager();
 public:
-	std::map<effUINT, EFFObject *>			GetObjects() { return objects; }
+	std::map<effUINT, EFFObject *> &		GetObjects() { return objects; }
 public:
 	EFFObject *								CreateObject(EFFClass * Class);
 	effVOID									ReleaseObject(EFFObject * object);

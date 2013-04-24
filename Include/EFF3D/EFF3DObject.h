@@ -28,7 +28,7 @@ public:
 	EFFComponent *			GetComponent(effINT index);
 	effINT					GetComponentCount() { return components.size(); }
 
-	virtual effVOID			SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter * textOut);
+	virtual effVOID			SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node);
 
 public:
 	inline effUINT			GetRenderLayer(effINT renderLayerSlot) { return layers[renderLayerSlot]; }

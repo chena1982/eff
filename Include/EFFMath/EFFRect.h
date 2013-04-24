@@ -13,16 +13,24 @@ EFFMATH_BEGIN
 
 struct EFFRECT
 {
-	effLONG		nLeft;
-	effLONG		nTop;
-	effLONG		nRight;
-	effLONG		nBottom;
+	effFLOAT		left;
+	effFLOAT		top;
+	effFLOAT		right;
+	effFLOAT		bottom;
 };
 
 class EFFMATH_API EFFRect : public EFFRECT
 {
 public:
 	EFFRect() {}
+	EFFRect(effFLOAT x, effFLOAT y, effFLOAT width, effFLOAT height)
+	{
+		left = x;
+		top = y;
+		right = x + width;
+		bottom = y + height;
+	}
+
 	~EFFRect() {}
 public:
 

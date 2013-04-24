@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 
-#include "EFF3DTerrainDataPreproccess.h"
+#include "EFF3DTerrainDataPreprocess.h"
 #include "EFF3DTerrainTileData.h"
 #include "EFF3DTerrainTile.h"
 #include "EFF3DDevice.h"
@@ -27,6 +27,17 @@ EFF3DTerrain::EFF3DTerrain()
 
 	m_nTileNumX = nTileNumX;
 	m_nTileNumZ = nTileNumZ;*/
+
+	width = 0;
+	height = 0;
+	tileWidth = 0;
+	horizontalResolution = 0.0f;
+
+
+	tileNumX = 0;
+	tileNumZ = 0;
+
+	tiles = NULL;
 	
 }
 
@@ -35,31 +46,60 @@ EFF3DTerrain::~EFF3DTerrain()
 
 }
 
-/*effVOID EFF3DTerrain::AddTerrainTile(EFF3DTerrainTile * pTerrainTile)
+effVOID EFF3DTerrain::LoadFromFile(const effString & filePath)
 {
-	EFF3DITerrainTileData * pTileData = pTerrainTile->GetTerrainTileData();
-	effINT nIndex = pTileData->GetTileZ() * m_nTileNumX + pTileData->GetTileX();
+	TerrainPreprocess(filePath, this);
+}
 
-	m_ppTerrainTiles[nIndex] = pTerrainTile;
+
+effVOID	EFF3DTerrain::Init(effINT width, effINT height, effINT tileWidth, effFLOAT horizontalResolution)
+{
+	this->width = width;
+	this->height = height;
+	this->tileWidth = tileWidth;
+	this->horizontalResolution = horizontalResolution;
+
+	tileNumX = width / tileWidth;
+	tileNumZ = width / tileWidth;
+
+	tiles = EFFNEW EFF3DTerrainTile *[tileNumX * tileNumZ];
+}
+
+
+
+effVOID EFF3DTerrain::AddTile(EFF3DTerrainTileData * tileData)
+{
+	EFF3DTerrainTile * tile = EFFNEW EFF3DTerrainTile(tileData);
+
+	effINT tileIndex = tileData->GetTileZ() * tileNumX + tileData->GetTileX();
+	tiles[tileIndex] = tile;
 }
 
 effVOID EFF3DTerrain::Render(EFF3DDevice * pDevice)
 {
-	m_ppTerrainTiles[0]->Render(pDevice);
-}*/
+	tiles[0]->Render(pDevice);
+}
 
-effVOID TerrainPreproccess(effTCHAR * filePath,EFF3DTerrain * pTerrain)
+effVOID TerrainPreprocess(const effString & filePath, EFF3DTerrain * pTerrain)
 {
-	TerrainDataPreproccess(filePath,pTerrain);
+	TerrainDataPreprocess(filePath, pTerrain);
 }
 
 
-effVOID TestMyTerrain()
+EFF3DTerrain * TestMyTerrain()
 {
 
-	EFF3DMyTerrain * pTerrain = new EFF3DMyTerrain();
+	/*EFF3DMyTerrain * pTerrain = new EFF3DMyTerrain();
 	pTerrain->Init();
-	pTerrain->Test();
+	pTerrain->Test();*/
+
+	EFF3DTerrain * pTerrain = new EFF3DTerrain();
+	pTerrain->Init(64, 64, 32, 1.0f);
+	TerrainPreprocess(_effT("Data\\Terrain\\heightmap.tif"), pTerrain);
+
+	return pTerrain;
 }
+
+
 
 EFF3D_END

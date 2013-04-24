@@ -26,4 +26,20 @@ EFF3DCamera::~EFF3DCamera()
 	SF_DELETE(autoParamDataSource);
 }
 
+effVOID EFF3DCamera::SetViewParams(const EFFVector3 & eye, const EFFVector3 & lookAt)
+{
+
+	this->eye = eye;
+	this->lookAt = lookAt;
+
+	// Calc the view matrix
+	EFFVector3 up(0.0f, 1.0f, 0.0f);
+	EFFMatrixLookAtLH(&view, &eye, &lookAt, &up);
+}
+
+effVOID EFF3DCamera::SetProjParams(effFLOAT fov, effFLOAT aspect, effFLOAT nearPlane, effFLOAT farPlane)
+{
+	EFFMatrix4PerspectiveFovLH(&proj, fov, aspect, nearPlane, farPlane );
+}
+
 EFF3D_END
