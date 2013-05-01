@@ -74,8 +74,13 @@ effBOOL MMOApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 
 	MyRegisterClass(hInst);
 
-	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		0, 0, width, height, NULL, NULL, hInst, NULL);
+	RECT windowRect;
+	SetRect(&windowRect, 0, 0, width, height);
+	effUINT style = WS_OVERLAPPEDWINDOW;
+	AdjustWindowRect(&windowRect, style, FALSE);
+
+	hWnd = CreateWindow(szWindowClass, szTitle, style,
+		0, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, NULL, NULL, hInst, NULL);
 
 	if ( !hWnd )
 	{
@@ -136,6 +141,7 @@ effBOOL MMOApplication::Init(effBOOL window, effINT width, effINT height)
 	EFF3DFontManager * fontManager = EFFNEW EFF3DFontManager();
 	font = fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 16);
 
+	device->SetRenderState(EFF3DRS_LIGHTING, effFALSE);
 
 	return effTRUE;
 }
@@ -158,7 +164,7 @@ effVOID MMOApplication::Render(effFLOAT elapsedTime)
 		device->SetTransform(EFF3DTS_PROJECTION, &camera->GetProjMatrix());
 
 		//terrain->Render(device);
-		imguiBeginFrame(0, 0, 0, 0);
+		/*imguiBeginFrame(0, 0, 0, 0);
 
 		effINT toolsScroll = 0;
 		imguiBeginScrollArea(_effT("Tools"), 0, 0, 300, 500, &toolsScroll);
@@ -166,16 +172,19 @@ effVOID MMOApplication::Render(effFLOAT elapsedTime)
 		imguiEndScrollArea();
 
 		imguiEndFrame();
-		imguiRenderDraw();
+		imguiRenderDraw();*/
 
+		effINT x = 10;
+		effINT y = 100;
+		//font->DrawText(_effT("啊"));
+		//font->DrawText(_effT("阿甘正传"));
+		//font->DrawText(_effT("abcdefg"));
+		//font->DrawText(_effT("和谐社，我日啊啊啊啊啊，我晕，我操你妈那个逼,床前明月光，疑似地上霜，举头忘明月，低头思故乡"));
+		font->DrawText(_effT("靠你们"), x, y);
 
-		font->DrawText(_effT("啊"));
-		font->DrawText(_effT("阿甘正传"));
-		font->DrawText(_effT("abcdefg"));
-		font->DrawText(_effT("和谐社，我日啊啊啊啊啊，我晕，我操你妈那个逼,床前明月光，疑似地上霜，举头忘明月，低头思故乡"));
-		font->DrawText(_effT("靠你们的啦"));
-		font->DrawText(_effT("这部分代码不多解释，只是显示位图数据，这里face->glyph->bitmap是没有调色板的1位位图，源于使用FT_RENDER_MODE_MONO渲染模式"));
-		font->DrawText(_effT("简单的描述一下freetype的使用流程，更详细的函数说明及流程请参阅“freetype2开发入门”， 网上有此文档，感兴趣可以看看。"));
+		y += 20;
+		font->DrawText(_effT("这部分代码不多解释，只是显示位图数据，这里face->glyph->bitmap是没有调色板的1位位图，源于使用FT_RENDER_MODE_MONO渲染模式"), x, y);
+		//font->DrawText(_effT("简单的描述一下freetype的使用流程，更详细的函数说明及流程请参阅“freetype2开发入门”， 网上有此文档，感兴趣可以看看。"));
 
 		device->EndScene();
 		device->Present(NULL, NULL);

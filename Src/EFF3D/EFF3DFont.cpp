@@ -44,12 +44,85 @@ EFF3DFont::~EFF3DFont()
 {
 }
 
-effBOOL EFF3DFont::DrawText(const effString & text)
+effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y)
 {
 	AddCodePointsToTexture(text);
 
 	EFF3DDevice * device = GetDevice();
 	device->SetTexture(0, fontTexture);
+	device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
+	device->SetRenderState(EFF3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
+
+	device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
+	device->SetRenderState(EFF3DRS_SRCBLEND, EFF3DBLEND_SRCALPHA);
+	device->SetRenderState(EFF3DRS_DESTBLEND, EFF3DBLEND_INVSRCALPHA);
+
+	device->SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
+	device->SetTextureStageState(0, EFF3DTSS_COLORARG1,	EFF3DTA_TFACTOR);
+
+	device->SetTextureStageState(0, EFF3DTSS_ALPHAOP, EFF3DTOP_SELECTARG1);
+	device->SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TEXTURE);
+
+
+	device->SetSamplerState(0, EFF3DSAMP_MINFILTER, EFF3DTEXF_POINT);
+	device->SetSamplerState(0, EFF3DSAMP_MAGFILTER, EFF3DTEXF_POINT);
+
+	effUINT fvf = QuadVertex::fvf;
+	device->SetFVF(fvf);
+
+	for ( effUINT i = 0; i < text.size(); i++ )
+	{
+		EFF3DFontGlyphInfo & glyphInfo = glyphsInfo[text[i]];
+
+
+
+
+		effINT16 glyphWidth = glyphInfo.x1 - glyphInfo.x0;
+		effINT16 glyphHeight = glyphInfo.y1 - glyphInfo.y0;
+
+		QuadVertex buff[6];
+		memset(buff, 0, sizeof(buff));
+		buff[0].x = x + glyphInfo.xoffset - 0.5f;
+		buff[0].y = y - glyphInfo.yoffset - 0.5f;
+		buff[0].u = (effFLOAT)glyphInfo.x0 / (effFLOAT)fontTexture->GetImageInfo().width;
+		buff[0].v = (effFLOAT)glyphInfo.y0 / (effFLOAT)fontTexture->GetImageInfo().height;
+
+		buff[1].x = x + glyphInfo.xoffset + glyphWidth - 0.5f;
+		buff[1].y = y - glyphInfo.yoffset + glyphHeight - 0.5f;
+		buff[1].u = (effFLOAT)glyphInfo.x1 / (effFLOAT)fontTexture->GetImageInfo().width;
+		buff[1].v = (effFLOAT)glyphInfo.y1 / (effFLOAT)fontTexture->GetImageInfo().height;
+
+		buff[2].x = x + glyphInfo.xoffset + glyphWidth - 0.5f;
+		buff[2].y = y - glyphInfo.yoffset - 0.5f;
+		buff[2].u = (effFLOAT)glyphInfo.x1 / (effFLOAT)fontTexture->GetImageInfo().width;
+		buff[2].v = (effFLOAT)glyphInfo.y0 / (effFLOAT)fontTexture->GetImageInfo().height;
+
+
+		buff[3].x = x + glyphInfo.xoffset - 0.5f;
+		buff[3].y = y - glyphInfo.yoffset - 0.5f;
+		buff[3].u = (effFLOAT)glyphInfo.x0 / (effFLOAT)fontTexture->GetImageInfo().width;
+		buff[3].v = (effFLOAT)glyphInfo.y0 / (effFLOAT)fontTexture->GetImageInfo().height;
+			
+
+
+		buff[4].x = x + glyphInfo.xoffset - 0.5f;
+		buff[4].y = y - glyphInfo.yoffset + glyphHeight - 0.5f;
+		buff[4].u = (effFLOAT)glyphInfo.x0 / (effFLOAT)fontTexture->GetImageInfo().width;
+		buff[4].v = (effFLOAT)glyphInfo.y1 / (effFLOAT)fontTexture->GetImageInfo().height;
+
+
+		buff[5].x = x + glyphInfo.xoffset + glyphWidth - 0.5f;
+		buff[5].y = y - glyphInfo.yoffset + glyphHeight - 0.5f;
+		buff[5].u = (effFLOAT)glyphInfo.x1 / (effFLOAT)fontTexture->GetImageInfo().width;
+		buff[5].v = (effFLOAT)glyphInfo.y1 / (effFLOAT)fontTexture->GetImageInfo().height;
+
+		x += glyphInfo.width;
+
+
+
+
+		device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, buff, sizeof(QuadVertex));
+	}
 
 	return effTRUE;
 }
@@ -80,6 +153,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 		return effFALSE;
 	}
 
+	effBYTE * currentGlyphBuffer = glyphBuffer;
 
 	EFF3DLOCKED_RECT rc;
 	memset(&rc, 0, sizeof(EFF3DLOCKED_RECT));
@@ -93,11 +167,9 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 		effINT newTextureWidth = textureWidth;
 		effINT newTextureHeight = textureHeight;
 
-
-
 		while ( newFontCount > maxFontCount )
 		{
-			//朝左扩展
+			//朝右扩展
 			if ( newTextureWidth == newTextureHeight )
 			{
 				newTextureWidth *= 2;
@@ -162,13 +234,20 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 
 
-	for ( effINT i = fontCount; i < newFontCount; i++ )
+	for ( effUINT i = 0; i < unloadedCodePoints.size(); i++ )
 	{
 		//x超出空白区域
-		if ( currentX >= blankAreaX + blankAreaWidth )
+		if ( currentX + fontSize > blankAreaX + blankAreaWidth )
 		{
+
+			//换行
+			if ( currentY + 2 * fontSize <= blankAreaY + blankAreaHeight )
+			{
+				currentX = blankAreaX;
+				currentY += fontSize;
+			}
 			//切换空白区域
-			if ( currentY + fontSize >= blankAreaY + blankAreaHeight )
+			else
 			{
 				//空白区域朝左扩展，如果非空白区域的宽已经是高的2倍，优先朝下扩展
 				if ( blankAreaX + blankAreaWidth < textureWidth && (blankAreaX + blankAreaWidth) == (blankAreaY + blankAreaHeight) )
@@ -192,22 +271,17 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 				currentX = blankAreaX;
 				currentY = blankAreaY;
 			}
-			//换行
-			else
-			{
-				currentX = blankAreaX;
-				currentY += fontSize;
-			}
+
 		}
 
 		for ( effINT j = 0; j < fontSize; j++ )
 		{
-			memcpy(((effBYTE *)rc.pBits) + currentX + rc.Pitch * (currentY + j), glyphBuffer + j * fontSize, fontSize);
+			memcpy(((effBYTE *)rc.pBits) + currentX + rc.Pitch * (currentY + j), currentGlyphBuffer + j * fontSize, fontSize);
 		}
 
-		glyphBuffer += fontSize * fontSize;
+		currentGlyphBuffer += fontSize * fontSize;
 
-		EFF3DFontGlyphInfo & glyphInfo = glyphsInfo[unloadedCodePoints[i - fontCount]];
+		EFF3DFontGlyphInfo & glyphInfo = glyphsInfo[unloadedCodePoints[i]];
 		glyphInfo.x0 += currentX;
 		glyphInfo.x1 += currentX;
 		glyphInfo.y0 += currentY;
@@ -218,6 +292,8 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 	fontCount = newFontCount;
 	fontTexture->UnlockRect(0);
+
+	SFT_DELETE(glyphBuffer);
 
 
 	return effTRUE;
@@ -241,6 +317,7 @@ EFF3DFont * EFF3DFontManager::CreateFromFile(const effString & fontFilePath, eff
 	EFF3DFont * font = EFFNEW EFF3DFont();
 	font->fontSize = fontSize;
 	font->fontFilePath = fontFilePath;
+	font->fontManager = this;
 	font->maxFontCount = (font->textureWidth / fontSize) * (font->textureWidth / fontSize);
 	fonts.push_back(font);
 
@@ -299,16 +376,18 @@ effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT 
 
 		FT_Bitmap & bitmap = face->glyph->bitmap;
 
-		for ( effINT j = 0; j < bitmap.rows; j++ )
+		effINT fontWidth = min(bitmap.width, fontSize);
+		effINT fontHeight = min(bitmap.rows, fontSize);
+		for ( effINT j = 0; j < fontHeight; j++ )
 		{
-			memcpy(currentGlyphBuffer + j * fontSize, bitmap.buffer + j * bitmap.pitch, min(bitmap.width, fontSize));
+			memcpy(currentGlyphBuffer + j * fontSize, bitmap.buffer + j * bitmap.pitch, fontWidth);
 		}
 		currentGlyphBuffer += fontSize * fontSize;
 
 		EFF3DFontGlyphInfo * glyphInfo = &glyphsInfo[codePoints[i]];
 
-		glyphInfo->x1 = min(bitmap.width, fontSize);
-		glyphInfo->y1 = bitmap.rows;
+		glyphInfo->x1 = fontWidth;
+		glyphInfo->y1 = fontHeight;
 		glyphInfo->xoffset = face->glyph->bitmap_left;
 		glyphInfo->yoffset = face->glyph->bitmap_top;
 		glyphInfo->width = (effBYTE)(face->glyph->advance.x / 64);

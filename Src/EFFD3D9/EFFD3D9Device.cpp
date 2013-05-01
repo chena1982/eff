@@ -161,6 +161,7 @@ EFFD3D9Device::EFFD3D9Device()
 {
 	D3D9 = NULL;       
 	D3D9Device = NULL;
+	cgContext = NULL;
 }
 
 EFFD3D9Device::~EFFD3D9Device()

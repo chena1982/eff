@@ -966,6 +966,31 @@ struct EFF3DIMAGE_INFO
 	effBOOL discard;
 	effULONG textureHandle;
 	effUINT textureLevel;
+
+	EFF3DIMAGE_INFO()
+	{
+		width = 0;
+		height = 0;
+		depth = 0;
+		mipLevels = 0;
+		format = EFF3DFMT_UNKNOWN;
+		resourceType = EFF3DRTYPE_FORCE_DWORD;
+		imageFileFormat = EFF3DXIFF_FORCE_DWORD;
+
+		usage = 0;
+		pool = EFF3DPOOL_FORCE_DWORD;
+		filter = 0;
+		mipFilter = 0;
+		colorKey = 0;
+		surfaceType = Normal_Surface;
+		depthStencil = effFALSE;
+		depthStencilFormat = EFF3DFMT_UNKNOWN;
+		multiSample = EFF3DMULTISAMPLE_NONE;
+		multisampleQuality = 0;
+		discard = effTRUE;
+		textureHandle = NULL;
+		textureLevel = 0;
+	}
 };
 
 

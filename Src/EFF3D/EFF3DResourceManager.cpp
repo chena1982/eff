@@ -22,6 +22,9 @@ RTTI_IMPLEMENT_NO_SAVE(EFF3DResourceManager, 0)
 
 EFF3DResourceManager::EFF3DResourceManager()
 {
+	memoryUsed = 0;
+	videoMemoryUsed = 0;
+	AGPMemroyUsed = 0;
 }
 
 EFF3DResourceManager::~EFF3DResourceManager()

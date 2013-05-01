@@ -26,12 +26,12 @@ public:
 
 	~EFF3DFontGlyphInfo() {}
 public:
-	effINT16 x0;		//字在贴图上的左上角坐标
+	effINT16 x0;		//字在贴图上的左上角x坐标
 	effINT16 y0;
-	effINT16 x1;		//字在贴图上的右下角坐标
+	effINT16 x1;		//字在贴图上的右下角x坐标
 	effINT16 y1;
-	effBYTE xoffset;
-	effBYTE yoffset;
+	effCHAR xoffset;
+	effCHAR yoffset;
 	effBYTE width;		//字的宽度，包含字与字之间的间隔
 	effBYTE height;		//字的高度，包含字与字之间的间隔
 };
@@ -47,7 +47,7 @@ protected:
 	~EFF3DFont();
 public:
 
-	effBOOL DrawText(const effString & text);
+	effBOOL DrawText(const effString & text, effINT & x, effINT & y);
 
 protected:
 	effBOOL AddCodePointsToTexture(const effString & text);
