@@ -42,8 +42,12 @@ EFF3DFont::EFF3DFont()
 
 EFF3DFont::~EFF3DFont()
 {
+	fontManager = NULL;
+	SF_RELEASE(fontTexture);
 }
 
+//maybe need a optimize that render all glyph once time, but all top window have a cache buffer, 
+//so need accord to test result to determine whether it needs to be optimized
 effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y)
 {
 	AddCodePointsToTexture(text);
@@ -67,18 +71,27 @@ effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y)
 	device->SetSamplerState(0, EFF3DSAMP_MINFILTER, EFF3DTEXF_POINT);
 	device->SetSamplerState(0, EFF3DSAMP_MAGFILTER, EFF3DTEXF_POINT);
 
+	//don't worry about redundant state change, EFF3DDevice will process it
+
 	effUINT fvf = QuadVertex::fvf;
 	device->SetFVF(fvf);
 
 	for ( effUINT i = 0; i < text.size(); i++ )
 	{
+		//text[i] is a ucs-2 character, so don't need check text[i] value
 		EFF3DFontGlyphInfo & glyphInfo = glyphsInfo[text[i]];
 
-
+		//glyph bitmap don't loaded
+		if ( glyphInfo.y1 == 0 )
+		{
+			continue;
+		}
 
 
 		effINT16 glyphWidth = glyphInfo.x1 - glyphInfo.x0;
 		effINT16 glyphHeight = glyphInfo.y1 - glyphInfo.y0;
+
+		//all x, y coordinate -0.5f, to Directly Mapping Texels to Pixels
 
 		QuadVertex buff[6];
 		memset(buff, 0, sizeof(buff));
@@ -134,9 +147,10 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 	std::vector<effWCHAR> unloadedCodePoints;
 	for ( effUINT i = 0; i < text.size(); i++ )
 	{
+		//text[i] is a ucs-2 character, so don't need check text[i] value
 		if ( glyphsInfo[text[i]].x1 == 0 )
 		{
-			//随便给个值，去掉text中重复的字符
+			//set x1 to 1, so text[i] won't repeated add to unloadedCodePoints
 			glyphsInfo[text[i]].x1 = 1;
 			unloadedCodePoints.push_back(text[i]);
 		}
@@ -147,11 +161,14 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 		return effTRUE;
 	}
 
-	effBYTE * glyphBuffer = fontManager->LoadFromFile(fontFilePath, fontSize, unloadedCodePoints, glyphsInfo);
+	effBYTE * glyphBuffer = fontManager->LoadGlyphBitmapFromFile(fontFilePath, fontSize, unloadedCodePoints, glyphsInfo);
 	if ( glyphBuffer == NULL )
 	{
 		return effFALSE;
 	}
+
+	//delete glyph buffer when function end
+	ON_SCOPE_EXIT([&] { SFT_DELETE(glyphBuffer); })
 
 	effBYTE * currentGlyphBuffer = glyphBuffer;
 
@@ -169,12 +186,12 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 		while ( newFontCount > maxFontCount )
 		{
-			//朝右扩展
+			//if texture width equal to texture height, extend texture width to 2 * width
 			if ( newTextureWidth == newTextureHeight )
 			{
 				newTextureWidth *= 2;
 			}
-			//朝下扩展
+			//extend texture height to 2 * height
 			else
 			{
 				newTextureHeight *= 2;
@@ -236,27 +253,27 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 	for ( effUINT i = 0; i < unloadedCodePoints.size(); i++ )
 	{
-		//x超出空白区域
+		//x exceed blank area
 		if ( currentX + fontSize > blankAreaX + blankAreaWidth )
 		{
 
-			//换行
+			//go to next line
 			if ( currentY + 2 * fontSize <= blankAreaY + blankAreaHeight )
 			{
 				currentX = blankAreaX;
 				currentY += fontSize;
 			}
-			//切换空白区域
+			//go to next blank area
 			else
 			{
-				//空白区域朝左扩展，如果非空白区域的宽已经是高的2倍，优先朝下扩展
+				//go to right blank area
 				if ( blankAreaX + blankAreaWidth < textureWidth && (blankAreaX + blankAreaWidth) == (blankAreaY + blankAreaHeight) )
 				{
 					blankAreaX += blankAreaWidth;
 					blankAreaY = 0;
 					blankAreaHeight = blankAreaWidth;
 				}
-				//空白区域朝下扩展
+				//go to bottom blank area
 				else if ( blankAreaY + blankAreaHeight < textureHeight )
 				{
 					blankAreaX = 0;
@@ -293,9 +310,6 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 	fontCount = newFontCount;
 	fontTexture->UnlockRect(0);
 
-	SFT_DELETE(glyphBuffer);
-
-
 	return effTRUE;
 }
 
@@ -310,10 +324,21 @@ EFF3DFontManager::EFF3DFontManager()
 
 EFF3DFontManager::~EFF3DFontManager()
 {
+	FT_Done_FreeType(library);
 }
 
 EFF3DFont * EFF3DFontManager::CreateFromFile(const effString & fontFilePath, effINT fontSize)
 {
+	for ( effUINT i = 0; i < fonts.size(); i++ )
+	{
+		EFF3DFont * font = fonts[i];
+		if ( font->fontFilePath == fontFilePath && font->fontSize == fontSize )
+		{
+			return fonts[i];
+		}
+	}
+
+
 	EFF3DFont * font = EFFNEW EFF3DFont();
 	font->fontSize = fontSize;
 	font->fontFilePath = fontFilePath;
@@ -324,7 +349,20 @@ EFF3DFont * EFF3DFontManager::CreateFromFile(const effString & fontFilePath, eff
 	return font;
 }
 
-effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo)
+effVOID	EFF3DFontManager::ReleaseFont(EFF3DFont * font)
+{
+	for ( effUINT i = 0; i < fonts.size(); i++ )
+	{
+		if ( fonts[i] == font )
+		{
+			fonts.erase(fonts.begin() + i);
+			SF_DELETE(font);
+			break;
+		}
+	}
+}
+
+effBYTE * EFF3DFontManager::LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo)
 {
 
 	FILE * fp;
@@ -332,7 +370,7 @@ effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT 
 
 	if ( !fp )
 	{
-		return effFALSE;
+		return NULL;
 	}
 
 	fseek(fp, 0, SEEK_END);
@@ -340,20 +378,28 @@ effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT 
 	fseek(fp, 0, SEEK_SET);
 	
 	effBYTE * ttfBuffer = (effBYTE *)EFFNEW effBYTE[size]; 
-	if ( ttfBuffer == NULL )
-	{
-		fclose(fp);
-		return NULL;
-	}
-	
+	//delete glyph buffer when function end
+	ON_SCOPE_EXIT([&] { SFT_DELETE(ttfBuffer); })
+
 	fread(ttfBuffer, 1, size, fp);
 	fclose(fp);
-	fp = 0;
+	fp = NULL;
 
 	FT_Face face;
 	FT_Error error = FT_New_Memory_Face(library, ttfBuffer, size, 0, &face);
+	if ( error == FT_Err_Unknown_File_Format )
+	{
+		EFFLOG("the font file could be opened and read, but it appears that its font format is unsupported");
+		return NULL;
+	}
+	else if ( error )
+	{
+		EFFLOG("another error code means that the font file could not be opened or read, or simply that it is broken");
+		return NULL;
+	}
 
-
+	ON_SCOPE_EXIT([&] { FT_Done_Face(face); })
+		
 	error = FT_Set_Pixel_Sizes(face, 0, fontSize);
 
 
@@ -366,11 +412,19 @@ effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT 
 	for ( effUINT i = 0; i < codePoints.size(); i++ )
 	{
 		effUINT glyphIndex = FT_Get_Char_Index(face, codePoints[i]);
-		FT_Load_Glyph(face, glyphIndex, FT_LOAD_DEFAULT);
+		error = FT_Load_Glyph(face, glyphIndex, FT_LOAD_DEFAULT);
+		if ( error )
+		{
+			continue;
+		}
 
 		if ( face->glyph->format != FT_GLYPH_FORMAT_BITMAP )
 		{
-			FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
+			error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
+			if ( error )
+			{
+				continue;
+			}
 		}
 
 
@@ -384,6 +438,7 @@ effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT 
 		}
 		currentGlyphBuffer += fontSize * fontSize;
 
+		//codePoints[i] is a ucs-2 character, so don't need check codePoints[i] value
 		EFF3DFontGlyphInfo * glyphInfo = &glyphsInfo[codePoints[i]];
 
 		glyphInfo->x1 = fontWidth;
@@ -402,8 +457,6 @@ effBYTE * EFF3DFontManager::LoadFromFile(const effString & fontFilePath, effINT 
 		}
 
 	}
-
-	SFT_DELETE(ttfBuffer);
 
 	return glyphBuffer;
 }

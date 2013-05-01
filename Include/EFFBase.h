@@ -35,6 +35,7 @@
 #include ".\EFFBase\EFFNetClient.h"
 #include ".\EFFBase\EFFNetServer.h"
 //#include ".\EFFBase\EFFGameObject.h"
+#include ".\EFFBase\EFFScopeGuard.h"
 
 
 

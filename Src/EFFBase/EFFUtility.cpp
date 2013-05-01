@@ -38,24 +38,6 @@ const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
 }
 
 
-ScopeGuard::ScopeGuard(std::function<effVOID ()> onExitScope)
-{
-	onExitScope_ = onExitScope;
-	dismissed_ = effFALSE;
-}
-
-ScopeGuard::~ScopeGuard()
-{
-    if ( !dismissed_ )
-    {
-        onExitScope_();
-    }
-}
-
-effVOID ScopeGuard::Dismiss()
-{
-    dismissed_ = effTRUE;
-}
 
 effString GetPODTypeClassName(const effCHAR * propertyTypeName)
 {

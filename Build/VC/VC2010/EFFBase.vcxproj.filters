@@ -91,6 +91,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\dllmain.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFScopeGuard.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFFBase\stdafx.h">
@@ -173,6 +176,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFScopeGuard.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

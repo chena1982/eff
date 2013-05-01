@@ -168,6 +168,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFRttiApi.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFScopeGuard.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFSTLRttiWrap.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -218,6 +221,7 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFProperty.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFReflection.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFRttiApi.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFScopeGuard.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFSTLRttiWrap.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFStringHash.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFUtility.h" />

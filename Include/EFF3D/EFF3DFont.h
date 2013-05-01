@@ -26,14 +26,14 @@ public:
 
 	~EFF3DFontGlyphInfo() {}
 public:
-	effINT16 x0;		//字在贴图上的左上角x坐标
+	effINT16 x0;		//glyph left top x coordinate in texture
 	effINT16 y0;
-	effINT16 x1;		//字在贴图上的右下角x坐标
+	effINT16 x1;		//glyph right bottom x coordinate in texture
 	effINT16 y1;
-	effCHAR xoffset;
+	effCHAR xoffset;	//glyph render offset
 	effCHAR yoffset;
-	effBYTE width;		//字的宽度，包含字与字之间的间隔
-	effBYTE height;		//字的高度，包含字与字之间的间隔
+	effBYTE width;		//glyph width, contains the interval between words
+	effBYTE height;		
 };
 
 class EFF3DFontManager;
@@ -55,7 +55,7 @@ protected:
 	effString			fontName;
 	effString			fontFilePath;
 	effINT				fontSize;
-	EFF3DFontGlyphInfo	glyphsInfo[0xffff];
+	EFF3DFontGlyphInfo	glyphsInfo[0x10000];
 	EFF3DFontManager *	fontManager;
 	EFF3DTexture *		fontTexture;
 	effINT				fontCount;
@@ -82,8 +82,9 @@ public:
 
 public:
 	EFF3DFont *	CreateFromFile(const effString & fontFilePath, effINT fontSize);
+	effVOID		ReleaseFont(EFF3DFont * font);
 protected:
-	effBYTE *	LoadFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo);
+	effBYTE *	LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo);
 
 protected:
 	std::vector<EFF3DFont *>	fonts;
