@@ -15,6 +15,7 @@
 #include "EFF3DShader.h"
 #include "EFF3DDevice.h"
 #include "EFF3DObject.h"
+#include "EFF3DFont.h"
 
 //#define new EFFNEW
 
@@ -132,6 +133,11 @@ effVOID EFF3DDevice::Init()
 	InitProperty();
 
 	SetRenderState(EFF3DRS_LIGHTING, effFALSE);
+
+
+	fontManager = EFFNEW EFF3DFontManager();
+	fontManager->CreateFromFile(_effT("Font\\simsun.ttc"), 12);
+	//fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 12);
 }
 
 effVOID EFF3DDevice::InitProperty()

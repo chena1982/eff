@@ -11,6 +11,7 @@
 #include "EFF3DImgui.h"
 #include "EFF3DDevice.h"
 #include "EFF3DTexture.h"
+#include "EFF3DFont.h"
 
 EFF3D_BEGIN
 
@@ -397,11 +398,6 @@ static effFLOAT getTextLength(stbtt_bakedchar *chardata, const WCHAR* text)
 
 static effVOID drawText(effFLOAT x, effFLOAT y, const effWCHAR * text, effINT align, effUINT col)
 {
-	if ( fontTexture == NULL )
-	{
-		return;
-	}
-
 	if (!text) return;
 	
 	if (align == IMGUI_ALIGN_CENTER)
@@ -414,105 +410,17 @@ static effVOID drawText(effFLOAT x, effFLOAT y, const effWCHAR * text, effINT al
 	//imguiRGBA(col, col, col, col);
 
 	EFF3DDevice * device = GetDevice();
-	device->SetTexture(0, fontTexture);
-	
-	// assume orthographic projection with units = screen pixels, origin at top left
-	//glBindTexture(GL_TEXTURE_2D, g_ftex);
+	//EFF3DFont * font = device->GetFontManager()->GetFont(L"Î¢ÈíÑÅºÚ");
+	EFF3DFont * font = device->GetFontManager()->GetFont(L"ËÎÌå");
 
-	
-	const effFLOAT ox = x;
-	
-	while (*text)
+	if ( font == NULL )
 	{
-		effWCHAR c = *text;
-		if ( c == _effT('\t') )
-		{
-			for (effINT i = 0; i < 4; ++i)
-			{
-				if (x < g_tabStops[i]+ox)
-				{
-					x = g_tabStops[i]+ox;
-					break;
-				}
-			}
-		}
-		else if (c >= 32 && c < 128)
-		{			
-			stbtt_aligned_quad q;
-			getBakedQuad(g_cdata, 512, 512, c-32, &x, &y, &q);
-
-
-			QuadVertex buff[6];
-			memset(buff, 0, sizeof(buff));
-			buff[0].x = q.x0 + 0.5f;
-			buff[0].y = q.y0 + 0.5f;
-			buff[0].u = q.s0;
-			buff[0].v = q.t0;
-
-			buff[1].x = q.x1 + 0.5f;
-			buff[1].y = q.y1 + 0.5f;
-			buff[1].u = q.s1;
-			buff[1].v = q.t1;
-
-			buff[2].x = q.x1 + 0.5f;
-			buff[2].y = q.y0 + 0.5f;
-			buff[2].u = q.s1;
-			buff[2].v = q.t0;
-
-
-			
-			//glTexCoord2f(q.s0, q.t0);
-			//glVertex2f(q.x0, q.y0);
-			//glTexCoord2f(q.s1, q.t1);
-			//glVertex2f(q.x1, q.y1);
-			//glTexCoord2f(q.s1, q.t0);
-			//glVertex2f(q.x1, q.y0);
-
-			buff[3].x = q.x0 + 0.5f;
-			buff[3].y = q.y0 + 0.5f;
-			buff[3].u = q.s0;
-			buff[3].v = q.t0;
-			
-
-
-			buff[4].x = q.x0 + 0.5f;
-			buff[4].y = q.y1 + 0.5f;
-			buff[4].u = q.s0;
-			buff[4].v = q.t1;
-
-
-			buff[5].x = q.x1 + 0.5f;
-			buff[5].y = q.y1 + 0.5f;
-			buff[5].u = q.s1;
-			buff[5].v = q.t1;
-
-			//glTexCoord2f(q.s0, q.t0);
-			//glVertex2f(q.x0, q.y0);
-			//glTexCoord2f(q.s0, q.t1);
-			//glVertex2f(q.x0, q.y1);
-			//glTexCoord2f(q.s1, q.t1);
-			//glVertex2f(q.x1, q.y1);
-
-
-			device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
-
-			device->SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
-			device->SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_CONSTANT);
-			device->SetTextureStageState(0, EFF3DTSS_CONSTANT, col);
-
-			device->SetTextureStageState(0, EFF3DTSS_ALPHAOP, EFF3DTOP_SELECTARG1);
-			device->SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TEXTURE);
-
-			device->SetSamplerState(0, EFF3DSAMP_MINFILTER, EFF3DTEXF_LINEAR);
-			device->SetSamplerState(0, EFF3DSAMP_MAGFILTER, EFF3DTEXF_LINEAR);
-
-			device->SetFVF(QuadVertex::fvf);
-
-			device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, buff, sizeof(QuadVertex));
-
-		}
-		++text;
+		return;
 	}
+	
+	effINT posX = (effINT)x;
+	effINT posY = (effINT)y;
+	font->DrawText(text, posX, posY, col);
 }
 
 

@@ -367,7 +367,7 @@ effBOOL imguiBeginScrollArea(const effWCHAR * name, effINT x, effINT y, effINT w
 
 	addGfxCmdRoundedRect((effFLOAT)x, (effFLOAT)y, (effFLOAT)w, (effFLOAT)h, 6, imguiRGBA(19,19,20,192));
 
-	addGfxCmdText(x+AREA_HEADER/2, y+h-AREA_HEADER/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, name, imguiRGBA(255,255,255,128));
+	addGfxCmdText(x+AREA_HEADER/2, y+TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, name, imguiRGBA(255,255,255,128));
 
 	addGfxCmdScissor(x+SCROLL_AREA_PADDING, y+SCROLL_AREA_PADDING, w-SCROLL_AREA_PADDING*4, h-AREA_HEADER-SCROLL_AREA_PADDING);
 
@@ -383,7 +383,7 @@ effVOID imguiEndScrollArea()
 	effINT x = g_scrollRight+SCROLL_AREA_PADDING/2;
 	effINT y = g_scrollBottom;
 	effINT w = SCROLL_AREA_PADDING*2;
-	effINT h = g_scrollTop - g_scrollBottom;
+	effINT h = g_scrollBottom - g_scrollTop;
 
 	effINT stop = g_scrollAreaTop;
 	effINT sbot = g_state.widgetY;

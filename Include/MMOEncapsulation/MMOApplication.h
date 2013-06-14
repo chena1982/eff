@@ -26,8 +26,13 @@ protected:
 	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height);
 	effVOID	Update();
 	effVOID Render(effFLOAT elapsedTime);
+
+
+public:
+	EFFEvent		OnRenderGUI;
 protected:
-	EFF3DDevice * device;
+	EFF3DDevice *	device;
+
 };
 
 

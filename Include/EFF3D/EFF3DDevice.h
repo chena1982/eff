@@ -21,6 +21,7 @@ class EFF3DResource;
 class EFF3DMaterial;
 class EFF3DShader;
 class EFF3DSceneManager;
+class EFF3DFontManager;
 
 class EFF3D_API EFF3DDevice
 {
@@ -101,7 +102,7 @@ public:
 public:
 	inline EFF3DImageManager *	GetImageManager() { return imageManager; }
 	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
-	
+	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
 
 
 	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
@@ -121,14 +122,15 @@ protected:
 private:
 
 	EFF3DImageManager *			imageManager;
-
+	EFF3DSceneManager *			sceneManager;
+	EFF3DFontManager *			fontManager;
 
 	//Awesomium::WebCore *		m_pWebCore;
 
 	effINT						width;
 	effINT						height;
 
-	EFF3DSceneManager *			sceneManager;
+
 
 };
 
@@ -146,6 +148,7 @@ struct QuadColoredVertex
 
 	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_DIFFUSE;
 };
+
 
 EFF3D_API EFF3DDevice * GetDevice();
 EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DFORMAT format);

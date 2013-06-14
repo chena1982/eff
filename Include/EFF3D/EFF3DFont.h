@@ -8,6 +8,10 @@
 #ifndef __EFF3DFont_2013_4_23__
 #define __EFF3DFont_2013_4_23__
 
+
+
+struct FT_FaceRec_;
+
 EFF3D_BEGIN
 
 
@@ -39,6 +43,7 @@ public:
 class EFF3DFontManager;
 class EFF3DTexture;
 
+
 class EFF3D_API EFF3DFont
 {
 	friend class EFF3DFontManager;
@@ -47,7 +52,7 @@ protected:
 	~EFF3DFont();
 public:
 
-	effBOOL DrawText(const effString & text, effINT & x, effINT & y);
+	effBOOL DrawText(const effString & text, effINT & x, effINT & y, effUINT color);
 
 protected:
 	effBOOL AddCodePointsToTexture(const effString & text);
@@ -80,14 +85,41 @@ public:
 	EFF3DFontManager();
 	~EFF3DFontManager();
 
+
 public:
-	EFF3DFont *	CreateFromFile(const effString & fontFilePath, effINT fontSize);
-	effVOID		ReleaseFont(EFF3DFont * font);
-protected:
-	effBYTE *	LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo);
+	EFF3DFont *		CreateFromFile(const effString & fontFilePath, effINT fontSize);
+	effVOID			ReleaseFont(EFF3DFont * font);
+	EFF3DFont *		GetFont(const effString & fontName);
 
 protected:
+	class FontFaceInfo
+	{
+	public:
+		FontFaceInfo()
+		{
+			face = NULL;
+			buffer = NULL;
+		};
+
+		FontFaceInfo(const FontFaceInfo & rhs)
+		{
+			fontFilePath = rhs.fontFilePath;
+			face = rhs.face;
+			buffer = rhs.buffer;
+			fontName = rhs.fontName;
+		}
+	public:
+		effString		fontFilePath;
+		FT_FaceRec_ *	face;
+		effBYTE *		buffer;
+		effString		fontName;
+	};
+protected:
+	effBYTE *		LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo);
+	FontFaceInfo *	GetFontFace(const effString & fontFilePath);
+protected:
 	std::vector<EFF3DFont *>	fonts;
+	std::vector<FontFaceInfo>	fontsFaceInfo;
 };
 
 

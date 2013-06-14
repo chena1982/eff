@@ -25,7 +25,13 @@ EFFEventCall(C * pDelegatee, R (C::*memberFunctionAddress)(__REPEAT(N, __TYPE_AR
 }
 
 
-
+#define __EFFEVENTCALL_FUNCTION__(N)\
+template <class R __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
+EFFEventCall(R (*functionAddress)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__)))\
+{\
+	m_pFunction = __callable_factory__<R>::create(functionAddress);\
+	m_pDelegatee = NULL;\
+}
 
 /*#define __EFFEVENTCALL_INVOKE__(N)\
 template <class C __REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __COMMA__)>\
@@ -79,6 +85,13 @@ void operator ()(C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const\
 template <__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
 void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
 {\
+	if ( m_pDelegatee == NULL )\
+	{\
+		typedef __callable##N##__<void __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> CallableType;\
+		CallableType * cb = (CallableType *)m_pFunction;\
+		cb->invoke(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
+	}\
+	else\
 	{\
 		typedef void (__delegatee__::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
 		effBYTE * pBaseAddress = (effBYTE *)m_pFunction;\
@@ -171,31 +184,33 @@ public:
 
 
 	__EFFEVENTCALL_MEMBER_FUNCTION__(1)
+	__EFFEVENTCALL_FUNCTION__(1)
 	__EFFEVENTCALL_INVOKE__(1)
 	__EFFEVENTCALL_MEMBER_FUNCTION__(2)
 	__EFFEVENTCALL_INVOKE__(2)
 	__EFFEVENTCALL_MEMBER_FUNCTION__(3)
-	//__EFFEVENTCALL_INVOKE__(3)
+	__EFFEVENTCALL_INVOKE__(3)
 
 
-// 	template<class C,typename T0,typename T1,typename T2>
-// 	void operator () (C * pC,T0 t0,T1 t1, T2 t2)
-// 	{
-// 		typedef __member_callable3__<void,C,T0,T1,T2> CallableType;
-//  		CallableType * cb = (CallableType *)(m_pFunction);
-// // 		cb->invoke(pC,t0,t1,t2);
-// 		cb->functionPtr(pC,t0,t1,t2);
-// 	}
-
-	template<typename T0,typename T1,typename T2>
-	void operator () (T0 t0,T1 t1, T2 t2)
+	/*template<typename T0>
+	void operator () (T0 t0)
 	{
-		typedef void (__delegatee__::*MethodType)(T0,T1,T2);
-		effBYTE * pBaseAddress = (effBYTE *)m_pFunction;
-		pBaseAddress += 8;
-		MethodType m = *(MethodType *)((effVOID *)pBaseAddress);
-		(m_pDelegatee->*m)(t0,t1,t2);
-	}
+		if ( m_pDelegatee == NULL )
+		{
+			typedef __callable1__<void, T0> CallableType;
+			CallableType * cb = (CallableType *)m_pFunction;
+			cb->invoke(t0);
+		}
+		else
+		{
+			typedef void (__delegatee__::*MethodType)(T0);
+			effBYTE * pBaseAddress = (effBYTE *)m_pFunction;
+			pBaseAddress += 8;
+			MethodType m = *(MethodType *)((effVOID *)pBaseAddress);
+			(m_pDelegatee->*m)(t0);
+		}
+	}*/
+
 
 	__callable__ *		m_pFunction;
 	__delegatee__ *		m_pDelegatee;

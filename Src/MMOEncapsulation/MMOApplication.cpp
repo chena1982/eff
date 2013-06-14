@@ -135,13 +135,7 @@ effBOOL MMOApplication::Init(effBOOL window, effINT width, effINT height)
 	camera->SetProjParams(PI * 0.5f, aspect, 1.0f, 500.0f);
 
 	//device->GetSceneManager();
-
 	imguiRenderInit(_effT("Font\\msyh.ttf"));
-
-	EFF3DFontManager * fontManager = EFFNEW EFF3DFontManager();
-	font = fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 16);
-
-	device->SetRenderState(EFF3DRS_LIGHTING, effFALSE);
 
 	return effTRUE;
 }
@@ -155,36 +149,11 @@ effVOID MMOApplication::Render(effFLOAT elapsedTime)
 {
 	static UINT color = 0xFF4c4c52;
 	//color += 10;
-	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_TARGET, color, 1.0f, 0);
+	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, color, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
-		EFFMatrix4 world;
-		device->SetTransform(EFF3DTS_WORLD, &world);
-		device->SetTransform(EFF3DTS_VIEW, &camera->GetViewMatirx());
-		device->SetTransform(EFF3DTS_PROJECTION, &camera->GetProjMatrix());
 
-		//terrain->Render(device);
-		/*imguiBeginFrame(0, 0, 0, 0);
-
-		effINT toolsScroll = 0;
-		imguiBeginScrollArea(_effT("Tools"), 0, 0, 300, 500, &toolsScroll);
-		imguiButton(L"");
-		imguiEndScrollArea();
-
-		imguiEndFrame();
-		imguiRenderDraw();*/
-
-		effINT x = 10;
-		effINT y = 100;
-		//font->DrawText(_effT("啊"));
-		//font->DrawText(_effT("阿甘正传"));
-		//font->DrawText(_effT("abcdefg"));
-		//font->DrawText(_effT("和谐社，我日啊啊啊啊啊，我晕，我操你妈那个逼,床前明月光，疑似地上霜，举头忘明月，低头思故乡"));
-		font->DrawText(_effT("靠你们"), x, y);
-
-		y += 20;
-		font->DrawText(_effT("这部分代码不多解释，只是显示位图数据，这里face->glyph->bitmap是没有调色板的1位位图，源于使用FT_RENDER_MODE_MONO渲染模式"), x, y);
-		//font->DrawText(_effT("简单的描述一下freetype的使用流程，更详细的函数说明及流程请参阅“freetype2开发入门”， 网上有此文档，感兴趣可以看看。"));
+		OnRenderGUI(elapsedTime);
 
 		device->EndScene();
 		device->Present(NULL, NULL);

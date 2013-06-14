@@ -125,7 +125,7 @@ public:\
 	__callable##N##__(FunctionPtrType m)\
 	{\
 		functionPtr = m;\
-		pInfo->m_strReturnTypeName = getClassNameFromTypeName(typeid(R).name());								/*得到返回值类型*/  \
+		info->returnType = GetParameterProperty<R>(_effT("")).parameterProperty;		/*得到返回值类型*/  \
 		__REPEAT(N,__ADD_METHOD_ARGS__,__SEMICOLON__,__NOTHING__);			/*得到参数类型*/  \
 	}\
 	R invoke(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
