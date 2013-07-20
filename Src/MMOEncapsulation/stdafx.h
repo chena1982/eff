@@ -16,13 +16,7 @@
 #include "resource.h"
 
 // TODO: reference additional headers your program requires here
-#include <yaml-cpp\yaml.h>
 
-#include "EFFBase.h"
-USE_EFFBASE
-
-#include "EFFMath.h"
-USE_EFFMATH
 
 #include "EFF3D.h"
 USE_EFF3D
