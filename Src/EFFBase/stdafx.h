@@ -25,8 +25,8 @@
 //如果要使用调试版的python26_d.lib，boost.python也需要使用python26_d.lib，这时需要定义BOOST_DEBUG_PYTHON，否则会链接到使用python26.lib的boost.python库
 //#include <boost/python/detail/wrap_python.hpp>
 
-#include <zmq.h>
-#include <json.h>
+#include <zeromq-3.2.0\include\zmq.h>
+#include <jsoncpp-src-0.5.0\include\json\json.h>
 #include <yaml-cpp\yaml.h>
 
 #include "EFFBaseDefines.h"

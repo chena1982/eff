@@ -40,9 +40,7 @@ class EFFBASE_API EFFObject : public EFFReferenceCount
 public:
 	virtual ~EFFObject();
 
-protected:
-	EFFObject();
-	void				SetID(effUINT id) { this->id = id; }
+
 public:
 	effUINT				GetID() { return id; }
 	EFFProperty *		GetProperty(const effString & name);
@@ -59,8 +57,22 @@ public:
 
 		return Property->GetValue(this, result);
 	}
+
+	effBOOL				AddChild(EFFObject * object);
+	effBOOL				RemoveChild(EFFObject * object);
+	EFFObject *			GetChild(effUINT index);
+	effUINT				GetChildrenCount() { return children.size(); }
+	EFFObject *			GetParent() { return parent; }
+
 protected:
-	effUINT				id;
+	EFFObject();
+	effVOID				SetID(effUINT id) { this->id = id; }
+	effVOID				DetachFromTree();
+
+protected:
+	effUINT						id;
+	std::vector<EFFObject *>	children;
+	EFFObject *					parent;
 };
 
 

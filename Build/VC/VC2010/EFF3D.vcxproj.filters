@@ -38,6 +38,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{2d2737c0-ae2b-4569-aba2-f250e50b8139}</UniqueIdentifier>
     </Filter>
+    <Filter Include="WebGUI">
+      <UniqueIdentifier>{e5fd8a6d-f51e-4f5c-ade8-74ed29202f83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Src\EFF3D\stdafx.cpp">
@@ -117,6 +120,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DFont.cpp">
       <Filter>底层渲染接口</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DInputManager.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DWebGui.cpp">
+      <Filter>WebGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +219,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DFont.h">
       <Filter>底层渲染接口</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DInputManager.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DWebGui.h">
+      <Filter>WebGUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

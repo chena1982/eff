@@ -20,18 +20,11 @@
 #include <Cg/cg.h>
 #include <Cg/cgD3D9.h>
 
-#include "d3d9.h"
-#include "d3dx9.h"
-
+#include <d3d9.h>
+#include <d3dx9.h>
 //#include <Python.h>
 //#include <boost/python/detail/wrap_python.hpp>
-#include <yaml-cpp\yaml.h>
 
-#include "EFFBase.h"
-USE_EFFBASE
-
-#include "EFFMath.h"
-USE_EFFMATH
 
 #include "EFF3D.h"
 USE_EFF3D

@@ -9,7 +9,17 @@
 #define __MMOApplication_2012_10_22__
 
 
+struct MuiltiProcessWndHandles
+{
+	MuiltiProcessWndHandles()
+	{
+		hWndMain = NULL;
+		hWndTab = NULL;
+	}
 
+    HWND hWndMain; 
+    HWND hWndTab;
+};
 
 
 class MMO_API MMOApplication
@@ -19,20 +29,25 @@ public:
 	~MMOApplication();
 
 public:
-	effBOOL Init(effBOOL window, effINT width, effINT height);
+	effBOOL Init(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host);
 	effVOID Run();
 
+	effVOID	SetBackGroundColor(effUINT color);
+
 protected:
-	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height);
+	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host);
 	effVOID	Update();
 	effVOID Render(effFLOAT elapsedTime);
 
-
+	effBOOL	CreateMemFile();
+	effVOID ReadHWNDFromMemFile();
 public:
-	EFFEvent		OnRenderGUI;
+	EFFEvent					OnRenderGUI;
 protected:
-	EFF3DDevice *	device;
-
+	EFF3DDevice *				device;
+	HANDLE						memFile;
+	MuiltiProcessWndHandles		mpwh;
+	effUINT						backGroundColor;
 };
 
 

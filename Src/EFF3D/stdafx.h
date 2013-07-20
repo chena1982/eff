@@ -22,14 +22,15 @@
 //#include <boost/python/detail/wrap_python.hpp>
 #include <il.h>
 
-#include "EFFBase.h"
+#include <EFFBase.h>
 USE_EFFBASE
 
-#include "EFFMath.h"
+#include <EFFMath.h>
 USE_EFFMATH
 //#include "WebCore.h"
 
 #include "EFF3DBaseDefines.h"
 #include "EFF3DObject.h"
 
+#include <wke/wke.h>
 

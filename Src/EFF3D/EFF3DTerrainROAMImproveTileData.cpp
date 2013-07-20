@@ -663,7 +663,7 @@ EFF3DVertexBuffer * EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT nLev
 
 	if ( m_pVB == NULL )
 	{
-		pDevice->CreateVertexBuffer(m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, EFF3DFVF_XYZ, EFF3DPOOL_MANAGED, &m_pVB);
+		pDevice->CreateVertexBuffer(m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, EFF3DFVF_XYZ, EFF3DPOOL_DEFAULT, &m_pVB);
 
 		effUINT offset = 0;
 		if ( nLevel > 0 )
@@ -708,7 +708,7 @@ EFF3DIndexBuffer * EFF3DTerrainROAMImproveTileData::GetIndexBuffer(effINT nLevel
 	if ( m_pIB[nLevel] == NULL )
 	{
 		effINT nSize = sizeof(effUINT16) * m_nIndicesNum[nLevel];
-		pDevice->CreateIndexBuffer(nSize, 0, EFF3DFMT_INDEX16, EFF3DPOOL_MANAGED, &m_pIB[nLevel]);
+		pDevice->CreateIndexBuffer(nSize, 0, EFF3DFMT_INDEX16, EFF3DPOOL_DEFAULT, &m_pIB[nLevel]);
 
 		effHRESULT hr;
 		effVOID * pData;

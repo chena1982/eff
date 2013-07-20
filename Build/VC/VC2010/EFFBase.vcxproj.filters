@@ -17,6 +17,12 @@
     <Filter Include="Utilities">
       <UniqueIdentifier>{6a26fd63-ccd3-4296-a3b2-993eef5257cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{18761f66-ebf0-44bf-b90d-ad4640cdbd43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Win">
+      <UniqueIdentifier>{dbf5b7c5-8955-4f14-bff2-69bd4cf6a99a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Src\EFFBase\stdafx.cpp">
@@ -93,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFScopeGuard.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFOSVersion.cpp">
+      <Filter>Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +189,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFScopeGuard.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFOSVersion.h">
+      <Filter>Platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

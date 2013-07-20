@@ -74,7 +74,7 @@ effVOID EFFD3D9Texture::CalculateSize()
 
 effBOOL EFFD3D9Texture::Reload()
 {
-	if ( m_ImageInfo.pool == EFF3DPOOL_MANAGED )
+	if ( m_ImageInfo.pool == EFF3DPOOL_DEFAULT )
 	{
 		return effTRUE;
 	}

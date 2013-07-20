@@ -56,15 +56,20 @@ public:
 
 protected:
 	effBOOL AddCodePointsToTexture(const effString & text);
+	effBOOL	CheckTextureSize(const std::vector<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLOCKED_RECT & rc);
 protected:
 	effString			fontName;
 	effString			fontFilePath;
 	effINT				fontSize;
+	effINT				fontLineSapcing;
+
 	EFF3DFontGlyphInfo	glyphsInfo[0x10000];
 	EFF3DFontManager *	fontManager;
 	EFF3DTexture *		fontTexture;
+
 	effINT				fontCount;
 	effINT				maxFontCount;
+
 	effINT				textureWidth;
 	effINT				textureHeight;
 
@@ -115,7 +120,7 @@ protected:
 		effString		fontName;
 	};
 protected:
-	effBYTE *		LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, std::vector<effWCHAR> codePoints, EFF3DFontGlyphInfo * glyphsInfo);
+	effBYTE *		LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, const std::vector<effWCHAR> & codePoints, EFF3DFontGlyphInfo * glyphsInfo, effINT & maxWidth);
 	FontFaceInfo *	GetFontFace(const effString & fontFilePath);
 protected:
 	std::vector<EFF3DFont *>	fonts;

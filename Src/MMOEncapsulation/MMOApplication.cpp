@@ -10,6 +10,7 @@
 #include "MMOApplication.h"
 
 #define MAX_LOADSTRING 100
+#define MEMFILE_SIZE 256
 
 HINSTANCE hInst;								// 当前实例
 HWND hWnd;
@@ -26,6 +27,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	int wmId, wmEvent;
 
 
+
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -33,6 +35,51 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		wmEvent = HIWORD(wParam);
 
 		return DefWindowProc(hWnd, message, wParam, lParam);
+		break;
+	case WM_MOUSEMOVE:
+		{
+			EFF3DDevice * device = EFF3DGetDevice();
+			if ( device != NULL )
+			{
+				EFF3DInputManager * inputManager = device->GetInputManager();
+				effINT xPos = GET_X_LPARAM(lParam); 
+				effINT yPos = GET_Y_LPARAM(lParam);
+				inputManager->SetPos(xPos, yPos);
+			}
+		}
+		break;
+	case WM_LBUTTONDOWN:
+		{
+			EFF3DDevice * device = EFF3DGetDevice();
+			if ( device != NULL )
+			{
+				EFF3DInputManager * inputManager = device->GetInputManager();
+				inputManager->SetLeftButtonDown(effTRUE);
+			}
+		}
+		break;
+	case WM_LBUTTONUP:
+		{
+			EFF3DDevice * device = EFF3DGetDevice();
+			if ( device != NULL )
+			{
+				EFF3DInputManager * inputManager = device->GetInputManager();
+				inputManager->SetLeftButtonDown(effFALSE);
+			}
+		}
+		break;
+	case WM_ACTIVATE:
+		{
+			EFF3DDevice * device = EFF3DGetDevice();
+			if ( device != NULL )
+			{
+				EFF3DInputManager * inputManager = device->GetInputManager();
+				if ( wParam == WA_INACTIVE )
+				{
+					inputManager->SetLeftButtonDown(effFALSE);
+				}
+			}
+		}
 		break;
 	case WM_DESTROY:
 		appExit = effTRUE;
@@ -64,44 +111,20 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassEx(&wcex);
 }
 
-effBOOL MMOApplication::CreateAppWindow(effBOOL window, effINT width, effINT height)
-{
-
-
-	hInst = GetModuleHandle(NULL);
-
-	_tcscpy_s(szWindowClass, _effT("EFF Application"));
-
-	MyRegisterClass(hInst);
-
-	RECT windowRect;
-	SetRect(&windowRect, 0, 0, width, height);
-	effUINT style = WS_OVERLAPPEDWINDOW;
-	AdjustWindowRect(&windowRect, style, FALSE);
-
-	hWnd = CreateWindow(szWindowClass, szTitle, style,
-		0, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, NULL, NULL, hInst, NULL);
-
-	if ( !hWnd )
-	{
-		return effFALSE;
-	}
-
-   ShowWindow(hWnd, SW_SHOW);
-   UpdateWindow(hWnd);
-
-	return effTRUE;
-}
 
 MMOApplication::MMOApplication()
 {
 	device = NULL;
+	memFile = NULL;
+	backGroundColor = 0xFF4c4c52;
 }
 
 MMOApplication::~MMOApplication()
 {
 	SF_RELEASE(device);
+    CloseHandle(memFile); 
 }
+
 
 EFF3DTerrain * terrain = NULL;
 EFF3DCamera * camera = NULL;
@@ -109,10 +132,9 @@ EFF3DCamera * camera = NULL;
 
 EFF3DFont * font = NULL;
 
-effBOOL MMOApplication::Init(effBOOL window, effINT width, effINT height)
+effBOOL MMOApplication::Init(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host)
 {
-
-	if ( !CreateAppWindow(window, width, height) )
+	if ( !CreateAppWindow(window, width, height, multiProcess, host) )
 	{
 		return effFALSE;
 	}
@@ -138,26 +160,6 @@ effBOOL MMOApplication::Init(effBOOL window, effINT width, effINT height)
 	imguiRenderInit(_effT("Font\\msyh.ttf"));
 
 	return effTRUE;
-}
-
-effVOID	MMOApplication::Update()
-{
-}
-
-
-effVOID MMOApplication::Render(effFLOAT elapsedTime)
-{
-	static UINT color = 0xFF4c4c52;
-	//color += 10;
-	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, color, 1.0f, 0);
-	if ( device->BeginScene() )
-	{
-
-		OnRenderGUI(elapsedTime);
-
-		device->EndScene();
-		device->Present(NULL, NULL);
-	}
 }
 
 
@@ -204,5 +206,148 @@ effVOID MMOApplication::Run()
 
 	return;
 }
+
+
+effVOID	MMOApplication::SetBackGroundColor(effUINT color)
+{
+	backGroundColor = color;
+}
+
+effBOOL MMOApplication::CreateAppWindow(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host)
+{
+	hInst = GetModuleHandle(NULL);
+
+	_tcscpy_s(szWindowClass, _effT("EFF Application"));
+
+	MyRegisterClass(hInst);
+
+	RECT windowRect;
+	SetRect(&windowRect, 0, 0, width, height);
+	effUINT style = 0;
+	effUINT exStyle = 0;
+
+	if ( multiProcess )
+	{
+		if ( host )
+		{
+			style = WS_OVERLAPPEDWINDOW;
+		}
+		else
+		{
+			effBOOL comp;
+			DwmIsCompositionEnabled(&comp);
+
+			if ( !comp )
+			{
+				UnregisterClass(szWindowClass, hInst);
+				return effFALSE;
+			}
+
+			style = WS_POPUP;
+			exStyle = WS_EX_COMPOSITED;
+		}
+	}
+	else
+	{
+		style = WS_OVERLAPPEDWINDOW;
+	}
+
+
+
+	AdjustWindowRect(&windowRect, style, FALSE);
+
+	hWnd = CreateWindowEx(exStyle, szWindowClass, szTitle, style,
+		0, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, NULL, NULL, hInst, NULL);
+
+	if ( !hWnd )
+	{
+		return effFALSE;
+	}
+
+	if ( multiProcess )
+	{
+		if ( host )
+		{
+			CreateMemFile();
+		}
+		else
+		{
+			ReadHWNDFromMemFile();
+			if ( mpwh.hWndMain != NULL )
+			{
+				//SetParent(hWnd, mpwh.hWndMain);
+			}
+
+			MARGINS mgDWMMargins = {-1, -1, -1, -1};
+			DwmExtendFrameIntoClientArea(hWnd, &mgDWMMargins);
+		}
+	}
+
+
+	ShowWindow(hWnd, SW_SHOW);
+	UpdateWindow(hWnd);
+
+
+	return effTRUE;
+}
+
+effBOOL MMOApplication::CreateMemFile()
+{
+    //创建一个内存镜像文件 
+    memFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, MEMFILE_SIZE, _effT("EFFEngine"));
+
+    if ( memFile == NULL )
+    {
+        return effFALSE; 
+    }
+
+    effVOID * address = MapViewOfFile(memFile, FILE_MAP_ALL_ACCESS, 0, 0, MEMFILE_SIZE);
+
+	mpwh.hWndMain = hWnd;
+    CopyMemory(address, &mpwh, sizeof(mpwh)); 
+    UnmapViewOfFile(address);
+
+	return effTRUE;
+}
+
+effVOID MMOApplication::ReadHWNDFromMemFile()
+{
+
+    //创建一个内存镜像文件 
+    memFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, MEMFILE_SIZE, _effT("EFFEngine"));
+
+    if ( memFile == NULL )
+    {
+        return; 
+    }
+
+    effVOID * address = MapViewOfFile(memFile, FILE_MAP_ALL_ACCESS, 0, 0, MEMFILE_SIZE);
+
+    CopyMemory(&mpwh, address, sizeof(mpwh)); 
+    UnmapViewOfFile(address); 
+}
+
+
+
+
+
+effVOID	MMOApplication::Update()
+{
+}
+
+
+effVOID MMOApplication::Render(effFLOAT elapsedTime)
+{
+	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, backGroundColor, 1.0f, 0);
+	if ( device->BeginScene() )
+	{
+		OnRenderGUI(elapsedTime);
+
+		device->EndScene();
+		device->Present(NULL, NULL);
+	}
+}
+
+
 
 

@@ -22,6 +22,7 @@ class EFF3DMaterial;
 class EFF3DShader;
 class EFF3DSceneManager;
 class EFF3DFontManager;
+class EFF3DInputManager;
 
 class EFF3D_API EFF3DDevice
 {
@@ -49,7 +50,7 @@ public:
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture) = 0;
 
-	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, EFF3DFORMAT format, effINT width, effINT height,
+	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,
 													effINT level, EFF3DTexture ** texture) = 0;
 
 	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
@@ -90,12 +91,15 @@ public:
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
+	virtual effBOOL				SetScissorRect(const RECT * rect) = 0; 
 
 
 	//下面是一些经过包装的方便使用的接口，这样使用引擎的人既可以快速方便的渲染一些东西，也可以使用上面的接口，以便于更细粒度的控制
 	//不至于像某些引擎全部包装好了，你必须按照它的模式写代码，想增加一些功能时想要更细粒度的控制却发现不可能
 
-	virtual effBOOL				DrawQuad(EFFRect * rect, effDWORD color, EFF3DMaterial * material);
+	virtual effBOOL				DrawQuad(EFFRect * rect, effDWORD color);
+	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL blend);
+	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTexture * texture);
 public:
 	virtual effVOID				Release() = 0;
 
@@ -103,7 +107,7 @@ public:
 	inline EFF3DImageManager *	GetImageManager() { return imageManager; }
 	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
-
+	inline EFF3DInputManager *	GetInputManager() { return inputManager; }
 
 	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
 	effVOID						SetBackBufferSize(effINT width,effINT weight);
@@ -124,7 +128,7 @@ private:
 	EFF3DImageManager *			imageManager;
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
-
+	EFF3DInputManager *			inputManager;
 	//Awesomium::WebCore *		m_pWebCore;
 
 	effINT						width;
@@ -150,7 +154,7 @@ struct QuadColoredVertex
 };
 
 
-EFF3D_API EFF3DDevice * GetDevice();
+EFF3D_API EFF3DDevice * EFF3DGetDevice();
 EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DFORMAT format);
 
 

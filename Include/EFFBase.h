@@ -14,42 +14,47 @@
 #include <vector>
 #include <iostream>
 
-#include <json.h>
+#include <zeromq-3.2.0\include\zmq.h>
+#include <jsoncpp-src-0.5.0\include\json\json.h>
+#include <yaml-cpp\yaml.h>
 
-#include ".\EFFBase\EFFBaseDefines.h"
-#include ".\EFFBase\EFFMemory.h"
-#include ".\EFFBase\EFFUtility.h"
-#include ".\EFFBase\EFFRtti.h"
-#include ".\EFFBase\EFFRttiApi.h"
-#include ".\EFFBase\EFFFile.h"
-#include ".\EFFBase\EFFSTLFile.h"
-#include ".\EFFBase\EFFObject.h"
-#include ".\EFFBase\EFFObjectManager.h"
-#include ".\EFFBase\EFFGlobal.h"
-#include ".\EFFBase\EFFComponent.h"
-#include ".\EFFBase\EFFIProxy.h"
-#include ".\EFFBase\EFFEvent.h"
-#include ".\EFFBase\Reflection4CppEnum.h"
-//#include ".\EFFBase\EFFThread.h"
-#include ".\EFFBase\EFFStringHash.h"
-#include ".\EFFBase\EFFNetClient.h"
-#include ".\EFFBase\EFFNetServer.h"
-//#include ".\EFFBase\EFFGameObject.h"
-#include ".\EFFBase\EFFScopeGuard.h"
-
+#include "EFFBase\EFFBaseDefines.h"
+#include "EFFBase\EFFMemory.h"
+#include "EFFBase\EFFUtility.h"
+#include "EFFBase\EFFRtti.h"
+#include "EFFBase\EFFRttiApi.h"
+#include "EFFBase\EFFFile.h"
+#include "EFFBase\EFFSTLFile.h"
+#include "EFFBase\EFFObject.h"
+#include "EFFBase\EFFObjectManager.h"
+#include "EFFBase\EFFGlobal.h"
+#include "EFFBase\EFFComponent.h"
+#include "EFFBase\EFFIProxy.h"
+#include "EFFBase\EFFEvent.h"
+#include "EFFBase\Reflection4CppEnum.h"
+//#include "EFFBase\EFFThread.h"
+#include "EFFBase\EFFStringHash.h"
+#include "EFFBase\EFFNetClient.h"
+#include "EFFBase\EFFNetServer.h"
+//#include "EFFBase\EFFGameObject.h"
+#include "EFFBase\EFFScopeGuard.h"
+#include "EFFBase\EFFOSVersion.h"
 
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
-		#pragma comment(lib,"EFFBaseUD.lib")
+		#pragma comment(lib, "EFFBaseUD.lib")
+		#pragma comment(lib, "libzmq_d.lib")
+		#pragma comment(lib, "libyaml-cppmdd.lib")
+		#pragma comment(lib, "lib_json.lib")
 	#else
-		#pragma comment(lib,"EFFBaseU.lib")
+		#pragma comment(lib, "EFFBaseU.lib")
 	#endif
 #else
 	#if _DEBUG 
-		#pragma comment(lib,"EFFBaseD.lib")
+		#pragma comment(lib, "EFFBaseD.lib")
 	#else
-		#pragma comment(lib,"EFFBase.lib")
+		#pragma comment(lib, "EFFBase.lib")
 	#endif
 #endif
 

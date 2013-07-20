@@ -26,7 +26,7 @@ public:
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture);
 
-	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, EFF3DFORMAT format, effINT width, effINT height,
+	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,
 													effINT level, EFF3DTexture ** texture);
 
 	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
@@ -67,21 +67,22 @@ public:
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil);
 
 	virtual effBOOL				SetShader(EFF3DShader * shader);
+	virtual effBOOL				SetScissorRect(const RECT * rect); 
 public:
 	virtual effVOID				Release();
 
 public:
-	LPDIRECT3D9 &				GetD3D9() { return D3D9; }
-	effVOID						SetD3D9(LPDIRECT3D9 D3D9) { this->D3D9 = D3D9; } 
-	LPDIRECT3DDEVICE9 &			GetD3D9Device() { return D3D9Device; }
+	LPDIRECT3D9EX &				GetD3D9() { return D3D9; }
+	effVOID						SetD3D9(LPDIRECT3D9EX D3D9) { this->D3D9 = D3D9; } 
+	LPDIRECT3DDEVICE9EX &		GetD3D9Device() { return D3D9Device; }
 	effVOID						SetCGContex(CGcontext cgContext) { this->cgContext = cgContext; }
 	CGcontext					GetCGContex() { return cgContext; }
 
 protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType);
 protected:
-	LPDIRECT3D9					D3D9;       
-	LPDIRECT3DDEVICE9			D3D9Device;
+	LPDIRECT3D9EX				D3D9;       
+	LPDIRECT3DDEVICE9EX			D3D9Device;
 	CGcontext					cgContext;
 };
 

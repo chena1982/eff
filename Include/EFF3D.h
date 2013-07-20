@@ -12,6 +12,16 @@
 //#include <Python.h>
 //#include "WebCore.h"
 
+
+
+#include <EFFBase.h>
+USE_EFFBASE
+
+#include <EFFMath.h>
+USE_EFFMATH
+
+#include <wke/wke.h>
+
 #include "EFF3D/EFF3DBaseDefines.h"
 #include "EFF3D/EFF3DObject.h"
 #include "EFF3D/EFF3DDevice.h"
@@ -31,6 +41,8 @@
 #include "EFF3D/EFF3DImgui.h"
 #include "EFF3D/EFF3DImguiRender.h"
 #include "EFF3D/EFF3DFont.h"
+#include "EFF3D/EFF3DInputManager.h"
+#include "EFF3D/EFF3DWebGui.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 
@@ -51,6 +63,12 @@
 #else
 #	pragma comment(lib,"Awesomium.lib")
 #endif*/
+
+#if defined _DEBUG
+#	pragma comment(lib,"wke.lib")
+#else
+#	pragma comment(lib,"wke.lib")
+#endif
 
 #endif
 

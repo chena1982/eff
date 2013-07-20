@@ -16,6 +16,7 @@
 #include "EFF3DDevice.h"
 #include "EFF3DObject.h"
 #include "EFF3DFont.h"
+#include "EFF3DInputManager.h"
 
 //#define new EFFNEW
 
@@ -23,7 +24,7 @@ EFF3D_BEGIN
 
 static EFF3DDevice * device = NULL;
 
-EFF3DDevice * GetDevice()
+EFF3DDevice * EFF3DGetDevice()
 {
 	return device;
 }
@@ -120,6 +121,9 @@ EFF3DDevice::~EFF3DDevice()
 
 	SF_DELETE(imageManager);
 	SF_DELETE(sceneManager);
+
+	SF_DELETE(fontManager);
+	SF_DELETE(inputManager);
 	//SF_DELETE(m_pWebCore);
 }
 
@@ -136,8 +140,10 @@ effVOID EFF3DDevice::Init()
 
 
 	fontManager = EFFNEW EFF3DFontManager();
-	fontManager->CreateFromFile(_effT("Font\\simsun.ttc"), 12);
-	//fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 12);
+	fontManager->CreateFromFile(_effT("Font\\simsun.ttc"), 16);
+	//fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 16);
+
+	inputManager = EFFNEW EFF3DInputManager();
 }
 
 effVOID EFF3DDevice::InitProperty()
@@ -166,15 +172,15 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 		quadRect = *rect;
 	}
 
-	vertices[0].x = (effFLOAT)quadRect.left + 0.5f;
-	vertices[0].y = (effFLOAT)quadRect.top + 0.5f;
+	vertices[0].x = (effFLOAT)quadRect.left - 0.5f;
+	vertices[0].y = (effFLOAT)quadRect.top - 0.5f;
 	vertices[0].z = 0.0f;
 	vertices[0].rhw = 1.0f;
 	vertices[0].u = 0.0f;
 	vertices[0].v = 0.0f;
 
 	vertices[1].x = (effFLOAT)quadRect.right - 0.5f;
-	vertices[1].y = (effFLOAT)quadRect.top + 0.5f;
+	vertices[1].y = (effFLOAT)quadRect.top - 0.5f;
 	vertices[1].z = 0.0f;
 	vertices[1].rhw = 1.0f;
 	vertices[1].u = 1.0f;
@@ -191,7 +197,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	vertices[4] = vertices[2];
 
 
-	vertices[5].x = (effFLOAT)quadRect.left + 0.5f;
+	vertices[5].x = (effFLOAT)quadRect.left - 0.5f;
 	vertices[5].y = (effFLOAT)quadRect.bottom - 0.5f;
 	vertices[5].z = 0.0f;
 	vertices[5].rhw = 1.0f;
@@ -202,33 +208,60 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	return DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, vertices, sizeof(QuadVertex));
 }
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color, EFF3DMaterial * material)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 {
-	//SetTexture(0, texture);
-	effHRESULT hr;
+	SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
+	SetRenderState(EFF3DRS_TEXTUREFACTOR, color);
 
+	SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
+	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);
 
-	if ( material != NULL )
+	effHRESULT hr = DrawQuad(rect);
+	return SUCCEEDED(hr);
+}
+
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL blend)
+{
+	if ( blend )
 	{
-		EFF3DShader * shader = material->GetShader();
+		SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
+		SetRenderState(EFF3DRS_SRCBLEND, EFF3DBLEND_SRCALPHA);
+		SetRenderState(EFF3DRS_DESTBLEND, EFF3DBLEND_INVSRCALPHA);
 
-		if ( shader != NULL )
-		{
-			//shader->UpdateAutoParametersPerShader(this, autoParamDataSource);
-			hr = DrawQuad(rect);
-		}
+		SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
+		SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TEXTURE);
+
+		SetTextureStageState(0, EFF3DTSS_ALPHAOP, EFF3DTOP_SELECTARG1);
+		SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TEXTURE);
 	}
 	else
 	{
-		SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
-		SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_CONSTANT);
-		SetTextureStageState(0, EFF3DTSS_CONSTANT, color);
-
-		SetRenderState(EFF3DRS_AMBIENT, color);
-
-		hr = DrawQuad(rect);
+		SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
 	}
 
+	SetTexture(0, texture);
+	effHRESULT hr = DrawQuad(rect);
+	return SUCCEEDED(hr);
+}
+
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTexture * texture)
+{
+	if ( material == NULL )
+	{
+		return effFALSE;
+	}
+
+	EFF3DShader * shader = material->GetShader();
+
+	if ( shader == NULL )
+	{
+		return effFALSE;
+	}
+
+	effHRESULT hr;
+	SetTexture(0, texture);
+	//shader->UpdateAutoParametersPerShader(this, autoParamDataSource);
+	hr = DrawQuad(rect);
 	return SUCCEEDED(hr);
 }
 

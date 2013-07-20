@@ -19,8 +19,8 @@ EFF3D_BEGIN
 
 EFF3DSceneManager::EFF3DSceneManager()
 {
-	BOOST_ASSERT(GetDevice() != NULL);
-	asyncLoader = EFFNEW EFF3DAsyncLoader(GetDevice(), 1);
+	BOOST_ASSERT(EFF3DGetDevice() != NULL);
+	asyncLoader = EFFNEW EFF3DAsyncLoader(EFF3DGetDevice(), 1);
 
 	renderQueue = EFFNEW EFF3DRenderQueue();
 

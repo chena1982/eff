@@ -38,7 +38,7 @@ effVOID EFFReferenceCount::Release()
 EFFObject::EFFObject()
 {
 	id = 0;
-
+	parent = NULL;
 }
 
 EFFObject::~EFFObject()
@@ -52,16 +52,77 @@ EFFObject::~EFFObject()
 EFFProperty * EFFObject::GetProperty(const effString & propertyName)
 {
 	EFFClass * objectClass = GetRuntimeClass();
-	auto prperties = objectClass->GetProperties();
-	for ( effUINT i = 0; i < prperties.size(); i++ )
+	auto properties = objectClass->GetProperties();
+	for ( effUINT i = 0; i < properties.size(); i++ )
 	{
-		if ( prperties[i]->GetNameHash() == EFFStringHash(propertyName) )
+		if ( properties[i]->GetNameHash() == EFFStringHash(propertyName) )
 		{
-			return prperties[i];
+			return properties[i];
 		}
 	}
 
 	return NULL;
+}
+
+
+effBOOL	EFFObject::AddChild(EFFObject * object)
+{
+	if ( object == NULL )
+	{
+		return effFALSE;
+	}
+
+	for ( effUINT i = 0; i < children.size(); i++ )
+	{
+		if ( children[i] == object )
+		{
+			return effFALSE;
+		}
+	}
+
+	if ( object->parent != NULL )
+	{
+		object->DetachFromTree();
+	}
+
+	children.push_back(object);
+	return effTRUE;
+}
+
+effBOOL	EFFObject::RemoveChild(EFFObject * object)
+{
+	auto it = children.begin();
+	for ( ; it != children.end(); it++ )
+	{
+		if ( *it == object )
+		{
+			children.erase(it);
+			return effTRUE;
+		}
+	}
+
+	return effFALSE;
+}
+
+EFFObject *	EFFObject::GetChild(effUINT index)
+{
+	if ( index >= children.size() )
+	{
+		return NULL;
+	}
+
+	return children[index];
+}
+
+
+effVOID	EFFObject::DetachFromTree()
+{
+	if ( parent != NULL )
+	{
+		parent->RemoveChild(this);
+	}
+
+	parent = NULL;
 }
 
 EFFBASE_END

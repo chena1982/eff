@@ -16,6 +16,7 @@ EFF3D_BEGIN
 static const effINT TEXT_POOL_SIZE = 8000;
 static effWCHAR g_textPool[TEXT_POOL_SIZE];
 static effINT g_textPoolSize = 0;
+static const effINT OBJECT_COUNT  = 10000;	
 
 static const effWCHAR * allocText(const effWCHAR * text)
 {
@@ -155,8 +156,9 @@ struct GuiState
 		mx(-1), my(-1), scroll(0),
 		active(0), hot(0), hotToBe(0), isHot(effFALSE), isActive(effFALSE), wentActive(effFALSE),
 		dragX(0), dragY(0), dragOrig(0), widgetX(0), widgetY(0), widgetW(100),
-		insideCurrentScroll(effFALSE),  areaId(0), widgetId(0)
+		insideCurrentScroll(effFALSE),  areaId(0), widgetId(0), treeDepth(-1)
 	{
+		memset(treeNodeChecked, 0, sizeof(effBOOL) * OBJECT_COUNT);
 	}
 
 	effBOOL left;
@@ -176,6 +178,9 @@ struct GuiState
 	
 	effUINT areaId;
 	effUINT widgetId;
+
+	effINT	treeDepth;
+	effBOOL	treeNodeChecked[OBJECT_COUNT];
 };
 
 static GuiState g_state;
@@ -271,9 +276,9 @@ static effBOOL buttonLogic(effUINT id, effBOOL over)
 	return res;
 }
 
-static effVOID updateInput(effINT mx, effINT my, effBYTE mbut, effINT scroll)
+static effVOID updateInput(effINT mx, effINT my, effBOOL leftButtonDown, effINT scroll)
 {
-	effBOOL left = (mbut & IMGUI_MBUT_LEFT) != 0;
+	effBOOL left = leftButtonDown;
 
 	g_state.mx = mx;
 	g_state.my = my;
@@ -284,7 +289,7 @@ static effVOID updateInput(effINT mx, effINT my, effBYTE mbut, effINT scroll)
 	g_state.scroll = scroll;
 }
 
-effVOID imguiBeginFrame(effINT mx, effINT my, effBYTE mbut, effINT scroll)
+effVOID imguiBeginFrame(effINT mx, effINT my, effBOOL mbut, effINT scroll)
 {
 	updateInput(mx,my,mbut,scroll);
 
@@ -326,11 +331,12 @@ static const effINT BUTTON_HEIGHT = 20;
 static const effINT SLIDER_HEIGHT = 20;
 static const effINT SLIDER_MARKER_WIDTH = 10;
 static const effINT CHECK_SIZE = 8;
-static const effINT DEFAULT_SPACING = 4;
-static const effINT TEXT_HEIGHT = 8;
+static const effINT DEFAULT_SPACING = 0;
+static const effINT TEXT_HEIGHT = 16;
 static const effINT SCROLL_AREA_PADDING = 6;
 static const effINT INDENT_SIZE = 16;
 static const effINT AREA_HEADER = 28;
+static const effINT	TREE_INDENT = 20;
 
 static effINT g_scrollTop = 0;
 static effINT g_scrollBottom = 0;
@@ -381,11 +387,11 @@ effVOID imguiEndScrollArea()
 
 	// Draw scroll bar
 	effINT x = g_scrollRight+SCROLL_AREA_PADDING/2;
-	effINT y = g_scrollBottom;
+	effINT y = g_scrollTop;
 	effINT w = SCROLL_AREA_PADDING*2;
 	effINT h = g_scrollBottom - g_scrollTop;
 
-	effINT stop = g_scrollAreaTop;
+	effINT stop = g_scrollBottom;
 	effINT sbot = g_state.widgetY;
 	effINT sh = stop - sbot; // The scrollable area height.
 
@@ -393,7 +399,7 @@ effVOID imguiEndScrollArea()
 	
 	if ( barHeight < 1 )
 	{
-		effFLOAT barY = (effFLOAT)(y - sbot)/(effFLOAT)sh;
+		effFLOAT barY = (effFLOAT)(sbot - y)/(effFLOAT)sh;
 		if (barY < 0) barY = 0;
 		if (barY > 1) barY = 1;
 		
@@ -458,16 +464,18 @@ effBOOL imguiButton(const effWCHAR * text, effBOOL enabled)
 	effUINT id = (g_state.areaId<<16) | g_state.widgetId;
 	
 	effINT x = g_state.widgetX;
-	effINT y = g_state.widgetY + BUTTON_HEIGHT;
-	effINT w = g_state.widgetW;
+	effINT y = g_state.widgetY;
+	//effINT w = g_state.widgetW;
+	effINT w = 100;
 	effINT h = BUTTON_HEIGHT;
 	g_state.widgetY += BUTTON_HEIGHT + DEFAULT_SPACING;
 
 	effBOOL over = enabled && inRect(x, y, w, h);
 	effBOOL res = buttonLogic(id, over);
 
-	//addGfxCmdRoundedRect((effFLOAT)x, (effFLOAT)y, (effFLOAT)w, (effFLOAT)h, (effFLOAT)BUTTON_HEIGHT/2-1, imguiRGBA(128,128,128, isActive(id)?196:96));
-	addGfxCmdRect((effFLOAT)x, (effFLOAT)y, (effFLOAT)w, (effFLOAT)h, imguiRGBA(128,128,128, isActive(id)?196:96));
+	addGfxCmdRoundedRect((effFLOAT)x, (effFLOAT)y, (effFLOAT)w, (effFLOAT)h, (effFLOAT)BUTTON_HEIGHT/2-1, imguiRGBA(128,128,128, isActive(id)?196:96));
+	//addGfxCmdRoundedRect((effFLOAT)x, (effFLOAT)y, (effFLOAT)w, (effFLOAT)h, 6.0f, imguiRGBA(60,60,60, isActive(id)?196:96));
+	//addGfxCmdRect((effFLOAT)x, (effFLOAT)y, (effFLOAT)w, (effFLOAT)h, imguiRGBA(128,128,128, isActive(id)?196:96));
 
 	if ( enabled )
 	{
@@ -518,10 +526,10 @@ effBOOL imguiCheck(const effWCHAR * text, effBOOL checked, effBOOL enabled)
 	effUINT id = (g_state.areaId<<16) | g_state.widgetId;
 	
 	effINT x = g_state.widgetX;
-	effINT y = g_state.widgetY - BUTTON_HEIGHT;
+	effINT y = g_state.widgetY;
 	effINT w = g_state.widgetW;
 	effINT h = BUTTON_HEIGHT;
-	g_state.widgetY -= BUTTON_HEIGHT + DEFAULT_SPACING;
+	g_state.widgetY += BUTTON_HEIGHT + DEFAULT_SPACING;
 
 	effBOOL over = enabled && inRect(x, y, w, h);
 	effBOOL res = buttonLogic(id, over);
@@ -541,13 +549,17 @@ effBOOL imguiCheck(const effWCHAR * text, effBOOL checked, effBOOL enabled)
 		}
 	}
 
-	if ( enabled )
+
+	if ( text != NULL )
 	{
-		addGfxCmdText(x+BUTTON_HEIGHT, y+BUTTON_HEIGHT/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, text, isHot(id) ? imguiRGBA(255,196,0,255) : imguiRGBA(255,255,255,200));
-	}
-	else
-	{
-		addGfxCmdText(x+BUTTON_HEIGHT, y+BUTTON_HEIGHT/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, text, imguiRGBA(128,128,128,200));
+		if ( enabled )
+		{
+			addGfxCmdText(x+BUTTON_HEIGHT, y+BUTTON_HEIGHT/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, text, isHot(id) ? imguiRGBA(255,196,0,255) : imguiRGBA(255,255,255,200));
+		}
+		else
+		{
+			addGfxCmdText(x+BUTTON_HEIGHT, y+BUTTON_HEIGHT/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, text, imguiRGBA(128,128,128,200));
+		}
 	}
 
 	return res;
@@ -688,6 +700,58 @@ effBOOL imguiSlider(const effWCHAR * text, effFLOAT* val, effFLOAT vmin, effFLOA
 	return res || valChanged;
 }
 
+effBOOL imguiTree(EFF3DObject * object, effBOOL enabled)
+{
+	g_state.widgetId++;
+	effUINT id = (g_state.areaId<<16) | g_state.widgetId;
+
+	g_state.treeDepth++;
+
+	effString name;
+	object->GetPropertyValue(_effT("name"), name);
+	
+	effUINT childrenCount = object->GetChildrenCount();
+	effINT indent = TREE_INDENT * g_state.treeDepth;
+
+	if ( childrenCount != 0 )
+	{
+		indent += 20;
+		effBOOL checked = g_state.treeNodeChecked[object->GetID()];
+		if ( imguiCheck(name.c_str(), checked, enabled) )
+		{
+			g_state.treeNodeChecked[object->GetID()] = !g_state.treeNodeChecked[object->GetID()];
+		}
+	}
+	else
+	{
+		if ( enabled )
+		{
+			addGfxCmdText(g_state.widgetX + indent, g_state.widgetY, IMGUI_ALIGN_LEFT, name.c_str(), isHot(id) ? imguiRGBA(255,196,0,255) : imguiRGBA(255,255,255,200));
+		}
+		else
+		{
+			addGfxCmdText(g_state.widgetX + indent, g_state.widgetY, IMGUI_ALIGN_LEFT, name.c_str(), imguiRGBA(128,128,128,200));
+		}
+
+
+		g_state.widgetY += 20;
+	}
+
+	if ( g_state.treeNodeChecked[object->GetID()] )
+	{
+
+		for ( effUINT i = 0; i < childrenCount; i++ )
+		{
+			EFF3DObject * child = (EFF3DObject *)object->GetChild(i);
+			imguiTree(child, enabled);
+		}
+	}
+
+	g_state.treeDepth--;
+
+
+	return effTRUE;
+}
 
 effVOID imguiIndent()
 {

@@ -54,6 +54,25 @@ inline effUINT RGBA(effBYTE r, effBYTE g, effBYTE b, effBYTE a)
 	return (r) | (g << 8) | (b << 16) | (a << 24);
 }
 
+
+static effVOID drawRect(effFLOAT x, effFLOAT y, effFLOAT w, effFLOAT h, effFLOAT fth, effUINT col)
+{
+
+
+	/*effFLOAT verts[4*4] =
+	{
+		x+0.5f, y+0.5f, 0.0f, 0.0f,
+		x+w-0.5f, y+0.5f, 0.0f, 0.0f,
+		x+w-0.5f, y+h-0.5f, 0.0f, 0.0f,
+		x+0.5f, y+h-0.5f, 0.0f, 0.0f,
+	};*/
+
+	EFF3DDevice * device = EFF3DGetDevice();
+
+	EFFRect rect(x, y, w, h);
+	device->DrawQuad(&rect, col);
+}
+
 static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r, effUINT col)
 {
 	if (numCoords > TEMP_COORD_COUNT) numCoords = TEMP_COORD_COUNT;
@@ -96,7 +115,7 @@ static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r,
 	}
 	
 	effUINT colTrans = RGBA(col&0xff, (col>>8)&0xff, (col>>16)&0xff, 0);
-	
+	//effUINT colTrans = col;
 
 	QuadColoredVertex * temp = EFFNEW QuadColoredVertex[numCoords * 6];
 	memset(temp, 0, sizeof(QuadColoredVertex) * numCoords * 6);
@@ -128,7 +147,7 @@ static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r,
 	}
 
 
-	EFF3DDevice * device = GetDevice();
+	EFF3DDevice * device = EFF3DGetDevice();
 
 	device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
 	device->SetRenderState(EFF3DRS_SRCBLEND, EFF3DBLEND_SRCALPHA);
@@ -139,11 +158,16 @@ static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r,
 	device->SetTextureStageState(0, EFF3DTSS_ALPHAOP, EFF3DTOP_SELECTARG1);
 	device->SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_DIFFUSE);
 	device->SetFVF(QuadColoredVertex::fvf);
+
+	//QuadColoredVertex * buffer = temp + 12;
+	//device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, buffer, sizeof(QuadColoredVertex));
+
 	device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, numCoords * 2, temp, sizeof(QuadColoredVertex));
 
-	device->SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
-	device->SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_CONSTANT);
-	device->SetTextureStageState(0, EFF3DTSS_CONSTANT, col);
+	device->SetRenderState(EFF3DRS_TEXTUREFACTOR, col);
+	device->SetTextureStageState(0, EFF3DTSS_COLORARG1,	EFF3DTA_TFACTOR);
+	device->SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TFACTOR);
+
 	device->SetFVF(EFF3DFVF_XYZRHW);
 	device->DrawPrimitiveUP(EFF3DPT_TRIANGLEFAN, numCoords - 2, coords, sizeof(effFLOAT) * 4);
 
@@ -152,23 +176,7 @@ static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r,
 
 }
 
-static effVOID drawRect(effFLOAT x, effFLOAT y, effFLOAT w, effFLOAT h, effFLOAT fth, effUINT col)
-{
 
-
-	/*effFLOAT verts[4*4] =
-	{
-		x+0.5f, y+0.5f, 0.0f, 0.0f,
-		x+w-0.5f, y+0.5f, 0.0f, 0.0f,
-		x+w-0.5f, y+h-0.5f, 0.0f, 0.0f,
-		x+0.5f, y+h-0.5f, 0.0f, 0.0f,
-	};*/
-
-	EFF3DDevice * device = GetDevice();
-
-	EFFRect rect(x, y, w, h);
-	device->DrawQuad(&rect, col, NULL);
-}
 
 /*
 static effVOID drawEllipse(effFLOAT x, effFLOAT y, effFLOAT w, effFLOAT h, effFLOAT fth, unsigned effINT col)
@@ -278,6 +286,7 @@ effBOOL imguiRenderInit(const effTCHAR * fontpath)
 	for (effINT i = 0; i < CIRCLE_VERTS; ++i)
 	{
 		effFLOAT a = (effFLOAT)i / (effFLOAT)CIRCLE_VERTS * PI * 2;
+
 		g_circleVerts[i*2 + 0] = cosf(a);
 		g_circleVerts[i*2 + 1] = sinf(a);
 	}
@@ -323,8 +332,8 @@ effBOOL imguiRenderInit(const effTCHAR * fontpath)
 
 	stbtt_BakeFontBitmap(ttfBuffer, 0, 15.0f, bmap, 512, 512, 32, 96, g_cdata);
 	
-	EFF3DDevice * device = GetDevice();
-	device->CreateTextureFromMemory(bmap, 512 * 512, EFF3DFMT_A8, 512, 512, 1, &fontTexture);
+	EFF3DDevice * device = EFF3DGetDevice();
+	device->CreateTextureFromMemory(bmap, 512 * 512, EFF3DUSAGE_DYNAMIC, EFF3DFMT_A8, 512, 512, 1, &fontTexture);
 	//device->CreateTextureFromMemory(bitmap, width * height, EFF3DFMT_A8, width, height, 1, &fontTexture);
 
 
@@ -409,7 +418,7 @@ static effVOID drawText(effFLOAT x, effFLOAT y, const effWCHAR * text, effINT al
 
 	//imguiRGBA(col, col, col, col);
 
-	EFF3DDevice * device = GetDevice();
+	EFF3DDevice * device = EFF3DGetDevice();
 	//EFF3DFont * font = device->GetFontManager()->GetFont(L"Î¢ÈíÑÅºÚ");
 	EFF3DFont * font = device->GetFontManager()->GetFont(L"ËÎÌå");
 
@@ -431,7 +440,9 @@ effVOID imguiRenderDraw()
 
 	const effFLOAT s = 1.0f/8.0f;
 
-	//glDisable(GL_SCISSOR_TEST);
+	EFF3DDevice * device = EFF3DGetDevice();
+	device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
+
 	for (effINT i = 0; i < nq; ++i)
 	{
 		const imguiGfxCmd& cmd = q[i];
@@ -485,16 +496,23 @@ effVOID imguiRenderDraw()
 		{
 			if (cmd.flags)
 			{
-				//glEnable(GL_SCISSOR_TEST);
-				//glScissor(cmd.rect.x, cmd.rect.y, cmd.rect.w, cmd.rect.h);
+				device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effTRUE);
+				RECT rc;
+				rc.left = cmd.rect.x;
+				rc.top = cmd.rect.y;
+				rc.right = cmd.rect.x + cmd.rect.w;
+				rc.bottom = cmd.rect.y + cmd.rect.h;
+				device->SetScissorRect(&rc);
 			}
 			else
 			{
-				//glDisable(GL_SCISSOR_TEST);
+				device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
 			}
 		}
 	}
-	//glDisable(GL_SCISSOR_TEST);
+
+
+	device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
 }
 
 

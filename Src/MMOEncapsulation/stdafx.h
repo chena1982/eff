@@ -11,6 +11,7 @@
 // Windows Header Files:
 #include <windows.h>
 #include <tchar.h>
+#include <Windowsx.h>
 
 #include "resource.h"
 
@@ -25,5 +26,7 @@ USE_EFFMATH
 
 #include "EFF3D.h"
 USE_EFF3D
+
+#include <dwmapi.h>
 
 #include "MMOEncapsulationBaseDefines.h"

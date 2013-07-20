@@ -8,7 +8,7 @@
 #ifndef __MMOEncapsulationBaseDefines_2012_10_22__
 #define __MMOEncapsulationBaseDefines_2012_10_22__
 
-
+#pragma comment (lib, "dwmapi.lib")
 
 #ifndef MMOENCAPSULATION_EXPORTS
 	#ifndef _EFFLIB

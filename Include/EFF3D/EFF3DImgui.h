@@ -28,7 +28,7 @@ inline effUINT imguiRGBA(effBYTE r, effBYTE g, effBYTE b, effBYTE a=255)
 	return (r) | (g << 8) | (b << 16) | (a << 24);
 }
 
-EFF3D_API effVOID imguiBeginFrame(effINT mx, effINT my, effBYTE mbut, effINT scroll);
+EFF3D_API effVOID imguiBeginFrame(effINT mx, effINT my, effBOOL leftButtonDown, effINT scroll);
 EFF3D_API effVOID imguiEndFrame();
 
 EFF3D_API effBOOL imguiBeginScrollArea(const effWCHAR * name, effINT x, effINT y, effINT w, effINT h, effINT* scroll);
@@ -46,11 +46,13 @@ effBOOL imguiCollapse(const effWCHAR * text, const effCHAR * subtext, effBOOL ch
 effVOID imguiLabel(const effWCHAR * text);
 effVOID imguiValue(const effWCHAR * text);
 effBOOL imguiSlider(const effWCHAR * text, effFLOAT* val, effFLOAT vmin, effFLOAT vmax, effFLOAT vinc, effBOOL enabled = effTRUE);
+EFF3D_API effBOOL imguiTree(EFF3DObject * object, effBOOL enabled = effTRUE);
 
-effVOID imguiDrawText(effINT x, effINT y, effINT align, const effWCHAR * text, effUINT color);
+EFF3D_API effVOID imguiDrawText(effINT x, effINT y, effINT align, const effWCHAR * text, effUINT color);
 effVOID imguiDrawLine(effFLOAT x0, effFLOAT y0, effFLOAT x1, effFLOAT y1, effFLOAT r, effUINT color);
 effVOID imguiDrawRoundedRect(effFLOAT x, effFLOAT y, effFLOAT w, effFLOAT h, effFLOAT r, effUINT color);
 effVOID imguiDrawRect(effFLOAT x, effFLOAT y, effFLOAT w, effFLOAT h, effUINT color);
+effVOID imguiDrawTree(effFLOAT x, effFLOAT y, effFLOAT w, effFLOAT h, effUINT color);
 
 // Pull render interface.
 enum imguiGfxCmdType

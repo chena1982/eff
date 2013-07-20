@@ -21,14 +21,29 @@
 effVOID InitWindow(effINT width, effINT height, D3DPRESENT_PARAMETERS *d3dpp, effBOOL enableAA, effUINT depthStencilFormat)  
 {
 	d3dpp->Windowed = TRUE;
-	d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp->BackBufferFormat = D3DFMT_UNKNOWN;
+
+	if ( GetOSVersion() == Win7 )
+	{
+		d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
+		//d3dpp->SwapEffect = D3DSWAPEFFECT_OVERLAY;
+		//d3dpp->SwapEffect = D3DSWAPEFFECT_FLIPEX;
+		//d3dpp->BackBufferCount = 2;
+	}
+	else
+	{
+		d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
+	}
+
+	d3dpp->BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp->BackBufferWidth = width;
 	d3dpp->BackBufferHeight = height;
 	d3dpp->AutoDepthStencilFormat = (D3DFORMAT)depthStencilFormat;
-	if( enableAA )
+
+
+
+	if ( enableAA )
 	{
-		d3dpp->MultiSampleType = D3DMULTISAMPLE_2_SAMPLES;
+		//d3dpp->MultiSampleType = D3DMULTISAMPLE_2_SAMPLES;
 	}
 
 	d3dpp->EnableAutoDepthStencil = TRUE;
@@ -39,14 +54,15 @@ effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dp
 {
 
 	d3dpp->Windowed = effFALSE;
-	d3dpp->BackBufferCount = 1;
+	d3dpp->BackBufferCount = 2;
 	d3dpp->BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp->BackBufferWidth = width;
 	d3dpp->BackBufferHeight = height;
 	d3dpp->hDeviceWindow = hWnd;
+
 	d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-	d3dpp->AutoDepthStencilFormat = D3DFMT_D16;
+	d3dpp->AutoDepthStencilFormat = (D3DFORMAT)EFF3DFMT_D24S8;
 	d3dpp->EnableAutoDepthStencil = TRUE;
 }
 
@@ -54,8 +70,8 @@ effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dp
 effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height)
 {
 
-	LPDIRECT3D9 D3D;
-	if ( (D3D = Direct3DCreate9(D3D_SDK_VERSION)) == NULL )
+	LPDIRECT3D9EX D3D;
+	if ( FAILED(Direct3DCreate9Ex(D3D_SDK_VERSION, &D3D)) )
 	{
 		return effFALSE;
 	}
@@ -108,18 +124,17 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 	}
 
 
-
-	if( !window )
+	if ( !window )
 	{
 		InitFullScreen(width, height, &d3dpp, hWnd);
 
 
-		if( FAILED(D3D->CreateDevice(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, &D3DDevice->GetD3D9Device())) )
+		if ( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
 		{
 			d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 
 			//如果创建D3DFMT_X8R8G8B8缓冲模式失败，试试D3DFMT_X1R5G5B5模式
-			if( FAILED(D3D->CreateDevice(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, &D3DDevice->GetD3D9Device())) )
+			if( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
 			{
 				SF_RELEASE(D3DDevice);
 				return effFALSE;
@@ -130,7 +145,7 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 	{
 		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)EFF3DFMT_D24S8);
 
-		if( FAILED(D3D->CreateDevice(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, &D3DDevice->GetD3D9Device())) )
+		if( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
 		{
 			SF_RELEASE(D3DDevice);
 			return effFALSE;
@@ -143,6 +158,7 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 		SF_RELEASE(D3DDevice);
 		return effFALSE;
 	};
+
 	D3DSURFACE_DESC backBufferDesc;
 	backBuffer->GetDesc(&backBufferDesc);
 	D3DDevice->SetBackBufferSize(backBufferDesc.Width, backBufferDesc.Height);
@@ -191,7 +207,7 @@ effBOOL EFFD3D9Device::Clear(effUINT count, const EFFRect * rects, effUINT flags
 
 effBOOL EFFD3D9Device::Present(const EFFRect * sourceRect, const EFFRect * destRect)
 {
-	return SUCCEEDED(D3D9Device->Present((const RECT *)sourceRect, (const RECT *)destRect, NULL, NULL));
+	return SUCCEEDED(D3D9Device->PresentEx((const RECT *)sourceRect, (const RECT *)destRect, NULL, NULL, 0));
 }
 
 effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
@@ -383,7 +399,7 @@ effBOOL	EFFD3D9Device::CreateTextureFromFile(const effString & filePath, EFF3DTe
 	return effTRUE;	
 }
 
-effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, EFF3DFORMAT format, effINT width, effINT height,
+effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,
 											   effINT level, EFF3DTexture ** texture)
 {
 	assert(texture != NULL);
@@ -396,7 +412,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
 
 	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
-	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, (D3DFORMAT)format, (D3DPOOL)EFF3DPOOL_MANAGED, &effD3D9Texture->texture, NULL)) )
+	if ( FAILED(D3D9Device->CreateTexture(width, height, level, usage, (D3DFORMAT)format, (D3DPOOL)EFF3DPOOL_DEFAULT, &effD3D9Texture->texture, NULL)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
@@ -427,7 +443,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 	effD3D9Texture->m_ImageInfo.height = height;
 	effD3D9Texture->m_ImageInfo.usage = 0;
 	effD3D9Texture->m_ImageInfo.format = format;
-	effD3D9Texture->m_ImageInfo.pool = EFF3DPOOL_MANAGED;
+	effD3D9Texture->m_ImageInfo.pool = EFF3DPOOL_DEFAULT;
 	effD3D9Texture->m_ImageInfo.resourceType = EFF3DRTYPE_TEXTURE;
 
 
@@ -627,6 +643,11 @@ effBOOL EFFD3D9Device::SetShader(EFF3DShader * shader)
 	cgD3D9BindProgram(effD3D9Shader->GetPixelShader());
 
 	return effTRUE;
+}
+
+effBOOL EFFD3D9Device::SetScissorRect(const RECT * rect)
+{
+	return SUCCEEDED(D3D9Device->SetScissorRect(rect));
 }
 
 effVOID EFFD3D9Device::Release()

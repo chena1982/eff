@@ -20,7 +20,7 @@ EFF3DImageManager::EFF3DImageManager()
 {
 	//OnCreateFromFile += EFFEventCall(this, &EFF3DImageManager::CreateFromFileImpl);
 
-
+	device = NULL;
 
 	//EFF3DResource * pR = NULL;
 	//effString s = _effT("ChenA");

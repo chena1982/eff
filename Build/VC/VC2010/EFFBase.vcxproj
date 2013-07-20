@@ -67,7 +67,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\jsoncpp-src-0.5.0\include\json;..\..\..\Lib\zeromq-3.2.0\include;..\..\..\Lib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib;..\..\..\Lib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEBUG;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -82,9 +82,9 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>dbghelp.lib;lib_json.lib;Ws2_32.lib;libzmq_d.lib;libyaml-cppmdd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dbghelp.lib;Ws2_32.lib;libzmq_d.lib;libyaml-cppmdd.lib;lib_json.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\jsoncpp-src-0.5.0\build\vs71\debug\lib_json;..\..\..\Lib\zeromq-3.2.0\lib\Win32;..\..\..\Lib\yaml-cpp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\Lib\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>false</GenerateMapFile>
@@ -159,6 +159,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFNetServer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFOSVersion.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFProperty.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -218,6 +221,7 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFNetClient.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFNetServer.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFOSVersion.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFProperty.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFReflection.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFRttiApi.h" />

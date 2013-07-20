@@ -19,3 +19,5 @@
 /Tools/EFFEditor/*.suo
 ipch
 /Build/VC/VC2010/*.suo
+debug
+obj
