@@ -16,11 +16,11 @@
 // TODO: 在此处引用程序需要的其他头文件
 
 
-#include <yaml-cpp\yaml.h>
 
 //#include <Python.h>
 //#include <boost/python/detail/wrap_python.hpp>
-#include <il.h>
+
+
 
 #include <EFFBase.h>
 USE_EFFBASE
@@ -29,8 +29,11 @@ USE_EFFBASE
 USE_EFFMATH
 //#include "WebCore.h"
 
+#include <DevIL\include\IL\il.h>
+#include <wke\wke.h>
+
 #include "EFF3DBaseDefines.h"
 #include "EFF3DObject.h"
 
-#include <wke/wke.h>
+
 

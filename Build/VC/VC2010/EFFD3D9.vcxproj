@@ -112,7 +112,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;$(DXSDK_DIR)Include;$(CG_INC_PATH);..\..\..\Lib;..\..\..\Lib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;$(DXSDK_DIR)Include;$(CG_INC_PATH);..\..\..\ThirdPartyLib;..\..\..\ThirdPartyLib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFFD3D9_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -124,14 +124,14 @@
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;$(DXSDK_DIR)Lib\x86;$(CG_LIB_PATH);..\..\..\Lib\yaml-cpp\lib;..\..\..\Lib\wke;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;$(DXSDK_DIR)Lib\x86;$(CG_LIB_PATH);..\..\..\ThirdPartyLib\Lib\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>..\..\..\Src\EFFD3D9\Exports.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>cg.lib;cgD3D9.lib;libyaml-cppmdd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cg.lib;cgD3D9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>dxerr9.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>

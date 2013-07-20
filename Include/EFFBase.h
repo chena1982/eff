@@ -44,9 +44,7 @@
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
 		#pragma comment(lib, "EFFBaseUD.lib")
-		#pragma comment(lib, "libzmq_d.lib")
 		#pragma comment(lib, "libyaml-cppmdd.lib")
-		#pragma comment(lib, "lib_json.lib")
 	#else
 		#pragma comment(lib, "EFFBaseU.lib")
 	#endif

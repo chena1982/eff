@@ -67,7 +67,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib;..\..\..\Lib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\ThirdPartyLib;..\..\..\ThirdPartyLib\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEBUG;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -84,7 +84,7 @@
     <Link>
       <AdditionalDependencies>dbghelp.lib;Ws2_32.lib;libzmq_d.lib;libyaml-cppmdd.lib;lib_json.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\Lib\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\ThirdPartyLib\Lib\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>false</GenerateMapFile>

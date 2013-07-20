@@ -20,29 +20,29 @@ USE_EFFBASE
 #include <EFFMath.h>
 USE_EFFMATH
 
-#include <wke/wke.h>
+#include <wke\wke.h>
 
-#include "EFF3D/EFF3DBaseDefines.h"
-#include "EFF3D/EFF3DObject.h"
-#include "EFF3D/EFF3DDevice.h"
-#include "EFF3D/EFF3DTexture.h"
-#include "EFF3D/EFF3DSurface.h"
-#include "EFF3D/EFF3DIndexBuffer.h"
-#include "EFF3D/EFF3DVertexBuffer.h"
-#include "EFF3D/EFF3DVertexDeclaration.h"
-#include "EFF3D/EFF3DShader.h"
-#include "EFF3D/EFF3DMaterial.h"
-#include "EFF3D/EFF3DResource.h"
-#include "EFF3D/EFF3DResourceManager.h"
-#include "EFF3D/EFF3DAsyncLoader.h"
-#include "EFF3D/EFF3DTerrain.h"
-#include "EFF3D/EFF3DCamera.h"
+#include "EFF3D\EFF3DBaseDefines.h"
+#include "EFF3D\EFF3DObject.h"
+#include "EFF3D\EFF3DDevice.h"
+#include "EFF3D\EFF3DTexture.h"
+#include "EFF3D\EFF3DSurface.h"
+#include "EFF3D\EFF3DIndexBuffer.h"
+#include "EFF3D\EFF3DVertexBuffer.h"
+#include "EFF3D\EFF3DVertexDeclaration.h"
+#include "EFF3D\EFF3DShader.h"
+#include "EFF3D\EFF3DMaterial.h"
+#include "EFF3D\EFF3DResource.h"
+#include "EFF3D\EFF3DResourceManager.h"
+#include "EFF3D\EFF3DAsyncLoader.h"
+#include "EFF3D\EFF3DTerrain.h"
+#include "EFF3D\EFF3DCamera.h"
 //#include "EFF3D/EFF3DForm.h"
-#include "EFF3D/EFF3DImgui.h"
-#include "EFF3D/EFF3DImguiRender.h"
-#include "EFF3D/EFF3DFont.h"
-#include "EFF3D/EFF3DInputManager.h"
-#include "EFF3D/EFF3DWebGui.h"
+#include "EFF3D\EFF3DImgui.h"
+#include "EFF3D\EFF3DImguiRender.h"
+#include "EFF3D\EFF3DFont.h"
+#include "EFF3D\EFF3DInputManager.h"
+#include "EFF3D\EFF3DWebGui.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 

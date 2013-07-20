@@ -117,7 +117,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\Lib\DevIL\include\IL;..\..\..\Lib\jsoncpp-src-0.5.0\include\json;..\..\..\Lib\yaml-cpp\include;..\..\..\Lib;..\..\..\Lib\freetype-2.4.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\ThirdPartyLib;..\..\..\ThirdPartyLib\yaml-cpp\include;..\..\..\ThirdPartyLib\freetype-2.4.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -130,7 +130,7 @@
     <Link>
       <AdditionalDependencies>DevIL.lib;freetype2411_D.lib;wke.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\Lib\DevIL\lib\unicode;..\..\..\Lib\yaml-cpp\lib;..\..\..\Lib\freetype-2.4.11\lib;..\..\..\Lib\wke;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\ThirdPartyLib\Lib\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>

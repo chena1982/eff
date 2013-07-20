@@ -23,7 +23,6 @@
 #include <cstdlib>
 
 
-#include <yaml-cpp\yaml.h>
 
 //#include <Python.h>
 //#include <boost/python/detail/wrap_python.hpp>
