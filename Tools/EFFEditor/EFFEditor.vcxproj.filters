@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="EFFEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>预编译</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EFFEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{65995406-4d72-4640-83c0-ee33bb82f9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{89096f0f-c34d-4f5f-8aca-159a75be1fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="预编译">
+      <UniqueIdentifier>{d0caebf0-445e-4164-a2d9-32f4a6ba81c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
