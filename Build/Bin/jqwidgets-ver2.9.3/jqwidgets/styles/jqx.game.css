@@ -1,0 +1,207 @@
+
+.jqx-splitter-game {
+	border: none;
+}
+
+.jqx-splitter-splitbar-horizontal-game, .jqx-splitter-splitbar-vertical-game {
+	background-color: #292929;
+	border-color: #292929;
+}
+
+/*必须把jqx-widget-content-game的背景色设置成透明，因为jqx-widget-content-game影响所有的div
+如果只是把想透明的div的背景色设置成透明，会没有效果，因为它底下的div不是透明的*/
+.jqx-widget-content-game {
+	background-color: rgba(255, 255, 255, 0);
+}
+
+.jqx-tabs-game {
+	border: none;
+}
+
+.jqx-tabs-header-game {
+	background-color: #292929;
+	border-radius: 0px;
+	border-color: #212121;
+}
+
+.jqx-tabs-title-game {
+	color: #b1b1b1;
+	width: 100px;
+}
+
+.jqx-tabs-title-selected-top-game {
+	background-color: #434343;
+	border-color: #575757;
+	border-bottom-color: #434343;
+	border-left-color: #212121;
+}
+
+.jqx-tabs-title-hover-top-game {
+	background-color: #292929;
+	border-color: #292929;
+}
+
+.jqx-tabs-content-game {
+	border-radius: 0px;
+}
+
+
+.jqx-menu-item-top-game {
+    padding: 0px 8px;
+    color: #b1b1b1;   
+}
+
+.jqx-menu-item-top-selected-game, 
+.jqx-menu-item-top-hover-game {
+	background-color: #434343;
+	border-color: #575757;   
+}
+
+.jqx-menu-item-game {
+	background-color: #434343;
+	border: 0px;
+	margin: 0px 1px;
+	padding: 2px 8px 1px 8px;   
+}
+
+.jqx-menu-dropdown-game {
+	background-color: #434343;
+	border-color: #575757;
+    color: #b1b1b1;	   
+}
+
+.jqx-menu-item-selected-game,
+.jqx-menu-item-hover-game {
+	background-color: #292929;	
+}
+ 
+
+.jqx-menu-game ul {
+	padding: 1px;
+}
+
+.jqx-dropdownlist-state-normal {
+	border-width: 0px 1px;
+	border-color: #000;
+	background: -webkit-gradient(linear, left top, left bottom, from(#464646), to(#333333));
+	background: -moz-linear-gradient(top, #464646, #333);
+	color: #b1b1b1;
+}
+
+.jqx-listbox {
+	background-color: #434343;
+	color: #b1b1b1;
+	border-color: #555555;
+}
+
+.jqx-listitem-state-selected,
+.jqx-listitem-state-hover {
+	background-color: #292929;
+	border: none;
+	color: #b1b1b1;	
+}
+
+
+.jqx-tree-game {
+	border: none;
+}
+
+#Menubar {
+	height: 20px;
+	width: 100%;
+	border: none;
+	border-radius: 0px;
+	background-color: #292929;	
+}
+
+#MainArea {
+	border: none;		
+}
+
+
+#InspectorArea {
+	background-color: #292929;
+	border: none;
+}
+
+#HierarchyArea {
+	background-color: #292929;
+	border: none;
+}
+
+#ProjectArea {
+	background-color: #292929;
+	border: none;
+}
+
+
+
+
+
+
+
+
+
+#Scene {
+	border: solid;
+	border-width: 0px 1px 1px 1px;
+	border-radius: 0px;
+	border-color: #212121;
+
+
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+	/*height: calc(100% - 1px); /*height设置成100%的时候，div计算高度时不会减去border的高度，不过这个chrome不兼容*/
+
+}
+
+#Inspector {
+	border: solid;
+	border-width: 0px 1px 1px 1px;
+	border-radius: 0px;
+	border-color: #212121;
+
+	background-color: #383838;
+
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+#Hierarchy {
+	border: solid;
+	border-width: 0px 1px 1px 1px;
+	border-radius: 0px;
+	border-color: #212121;
+
+	background-color: #383838;	
+
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+#Project {
+	border: solid;
+	border-width: 0px 1px 1px 1px;
+	border-radius: 0px;
+	border-color: #212121;
+
+	background-color: #383838;	
+
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+#Toolbar {
+	border-bottom : 1px solid #212121;
+	background: -webkit-gradient(linear, left top, left bottom, from(#464646), to(#333333));
+	background: -moz-linear-gradient(top, #464646, #333);
+	height: 20px;
+}
+
+#RenderMode {
+	margin: 0px 10px;
+}
+
+
+
+
