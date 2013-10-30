@@ -96,6 +96,8 @@ public:
 	{
 		return properties;
 	}
+
+	EFFProperty * GetProperty(const effString & name);
 	
 	friend effBOOL operator == (const EFFClass & class1, const EFFClass & class2)
 	{

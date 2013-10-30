@@ -27,7 +27,8 @@ namespace YAML
                 m_data.swap(rhs);
                 rhs.clear();
                 rhs.resize(m_unownedSize);
-                memcpy(&rhs[0], m_unownedData, m_unownedSize);
+                //std::copy(m_unownedData, m_unownedData + m_unownedSize, &rhs[0]);
+				memcpy((void *)m_unownedData, &rhs[0], m_unownedSize);
                 m_unownedData = 0;
                 m_unownedSize = 0;
             } else {

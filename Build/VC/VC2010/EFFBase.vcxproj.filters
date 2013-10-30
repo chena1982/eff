@@ -103,6 +103,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFOSVersion.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFInputManager.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFFBase\stdafx.h">
@@ -192,6 +195,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFOSVersion.h">
       <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFInputManager.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFFastIdMap.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

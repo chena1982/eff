@@ -40,20 +40,15 @@ effBOOL EFFNetClient::Connect(effString address)
 	return effTRUE;
 }
 
-effBOOL EFFNetClient::Send(EFFObject * object, effString & propertyName)
+effBOOL EFFNetClient::Send(EFFObject * object, const effString & propertyName)
 {
+	if ( object == NULL )
+	{
+		return effFALSE;
+	}
 
-
-	Json::Value root;
-	root["encoding"] = "UTF-8";
-	root["object_type_name"] = EFFSTRING2ANSI(object->GetRuntimeClass()->GetName());
-	root["object_id"] = object->GetID();
-	
-	Json::Value objectProperty;
-	AddPropertyToJson(object, propertyName, &objectProperty);
-	root["object_property"] = objectProperty;
-
-	std::string & buffer = root.toStyledString();
+	effString buffer;
+	object->GetPropertyJason(propertyName, buffer);
 
 
 	zmq_msg_t msg;
@@ -71,53 +66,6 @@ effBOOL EFFNetClient::Send(EFFObject * object, effString & propertyName)
 
 
 	return effTRUE;
-}
-
-effVOID EFFNetClient::AddPropertyToJson(EFFObject * object, effString & propertyName, Json::Value * jsonValue)
-{
-	EFFProperty * addedProperty = object->GetProperty(propertyName);
-
-	if ( addedProperty == NULL )
-	{
-		return;
-	}
-
-	if ( addedProperty->GetClass()->IsPODType() )
-	{
-		if ( addedProperty->GetIsSTLContainer() )
-		{
-
-			effString propertyClassName = addedProperty->GetClass()->GetName();
-			if ( propertyClassName == _effT("effString") )
-			{
-				//Json::Value elements;
-				addedProperty->ForEach<effString>(object, [=, this](const effString & propertyValue)
-													{
-														(*jsonValue)[EFFSTRING2ANSI(propertyName)].append(EFFSTRING2ANSI(propertyValue));
-													});
-
-				//(*root)[EFFSTRING2ANSI(propertyName)] = elements;
-			}
-
-		}
-		else
-		{
-			effString propertyClassName = addedProperty->GetClass()->GetName();
-			if ( propertyClassName == _effT("effBOOL") )
-			{
-				effBOOL propertyValue;
-				addedProperty->GetValue(object, propertyValue);
-				(*jsonValue)[EFFSTRING2ANSI(propertyName)] = propertyValue;
-			}
-			else if ( propertyClassName == _effT("effString") )
-			{
-				effString propertyValue;
-				addedProperty->GetValue(object, propertyValue);
-				(*jsonValue)[EFFSTRING2ANSI(propertyName)] = EFFSTRING2ANSI(propertyValue);
-			}
-
-		}
-	}
 }
 
 effVOID EFFNetClient::Shutdown()

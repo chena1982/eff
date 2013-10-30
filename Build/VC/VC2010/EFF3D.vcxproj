@@ -192,9 +192,6 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DImguiRender.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DInputManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DObject.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -266,7 +263,6 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DFrustum.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DImgui.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DImguiRender.h" />
-    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DInputManager.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSceneManager.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DWebGui.h" />
     <ClInclude Include="..\..\..\Src\EFF3D\stdafx.h" />

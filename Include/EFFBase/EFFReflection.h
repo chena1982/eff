@@ -80,6 +80,13 @@ public:
 	EFFProperty *					returnType;
 	EFFProperty *					classType;
 	std::vector<EFFProperty *>		argTypes;
+
+public:
+	__callable__info__()
+	{
+		returnType = NULL;
+		classType = NULL;
+	}
 };
 
 class __callable__

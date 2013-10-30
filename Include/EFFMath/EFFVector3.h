@@ -345,17 +345,14 @@ namespace YAML
 	template<>
 	struct convert<EFFMATH::EFFVector3>
 	{
-		static std::string encode(const EFFMATH::EFFVector3 & rhs)
+		static Node encode(const EFFMATH::EFFVector3 & rhs)
 		{
 			Node node = YAML::Load("{}");
 			node["x"] = rhs.x;
 			node["y"] = rhs.y;
 			node["z"] = rhs.z;
 
-			YAML::Emitter out;
-			out << YAML::Flow << node;
-
-			return out.c_str();
+			return node;
 		}
 		
 		static bool decode(const Node & node, EFFMATH::EFFVector3 & rhs)

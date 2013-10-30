@@ -130,6 +130,11 @@ public:
 		m_pDelegatee = NULL;
 	}
 
+	~EFFEventCall()
+	{
+		SF_DELETE(m_pFunction);
+	}
+
 	/*EFFEventCall(PyObject * pPyFunction)
 	{
 		m_pPyDelegatee = NULL;
@@ -146,12 +151,15 @@ public:
 		m_pDelegatee = NULL;
 	}*/
 
-	EFFEventCall(const EFFEventCall & eventCall)
+	EFFEventCall(EFFEventCall & eventCall)
 	{
 		//this->m_pPyDelegatee = eventCall.m_pPyDelegatee;
 		//this->m_pPyFunction = eventCall.m_pPyFunction;
 		this->m_pFunction = eventCall.m_pFunction;
 		this->m_pDelegatee = eventCall.m_pDelegatee;
+
+		eventCall.m_pFunction = NULL;
+		eventCall.m_pDelegatee = NULL;
 	}
 public:
 
@@ -160,18 +168,13 @@ public:
 	//0个参数的时候不能特化，因为没有模板参数
 	void operator () () const
 	{
-		/*if ( m_pPyFunction != NULL )
+		if ( m_pDelegatee == NULL )
 		{
-			if ( m_pPyDelegatee != NULL )
-			{
-				call_method<void>(m_pPyDelegatee,m_pPyFunctionName);
-			}
-			else
-			{
-				call<void>(m_pPyFunction);
-			}
+			typedef __callable0__<void> CallableType;
+			CallableType * cb = (CallableType *)m_pFunction;
+			cb->invoke();
 		}
-		else*/
+		else
 		{
 			typedef void (__delegatee__::*MethodType)();
 			effBYTE * pBaseAddress = (effBYTE *)m_pFunction;

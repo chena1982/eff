@@ -16,7 +16,7 @@
 #include "EFF3DDevice.h"
 #include "EFF3DObject.h"
 #include "EFF3DFont.h"
-#include "EFF3DInputManager.h"
+#include "EFF3DWebGui.h"
 
 //#define new EFFNEW
 
@@ -102,7 +102,7 @@ EFF3DDevice::EFF3DDevice()
 {
 	//Py_Initialize();//使用python之前，要调用Py_Initialize();这个函数进行初始化
 
-	ilInit();
+
 
 
 
@@ -125,10 +125,14 @@ EFF3DDevice::~EFF3DDevice()
 	SF_DELETE(fontManager);
 	SF_DELETE(inputManager);
 	//SF_DELETE(m_pWebCore);
+
+	wkeShutdown();
 }
 
 effVOID EFF3DDevice::Init()
 {
+	ilInit();
+
 	imageManager = EFFNEW EFF3DImageManager();
 	EFFRegisterObjectManager(EFF3DImage::GetThisClass(), imageManager);
 	
@@ -143,7 +147,10 @@ effVOID EFF3DDevice::Init()
 	fontManager->CreateFromFile(_effT("Font\\simsun.ttc"), 16);
 	//fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 16);
 
-	inputManager = EFFNEW EFF3DInputManager();
+	inputManager = EFFNEW EFFInputManager();
+
+	wkeInit();
+	jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);
 }
 
 effVOID EFF3DDevice::InitProperty()

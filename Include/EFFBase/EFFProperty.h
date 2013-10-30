@@ -245,11 +245,11 @@ public:
 
 		if ( isBinary )
 		{
-			data->SaveToFile(file, isBinary, textOut);
+			data->SaveToFile(file, isBinary, node);
 		}
 		else
 		{
-			node[EFFSTRING2ANSI(Property->GetName())] = data->GetId();
+			node[EFFSTRING2ANSI(GetName())] = data->GetID();
 		}
 	}
 

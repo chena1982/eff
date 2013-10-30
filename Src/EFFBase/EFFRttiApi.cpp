@@ -112,6 +112,19 @@ EFFClass::~EFFClass()
 	EFFUnRegisterClass(this);
 }
 
+EFFProperty * EFFClass::GetProperty(const effString & name)
+{
+	for ( effUINT i = 0; i < properties.size(); i++ )
+	{
+		if ( properties[i]->GetNameHash() == EFFStringHash(name) )
+		{
+			return properties[i];
+		}
+	}
+
+	return NULL;
+}
+
 effVOID SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name)
 {
 	addedProperty->SetOffset(offset);

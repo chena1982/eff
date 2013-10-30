@@ -36,36 +36,64 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		return DefWindowProc(hWnd, message, wParam, lParam);
 		break;
+
+
+    case WM_KEYDOWN:
+        {
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetKeyDown(inputManager->ConvertOsVKey2EFFVKey(wParam));
+        }
+        break;
+
+    case WM_KEYUP:
+        {
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetKeyUp(inputManager->ConvertOsVKey2EFFVKey(wParam));
+        }
+        break;
+
 	case WM_MOUSEMOVE:
 		{
-			EFF3DDevice * device = EFF3DGetDevice();
-			if ( device != NULL )
-			{
-				EFF3DInputManager * inputManager = device->GetInputManager();
-				effINT xPos = GET_X_LPARAM(lParam); 
-				effINT yPos = GET_Y_LPARAM(lParam);
-				inputManager->SetPos(xPos, yPos);
-			}
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			effINT xPos = GET_X_LPARAM(lParam); 
+			effINT yPos = GET_Y_LPARAM(lParam);
+			inputManager->SetPos(xPos, yPos);
 		}
 		break;
 	case WM_LBUTTONDOWN:
 		{
-			EFF3DDevice * device = EFF3DGetDevice();
-			if ( device != NULL )
-			{
-				EFF3DInputManager * inputManager = device->GetInputManager();
-				inputManager->SetLeftButtonDown(effTRUE);
-			}
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetLeftButtonDown(effTRUE);
 		}
 		break;
 	case WM_LBUTTONUP:
 		{
-			EFF3DDevice * device = EFF3DGetDevice();
-			if ( device != NULL )
-			{
-				EFF3DInputManager * inputManager = device->GetInputManager();
-				inputManager->SetLeftButtonDown(effFALSE);
-			}
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetLeftButtonDown(effFALSE);
+		}
+		break;
+	case WM_MBUTTONDOWN:
+		{
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetMiddleButtonDown(effTRUE);
+		}
+		break;
+	case WM_MBUTTONUP:
+		{
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetMiddleButtonDown(effFALSE);
+		}
+		break;
+	case WM_RBUTTONDOWN:
+		{
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetRightButtonDown(effTRUE);
+		}
+		break;
+	case WM_RBUTTONUP:
+		{
+			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
+			inputManager->SetRightButtonDown(effFALSE);
 		}
 		break;
 	case WM_ACTIVATE:
@@ -73,7 +101,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			EFF3DDevice * device = EFF3DGetDevice();
 			if ( device != NULL )
 			{
-				EFF3DInputManager * inputManager = device->GetInputManager();
+				EFFInputManager * inputManager = device->GetInputManager();
 				if ( wParam == WA_INACTIVE )
 				{
 					inputManager->SetLeftButtonDown(effFALSE);
@@ -176,7 +204,7 @@ effVOID MMOApplication::Run()
     effFLOAT interpolation;
 
 	//这里的主循环是Update限帧，但是Render不限帧
-    while( !appExit )
+    while ( !appExit )
 	{
         loops = 0;
         while ( GetTickCount() > nextGameTick && loops < MAX_FRAMESKIP )
@@ -333,6 +361,14 @@ effVOID MMOApplication::ReadHWNDFromMemFile()
 
 effVOID	MMOApplication::Update()
 {
+	EFF3DDevice * device = EFF3DGetDevice();
+	if ( device == NULL )
+	{
+		return;
+	}
+
+	EFFInputManager * inputManager = device->GetInputManager();
+	inputManager->Update();
 }
 
 
@@ -341,6 +377,7 @@ effVOID MMOApplication::Render(effFLOAT elapsedTime)
 	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, backGroundColor, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
+		wkeUpdate();
 		OnRenderGUI(elapsedTime);
 
 		device->EndScene();

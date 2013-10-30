@@ -107,7 +107,7 @@ public:
 	inline EFF3DImageManager *	GetImageManager() { return imageManager; }
 	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
-	inline EFF3DInputManager *	GetInputManager() { return inputManager; }
+	inline EFFInputManager *	GetInputManager() { return inputManager; }
 
 	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
 	effVOID						SetBackBufferSize(effINT width,effINT weight);
@@ -128,7 +128,7 @@ private:
 	EFF3DImageManager *			imageManager;
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
-	EFF3DInputManager *			inputManager;
+	EFFInputManager *			inputManager;
 	//Awesomium::WebCore *		m_pWebCore;
 
 	effINT						width;

@@ -285,7 +285,17 @@ public:
 	EFFProperty * parameterProperty;
 };
 
-
+template<typename PropertyType>
+class GetParameterProperty<typename PropertyType *>
+{
+public:
+	GetParameterProperty(const effString & name)
+	{
+		parameterProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
+		SetProperty(parameterProperty, 0, sizeof(PropertyType), name);
+	}
+	EFFProperty * parameterProperty;
+};
 
 template<>
 class GetParameterProperty<effVOID>

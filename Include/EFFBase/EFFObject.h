@@ -46,9 +46,9 @@ public:
 	EFFProperty *		GetProperty(const effString & name);
 
 	template<typename PropertyType>
-	effBOOL	GetPropertyValue(const effString & name, PropertyType & result)
+	effBOOL	GetPropertyValue(const effString & propertyName, PropertyType & result)
 	{
-		EFFProperty * Property = GetProperty(name);
+		EFFProperty * Property = GetProperty(propertyName);
 
 		if ( Property == NULL )
 		{
@@ -64,8 +64,11 @@ public:
 	effUINT				GetChildrenCount() { return children.size(); }
 	EFFObject *			GetParent() { return parent; }
 
+	effVOID				GetPropertyJason(const effString & propertyName, effString & jasonString);
 protected:
 	EFFObject();
+
+	effVOID				AddPropertyToJson(const effString & propertyName, Json::Value * jsonValue);
 	effVOID				SetID(effUINT id) { this->id = id; }
 	effVOID				DetachFromTree();
 

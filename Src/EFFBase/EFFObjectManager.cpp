@@ -59,7 +59,7 @@ EFFObjectManager * EFFGetObjectManager(EFFClass * Class)
 	return NULL;
 }
 
-EFFObjectManager::EFFObjectManager()
+EFFObjectManager::EFFObjectManager() : objects(100)
 {
 	currentId = 0;
 }
@@ -80,9 +80,9 @@ EFFObject * EFFObjectManager::CreateObject(EFFClass * Class)
 	object->SetID(currentId);
 	object->AddRef();
 
-	BOOST_ASSERT(objects.find(currentId) == objects.end());
+	//BOOST_ASSERT(objects.find(currentId) == objects.end());
 
-	objects[currentId] = object;
+	objects.Add(currentId, object);
 
 	return object;
 }
@@ -92,31 +92,24 @@ void EFFObjectManager::ReleaseObject(EFFObject * object)
 	BOOST_ASSERT(object != NULL);
 
 
-	std::map<effUINT, EFFObject *>::iterator it = objects.find(object->GetID());
-	if ( it != objects.end() )
+	EFFObject * foundObject = objects[object->GetID()];
+	if ( foundObject != NULL )
 	{
 		effUINT refCount = object->GetRef();
 		effUINT objectId = object->GetID();
 		object->Release();
 		if ( refCount == 1 )
 		{
-			objects.erase(it);
+			objects.Remove(objectId);
 			recycledIds.push_back(objectId);
 		}
 	}
 	
 }
 
-EFFObject * EFFObjectManager::GetObject(effUINT objectId)
+EFFObject * EFFObjectManager::GetObject(effINT objectId)
 {
-
-	std::map<effUINT, EFFObject *>::iterator it = objects.find(objectId);
-	if ( it != objects.end() )
-	{
-		//it->second->AddRef();
-		return it->second;
-	}
-	return NULL;
+	return objects[objectId];
 }
 
 effVOID EFFObjectManager::CalculateNextId()

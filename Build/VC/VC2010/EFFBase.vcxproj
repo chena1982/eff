@@ -147,6 +147,9 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFComponent.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFInputManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFMemberFunction.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -217,6 +220,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFComponent.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFFastIdMap.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFInputManager.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMemberFunction.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFNetClient.h" />

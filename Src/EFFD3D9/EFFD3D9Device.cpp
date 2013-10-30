@@ -224,15 +224,16 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 	InitWindow(width, height, &d3dpp, effFALSE, (effUINT)DSSurfaceDesc.Format);
 	SF_RELEASE(pDSSurface);
 
-	std::map<effUINT, EFFObject *> & images = GetImageManager()->GetObjects();
-	std::map<effUINT, EFFObject *>::iterator imageIt = images.begin();
-	for ( ; imageIt != images.end(); imageIt++ )
+	EFFFastIdMap<EFFObject> & images = GetImageManager()->GetObjects();
+	EFFObject * object = images.GetFirst();
+	for ( ; object != NULL; object = images.GetNext() )
 	{
-		EFF3DImage * image = reinterpret_cast<EFF3DImage *>(imageIt->second);
+		EFF3DImage * image = reinterpret_cast<EFF3DImage *>(object);
 		EFF3DIMAGE_INFO & imageInfo = image->GetImageInfo();
 
 		if ( imageInfo.pool == EFF3DPOOL_DEFAULT )
 		{
+
 			image->Unload();
 			continue;
 		}
@@ -241,7 +242,7 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 		{
 			if ( imageInfo.surfaceType == DepthStencil_Surface || imageInfo.surfaceType == GetFromTexture_Surface )
 			{
-				EFF3DSurface * surface = reinterpret_cast<EFF3DSurface *>(imageIt->second);
+				EFF3DSurface * surface = reinterpret_cast<EFF3DSurface *>(object);
 				surface->Unload();
 				continue;
 			}
@@ -297,10 +298,10 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 		m_pLine->OnResetDevice();
 	}*/
 
-	imageIt = images.begin();
-	for ( ; imageIt != images.end(); imageIt++ )
+	object = images.GetFirst();
+	for ( ; object != NULL; object = images.GetNext() )
 	{
-		EFF3DImage * image = reinterpret_cast<EFF3DImage *>(imageIt->second);
+		EFF3DImage * image = reinterpret_cast<EFF3DImage *>(object);
 		if ( image->IsUnloaded() )
 		{
 			if ( !image->Reload() )

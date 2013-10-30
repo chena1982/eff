@@ -9,6 +9,7 @@
 #define __EFFObjectManager_2008_12_10__
 
 
+#include "EFFFastIdMap.h"
 
 EFFBASE_BEGIN
 
@@ -18,22 +19,22 @@ class EFFObject;
 
 class EFFBASE_API EFFObjectManager
 {
-	RTTI_DECLARE_BASE(EFFObjectManager);
+	RTTI_DECLARE_BASE(EFFObjectManager)
 public:
 	EFFObjectManager();
 	virtual ~EFFObjectManager();
 public:
-	std::map<effUINT, EFFObject *> &		GetObjects() { return objects; }
+	EFFFastIdMap<EFFObject> &			GetObjects() { return objects; }
 public:
-	EFFObject *								CreateObject(EFFClass * Class);
-	effVOID									ReleaseObject(EFFObject * object);
-	EFFObject *								GetObject(effUINT objectId);
+	EFFObject *							CreateObject(EFFClass * Class);
+	effVOID								ReleaseObject(EFFObject * object);
+	EFFObject *							GetObject(effINT objectId);
 protected:
-	effVOID									CalculateNextId();
+	effVOID								CalculateNextId();
 protected:
-	effUINT									currentId;
-	std::vector<effUINT>					recycledIds;
-	std::map<effUINT, EFFObject *>			objects;
+	effINT								currentId;
+	std::vector<effINT>					recycledIds;
+	EFFFastIdMap<EFFObject>				objects;
 };
 
 EFFBASE_API effVOID EFFRegisterObjectManager(EFFClass * Class, EFFObjectManager * objectManager);

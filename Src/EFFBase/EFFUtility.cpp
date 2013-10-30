@@ -12,7 +12,7 @@ const effCHAR * AnsiUnicodeStringConvert::W2A(const effWCHAR * str)
 {
 	effULONG length = WideCharToMultiByte(CP_OEMCP, NULL, str, -1, NULL, 0, NULL, FALSE);
 
-	if( length > 1023 )
+	if ( length > 1023 )
 	{
 		return NULL;
 	}
@@ -28,7 +28,7 @@ const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
 {
 	effULONG length = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
  
-	if( length > 1023 )
+	if ( length > 1023 )
 	{
 		return NULL;
 	}
@@ -37,7 +37,18 @@ const effWCHAR * AnsiUnicodeStringConvert::A2W(const effCHAR * str)
 	return wcharBuffer;
 }
 
+const effWCHAR * AnsiUnicodeStringConvert::UTF82W(const effCHAR * str)
+{
+	effULONG length = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+ 
+	if ( length > 1023 )
+	{
+		return NULL;
+	}
 
+	MultiByteToWideChar(CP_UTF8, 0, str, -1, &AnsiUnicodeStringConvert::wcharBuffer[0], length);
+	return wcharBuffer;
+}
 
 effString GetPODTypeClassName(const effCHAR * propertyTypeName)
 {

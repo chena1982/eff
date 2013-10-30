@@ -114,6 +114,65 @@ EFFObject *	EFFObject::GetChild(effUINT index)
 	return children[index];
 }
 
+effVOID EFFObject::GetPropertyJason(const effString & propertyName, effString & jasonString)
+{
+	Json::Value root;
+	root["encoding"] = "UTF-8";
+	root["object_type"] = EFFSTRING2ANSI(GetRuntimeClass()->GetName());
+	root["object_id"] = GetID();
+	
+	Json::Value objectProperty;
+	AddPropertyToJson(propertyName, &objectProperty);
+	root["object_property"] = objectProperty;
+
+	jasonString = ANSI2EFFSTRING(root.toStyledString().c_str());
+}
+
+effVOID	EFFObject::AddPropertyToJson(const effString & propertyName, Json::Value * jsonValue)
+{
+
+	EFFProperty * addedProperty = GetProperty(propertyName);
+
+	if ( addedProperty == NULL )
+	{
+		return;
+	}
+
+	if ( addedProperty->GetClass()->IsPODType() )
+	{
+		if ( addedProperty->GetIsSTLContainer() )
+		{
+
+			effString propertyClassName = addedProperty->GetClass()->GetName();
+			if ( propertyClassName == _effT("effString") )
+			{
+				//Json::Value elements;
+				addedProperty->ForEach<effString>(this, [&](const effString & propertyValue) {
+														(*jsonValue)[EFFSTRING2ANSI(propertyName)].append(EFFSTRING2ANSI(propertyValue)); });
+
+				//(*root)[EFFSTRING2ANSI(propertyName)] = elements;
+			}
+
+		}
+		else
+		{
+			effString propertyClassName = addedProperty->GetClass()->GetName();
+			if ( propertyClassName == _effT("effBOOL") )
+			{
+				effBOOL propertyValue;
+				addedProperty->GetValue(this, propertyValue);
+				(*jsonValue)[EFFSTRING2ANSI(propertyName)] = propertyValue;
+			}
+			else if ( propertyClassName == _effT("effString") )
+			{
+				effString propertyValue;
+				addedProperty->GetValue(this, propertyValue);
+				(*jsonValue)[EFFSTRING2ANSI(propertyName)] = EFFSTRING2ANSI(propertyValue);
+			}
+
+		}
+	}
+}
 
 effVOID	EFFObject::DetachFromTree()
 {

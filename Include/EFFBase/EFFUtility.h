@@ -18,6 +18,7 @@ class EFFBASE_API AnsiUnicodeStringConvert
 public:
 	static const effCHAR * W2A(const effWCHAR * str);
 	static const effWCHAR * A2W(const effCHAR * str);
+	static const effWCHAR * UTF82W(const effCHAR * str);
 
 private:
 	static effCHAR charBuffer[1024];
@@ -27,6 +28,7 @@ private:
 #if defined UNICODE || defined _UNICODE
 	#define EFFSTRING2ANSI(str) AnsiUnicodeStringConvert::W2A((str.c_str()))
 	#define ANSI2EFFSTRING(str) AnsiUnicodeStringConvert::A2W(str)
+	#define UTF82EFFSTRING(str) AnsiUnicodeStringConvert::UTF82W(str)
 #else
 	#define EFFSTRING2ANSI(str) (str).c_str()
 	#define ANSI2EFFSTRING(str) str

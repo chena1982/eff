@@ -9,6 +9,7 @@
 #define __EFFEvent_2012_03_19__
 
 #include "EFFThread.h"
+#include "EFFFastIdMap.h"
 
 EFFBASE_BEGIN
 
@@ -22,8 +23,9 @@ public:
 
 public:
 	effVOID	PostMessage(EFFEventCall * message);
+	effVOID	ProcessMessage(const effCHAR * message);
 protected:
-	std::vector<EFFEventCall *> messages;
+	EFFFastIdMap<EFFEventCall *> messages;
 };
 
 class EFFMessageCenter

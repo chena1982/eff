@@ -22,6 +22,12 @@ EFFEvent::EFFEvent()
 
 EFFEvent::~EFFEvent()
 {
+	for ( effUINT i = 0; i < m_aryFunction.size(); i++ )
+	{
+		SF_DELETE(m_aryFunction[i]);
+	}
+
+	m_aryFunction.clear();
 }
 
 //using namespace boost::python;

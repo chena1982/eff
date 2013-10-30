@@ -26,11 +26,11 @@ public:
 public:
 	effVOID Init();
 	effBOOL Connect(effString address);
-	effBOOL Send(EFFObject * object, effString & propertyName);
+	effBOOL Send(EFFObject * object, const effString & propertyName);
 	effVOID Shutdown();
 protected:
 
-	effVOID AddPropertyToJson(EFFObject * object, effString & propertyName, Json::Value * root);
+
 protected:
 	void * context;
 	void * socket;
