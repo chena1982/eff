@@ -18,7 +18,7 @@ class EFFAabb;
 
 class EFFMATH_API EFFVector3 : public EFFVECTOR3
 {
-	RTTI_DECLARE_BASE(EFFVector3)
+	//RTTI_DECLARE_BASE(EFFVector3)
 public:
 	inline EFFVector3() { memset(this, 0, sizeof(EFFVector3)); }
 

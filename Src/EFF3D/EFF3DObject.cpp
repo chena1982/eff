@@ -22,9 +22,9 @@ RTTI_IMPLEMENT(EFF3DObject, 0)
 effVOID EFF3DObjectInitProperty()
 {
 	EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::name, _effT("name"));
-	EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::position, _effT("pos"));
-	EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::scale, _effT("scale"));
-	EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::rotation, _effT("rot"));
+	//EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::position, _effT("pos"));
+	//EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::scale, _effT("scale"));
+	//EFF3DObject::GetThisClass()->AddProperty(&EFF3DObject::rotation, _effT("rot"));
 }
 
 EFF3DObject::EFF3DObject() : EFFObject()

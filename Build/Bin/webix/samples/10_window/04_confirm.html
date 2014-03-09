@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Confirm message</title>
+	<script type="text/javascript" src='../../codebase/webix.js'></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css">
+	<style type="text/css">
+		body, html {
+			height:100%;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		webix.confirm("Test confirm", function(result){
+			webix.confirm({
+				title:"Custom title",
+				ok:"Yes", cancel:"No",
+				text:"Result: "+result,
+				callback:function(){
+					webix.confirm({
+						type:"confirm-warning",
+						text:"Warning",
+						callback:function(){
+							webix.confirm({
+								type:"confirm-error",
+								text:"Error"
+							});
+						}
+					});
+				}
+			});
+		});
+	</script>	
+</body>
+</html>

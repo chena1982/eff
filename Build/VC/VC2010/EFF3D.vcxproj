@@ -117,7 +117,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\ThirdPartyLib;..\..\..\ThirdPartyLib\yaml-cpp\include;..\..\..\ThirdPartyLib\freetype-2.4.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include;..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\ThirdPartyLib;..\..\..\ThirdPartyLib\yaml-cpp\include;..\..\..\ThirdPartyLib\freetype-2.4.11\include;$(AWE_DIR)include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EFF3D_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -128,9 +128,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DevIL.lib;freetype2411_D.lib;wke.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DevIL.lib;freetype2411_D.lib;wke.lib;awesomium.lib;D3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\ThirdPartyLib\Lib\VS2010;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\Temp\Lib\$(Configuration);$(PYTHON_ROOT)\libs;$(BOOST_ROOT)\lib;..\..\..\ThirdPartyLib\Lib\VS2010;$(AWE_DIR)build\lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -184,6 +184,9 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DFrustum.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DHtmlWindow.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DImgui.cpp">
@@ -261,6 +264,7 @@ mt.exe -manifest ..\..\..\Dll\$(Configuration)\_EFF3D.pyd.manifest -outputresour
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DCamera.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DFont.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DFrustum.h" />
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DHtmlWindow.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DImgui.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DImguiRender.h" />
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DSceneManager.h" />

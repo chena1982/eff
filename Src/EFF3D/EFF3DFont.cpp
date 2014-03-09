@@ -363,23 +363,22 @@ EFF3DFont * EFF3DFontManager::CreateFromFile(const effString & fontFilePath, eff
 		}
 	}
 
-
-	EFF3DFont * font = EFFNEW EFF3DFont();
-	font->fontSize = fontSize;
-	font->fontFilePath = fontFilePath;
-	font->fontManager = this;
-
-
 	FontFaceInfo * fontFaceInfo = GetFontFace(fontFilePath);
 	if ( fontFaceInfo != NULL )
 	{
+		EFF3DFont * font = EFFNEW EFF3DFont();
+
+		font->fontSize = fontSize;
+		font->fontFilePath = fontFilePath;
+		font->fontManager = this;
 		font->fontName = fontFaceInfo->fontName;
+		font->fontLineSapcing = fontFaceInfo->face->size->metrics.height / 64;
+		fonts.push_back(font);
+
+		return font;
 	}
 
-	font->fontLineSapcing = fontFaceInfo->face->size->metrics.height / 64;
-	fonts.push_back(font);
-
-	return font;
+	return NULL;
 }
 
 effVOID	EFF3DFontManager::ReleaseFont(EFF3DFont * font)

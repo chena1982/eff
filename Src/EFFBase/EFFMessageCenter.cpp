@@ -63,6 +63,7 @@ effVOID	EFFThreadMessageQueue::ProcessMessage(const effCHAR * message)
 						EFFProperty * objectProperty = objectClass->GetProperty(ANSI2EFFSTRING(propertyValue["property_name"].asCString()));
 						if ( objectProperty != NULL )
 						{
+
 						}
 					}
 				}

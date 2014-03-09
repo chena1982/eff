@@ -42,6 +42,7 @@ USE_EFFMATH
 #include "EFF3D\EFF3DImguiRender.h"
 #include "EFF3D\EFF3DFont.h"
 #include "EFF3D\EFF3DWebGui.h"
+#include "EFF3D\EFF3DHtmlWindow.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 

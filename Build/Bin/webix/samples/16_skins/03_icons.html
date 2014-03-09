@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../codebase/webix.css" type="text/css" media="screen" charset="utf-8">
+		<script src="../../codebase/webix.js" type="text/javascript" charset="utf-8"></script>
+
+		<title>Icons</title>
+		<script type="text/javascript" src="../common/testdata.js"></script>
+		<script type="text/javascript" src="../common/treedata.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript" charset="utf-8">
+			var toolbar = { view:"toolbar", elements:[
+				{ view:"label", label:"Toolbar" },
+				{ gravity:2 },
+				{ view:"button", type:"icon", icon:"mail", label:"Mail", width:80 },
+				{ view:"button", type:"icon", icon:"user", label:"Users", width:80 },
+				{ view:"button", type:"icon", icon:"cog", label:"Cog", width:80 },
+				{},
+				{ view:"icon", icon:"mail"},{ view:"icon", icon:"user"},{ view:"icon", icon:"cog"}
+			]};
+			var sections = { multi:false, rows:[
+				{ header:"<span class='webix_icon icon-mail'></span>Mail", body:"mail data" },
+				{ header:"<span class='webix_icon icon-user'></span>Contacts", body:"contacts data" },
+				{ header:"<span class='webix_icon icon-cog'></span>Filter", body:"filters data" }
+			]};
+			var list = {
+				view:"list", select:true, 
+				template:"<span class='webix_icon icon-#icon#'></span> #name# ",
+				data:[ { icon:"mail", name:"Mail"}, { icon:"user", name:"Users"}, {icon:"cog", name:"cog" }]
+			}
+			var calendar = { template:"calendar" };
+
+			var tabbar = { rows:[
+				list,
+				{ view:"tabbar", type:"bottom", height:40, selected:"user", options:[
+					{ id:"mail",  value:"<span class='webix_icon icon-mail'></span>Mail" },
+					{ id:"users", value:"<span class='webix_icon icon-user'></span>Users" },
+					{ id:"cog", 	 value:"<span class='webix_icon icon-cog'></span>cog" }
+				]}
+			]};
+			var form = { view:"form", width:320, scroll:false, elements:[
+				{ view:"toolbar", elements:[
+					{ view:"button", type:"icon", icon:"mail", label:"Mail" },
+					{ view:"button", type:"icon", icon:"user", label:"Users" },
+					{ view:"button", type:"icon", icon:"cog", label:"Cog" }
+				]},
+				{ type:"section", template:"Icon buttons" },
+				{ margin:10, cols:[
+					{ view:"button", type:"iconButton", icon:"mail", label:"Mail" },
+					{ view:"button", type:"iconButton", icon:"user", label:"Users" },
+					{ view:"button", type:"iconButton", icon:"cog", label:"Cog" }
+				]},
+				{ type:"section", template:"Icon buttons Top" },
+				{ margin:10, height:38, cols:[
+					{ view:"button", type:"iconButtonTop", icon:"mail", label:"Mail" },
+					{ view:"button", type:"iconButtonTop", icon:"user", label:"Users" },
+					{ view:"button", type:"iconButtonTop", icon:"cog", label:"Cog" }
+				]},
+				{ type:"section", template:"Icons" },
+				{ margin:10, cols:[
+					{}, { view:"icon", icon:"mail"},{ view:"icon", icon:"users"},{ view:"icon", icon:"cog"}
+				]},
+				{},
+				{ view:"toolbar", height:42, elements:[
+					{ view:"button", type:"iconTop", icon:"mail", label:"Mail" },
+					{ view:"button", type:"iconTop", icon:"user", label:"Users" },
+					{ view:"button", type:"iconTop", icon:"cog", label:"Cog" }
+				]}
+			]}; 
+
+			var app = {
+				rows:[ toolbar, {
+					type:"wide", cols:[
+						{ type:"wide", rows:[ sections, calendar ] },
+						tabbar,
+						form
+					]
+				}]
+			};
+
+			webix.ui(app);
+			
+		</script>
+	</body>
+</html>

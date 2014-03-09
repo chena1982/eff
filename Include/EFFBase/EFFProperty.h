@@ -127,7 +127,6 @@ public:
 	template<typename PropertyType, typename Visitor>
 	effVOID ForEach(effVOID * baseAddress, Visitor visitor)
 	{
-
 		if ( stlContainerType == EFFProperty::ContainerType_Vector )
 		{
 			//PropertyForEachString(baseAddress, visitor);

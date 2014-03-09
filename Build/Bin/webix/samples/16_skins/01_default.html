@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../../codebase/webix.css" type="text/css" media="screen" charset="utf-8">
+		<script src="../../codebase/webix.js" type="text/javascript" charset="utf-8"></script>
+
+		<title>Skins: Default</title>
+		<script type="text/javascript" src="../common/testdata.js"></script>
+		<script type="text/javascript" src="../common/treedata.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript" charset="utf-8">
+			webix.ui({
+				type:"wide", cols:[
+					{ rows:[
+						{ header:"Categories", width:230, body:{
+							view:"grouplist",
+							data: smalltreedata
+						}},
+						{ header:"Related",body:"Some related info here"}
+					]},
+					{ 
+						view:"datatable",
+						columns:[
+							{ id:"rank",	header:"#", 		width:50 },
+							{ id:"title",	header:"Film title",width:200, fillspace:true},
+							{ id:"year",	header:"Released" , width:80 },
+							{ id:"votes",	header:"Votes", 	width:100}
+						],
+						data: big_film_set,
+						scrollX:false
+					}
+				]
+			});
+			
+		</script>
+	</body>
+</html>

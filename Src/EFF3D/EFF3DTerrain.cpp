@@ -63,6 +63,7 @@ effVOID	EFF3DTerrain::Init(effINT width, effINT height, effINT tileWidth, effFLO
 	tileNumZ = width / tileWidth;
 
 	tiles = EFFNEW EFF3DTerrainTile *[tileNumX * tileNumZ];
+	memset(tiles, 0, tileNumX * tileNumZ * sizeof(EFF3DTerrainTile *));
 }
 
 

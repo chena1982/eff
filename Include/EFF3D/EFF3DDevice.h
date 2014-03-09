@@ -8,6 +8,11 @@
 #ifndef __EFF3DDevice_2008_12_1__
 #define __EFF3DDevice_2008_12_1__
 
+
+namespace Awesomium {
+	class WebCore;
+};
+
 EFF3D_BEGIN
 
 class EFF3DImage;
@@ -23,6 +28,8 @@ class EFF3DShader;
 class EFF3DSceneManager;
 class EFF3DFontManager;
 class EFF3DInputManager;
+
+
 
 class EFF3D_API EFF3DDevice
 {
@@ -108,11 +115,14 @@ public:
 	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
 	inline EFFInputManager *	GetInputManager() { return inputManager; }
+	inline Awesomium::WebCore * GetWebCore() { return webCore; }
 
-	//Awesomium::WebCore *		GetWebCore() { return m_pWebCore; }
 	effVOID						SetBackBufferSize(effINT width,effINT weight);
 	effINT						GetBackBufferWidth() { return width; }
 	effINT						GetBackBufferHeight() { return height; }
+
+
+	effVOID						Update();
 
 protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
@@ -129,7 +139,7 @@ private:
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
 	EFFInputManager *			inputManager;
-	//Awesomium::WebCore *		m_pWebCore;
+	Awesomium::WebCore *		webCore;
 
 	effINT						width;
 	effINT						height;

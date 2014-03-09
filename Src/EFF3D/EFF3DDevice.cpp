@@ -18,6 +18,12 @@
 #include "EFF3DFont.h"
 #include "EFF3DWebGui.h"
 
+
+#include <Awesomium/WebCore.h>
+#include <Awesomium/STLHelpers.h>
+
+#include <direct.h>
+
 //#define new EFFNEW
 
 EFF3D_BEGIN
@@ -106,8 +112,6 @@ EFF3DDevice::EFF3DDevice()
 
 
 
-	//m_pWebCore = new Awesomium::WebCore();
-
 	width = 0;
 	height = 0;
 	//m_pImageManager->CreateFromFile(_effT(""),EFF3DRTYPE_TEXTURE);
@@ -119,14 +123,17 @@ EFF3DDevice::~EFF3DDevice()
 {
 	//Py_Finalize();//调用Py_Finalize，这个根Py_Initialize相对应的。
 
+
+	Awesomium::WebCore::Shutdown();
+	webCore = NULL;
+
+	wkeShutdown();
+
 	SF_DELETE(imageManager);
 	SF_DELETE(sceneManager);
 
 	SF_DELETE(fontManager);
 	SF_DELETE(inputManager);
-	//SF_DELETE(m_pWebCore);
-
-	wkeShutdown();
 }
 
 effVOID EFF3DDevice::Init()
@@ -151,6 +158,17 @@ effVOID EFF3DDevice::Init()
 
 	wkeInit();
 	jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);
+
+
+	char buffer[MAX_PATH];
+    _getcwd(buffer, MAX_PATH);
+
+	Awesomium::WebConfig config;
+	config.log_path = Awesomium::WSLit(buffer);
+	config.log_level = Awesomium::kLogLevel_Normal;
+	//config.additional_options.Push(Awesomium::WSLit("disable-3d-apis"));
+
+	webCore = Awesomium::WebCore::Initialize(config);
 }
 
 effVOID EFF3DDevice::InitProperty()
@@ -276,6 +294,20 @@ effVOID EFF3DDevice::SetBackBufferSize(effINT width, effINT height)
 {
 	this->width = width;
 	this->height = height;
+}
+
+
+effVOID EFF3DDevice::Update()
+{
+	if ( inputManager != NULL )
+	{
+		inputManager->Update();
+	}
+
+	if ( webCore != NULL )
+	{
+		webCore->Update();
+	}
 }
 
 EFF3D_END

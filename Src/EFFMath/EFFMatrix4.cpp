@@ -11,7 +11,7 @@
 #include "EFFVector3.h"
 #include "EFFVector4.h"
 #include "EFFMatrix4.h"
-
+#include "D3dx9math.h"
 //#define new EFFNEW
 
 EFFMATH_BEGIN
@@ -258,6 +258,9 @@ inline effVOID EFFMatrix4::RotationMatrixX(effFLOAT angle)
 	m22 = m33 = cosf(angle);
 	m32 = sinf(angle);
 	m23 = -m32;
+
+	/*EFFMatrix4 result;
+	D3DXMatrixRotationX((D3DXMATRIX *)&result, angle);*/
 }
 
 
@@ -579,7 +582,7 @@ EFFMatrix4 * EFFMatrixPerspectiveFovLH(EFFMatrix4 * out, effFLOAT fovy, effFLOAT
 	return out;
 }
 
-EFFMatrix4 * EFFMatrixLookAtLH(EFFMatrix4 * out, const EFFVector3 * eye, const EFFVector3 * lookAt,const EFFVector3 * up)
+EFFMatrix4 * EFFMatrixLookAtLH(EFFMatrix4 * out, const EFFVector3 * eye, const EFFVector3 * lookAt, const EFFVector3 * up)
 {
 	/*zaxis = normal(At - Eye)
 	xaxis = normal(cross(Up, zaxis))
@@ -592,14 +595,26 @@ EFFMatrix4 * EFFMatrixLookAtLH(EFFMatrix4 * out, const EFFVector3 * eye, const E
 
 	EFFVector3 zaxis;
 	EFFVector3Sub(&zaxis, lookAt, eye);
+
+	//EFFVector3 z;
+	//D3DXVec3Normalize((D3DXVECTOR3 *)&z, (const D3DXVECTOR3 *)&zaxis);
+
 	zaxis.Normalize();
+
+
 
 	EFFVector3 xaxis;
 	EFFVector3Cross(&xaxis, up, &zaxis);
+
+	//EFFVector3 x;
+	//D3DXVec3Cross((D3DXVECTOR3 *)&x, (const D3DXVECTOR3 *)up, (const D3DXVECTOR3 *)&zaxis);
 	xaxis.Normalize();
 
 	EFFVector3 yaxis;
 	EFFVector3Cross(&yaxis, &zaxis, &xaxis);
+
+	//EFFVector3 y;
+	//D3DXVec3Cross((D3DXVECTOR3 *)&y, (const D3DXVECTOR3 *)&zaxis, (const D3DXVECTOR3 *)&xaxis);
 
 	out->m11 = xaxis.x;
 	out->m12 = yaxis.x;

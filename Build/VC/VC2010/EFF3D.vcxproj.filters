@@ -124,6 +124,9 @@
     <ClCompile Include="..\..\..\Src\EFF3D\EFF3DWebGui.cpp">
       <Filter>WebGUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFF3D\EFF3DHtmlWindow.cpp">
+      <Filter>WebGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Src\EFF3D\stdafx.h">
@@ -218,6 +221,9 @@
       <Filter>底层渲染接口</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFF3D\EFF3DWebGui.h">
+      <Filter>WebGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFF3D\EFF3DHtmlWindow.h">
       <Filter>WebGUI</Filter>
     </ClInclude>
   </ItemGroup>

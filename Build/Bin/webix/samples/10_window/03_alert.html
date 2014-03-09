@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Alert message</title>
+	<script type="text/javascript" src='../../codebase/webix.js'></script>
+	<link rel="stylesheet" type="text/css" href="../../codebase/webix.css">
+	<style type="text/css">
+		body, html {
+			height:100%;
+		}
+		.alert_warning .webix_popup_text{
+			color:;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		webix.alert("Test alert", function(result){
+			webix.alert({
+				title:"Custom title",
+				ok:"Custom text",
+				text:"Result: "+result,
+				callback:function(){
+					webix.alert({
+						type:"alert_warning",
+						text:"Warning",
+						callback:function(){
+							webix.alert({
+								type:"alert_error",
+								text:"Error"
+							});
+						}
+					});
+				}
+			});
+		});
+	</script>	
+</body>
+</html>

@@ -174,10 +174,10 @@ effBOOL MMOApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 		return effFALSE;
 	}
 
-	//terrain = TestMyTerrain();
+	terrain = TestMyTerrain();
 
 	camera = new EFF3DCamera();
-	camera->SetViewParams(EFFVector3(0.0f, 15.0f, -15.0f), EFFVector3(0.0f, 0.0f, 0.0f));
+	camera->SetViewParams(EFFVector3(16.0f, 460.0f, -32.0f), EFFVector3(16.0f, 435.0f, -16.0f));
 
 	RECT rect;
 	GetClientRect(hWnd, &rect);
@@ -367,8 +367,9 @@ effVOID	MMOApplication::Update()
 		return;
 	}
 
-	EFFInputManager * inputManager = device->GetInputManager();
-	inputManager->Update();
+	device->Update();
+
+
 }
 
 
@@ -377,7 +378,22 @@ effVOID MMOApplication::Render(effFLOAT elapsedTime)
 	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, backGroundColor, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
-		wkeUpdate();
+		EFFMatrix4 rotate;
+		rotate.RotationMatrixX(PI);
+		rotate.Identity();
+		device->SetTransform(EFF3DTS_WORLD, &rotate);
+		device->SetTransform(EFF3DTS_VIEW, &camera->GetViewMatirx());
+		device->SetTransform(EFF3DTS_PROJECTION, &camera->GetProjMatrix());
+		device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
+		device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
+
+		EFFVector4 v(0.0f, 442.770f, 32, 1);
+		v *= camera->GetViewMatirx();
+		v *= camera->GetProjMatrix();
+
+		terrain->Render(device);
+
+		//wkeUpdate();
 		OnRenderGUI(elapsedTime);
 
 		device->EndScene();

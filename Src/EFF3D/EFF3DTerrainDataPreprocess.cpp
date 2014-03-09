@@ -63,7 +63,7 @@ effVOID TerrainDataPreprocess(const effString & filePath, EFF3DTerrain * pTerrai
 
 
 			effUINT16 error[2];
-			error[0] = effUINT16((65535.0f / mapSizeY) * 1.0f);
+			error[0] = 1;
 			error[1] = 250;
 
 

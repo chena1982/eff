@@ -19,7 +19,7 @@ EFF3D_BEGIN
 #define TERRAIN_ELEVATION_PIXEL_SIZE	16385
 #define TERRAIN_TILE_PIXEL_SIZE			33
 
-#define TERRAIN_TILE_SPLIT_DEPTH		9	//2 * log2(32) - 1		
+#define TERRAIN_TILE_SPLIT_DEPTH		9	//2 * log2(32)		
 #define TERRAIN_TILE_VARIANCE_NODE_NUM			((1 << TERRAIN_TILE_SPLIT_DEPTH) - 1)
 #define TERRAIN_TILE_VARIANCE_BRANCH_NODE_NUM	((1 << (TERRAIN_TILE_SPLIT_DEPTH - 1)) - 1)
 
@@ -74,7 +74,7 @@ protected:
 			pRightNeighbor = NULL;
 			nDepth = 0;
 			pVariance = NULL;
-			varianceIndex = 0;
+			varianceIndex = 1;
 		}
 
 		effVOID Set(CODE code, effINT nApexX, effINT nApexZ, effINT nLeftX, effINT nLeftZ, 
@@ -131,12 +131,13 @@ public:
 
 protected:
 
-	effVOID										TessellateTriTree(TriTreeNode * pTriNode, effUINT16 * pEM, effUINT16 error, effINT nodeIndex);
+	effVOID										TessellateTriTree(TriTreeNode * pTriNode, effUINT16 * pEM, effUINT16 error);
+	TriTreeNode *								RealTessellateTriTree(TriTreeNode * pTriNode, effUINT16 * pEM, effUINT16 error);
 	effUINT16									CalculateVariance(effUINT16 * pEM, effUINT16 * pVariance, effINT nApexX, effINT nApexZ, effINT nLeftX, effINT nLeftZ, effINT nRightX, effINT nRightZ, effINT nNodeIndex);
-	effBOOL										ReplaceTriTreeNode(TriTreeNode * pTriNode);
+	TriTreeNode *								ReplaceTriTreeNode(TriTreeNode * pTriNode);
 	effVOID										CreateTriTreeChildNode(TriTreeNode * pTriNode);
 	effVOID										CreateTriTreeChildNode(TriTreeNode * pTriNode, effBOOL bLeftChildFirst, CODE firstCode, CODE secondCode);
-	effVOID										SplitTriTreeNode(TriTreeNode * pTriNode);
+	TriTreeNode *								SplitTriTreeNode(TriTreeNode * pTriNode);
 	effVOID										SplitTriTreeNode(TriTreeNode * pTriNode, effBOOL bLeftChildFirst, CODE firstCode, CODE followCode);
 private:
 	effINT										m_nTileX;
