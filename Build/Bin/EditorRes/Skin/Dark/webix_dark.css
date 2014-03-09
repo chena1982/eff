@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.webix_list_item {
+	margin: 0px;
+	padding: 0px;
+	height: 26px;
+	line-height: 26px;
+}
+
+.webix_menu-x .webix_list_item {
+	height: 20px;
+	line-height: 20px;
+}
+
+.webix_tab_filler {
+	background-color: #FFFFFF;
+}
+
+.webix_el_select > .webix_el_box {
+	padding: 0px;
+}
+
+.webix_el_select select {
+	border-width: 0px 1px;
+	border-color: #A4BED4;
+}
