@@ -14,7 +14,7 @@
 #include <vector>
 #include <iostream>
 
-
+#include <yaml-cpp\yaml.h>
 
 #include "EFFBase\EFFBaseDefines.h"
 #include "EFFBase\EFFMemory.h"

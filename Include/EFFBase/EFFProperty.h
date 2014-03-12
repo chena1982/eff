@@ -158,6 +158,15 @@ protected:
 template<typename PropertyeType, typename IsPODType>
 class EFFPropertyImpl : public EFFProperty
 {
+	friend class EFFClass;
+public:
+	EFFPropertyImpl()
+	{
+	}
+public:
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Node & node)
+	{
+	}
 };
 
 template<typename PropertyType>
@@ -265,17 +274,17 @@ public:
 		isPointer = boost::is_pointer<PropertyType>();
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Emitter * textOut)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Node & node)
 	{
 		if ( !isPointer )
 		{
 			PropertyType & data = *(PropertyType *)baseAddress;
-			data.SaveToFile(file, isBinary, textOut);
+			data.SaveToFile(file, isBinary, node);
 		}
 		else
 		{
 			PropertyType & data = **(PropertyType **)baseAddress;
-			data.SaveToFile(file, isBinary, textOut);
+			data.SaveToFile(file, isBinary, node);
 		}
 	}
 
@@ -294,13 +303,13 @@ public:
 		isPointer = effFALSE;
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Emitter * textOut)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Node & node)
 	{
 		std::vector<PropertyType> & datas = *(std::vector<PropertyType> *)baseAddress;
 
 		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
-			datas[i].SaveToFile(file, isBinary, textOut);
+			datas[i].SaveToFile(file, isBinary, node);
 		}
 	}
 
@@ -319,7 +328,7 @@ public:
 		isPointer = effFALSE;
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Emitter * textOut)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Node & node)
 	{
 	}
 
@@ -338,13 +347,13 @@ public:
 		isPointer = effTRUE;
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Emitter * textOut)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Node & node)
 	{
 		std::vector<PropertyType *> & datas = *(std::vector<PropertyType *> *)baseAddress;
 
 		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
-			datas[i]->SaveToFile(file, isBinary, textOut);
+			datas[i]->SaveToFile(file, isBinary, node);
 		}
 	}
 

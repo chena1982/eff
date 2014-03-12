@@ -280,7 +280,7 @@ public:
 	template<typename ClassType, typename PropertyType>
 	effVOID AddProperty(PropertyType ClassType::*member, const effString & name)
 	{
-		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<PropertyType, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>::type>::type>::type>();
 		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
 		properties.push_back(addedProperty);
 	}
@@ -289,7 +289,7 @@ public:
 	template<typename ClassType, typename PropertyType>
 	effVOID AddProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
 	{
-		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>::type>::type>::type>();
 		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
 		properties.push_back(addedProperty);
 	}

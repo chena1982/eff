@@ -125,9 +125,6 @@ public:
 	typedef boost::true_type type;
 };
 
-
-
-
 effString EFFBASE_API GetPODTypeClassName(const effCHAR * propertyTypeName);
 
 

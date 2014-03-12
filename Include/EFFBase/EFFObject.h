@@ -8,7 +8,10 @@
 #ifndef __EFFObject_2008_12_10__
 #define __EFFObject_2008_12_10__
 
-
+namespace Json
+{
+	class Value;
+}
 
 
 EFFBASE_BEGIN
