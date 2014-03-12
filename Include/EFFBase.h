@@ -14,9 +14,7 @@
 #include <vector>
 #include <iostream>
 
-#include <zeromq-3.2.0\include\zmq.h>
-#include <jsoncpp-src-0.5.0\include\json\json.h>
-#include <yaml-cpp\yaml.h>
+
 
 #include "EFFBase\EFFBaseDefines.h"
 #include "EFFBase\EFFMemory.h"
