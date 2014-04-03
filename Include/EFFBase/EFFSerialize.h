@@ -14,7 +14,7 @@
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
 
-
+#include "YAMLWrap.h"
 //EFFBASE_BEGIN
 
 
@@ -38,14 +38,14 @@ struct ArgReadBin
 	//BinFormat format;
 };
 
-inline YAML::Node & operator << (YAML::Node & node, const effString & str)
+/*inline YAML::Node & operator << (YAML::Node & node, const effString & str)
 {
     //out << EFFSTRING2ANSI(str);
     return node;
-}
+}*/
 
 template<typename PropertyType>
-inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary, YAML::Node & node)
+inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary)
 {
 	PropertyType * data = NULL;
 	if ( !Property->GetIsPointer() )
@@ -63,15 +63,13 @@ inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFF
 	}
 	else
 	{
-		node[EFFSTRING2ANSI(Property->GetName())] = *data;
+		//node[EFFSTRING2ANSI(Property->GetName())] = *data;
 	}
 }
 
 
-inline effVOID SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary, YAML::Node & node)
+inline effVOID SaveStringProperty(EFFFile * file, const effString & propertyName, const effString & data, effBOOL isBinary)
 {
-	effString & data = *((effString *)((effBYTE *)baseAddress + Property->GetOffset()));
-
 	if ( isBinary )
 	{
 		effUINT length = data.length();
@@ -80,46 +78,93 @@ inline effVOID SaveStringProperty(EFFFile * file, effVOID * baseAddress, EFFProp
 	}
 	else
 	{
-		node[EFFSTRING2ANSI(Property->GetName())] = EFFSTRING2ANSI(data);
+		//node[EFFSTRING2ANSI(Property->GetName())] = EFFSTRING2ANSI(data);
+		SaveStringPropertyToYAMLFile(propertyName, data);
 	}
 }
 
-inline effVOID SavePODProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary, YAML::Node & node)
+inline effVOID SaveStringVectorProperty(EFFFile * file, const effString & propertyName, const std::vector<effString> & datas, effBOOL isBinary)
 {
 	if ( isBinary )
 	{
-		effVOID * source = (effVOID *)((effBYTE *)baseAddress + Property->GetOffset());
-		file->Write(source, Property->GetSize());
+		effUINT length = datas.size();
+		file->Write(&length, 4);
+		for ( effUINT i = 0; i < datas.size(); i++ )
+		{
+			SaveStringProperty(file, propertyName, datas[i], isBinary);
+		}
 	}
 	else
 	{
-		if ( Property->GetClass()->GetNameHash() == EFFStringHash(_effT("int")) )
+		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
-			effINT & value = *((effINT *)((effBYTE *)baseAddress + Property->GetOffset()));
-			node[EFFSTRING2ANSI(Property->GetName())] = value;
+			SaveStringPropertyToYAMLFile(propertyName, datas[i]);
 		}
-		else if ( Property->GetClass()->GetNameHash() == EFFStringHash(_effT("float")) )
+	}
+}
+
+inline effVOID SaveIntProperty(EFFFile * file, const effString & propertyName, effINT data, effBOOL isBinary)
+{
+	if ( isBinary )
+	{
+		file->Write(&data, 4);
+	}
+	else
+	{
+		SaveIntPropertyToYAMLFile(propertyName, data);
+	}
+}
+
+inline effVOID SaveIntVectorProperty(EFFFile * file, const effString & propertyName, const std::vector<effINT> & datas, effBOOL isBinary)
+{
+	if ( isBinary )
+	{
+		effUINT length = datas.size();
+		file->Write(&length, 4);
+		if ( length > 0 )
 		{
-			effFLOAT & value = *((effFLOAT *)((effBYTE *)baseAddress + Property->GetOffset()));
-			node[EFFSTRING2ANSI(Property->GetName())] = value;
+			file->Write((effVOID *)&datas[0], 4 * length);
 		}
-		else if ( Property->GetClass()->GetNameHash() == EFFStringHash(_effT("unsigned int")) )
-		{
-			effUINT & value = *((effUINT *)((effBYTE *)baseAddress + Property->GetOffset()));
-			node[EFFSTRING2ANSI(Property->GetName())] = value;
-		}
+	}
+	else
+	{
+		SaveIntVectorPropertyToYAMLFile(propertyName, datas);
+	}
+}
+
+inline effVOID SaveUintProperty(EFFFile * file, const effString & propertyName, effUINT data, effBOOL isBinary)
+{
+	if ( isBinary )
+	{
+		file->Write(&data, 4);
+	}
+	else
+	{
+		SaveUintPropertyToYAMLFile(propertyName, data);
+	}
+}
+
+inline effVOID SaveFloatProperty(EFFFile * file, const effString & propertyName, effFLOAT data, effBOOL isBinary)
+{
+	if ( isBinary )
+	{
+		file->Write(&data, 4);
+	}
+	else
+	{
+		SaveFloatPropertyToYAMLFile(propertyName, data);
 	}
 }
 
 
 template<typename PropertyType, typename IsPOD>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Node & node)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
 {
 
 }
 
 template<typename PropertyType>
-inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Node & node)
+inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary)
 {
 }
 

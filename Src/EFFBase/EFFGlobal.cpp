@@ -38,6 +38,7 @@ EFFContext * context = NULL;
 effVOID InitEFFContext()
 {
 	context = EFFNEW EFFContext();
+	EFFBaseInitProperty();
 }
 
 effVOID ReleaseEFFContext()

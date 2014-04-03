@@ -17,6 +17,7 @@ namespace Json
 EFFBASE_BEGIN
 
 class EFFProperty;
+class EFFComponent;
 
 class EFFBASE_API EFFReferenceCount
 {
@@ -36,14 +37,12 @@ protected:
 
 
 
-class EFFBASE_API EFFObject : public EFFReferenceCount
+class EFFBASE_API EFFObjectBase : public EFFReferenceCount
 {
-	friend class EFFObjectManager;
-	RTTI_DECLARE(EFFObject, EFFReferenceCount)
+	friend effVOID EFFBaseInitProperty();
+	RTTI_DECLARE_CUSTOM_SAVE(EFFObjectBase, EFFReferenceCount)
 public:
-	virtual ~EFFObject();
-
-
+	virtual ~EFFObjectBase();
 public:
 	effUINT				GetID() { return id; }
 	EFFProperty *		GetProperty(const effString & name);
@@ -61,27 +60,51 @@ public:
 		return Property->GetValue(this, result);
 	}
 
+	effVOID				GetPropertyJason(const effString & propertyName, effString & jasonString);
+protected:
+	EFFObjectBase();
+
+	effVOID				AddPropertyToJson(const effString & propertyName, Json::Value * jsonValue);
+	effVOID				SetID(effUINT id) { this->id = id; }
+protected:
+	effUINT				id;
+};
+
+class EFFBASE_API EFFObject : public EFFObjectBase
+{
+	friend effVOID EFFBaseInitProperty();
+	friend class EFFObjectManager;
+	RTTI_DECLARE_CUSTOM_SAVE(EFFObject, EFFObjectBase)
+public:
+	virtual ~EFFObject();
+public:
+	virtual effVOID		SaveComponentsToFile(EFFFile * file, effBOOL isBinary);
+public:
 	effBOOL				AddChild(EFFObject * object);
 	effBOOL				RemoveChild(EFFObject * object);
 	EFFObject *			GetChild(effUINT index);
 	effUINT				GetChildrenCount() { return children.size(); }
 	EFFObject *			GetParent() { return parent; }
 
-	effVOID				GetPropertyJason(const effString & propertyName, effString & jasonString);
+	EFFComponent *		AddComponent(EFFComponent * component);
+	EFFComponent *		AddComponent(const ClassID & classID);
+	EFFComponent *		GetComponent(const ClassID & classID);
+	EFFComponent *		GetComponent(effINT index);
+	effINT				GetComponentCount() { return components.size(); }
+
+
 protected:
 	EFFObject();
-
-	effVOID				AddPropertyToJson(const effString & propertyName, Json::Value * jsonValue);
-	effVOID				SetID(effUINT id) { this->id = id; }
 	effVOID				DetachFromTree();
-
+	//遍历object tree找到所有需要保存的objects和property中不是pod类型的properties，property如果不是pod需要从EFFComponent派生
+	effVOID				TraverseObjectTree(std::vector<EFFObject *> & objects, std::vector<EFFComponent *> & properties);
 protected:
-	effUINT						id;
-	std::vector<EFFObject *>	children;
-	EFFObject *					parent;
+	std::vector<EFFObject *>		children;
+	EFFObject *						parent;
+	std::vector<EFFComponent *>		components;
 };
 
-
+effVOID EFFBaseInitProperty();
 
 EFFBASE_END
 

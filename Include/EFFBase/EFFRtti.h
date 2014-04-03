@@ -14,6 +14,8 @@
 #include "EFFProperty.h"
 #include "EFFSTLFile.h"
 #include "EFFUtility.h"
+#include "YAMLWrap.h"
+
 #include <iostream>
 
 EFFBASE_BEGIN
@@ -33,12 +35,20 @@ public:\
 	static EFFClassImpl<CLASS> runtimeInfoClass##CLASS;\
 	static EFFClass * GetThisClass();\
 	virtual EFFClass * GetRuntimeClass() const;\
-	virtual effVOID SaveToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node);\
+
+#define RTTI_DECLARE_BASE_CUSTOM_SAVE(CLASS)\
+	RTTI_DECLARE_BASE(CLASS)\
+	virtual effVOID SaveToFile(EFFFile * file, effBOOL isBinary);\
 	virtual effVOID SaveToFile(const effString & filePath, effBOOL isBinary);\
-	virtual effVOID SaveComponents(EFFFile * file, effBOOL isBinary, YAML::Node & node) {};
 
 #define	RTTI_DECLARE(CLASS, BASECLASS)\
 	RTTI_DECLARE_BASE(CLASS)\
+	typedef BASECLASS classBase;
+
+#define RTTI_DECLARE_CUSTOM_SAVE(CLASS, BASECLASS)\
+	RTTI_DECLARE_BASE(CLASS)\
+	virtual effVOID SaveToFile(EFFFile * file, effBOOL isBinary);\
+	virtual effVOID SaveToFile(const effString & filePath, effBOOL isBinary);\
 	typedef BASECLASS classBase;
 
 #define	RTTI_DECLARE_BASE_PURE(CLASS)\
@@ -87,41 +97,7 @@ public:\
 	{\
 		return GetThisClass();\
 	}\
-	effVOID CLASS##::SaveToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node)\
-	{\
-		EFFClass * Class = GetRuntimeClass();\
-		effCHAR nodeName[32];\
-		sprintf_s(nodeName, 32, "%s %d", EFFSTRING2ANSI(Class->GetName()), GetID());\
-		node[nodeName] = YAML::Node();\
-		std::vector<EFFProperty *> & properties = Class->GetProperties();\
-		for ( effUINT i = 0; i < properties.size(); i++ )\
-		{\
-			EFFProperty * curProperty = properties[i];\
-			curProperty->SaveToFile(file, this, isBinary, node[nodeName]);\
-		}\
-		SaveComponents(file, isBinary, node);\
-	}\
-	effVOID CLASS##::SaveToFile(const effString & filePath, effBOOL isBinary)\
-	{\
-		if ( isBinary )\
-		{\
-			EFFSTLFile file;\
-			if ( !file.Open(filePath, _effT("wb")) )\
-			{\
-				return;\
-			}\
-			YAML::Node node;\
-			SaveToFile(&file, isBinary, node);\
-			file.Close();\
-		}\
-		else\
-		{\
-			YAML::Node node;\
-			SaveToFile(NULL, isBinary, node);\
-			std::ofstream fout(EFFSTRING2ANSI(filePath));\
-			fout << node;\
-		}\
-	}
+
 
 #define RTTI_IMPLEMENT_CUSTOM_SAVE_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
 	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
@@ -133,61 +109,10 @@ public:\
 	{\
 		return GetThisClass();\
 	}\
-	effVOID CLASS##::SaveToFile(const effString & filePath, effBOOL isBinary)\
-	{\
-		if ( isBinary )\
-		{\
-			EFFSTLFile file;\
-			if ( !file.Open(filePath, _effT("wb")) )\
-			{\
-				return;\
-			}\
-			YAML::Node node;\
-			SaveToFile(&file, isBinary, node);\
-			file.Close();\
-		}\
-		else\
-		{\
-			YAML::Node node;\
-			SaveToFile(NULL, isBinary, node);\
-			std::ofstream fout(EFFSTRING2ANSI(filePath));\
-			fout << node;\
-		}\
-	}
 
 
 #define RTTI_IMPLEMENT_NO_SAVE_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
-	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
-	EFFClass * CLASS##::GetThisClass()\
-	{\
-		return RTTI_CLASS(CLASS);\
-	}\
-	EFFClass * CLASS##::GetRuntimeClass() const\
-	{\
-		return GetThisClass();\
-	}\
-	effVOID CLASS##::SaveToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node) {}\
-	effVOID CLASS##::SaveToFile(const effString & filePath, effBOOL isBinary)\
-	{\
-		if ( isBinary )\
-		{\
-			EFFSTLFile file;\
-			if ( !file.Open(filePath, _effT("wb")) )\
-			{\
-				return;\
-			}\
-			YAML::Node node;\
-			SaveToFile(&file, isBinary, node);\
-			file.Close();\
-		}\
-		else\
-		{\
-			YAML::Node node;\
-			SaveToFile(NULL, isBinary, node);\
-			std::ofstream fout(EFFSTRING2ANSI(filePath));\
-			fout << node;\
-		}\
-	}
+	RTTI_IMPLEMENT_CUSTOM_SAVE_INTERNAL(CLASS, VERSION, NAME, BASECLASS)
 
 #define RTTI_IMPLEMENT_PURE_INTERNAL(CLASS, VERSION, NAME, BASECLASS) \
 	EFFPureVirtualClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\

@@ -17,7 +17,7 @@
 EFFBASE_BEGIN
 
 
-RTTI_IMPLEMENT(EFFComponent, 0)
+RTTI_IMPLEMENT_CUSTOM_SAVE(EFFComponent, 0)
 
 
 EFFComponent::EFFComponent()
@@ -26,7 +26,35 @@ EFFComponent::EFFComponent()
 	object = NULL;
 }
 
-EFFProperty * EFFComponent::GetProperty(const effString & name)
+effVOID EFFComponent::SaveToFile(EFFFile * file, effBOOL isBinary)
+{
+	EFFObjectBase::SaveToFile(file, isBinary);
+}
+
+effVOID EFFComponent::SaveToFile(const effString & filePath, effBOOL isBinary)
+{
+	if ( isBinary )
+	{
+		EFFSTLFile file;
+		if ( !file.Open(filePath, _effT("wb")) )
+		{
+			return;
+		}
+		SaveToFile(&file, isBinary);
+	}
+	else
+	{
+		if ( StartSaveToYAMLFile(filePath) )
+		{
+			BeginSaveObjectBaseToYAMLFile(this, 1);
+			SaveToFile(NULL, isBinary);
+			EndSaveObjectBaseToYAMLFile(this);
+			EndSaveToYAMLFile();
+		}
+	}
+}
+
+/*EFFProperty * EFFComponent::GetProperty(const effString & name)
 {
 	EFFClass * componentClass = GetRuntimeClass();
 	auto prperties = componentClass->GetProperties();
@@ -39,6 +67,6 @@ EFFProperty * EFFComponent::GetProperty(const effString & name)
 	}
 
 	return NULL;
-}
+}*/
 
 EFFBASE_END

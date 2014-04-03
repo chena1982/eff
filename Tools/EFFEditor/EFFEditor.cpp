@@ -24,8 +24,8 @@ EFF3DObject * CreateObject()
 	return gameObject;
 }
 
-EFF3DWebGUIWindow * mainWindow = NULL;
-//EFF3DHtmlWindow * mainWindow = NULL;
+//EFF3DWebGUIWindow * mainWindow = NULL;
+EFF3DHtmlWindow * mainWindow = NULL;
 
 
 EFF3DObject * rootObject;
@@ -33,13 +33,13 @@ EFF3DObject * rootObject;
 
 effVOID Init()
 {
-	mainWindow = new EFF3DWebGUIWindow();
-	//mainWindow = new EFF3DHtmlWindow(1024, 768);
+	//mainWindow = new EFF3DWebGUIWindow();
+	mainWindow = new EFF3DHtmlWindow(1024, 768);
 	mainWindow->Initialise();
 	mainWindow->Resize(1024, 768);
 	//mainWindow->LoadHTML(_effT("EditorUI\\ui.html?game"));
-	mainWindow->LoadHTML(_effT("EditorUI\\webix.html"));
-	//mainWindow->LoadHTML(_effT("file:///D:/EFF/Build/Bin/EditorUI/webix.html"));
+	//mainWindow->LoadHTML(_effT("EditorUI\\webix.html"));
+	mainWindow->LoadHTML(_effT("file:///D:/EFF/Build/Bin/EditorUI/webix.html"));
 	//mainWindow->LoadHTML(_effT("http://news.163.com"));
 	//mainWindow->LoadHTML(_effT("html\\mac-osx-lion.html"));
 

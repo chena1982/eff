@@ -17,9 +17,9 @@ EFFBASE_BEGIN
 class EFFProperty;
 
 
-class EFFBASE_API EFFComponent : public EFFObject
+class EFFBASE_API EFFComponent : public EFFObjectBase
 {
-	RTTI_DECLARE(EFFComponent, EFFObject)
+	RTTI_DECLARE_CUSTOM_SAVE(EFFComponent, EFFObjectBase)
 public:
 	virtual ~EFFComponent() {}
 public:
@@ -28,9 +28,6 @@ public:
 
 	inline EFFObject *	GetObject() { return object; }
 	inline effVOID		SetObject(EFFObject * object) { this->object = object; }
-
-public:
-	EFFProperty *		GetProperty(const effString & name);
 protected:
 	EFFComponent();
 

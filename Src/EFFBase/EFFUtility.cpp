@@ -17,7 +17,7 @@ const effCHAR * AnsiUnicodeStringConvert::W2A(const effWCHAR * str)
 		return NULL;
 	}
 
-	WideCharToMultiByte(CP_OEMCP, NULL, str, -1, &AnsiUnicodeStringConvert::charBuffer[0], length, NULL, FALSE);
+	WideCharToMultiByte(CP_OEMCP, NULL, str, -1, &AnsiUnicodeStringConvert::charBuffer[0], length, NULL, NULL);
 	return charBuffer;
 }
 
@@ -50,9 +50,26 @@ const effWCHAR * AnsiUnicodeStringConvert::UTF82W(const effCHAR * str)
 	return wcharBuffer;
 }
 
+const effCHAR * AnsiUnicodeStringConvert::W2UTF8(const effWCHAR * str)
+{
+	effULONG length = WideCharToMultiByte(CP_UTF8, NULL, str, -1, NULL, 0, NULL, FALSE);
+
+	if ( length > 1023 )
+	{
+		return NULL;
+	}
+
+	WideCharToMultiByte(CP_UTF8, NULL, str, -1, &AnsiUnicodeStringConvert::charBuffer[0], length, NULL, NULL);
+	return charBuffer;
+}
+
 effString GetPODTypeClassName(const effCHAR * propertyTypeName)
 {
-	if ( strcmp(propertyTypeName, "int") == 0 )
+	if ( strcmp(propertyTypeName, "unsigned int") == 0 )
+	{
+		return effString(_effT("effUINT"));
+	}
+	else if ( strcmp(propertyTypeName, "int") == 0 )
 	{
 		return effString(_effT("effINT"));
 	}

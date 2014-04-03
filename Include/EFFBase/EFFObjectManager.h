@@ -19,7 +19,7 @@ class EFFObject;
 
 class EFFBASE_API EFFObjectManager
 {
-	RTTI_DECLARE_BASE(EFFObjectManager)
+	RTTI_DECLARE_BASE_CUSTOM_SAVE(EFFObjectManager)
 public:
 	EFFObjectManager();
 	virtual ~EFFObjectManager();

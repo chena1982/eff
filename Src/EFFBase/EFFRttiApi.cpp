@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "EFFRttiApi.h"
 #include "EFFProperty.h"
+#include "EFFObjectManager.h"
 //#include "EFFSerialize.h"
 
 EFFBASE_BEGIN
@@ -57,33 +58,56 @@ std::map<ClassID, EFFClass *> & GetRuntimeTypeInfoMap()
 	return effRunTimeTypeInfo;
 }
 
-effVOID EFFRegisterClass(EFFClass * pClass)
+effVOID EFFRegisterClass(EFFClass * Class)
 {
-	GetRuntimeTypeInfoMap().insert(std::make_pair(pClass->GetID(), pClass));
+	GetRuntimeTypeInfoMap().insert(std::make_pair(Class->GetID(), Class));
 }
 
-effVOID EFFUnRegisterClass(EFFClass * pClass)
+effVOID EFFUnRegisterClass(EFFClass * Class)
 {
-	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(pClass->GetID());
+	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(Class->GetID());
 	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
 		GetRuntimeTypeInfoMap().erase(it);
 	}
 }
 
+effVOID * EFFCreateObject(EFFClass * Class)
+{
+	if ( Class == NULL )
+	{
+		return NULL;
+	}
+
+	if ( Class->IsPODType() )
+	{
+		return Class->CreateObject();
+	}
+	else
+	{
+		EFFObjectManager * objectManager = EFFGetObjectManager(Class);
+
+		if ( objectManager == NULL )
+		{
+			return NULL;
+		}
+
+		return objectManager->CreateObject(Class);
+	}
+}
+
 effVOID * EFFCreateObject(const effString & className)
 {
-	return EFFCreateObject(ClassIDFromString(className));
+	EFFClass * Class = EFFGetClass(className);
+
+	return EFFCreateObject(Class);
 }
 
 effVOID * EFFCreateObject(const ClassID & classId)
 {
-	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classId);
-	if ( it != GetRuntimeTypeInfoMap().end() )
-	{
-		return it->second->CreateObject();
-	}
-	return NULL;
+	EFFClass * Class = EFFGetClass(classId);
+
+	return EFFCreateObject(Class);
 }
 
 EFFClass * EFFGetClass(const effString & className)

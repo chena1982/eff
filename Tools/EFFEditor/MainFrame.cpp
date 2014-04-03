@@ -3,8 +3,8 @@
 #include "MainFrame.h"
 
 extern EFF3DObject * rootObject;
-extern EFF3DWebGUIWindow * mainWindow;
-//extern EFF3DHtmlWindow * mainWindow;
+//extern EFF3DWebGUIWindow * mainWindow;
+extern EFF3DHtmlWindow * mainWindow;
 
 
 effVOID RenderSceneWindow()

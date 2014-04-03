@@ -63,50 +63,7 @@ effVOID	EFF3DObject::RemoveRenderLayer(effINT renderLayer)
 	}
 }
 
-//这里暂时有个问题，如果一个Object包含了两个动态组件，如果这两个动态组件都支持同一个接口，那么
-//无法判断返回哪个接口
-EFFComponent * EFF3DObject::GetComponent(const ClassID & classID)
-{	
-	std::vector<EFFComponent *>::iterator it = components.begin();
 
-	for ( ; it != components.end(); it++ )
-	{
-		if ( (*it)->GetRuntimeClass()->IsKindOf(classID) )
-		{
-			return *it;
-		}
-	}
-	return NULL;
-}
-
-EFFComponent * EFF3DObject::GetComponent(effINT index)
-{
-	if ( index < 0 || index >= (effINT)components.size() )
-	{
-		return NULL;
-	}
-
-	return components[index];
-}
-
-
-
-
-EFFComponent * EFF3DObject::AddComponent(const ClassID & classID)
-{
-	EFFComponent * component = static_cast<EFFComponent *>(EFFCreateObject(classID));
-	component->SetObject(this);
-	components.push_back(component);
-	return component;
-}
-
-effVOID	EFF3DObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node)
-{
-	for ( effUINT i = 0; i < components.size(); i++ )
-	{
-		components[i]->SaveToFile(file, isBinary, node);
-	}
-}
 
 
 EFF3D_END

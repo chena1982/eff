@@ -23,12 +23,7 @@ public:
 	effVOID					AddRenderLayer(effINT renderLayer);
 	effVOID					RemoveRenderLayer(effINT renderLayer);
 
-	EFFComponent *			AddComponent(const ClassID & classID);
-	EFFComponent *			GetComponent(const ClassID & classID);
-	EFFComponent *			GetComponent(effINT index);
-	effINT					GetComponentCount() { return components.size(); }
 
-	virtual effVOID			SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Node & node);
 
 public:
 	inline effUINT			GetRenderLayer(effINT renderLayerSlot) { return layers[renderLayerSlot]; }
@@ -45,7 +40,7 @@ protected:
 	EFFVector3				scale;
 	EFFVector3				rotation;
 
-	std::vector<EFFComponent *>		components;
+
 };
 
 effVOID EFF3DObjectInitProperty();

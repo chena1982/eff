@@ -19,6 +19,7 @@ public:
 	static const effCHAR * W2A(const effWCHAR * str);
 	static const effWCHAR * A2W(const effCHAR * str);
 	static const effWCHAR * UTF82W(const effCHAR * str);
+	static const effCHAR * W2UTF8(const effWCHAR * str);
 
 private:
 	static effCHAR charBuffer[1024];
@@ -26,9 +27,10 @@ private:
 };
 
 #if defined UNICODE || defined _UNICODE
-	#define EFFSTRING2ANSI(str) AnsiUnicodeStringConvert::W2A((str.c_str()))
+	#define EFFSTRING2ANSI(str) AnsiUnicodeStringConvert::W2A(str.c_str())
 	#define ANSI2EFFSTRING(str) AnsiUnicodeStringConvert::A2W(str)
 	#define UTF82EFFSTRING(str) AnsiUnicodeStringConvert::UTF82W(str)
+	#define EFFSTRING2UTF8(str) AnsiUnicodeStringConvert::W2UTF8(str.c_str())
 #else
 	#define EFFSTRING2ANSI(str) (str).c_str()
 	#define ANSI2EFFSTRING(str) str

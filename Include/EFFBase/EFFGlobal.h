@@ -23,7 +23,7 @@ protected:
 
 
 public:
-	inline EFFObjectManager *	GetObjectManager() { return effObjectManager; }
+	inline EFFObjectManager *	GetDefaultObjectManager() { return effObjectManager; }
 
 protected:
 	effVOID AddProperty();

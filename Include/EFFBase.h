@@ -39,7 +39,6 @@
 #include "EFFBase\EFFOSVersion.h"
 #include "EFFBase\EFFInputManager.h"
 
-
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
 		#pragma comment(lib, "EFFBaseUD.lib")

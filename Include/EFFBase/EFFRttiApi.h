@@ -34,9 +34,10 @@ public:
 
 ClassID	ClassIDFromString(const effString & className);
 
-EFFBASE_API effVOID		EFFRegisterClass(EFFClass * pClass);
-EFFBASE_API effVOID		EFFUnRegisterClass(EFFClass * pClass);
+EFFBASE_API effVOID		EFFRegisterClass(EFFClass * Class);
+EFFBASE_API effVOID		EFFUnRegisterClass(EFFClass * Class);
 
+EFFBASE_API effVOID *	EFFCreateObject(EFFClass * Class);
 EFFBASE_API effVOID *	EFFCreateObject(const effString & className);
 EFFBASE_API effVOID *	EFFCreateObject(const ClassID & classId);
 
@@ -82,7 +83,7 @@ private:
 public:
 	inline EFFClass * GetBaseClass() const { return baseClass; }
 
-	effString GetName() const { return className; }
+	const effString & GetName() const { return className; }
 
 	EFFStringHash GetNameHash() const { return classNameHash; }
 

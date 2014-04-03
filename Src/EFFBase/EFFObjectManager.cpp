@@ -44,7 +44,7 @@ EFFObjectManager * EFFGetObjectManager(EFFClass * Class)
 	std::map<EFFClass *, EFFObjectManager *>::iterator it = objectManagers.begin();
 	for ( ; it != objectManagers.end(); it++ )
 	{
-		if ( Class->IsKindOf(it->first) )
+		if ( Class->GetID() == it->first->GetID() )
 		{
 			return it->second;
 		}
@@ -53,7 +53,7 @@ EFFObjectManager * EFFGetObjectManager(EFFClass * Class)
 	if ( Class->IsKindOf(EFFObject::GetThisClass()) )
 	{
 		EFFContext * context = GetEFFContext();
-		return context->GetObjectManager();
+		return context->GetDefaultObjectManager();
 	}
 
 	return NULL;
@@ -74,7 +74,7 @@ EFFObject * EFFObjectManager::CreateObject(EFFClass * Class)
 	BOOST_ASSERT(Class != NULL);
 	BOOST_ASSERT(Class->IsKindOf(EFFObject::GetThisClass()));
 
-	EFFObject * object = static_cast<EFFObject *>(EFFCreateObject(Class->GetID()));
+	EFFObject * object = static_cast<EFFObject *>(Class->CreateObject());
 
 	CalculateNextId();
 	object->SetID(currentId);
@@ -122,6 +122,14 @@ effVOID EFFObjectManager::CalculateNextId()
 
 	currentId = recycledIds[0];
 	recycledIds.erase(recycledIds.begin());
+}
+
+effVOID EFFObjectManager::SaveToFile(EFFFile * file, effBOOL isBinary)
+{
+}
+
+effVOID EFFObjectManager::SaveToFile(const effString & filePath, effBOOL isBinary)
+{
 }
 
 EFFBASE_END
