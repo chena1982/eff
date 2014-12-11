@@ -27,6 +27,9 @@ public:
 	effVOID Init();
 	effBOOL Connect(effString address);
 	effBOOL Send(EFFObject * object, const effString & propertyName);
+	effBOOL ReceiveMsg(effVOID * buffer, effINT size);
+	effBOOL SendCmd(effINT id);
+	effBOOL SendMsg(effINT id, effVOID * buffer, effINT size);
 	effVOID Shutdown();
 protected:
 

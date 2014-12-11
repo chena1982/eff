@@ -2,7 +2,7 @@
 // 输出日志文件
 //////////////////////////////////////////////////////////////////////
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "assert.h"
 #include "EffLog.h"
 
@@ -40,10 +40,12 @@ int EffLog::open(const char *filename)
 	if (m_file_is_open)
 		fclose();												// 先关闭已打开的文件
 
-	if (!(m_file = fopen(filename, "a+")))					// 打开文件失败
+	if (!(fopen_s(&m_file, filename, "a+")))					// 打开文件失败
 	{
 		m_file = stderr;
-		fprintf(stderr, "Open file error (%s) : %s\n", filename, strerror(errno));
+		char buffer[256];
+		strerror_s(buffer, 256, errno);
+		fprintf(stderr, "Open file error (%s) : %s\n", filename, buffer);
 		return (errno);
 	}
 	m_file_is_open = true;
@@ -56,7 +58,9 @@ void EffLog::fclose()
 	{
 		if (::fclose(m_file) == EOF)
 		{
-			fprintf(stderr, "Error while close file : %s\n", strerror(errno));
+			char buffer[256];
+			strerror_s(buffer, 256, errno);
+			fprintf(stderr, "Error while close file : %s\n", buffer);
 		}
 		m_file_is_open = false;
 	}
@@ -115,7 +119,11 @@ void EffLog::vlog_msg(const char *format, va_list ap)
 {
 	/* vfprintf 调用错误，调用fprintf输出到标准错误 */
 	if (vfprintf(m_file, format, ap) == -1)
-		fprintf(stderr, "vfprintf err ( %s ) : %s", format, strerror(errno));
+	{
+		char buffer[256];
+		strerror_s(buffer, 256, errno);
+		fprintf(stderr, "vfprintf err ( %s ) : %s", format, buffer);
+	}
 
 	return;
 }
@@ -124,7 +132,11 @@ void EffLog::vlog_exit(const char *format, va_list ap)
 {
 	/* vfprintf 调用错误，调用fprintf输出到标准错误 */
 	if (vfprintf(m_file, format, ap) == -1)
-		fprintf(stderr, "vfprintf err ( %s ) : %s", format, strerror(errno));
+	{
+		char buffer[256];
+		strerror_s(buffer, 256, errno);
+		fprintf(stderr, "vfprintf err ( %s ) : %s", format, buffer);
+	}
 
 	exit(errno);
 }
@@ -133,7 +145,11 @@ void EffLog::vlog_abort(const char *format, va_list ap)
 {
 	/* vfprintf 调用错误，调用fprintf输出到标准错误 */
 	if (vfprintf(m_file, format, ap) == -1)
-		fprintf(stderr, "vfprintf err ( %s ) : %s", format, strerror(errno));
+	{
+		char buffer[256];
+		strerror_s(buffer, 256, errno);
+		fprintf(stderr, "vfprintf err ( %s ) : %s", format, buffer);
+	}
 
 	abort();
 }

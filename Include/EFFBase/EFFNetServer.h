@@ -20,6 +20,9 @@ public:
 	effVOID Init();
 	effBOOL Bind(effString address);
 	effBOOL ReceiveMsg();
+	effBOOL ReceiveMsg(effVOID * buffer, effINT size);
+	effBOOL SendCmd(effINT id);
+	effBOOL SendMsg(effINT id, effVOID * buffer, effINT size);
 	effVOID Shutdown();
 
 protected:

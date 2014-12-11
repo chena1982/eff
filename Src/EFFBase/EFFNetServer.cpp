@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "EFFNetServer.h"
 
-
+#include "EFFScopeGuard.h"
 
 EFFBASE_BEGIN
 
@@ -21,7 +21,7 @@ effVOID EFFNetServer::Init()
 	context = zmq_ctx_new();
 
 	//Socket to talk to clients
-	socket = zmq_socket(context, ZMQ_REP);
+	socket = zmq_socket(context, ZMQ_PAIR);
 
 
 }
@@ -30,7 +30,7 @@ effBOOL EFFNetServer::Bind(effString address)
 {
 	if ( zmq_bind(socket, EFFSTRING2ANSI(address)) == -1 )
 	{
-		effINT error = zmq_errno();
+		std::string error = zmq_strerror(zmq_errno());
 		return effFALSE;
 	}
 
@@ -39,15 +39,45 @@ effBOOL EFFNetServer::Bind(effString address)
 
 effBOOL EFFNetServer::ReceiveMsg()
 {
-    zmq_msg_t msg;
-    zmq_msg_init(&msg);
-    effINT size = zmq_msg_recv(&msg, socket, ZMQ_DONTWAIT);
-	if ( size > 0 )
+	effBYTE buffer[256];
+    effINT receiveSize = zmq_recv(socket, buffer, 256, ZMQ_DONTWAIT);
+	if ( receiveSize > 0 )
 	{
-		effCHAR * buffer = (effCHAR *)zmq_msg_data(&msg);
-		effINT z = 0;
+		printf("%s", buffer);
 	}
-    zmq_msg_close(&msg);
+
+	return effTRUE;
+}
+
+effBOOL EFFNetServer::ReceiveMsg(effVOID * buffer, effINT size)
+{
+    effINT receiveSize = zmq_recv(socket, buffer, size, ZMQ_DONTWAIT);
+	if ( receiveSize > 0 && receiveSize <= size )
+	{
+		return effTRUE;
+	}
+
+	return effFALSE;
+}
+
+effBOOL EFFNetServer::SendCmd(effINT id)
+{
+	if ( zmq_send(socket, &id, sizeof(effINT), 0) == -1 )
+	{
+		std::string error = zmq_strerror(zmq_errno());
+		return effFALSE;
+	}
+
+	return effTRUE;
+}
+
+effBOOL EFFNetServer::SendMsg(effINT id, effVOID * buffer, effINT size)
+{
+	if ( zmq_send(socket, buffer, size, 0) == -1 )
+	{
+		std::string error = zmq_strerror(zmq_errno());
+		return effFALSE;
+	}
 
 	return effTRUE;
 }

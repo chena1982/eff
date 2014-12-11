@@ -14,8 +14,6 @@
 #include <vector>
 #include <iostream>
 
-#include <yaml-cpp\yaml.h>
-
 #include "EFFBase\EFFBaseDefines.h"
 #include "EFFBase\EFFMemory.h"
 #include "EFFBase\EFFUtility.h"
@@ -39,12 +37,13 @@
 #include "EFFBase\EFFOSVersion.h"
 #include "EFFBase\EFFInputManager.h"
 
+#include "EFFBase\EFFMessageDefines.h"
+
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
-		#pragma comment(lib, "EFFBaseUD.lib")
-		#pragma comment(lib, "libyaml-cppmdd.lib")
+		#pragma comment(lib, "EFFBase_d.lib")
 	#else
-		#pragma comment(lib, "EFFBaseU.lib")
+		#pragma comment(lib, "EFFBase.lib")
 	#endif
 #else
 	#if _DEBUG 

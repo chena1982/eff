@@ -340,7 +340,7 @@ EFFMATH_API effVOID EFFVector3TransformCoordArray(EFFVector3 * out, effINT outSt
 
 EFFMATH_END
 
-namespace YAML
+/*namespace YAML
 {
 	template<>
 	struct convert<EFFMATH::EFFVector3>
@@ -368,7 +368,7 @@ namespace YAML
 			return true;
 		}
 	};
-}
+}*/
 
 
 #endif

@@ -62,11 +62,11 @@ EFFComponent * EFFGameObject::AddComponent(const ClassID & classID)
 	return component;
 }
 
-effVOID	EFFGameObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary, YAML::Emitter * textOut)
+effVOID	EFFGameObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary)
 {
 	for ( effUINT i = 0; i < components.size(); i++ )
 	{
-		components[i]->SaveToFile(file, isBinary, textOut);
+		components[i]->SaveToFile(file, isBinary);
 	}
 }
 EFFBASE_END

@@ -27,7 +27,7 @@
 
 #include <zeromq-3.2.0\include\zmq.h>
 #include <jsoncpp-src-0.5.0\include\json\json.h>
-#include <yaml-cpp\yaml.h>
+#include <yaml\yaml.h>
 
 
 #include "EFFBaseDefines.h"

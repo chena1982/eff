@@ -6,6 +6,7 @@ extern EFF3DObject * rootObject;
 //extern EFF3DWebGUIWindow * mainWindow;
 extern EFF3DHtmlWindow * mainWindow;
 
+extern EFFNetServer * server;
 
 effVOID RenderSceneWindow()
 {
@@ -32,4 +33,12 @@ effVOID RenderGUI(effFLOAT elapsedTime)
 
 	mainWindow->Render();
 
+}
+
+effVOID ReceiveMsg(effFLOAT elapsedTime)
+{
+	if (server != NULL)
+	{
+		server->ReceiveMsg();
+	}
 }

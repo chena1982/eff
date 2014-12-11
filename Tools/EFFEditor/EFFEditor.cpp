@@ -24,6 +24,15 @@ EFF3DObject * CreateObject()
 	return gameObject;
 }
 
+EFFNetServer * server = NULL;
+
+void InitServer()
+{
+	server = new EFFNetServer();
+	server->Init();
+	server->Bind(_effT("tcp://*:5555"));
+}
+
 //EFF3DWebGUIWindow * mainWindow = NULL;
 EFF3DHtmlWindow * mainWindow = NULL;
 
@@ -48,6 +57,8 @@ effVOID Init()
 	/*effString buffer;
 	rootObject->GetPropertyJason(_effT("name"), buffer);
 	mainWindow->SendMessageToJS(buffer);*/
+
+
 }
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
@@ -61,12 +72,14 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	rootObject = CreateObject();
 
 	MMOApplication app;
-	app.Init(effTRUE, 1024, 768, effFALSE, effFALSE);
-	//app.SetBackGroundColor(0);
+	app.Init(effTRUE, 1024, 768, effTRUE, effTRUE);
+	app.SetBackGroundColor(0x00000000);
 
 	Init();
+	InitServer();
 
 	app.OnRenderGUI += EFFEventCall(&RenderGUI);
+	app.OnRenderGUI += EFFEventCall(&ReceiveMsg);
 
 	app.Run();
 

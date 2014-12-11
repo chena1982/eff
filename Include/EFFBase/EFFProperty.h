@@ -15,7 +15,7 @@
 #include "EFFFile.h"
 #include "YAMLWrap.h"
 
-namespace YAML
+/*namespace YAML
 {
 	template<>
 	struct convert<effString>
@@ -36,7 +36,7 @@ namespace YAML
 			return true;
 		}
 	};
-}
+}*/
 
 EFFBASE_BEGIN
 
@@ -164,7 +164,7 @@ public:
 	{
 	}
 public:
-	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary, YAML::Node & node)
+	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
 	}
 };

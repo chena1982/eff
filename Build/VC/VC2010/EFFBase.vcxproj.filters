@@ -23,6 +23,9 @@
     <Filter Include="Platform\Win">
       <UniqueIdentifier>{dbf5b7c5-8955-4f14-bff2-69bd4cf6a99a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{631aa6fe-74a2-4445-9d28-b827d87f79c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Src\EFFBase\stdafx.cpp">
@@ -82,12 +85,6 @@
     <ClCompile Include="..\..\..\Src\EFFBase\EFFMessageCenter.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFNetClient.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\EFFBase\EFFNetServer.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\EFFStringHash.cpp">
       <Filter>Base</Filter>
     </ClCompile>
@@ -108,6 +105,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Src\EFFBase\YAMLWrap.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFNetServer.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFBase\EFFNetClient.cpp">
+      <Filter>Net</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,12 +181,6 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFNetClient.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\EFFBase\EFFNetServer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\EFFStringHash.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -207,6 +204,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\EFFBase\YAMLWrap.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFNetServer.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFNetClient.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageDefines.h">
+      <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

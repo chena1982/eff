@@ -18,32 +18,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\dllmain.cpp">
+    <ClCompile Include="..\..\..\Src\EFFFramework\EFFApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\stdafx.cpp">
+    <ClCompile Include="..\..\..\Src\EFFFramework\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Src\EFFFramework\stdafx.cpp">
       <Filter>预编译</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Src\MMOEncapsulation\MMOApplication.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Src\MMOEncapsulation\stdafx.h">
-      <Filter>预编译</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Src\MMOEncapsulation\targetver.h">
-      <Filter>预编译</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\MMOEncapsulation\MMOApplication.h">
+    <ClInclude Include="..\..\..\Include\EFFFramework.h" />
+    <ClInclude Include="..\..\..\Include\EFFFramework\EFFApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\MMOEncapsulation.h" />
-    <ClInclude Include="..\..\..\Include\MMOEncapsulation\MMOEncapsulationBaseDefines.h">
+    <ClInclude Include="..\..\..\Include\EFFFramework\EFFFrameworkBaseDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\Src\MMOEncapsulation\ReadMe.txt" />
+    <ClInclude Include="..\..\..\Src\EFFFramework\stdafx.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\EFFFramework\targetver.h">
+      <Filter>预编译</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

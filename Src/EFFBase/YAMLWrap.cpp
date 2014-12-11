@@ -12,7 +12,6 @@
 #include "EFFComponent.h"
 #include "EFFClass.h"
 #include "EFFProperty.h"
-#include <yaml.h>
 
 EFFBASE_BEGIN
 

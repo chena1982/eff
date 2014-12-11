@@ -57,7 +57,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">..\..\..\Dll\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">..\..\..\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">true</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">$(ProjectName)UD</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <CustomBuildStep>
@@ -67,7 +67,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\ThirdPartyLib;..\..\..\ThirdPartyLib\yaml-cpp\include;..\..\..\ThirdPartyLib\yaml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Include\$(ProjectName);$(BOOST_ROOT);$(PYTHON_ROOT)\include;..\..\..\ThirdPartyLib\yaml-cpp\include;..\..\..\ThirdPartyLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEBUG;_USRDLL;EFFBASE_EXPORTS;USE_DL_PREFIX;NO_MALLINFO;YAML_DECLARE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -227,6 +227,7 @@
     <ClInclude Include="..\..\..\Include\EFFBase\EFFInputManager.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMemberFunction.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageCenter.h" />
+    <ClInclude Include="..\..\..\Include\EFFBase\EFFMessageDefines.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFNetClient.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFNetServer.h" />
     <ClInclude Include="..\..\..\Include\EFFBase\EFFOSVersion.h" />

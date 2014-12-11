@@ -17,7 +17,7 @@
 #include <vector>
 #include <map>
 
-#include <json.h>
+
 
 #include "EFFBase.h"
 USE_EFFBASE
