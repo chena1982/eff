@@ -2,7 +2,7 @@
 // 输出日志文件
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "EFFBasePCH.h"
 #include "assert.h"
 #include "EffLog.h"
 

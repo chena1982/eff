@@ -14,7 +14,7 @@ class EFF3DRenderable;
 class EFF3DDevice;
 class EFF3DCamera;
 class EFF3DSceneManager;
-
+class EFF3DMaterial;
 
 class EFF3DRenderQueue
 {

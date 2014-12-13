@@ -14,13 +14,13 @@
 
 #if defined UNICODE || defined _UNICODE
 #	if _DEBUG 
-#		pragma comment(lib,"EFFD3D9UD.lib")
+#		pragma comment(lib,"EFFD3D9_d.lib")
 #	else
-#		pragma comment(lib,"EFFD3D9U.lib")
+#		pragma comment(lib,"EFFD3D9.lib")
 #	endif
 #else
 #	if _DEBUG 
-#		pragma comment(lib,"EFFD3D9D.lib")
+#		pragma comment(lib,"EFFD3D9_d.lib")
 #	else
 #		pragma comment(lib,"EFFD3D9.lib")
 #	endif

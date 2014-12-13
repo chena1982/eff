@@ -5,7 +5,7 @@
 	
 	purpose:	
 ******************************************************************************/
-#include "stdafx.h"
+#include "EFFD3D9PCH.h"
 #include "EFFD3D9Shader.h"
 #include "EFFD3D9Device.h"
 #include "EFFD3D9Texture.h"

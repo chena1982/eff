@@ -43,7 +43,7 @@ documentation and/or software.
 
 
 
-#include "stdafx.h"
+#include "EFFBasePCH.h"
 
 #include "md5.h"
 

@@ -20,7 +20,7 @@ include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/mygui/Tools/EditorFramewor
 
 link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 link_directories($ENV{DXSDK_DIR}Lib/x86)
-link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib/Unicode_Debug)
+link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib)
 
 add_definitions(-DEFFMYGUIEDITOR_EXPORTS)
 add_definitions(-D_UNICODE)

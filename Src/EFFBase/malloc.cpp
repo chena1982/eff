@@ -438,7 +438,7 @@ DEFAULT_MMAP_THRESHOLD       default: 256K
 
 */
 
-#include "stdafx.h"
+#include "EFFBasePCH.h"
 
 #ifndef WIN32
 #ifdef _WIN32

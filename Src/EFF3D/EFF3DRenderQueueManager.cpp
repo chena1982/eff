@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFF3DPCH.h"
 #include "EFF3DRenderQueueManager.h"
 #include "EFF3DRenderable.h"
 #include "EFF3DRenderQueue.h"

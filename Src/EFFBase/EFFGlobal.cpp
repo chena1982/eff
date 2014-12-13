@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFFBasePCH.h"
 #include "EFFGlobal.h"
 #include "EFFObjectManager.h"
 #include "EFFObject.h"

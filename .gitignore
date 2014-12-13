@@ -9,15 +9,18 @@
 /Temp
 /Test
 /Server
+/Build
 /Lib/jsoncpp-src-0.5.0/build
 /Tools/EFFEditor/Debug
 /Tools/EFFEditor/GeneratedFiles
-/Build/Bin/*.ilk
-/Build/Bin/Material Lib
-/Build/VC/VC2010/*.sdf
+/Bin/*.ilk
+/Bin/Material Lib
+/Bin/html
+/Bin/media
 /Tools/EFFEditor/*.sdf
 /Tools/EFFEditor/*.suo
 ipch
+/Build/VC/VC2010/*.sdf
 /Build/VC/VC2010/*.suo
 debug
 obj

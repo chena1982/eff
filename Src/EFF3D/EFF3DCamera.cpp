@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFF3DPCH.h"
 #include "EFF3DCamera.h"
 #include "EFF3DAutoParamDataSource.h"
 

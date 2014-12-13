@@ -6,11 +6,10 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFF3DPCH.h"
 #include "EFF3DRenderQueueSolid.h"
 #include "EFF3DRenderable.h"
 #include "EFF3DMaterial.h"
-#include "EFF3DEffect.h"
 #include "EFF3DAutoParamDataSource.h"
 #include "EFF3DDevice.h"
 
@@ -28,17 +27,19 @@ EFF3DRenderQueueSolid::~EFF3DRenderQueueSolid()
 
 effVOID EFF3DRenderQueueSolid::AddRenderable(EFF3DRenderable * renderable)
 {
-	renderables.push_back(renderable);
+	RenderQueueElement rqe;
+	rqe.renderable = renderable;
 
+	renderables.push_back(rqe);
 }
 
 effVOID EFF3DRenderQueueSolid::RemoveRenderable(EFF3DRenderable * renderable)
 {
-	std::vector<EFF3DRenderable *>::iterator it = renderables.begin();
+	std::vector<RenderQueueElement>::iterator it = renderables.begin();
 
 	for ( ; it != renderables.end(); it++ )
 	{
-		if ( *it == renderable )
+		if ( (*it).renderable == renderable )
 		{
 			renderables.erase(it);
 			return;
@@ -48,7 +49,7 @@ effVOID EFF3DRenderQueueSolid::RemoveRenderable(EFF3DRenderable * renderable)
 
 effVOID EFF3DRenderQueueSolid::Render(EFF3DDevice * device)
 {
-	EFF3DAutoParamDataSource * dataSource = device->GetAutoParamDataSource();
+	/*EFF3DAutoParamDataSource * dataSource = device->GetAutoParamDataSource();
 	EFF3DObject * lastObject = NULL;
 
 	std::vector<EFF3DRenderable *>::iterator it,itend;
@@ -73,7 +74,7 @@ effVOID EFF3DRenderQueueSolid::Render(EFF3DDevice * device)
 			//pMaterial->OnMaterialEndRender(pMaterial,pDevice);
 		}
 
-	}
+	}*/
 
 }
 

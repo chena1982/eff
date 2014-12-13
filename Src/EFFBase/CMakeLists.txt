@@ -35,8 +35,8 @@ set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
-set_source_files_properties(${EFFBASE_SRCS} PROPERTIES COMPILE_FLAGS "/Yu")
-set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/stdafx.cpp PROPERTIES COMPILE_FLAGS "/Yc")
+set_source_files_properties(${EFFBASE_SRCS} PROPERTIES COMPILE_FLAGS "/YuEFFBasePCH.h")
+set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFBasePCH.cpp PROPERTIES COMPILE_FLAGS "/YcEFFBasePCH.h")
 
 #设置生产dll的Debug后缀
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")

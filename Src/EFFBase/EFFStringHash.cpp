@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "EFFBasePCH.h"
 #include "EFFStringHash.h"
 
 EFFBASE_BEGIN

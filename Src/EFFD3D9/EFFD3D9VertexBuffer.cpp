@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFFD3D9PCH.h"
 #include "EFFD3D9VertexBuffer.h"
 
 //#define new EFFNEW

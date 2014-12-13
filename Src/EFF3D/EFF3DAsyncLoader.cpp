@@ -6,7 +6,7 @@
 	purpose:	
 *********************************************************************/
 
-#include "stdafx.h"
+#include "EFF3DPCH.h"
 
 #include <process.h>
 #include "EFF3DResource.h"

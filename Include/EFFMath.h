@@ -22,13 +22,13 @@
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
-		#pragma comment(lib,"EFFMathUD.lib")
+		#pragma comment(lib,"EFFMath_d.lib")
 	#else
-		#pragma comment(lib,"EFFMathU.lib")
+		#pragma comment(lib,"EFFMath.lib")
 	#endif
 #else
 	#if _DEBUG 
-		#pragma comment(lib,"EFFMathD.lib")
+		#pragma comment(lib,"EFFMath_d.lib")
 	#else
 		#pragma comment(lib,"EFFMath.lib")
 	#endif

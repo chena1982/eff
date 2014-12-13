@@ -7,19 +7,17 @@
 ******************************************************************************/
 
 
-#include "stdafx.h"
+#include "EFF3DPCH.h"
 
 #include "EFF3DMaterial.h"
 
-#undef new
-
-#include <boost/python.hpp>
+//#include <boost/python.hpp>
 
 //#define new EFFNEW
 
 EFF3D_BEGIN
 
-using namespace boost::python;
+ //using namespace boost::python;
 
 EFF3DMaterial::EFF3DMaterial()
 {

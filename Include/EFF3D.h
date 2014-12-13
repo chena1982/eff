@@ -46,13 +46,13 @@ USE_EFFMATH
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 
-#		pragma comment(lib,"EFF3DUD.lib")
+#		pragma comment(lib,"EFF3D_d.lib")
 #	else
-#		pragma comment(lib,"EFF3DU.lib")
+#		pragma comment(lib,"EFF3D.lib")
 #	endif
 #else
 #	if _DEBUG 
-#		pragma comment(lib,"EFF3DD.lib")
+#		pragma comment(lib,"EFF3D_d.lib")
 #	else
 #		pragma comment(lib,"EFF3D.lib")
 #	endif

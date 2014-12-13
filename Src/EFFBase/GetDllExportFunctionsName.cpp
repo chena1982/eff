@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "EFFBasePCH.h"
 
 #include "GetDllExportFunctionsName.h"
 #include "Dbghelp.h"

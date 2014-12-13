@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFFD3D9PCH.h"
 
 #include "EFFD3D9Surface.h"
 #include "EFFD3D9Device.h"

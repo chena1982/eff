@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFFFrameworkPCH.h"
 #include "EFFApplication.h"
 
 #define MAX_LOADSTRING 100
