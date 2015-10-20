@@ -1,0 +1,14 @@
+set (HEADER_FILES
+  Game.h
+  GamePCH.h
+)
+
+set (SOURCE_FILES
+  Game.cpp
+  GamePCH.cpp
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  GamePCH.cpp
+  GamePCH.h
+)

@@ -1,0 +1,47 @@
+set (HEADER_FILES
+  BackwardCompatibilityManager.h
+  Common.h
+  EditorWidgets.h
+  EFFEditorMessageCenter.h
+  EFFMyGUIEditorPCH.h
+  GroupMessage.h
+  Main.h
+  MainMenuControl.h
+  MainPanelControl.h
+  MainWorkspaceControl.h
+  PossibleValue.h
+  ScenePanelControl.h
+  SkinInfo.h
+  targetver.h
+  ToolsControl.h
+  WidgetContainer.h
+  WidgetSelectorManager.h
+  WidgetStyle.h
+  WidgetTypes.h
+  WorkspaceControl.h
+)
+
+set (SOURCE_FILES
+  BackwardCompatibilityManager.cpp
+  EditorWidgets.cpp
+  EFFEditorMessageCenter.cpp
+  EFFMyGUIEditorPCH.cpp
+  GroupMessage.cpp
+  Main.cpp
+  MainMenuControl.cpp
+  MainPanelControl.cpp
+  MainWorkspaceControl.cpp
+  ScenePanelControl.cpp
+  ToolsControl.cpp
+  WidgetContainer.cpp
+  WidgetSelectorManager.cpp
+  WidgetTypes.cpp
+  WorkspaceControl.cpp
+)
+
+
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFMyGUIEditorPCH.cpp
+  EFFMyGUIEditorPCH.h
+)

@@ -1,0 +1,40 @@
+set (HEADER_FILES
+  ../../Include/EFFMath.h
+  ../../Include/EFFMath/EFFAabb.h
+  ../../Include/EFFMath/EFFFPU.h
+  ../../Include/EFFMath/EFFMathBaseDefines.h
+  ../../Include/EFFMath/EFFMathFunction.h
+  ../../Include/EFFMath/EFFMatrix4.h
+  ../../Include/EFFMath/EFFPlane3.h
+  ../../Include/EFFMath/EFFPolygon3.h
+  ../../Include/EFFMath/EFFRect.h
+  ../../Include/EFFMath/EFFSegment3.h
+  ../../Include/EFFMath/EFFVector2.h
+  ../../Include/EFFMath/EFFVector3.h
+  ../../Include/EFFMath/EFFVector3.inl
+  ../../Include/EFFMath/EFFVector4.h
+)
+
+set (SOURCE_FILES
+  EFFAabb.cpp
+  EFFMathFunction.cpp
+  EFFMathPCH.cpp
+  EFFMathPCH.h
+  EFFMatrix4.cpp
+  EFFPlane3.cpp
+  EFFPolygon3.cpp
+  EFFRect.cpp
+  EFFSegment3.cpp
+  EFFVector2.cpp
+  EFFVector3.cpp
+  EFFVector4.cpp
+)
+
+SOURCE_GROUP("" FILES
+  ../../Include/EFFMath.h
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFMathPCH.cpp
+  EFFMathPCH.h
+)

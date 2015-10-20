@@ -1,0 +1,22 @@
+set (HEADER_FILES
+  ../../Include/EFFFramework.h
+  ../../Include/EFFFramework/EFFApplication.h
+  ../../Include/EFFFramework/EFFFrameworkBaseDefines.h
+)
+
+set (SOURCE_FILES
+  dllmain.cpp
+  EFFApplication.cpp
+  EFFFramework.cpp
+  EFFFrameworkPCH.cpp
+  EFFFrameworkPCH.h
+)
+
+SOURCE_GROUP("" FILES
+  ../../Include/EFFFramework.h
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFFrameworkPCH.cpp
+  EFFFrameworkPCH.h
+)

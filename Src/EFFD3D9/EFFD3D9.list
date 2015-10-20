@@ -1,0 +1,32 @@
+set (HEADER_FILES
+  ../../Include/EFFD3D9.h
+  ../../Include/EFFD3D9/EFFD3D9BaseDefines.h
+  ../../Include/EFFD3D9/EFFD3D9Shader.h
+)
+
+set (SOURCE_FILES
+  EFFD3D9Device.cpp
+  EFFD3D9Device.h
+  EFFD3D9IndexBuffer.cpp
+  EFFD3D9IndexBuffer.h
+  EFFD3D9PCH.cpp
+  EFFD3D9PCH.h
+  EFFD3D9Shader.cpp
+  EFFD3D9Surface.cpp
+  EFFD3D9Surface.h
+  EFFD3D9Texture.cpp
+  EFFD3D9Texture.h
+  EFFD3D9VertexBuffer.cpp
+  EFFD3D9VertexBuffer.h
+  EFFD3D9VertexDeclaration.cpp
+  EFFD3D9VertexDeclaration.h
+)
+
+SOURCE_GROUP("" FILES
+  ../../Include/EFFD3D9.h
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFD3D9PCH.cpp
+  EFFD3D9PCH.h
+)
