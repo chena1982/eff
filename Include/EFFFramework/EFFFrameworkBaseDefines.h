@@ -11,13 +11,9 @@
 #pragma comment (lib, "dwmapi.lib")
 
 #ifndef EFFFRAMEWORK_EXPORTS
-	#ifndef _EFFLIB
-		#define EFFF_API		__declspec(dllimport)
-	#else
-		#define EFFF_API
-	#endif
+	#define EFFF_API		__declspec(dllimport)
 #else
-	#define EFFF_API			__declspec(dllexport)
+	#define EFFF_API		__declspec(dllexport)
 #endif
 
 

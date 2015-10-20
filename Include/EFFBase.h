@@ -47,7 +47,7 @@
 	#endif
 #else
 	#if _DEBUG 
-		#pragma comment(lib, "EFFBaseD.lib")
+		#pragma comment(lib, "EFFBase_d.lib")
 	#else
 		#pragma comment(lib, "EFFBase.lib")
 	#endif

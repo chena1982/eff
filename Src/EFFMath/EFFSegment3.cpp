@@ -5,7 +5,7 @@
 	
 	purpose:	
 ******************************************************************************/
-#include "stdafx.h"
+#include "EFFMathPCH.h"
 
 #include "EFFMathFunction.h"
 #include "EFFSegment3.h"

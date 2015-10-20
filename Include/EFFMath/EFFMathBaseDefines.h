@@ -17,11 +17,7 @@
 #define USE_EFFMATH		using namespace EFFMATH;
 
 #ifndef EFFMATH_EXPORTS
-	#ifndef _EFFMATHLIB
-		#define EFFMATH_API		__declspec(dllimport)
-	#else
-		#define EFFMATH_API
-	#endif
+	#define EFFMATH_API		__declspec(dllimport)
 #else
 	#define EFFMATH_API		__declspec(dllexport)
 #endif

@@ -54,6 +54,11 @@ effVOID ShutdownServer()
 
 effVOID SendWindowPosAndSize()
 {
+	if (server == NULL)
+	{
+		return;
+	}
+
 	GameWindowPosAndSize gwpas;
 	gwpas.id = SendGameWindowPosAndSize;
 
@@ -63,10 +68,14 @@ effVOID SendWindowPosAndSize()
 	ClientToScreen(hWnd, reinterpret_cast<POINT *>(&rc.left));
 	ClientToScreen(hWnd, reinterpret_cast<POINT *>(&rc.right));
 
-	MyGUI::Widget * sceneWindow = EFFEditor::getInstance().GetMainPanelControl()->GetMainWorkspaceControl()->GetWorkspaceControl()->GetScenePanelControl()->GetSceneWindow();
-	gwpas.x = sceneWindow->getAbsoluteLeft() + rc.left;
-	gwpas.y = sceneWindow->getAbsoluteTop() + rc.top;
-	gwpas.width = sceneWindow->getWidth();
-	gwpas.height = sceneWindow->getHeight();
-	server->SendMsg(gwpas.id, &gwpas, sizeof(gwpas));
+	MainPanelControl * mpc = EFFEditor::getInstance().GetMainPanelControl();
+	if ( mpc != NULL )
+	{
+		MyGUI::Widget * sceneWindow = mpc->GetMainWorkspaceControl()->GetWorkspaceControl()->GetScenePanelControl()->GetSceneWindow();
+		gwpas.x = sceneWindow->getAbsoluteLeft() + rc.left;
+		gwpas.y = sceneWindow->getAbsoluteTop() + rc.top;
+		gwpas.width = sceneWindow->getWidth();
+		gwpas.height = sceneWindow->getHeight();
+		server->SendMsg(gwpas.id, &gwpas, sizeof(gwpas));
+	}
 }

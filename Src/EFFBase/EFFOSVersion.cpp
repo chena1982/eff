@@ -16,13 +16,15 @@ EFFBASE_BEGIN
 
 EFFOSVERSION GetOSVersion()
 {
-	OSVERSIONINFO version;
-    ZeroMemory(&version, sizeof(version));
-    version.dwOSVersionInfoSize = sizeof(version);
-    GetVersionEx(&version);
-    
-
-    if ( version.dwMajorVersion > 6 || ((version.dwMajorVersion == 6) && (version.dwMinorVersion >= 1)) )
+	if (IsWindowsXPOrGreater())
+	{
+		return WinXP;
+	}
+	else if (IsWindows8OrGreater())
+	{
+		return Win8;
+	}
+	else if (IsWindows7OrGreater())
 	{
 		return Win7;
 	}

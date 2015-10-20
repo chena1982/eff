@@ -108,7 +108,7 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 
 	D3DADAPTER_IDENTIFIER9 Identifier;
 
-	D3D->GetAdapterIdentifier(AdapterToUse,0,&Identifier);
+	D3D->GetAdapterIdentifier(AdapterToUse, 0, &Identifier);
 	//pD3DDevice->m_strDeviceName = Identifier.Description;
 
 	D3DCAPS9 d3dCaps;
@@ -378,20 +378,25 @@ effBOOL	EFFD3D9Device::CreateTextureFromFile(const effString & filePath, EFF3DTe
 
 	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
 
-	if( FAILED(D3DXCreateTextureFromFile(D3D9Device, filePath.c_str(), &effD3D9Texture->texture)) )
+	if (FAILED(D3DXCreateTextureFromFileEx(D3D9Device, filePath.c_str(), 0, 0, D3DX_FROM_FILE, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, 
+					D3DX_DEFAULT, D3DX_DEFAULT, 0, (D3DXIMAGE_INFO *)&effD3D9Texture->m_ImageInfo, NULL, &effD3D9Texture->texture)))
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
 
-	D3DSURFACE_DESC desc;
+	effD3D9Texture->m_ImageInfo.pool = EFF3DPOOL_DEFAULT;
+
+	/*D3DSURFACE_DESC desc;
 	effD3D9Texture->texture->GetLevelDesc(0, &desc);
 	effD3D9Texture->m_ImageInfo.width = desc.Width;
 	effD3D9Texture->m_ImageInfo.height = desc.Height;
 	effD3D9Texture->m_ImageInfo.usage = desc.Usage;
 	effD3D9Texture->m_ImageInfo.format = (EFF3DFORMAT)desc.Format;
 	effD3D9Texture->m_ImageInfo.pool = (EFF3DPOOL)desc.Pool;
-	effD3D9Texture->m_ImageInfo.resourceType = (EFF3DRESOURCETYPE)desc.Type;
+	effD3D9Texture->m_ImageInfo.resourceType = (EFF3DRESOURCETYPE)desc.Type;*/
+
+
 
 
 	effD3D9Texture->AddRef();
@@ -556,7 +561,8 @@ effBOOL EFFD3D9Device::DrawIndexedPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, 
 
 effBOOL EFFD3D9Device::DrawPrimitive(EFF3DPRIMITIVETYPE primitiveType, effUINT startVertex, effUINT primitiveCount)
 {
-	return SUCCEEDED(D3D9Device->DrawPrimitive((D3DPRIMITIVETYPE)primitiveType, startVertex, primitiveCount));
+	HRESULT hr = D3D9Device->DrawPrimitive((D3DPRIMITIVETYPE)primitiveType, startVertex, primitiveCount);
+	return SUCCEEDED(hr);
 }
 
 effBOOL EFFD3D9Device::DrawPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData, effUINT vertexStreamZeroStride)
@@ -646,12 +652,44 @@ effBOOL EFFD3D9Device::SetShader(EFF3DShader * shader)
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Device::SetScissorRect(const RECT * rect)
+effBOOL EFFD3D9Device::SetScissorRect(const EFFRect * rect)
 {
-	return SUCCEEDED(D3D9Device->SetScissorRect(rect));
+	RECT longRect;
+	longRect.left = (long)rect->left;
+	longRect.top = (long)rect->top;
+	longRect.right = (long)rect->right;
+	longRect.bottom = (long)rect->bottom;
+
+	return SUCCEEDED(D3D9Device->SetScissorRect(&longRect));
 }
 
 effVOID EFFD3D9Device::Release()
 {
 	delete this;
+}
+
+effBOOL EFFD3D9Device::GetRenderTarget(effUINT index, EFF3DSurface ** surface)
+{
+	EFFD3D9Surface * renderTarget = EFFNEW EFFD3D9Surface();
+	
+	if (SUCCEEDED(D3D9Device->GetRenderTarget(index, &renderTarget->m_pSurface)))
+	{
+		*surface = renderTarget;
+		return effTRUE;
+	}
+
+	SF_DELETE(renderTarget);
+	return effFALSE;
+}
+
+
+effBOOL EFFD3D9Device::GetViewport(EFF3DVIEWPORT9 * viewport)
+{
+	return SUCCEEDED(D3D9Device->GetViewport((D3DVIEWPORT9 *)viewport));
+}
+
+
+effBOOL	EFFD3D9Device::CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool)
+{
+	return SUCCEEDED(D3DXCheckTextureRequirements(D3D9Device, width, height, numMipLevels, usage, (D3DFORMAT *)format, (D3DPOOL)pool));
 }

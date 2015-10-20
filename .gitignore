@@ -22,5 +22,4 @@
 ipch
 /Build/VC/VC2010/*.sdf
 /Build/VC/VC2010/*.suo
-debug
 obj

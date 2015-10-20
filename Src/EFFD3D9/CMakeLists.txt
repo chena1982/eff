@@ -2,18 +2,18 @@ project(EFFD3D9)
 
 set(LIB_NAME EFFD3D9)
 
-aux_source_directory(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME} EFFD3D9_SRCS)
-list(REMOVE_ITEM EFFD3D9_SRCS "${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFD3D9Effect.cpp")
-
-
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
-include_directories($ENV{BOOST_ROOT})
 include_directories($ENV{DXSDK_DIR}Include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cg/include)
 
-link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
+if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
+    link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
+elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
+    link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2013)
+endif()
+
 link_directories($ENV{DXSDK_DIR}Lib/x86)
 link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib)
 
@@ -31,14 +31,15 @@ endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 
 
-add_library(${LIB_NAME} SHARED ${EFFD3D9_SRCS})
+include(${LIB_NAME}.list)
+add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
 #启用最小生成
-set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Gm")
+target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
-set_source_files_properties(${EFFD3D9_SRCS} PROPERTIES COMPILE_FLAGS "/YuEFFD3D9PCH.h")
+set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "/YuEFFD3D9PCH.h")
 set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFD3D9PCH.cpp PROPERTIES COMPILE_FLAGS "/YcEFFD3D9PCH.h")
 
 #设置生产dll的Debug后缀

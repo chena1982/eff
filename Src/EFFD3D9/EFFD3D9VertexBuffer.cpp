@@ -10,7 +10,7 @@
 #include "EFFD3D9VertexBuffer.h"
 
 //#define new EFFNEW
-
+//RTTI_IMPLEMENT(EFFD3D9VertexBuffer, 0)
 
 EFFD3D9VertexBuffer::EFFD3D9VertexBuffer()
 {
@@ -28,13 +28,13 @@ effHRESULT EFFD3D9VertexBuffer::GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc)
 	return m_pBuf->GetDesc((D3DVERTEXBUFFER_DESC *)pDesc);
 }
 
-effHRESULT EFFD3D9VertexBuffer::Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags)
+effHRESULT EFFD3D9VertexBuffer::LockBuffer(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags)
 {
 	assert(m_pBuf != NULL);
 	return m_pBuf->Lock(OffsetToLock,SizeToLock,ppbData,Flags);
 }
 
-effHRESULT EFFD3D9VertexBuffer::Unlock()
+effHRESULT EFFD3D9VertexBuffer::UnlockBuffer()
 {
 	assert(m_pBuf != NULL);
 	return m_pBuf->Unlock();

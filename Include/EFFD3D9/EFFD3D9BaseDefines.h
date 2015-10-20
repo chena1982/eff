@@ -17,13 +17,9 @@
 
 
 #ifndef EFFD3D9_EXPORTS
-#ifndef _EFFLIB
-#define EFFD3D9_API		__declspec(dllimport)
+	#define EFFD3D9_API		__declspec(dllimport)
 #else
-#define EFFD3D9_API
-#endif
-#else
-#define EFFD3D9_API		__declspec(dllexport)
+	#define EFFD3D9_API		__declspec(dllexport)
 #endif
 
 #endif

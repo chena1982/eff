@@ -6,7 +6,7 @@
 	purpose:	
 ******************************************************************************/
 
-#include "stdafx.h"
+#include "EFFMathPCH.h"
 #include "EFFRect.h"
 
 //#define new EFFNEW

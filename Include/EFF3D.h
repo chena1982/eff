@@ -20,7 +20,7 @@ USE_EFFBASE
 #include <EFFMath.h>
 USE_EFFMATH
 
-#include <wke\wke.h>
+//#include <wke\wke.h>
 
 #include "EFF3D\EFF3DBaseDefines.h"
 #include "EFF3D\EFF3DObject.h"
@@ -41,8 +41,8 @@ USE_EFFMATH
 #include "EFF3D\EFF3DImgui.h"
 #include "EFF3D\EFF3DImguiRender.h"
 #include "EFF3D\EFF3DFont.h"
-#include "EFF3D\EFF3DWebGui.h"
-#include "EFF3D\EFF3DHtmlWindow.h"
+//#include "EFF3D\EFF3DWebGui.h"
+//#include "EFF3D\EFF3DHtmlWindow.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 
@@ -64,11 +64,11 @@ USE_EFFMATH
 #	pragma comment(lib,"Awesomium.lib")
 #endif*/
 
-#if defined _DEBUG
+/*#if defined _DEBUG
 #	pragma comment(lib,"wke.lib")
 #else
 #	pragma comment(lib,"wke.lib")
-#endif
+#endif*/
 
 #endif
 

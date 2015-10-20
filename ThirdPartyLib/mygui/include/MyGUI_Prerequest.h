@@ -4,8 +4,8 @@
  * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef __MYGUI_PREREQUEST_H__
-#define __MYGUI_PREREQUEST_H__
+#ifndef MYGUI_PREREQUEST_H_
+#define MYGUI_PREREQUEST_H_
 
 #include "MyGUI_Platform.h"
 
@@ -19,13 +19,7 @@
 #define MYGUI_DEFINE_VERSION(major, minor, patch) ((major << 16) | (minor << 8) | patch)
 
 #ifndef MYGUI_DONT_REPLACE_NULLPTR
-#	if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
-#		ifndef _MANAGED
-#			ifndef _NATIVE_NULLPTR_SUPPORTED
-#				define nullptr 0
-#			endif
-#		endif
-#	else
+#	if __cplusplus < 201103L && !defined(_NATIVE_NULLPTR_SUPPORTED)
 #		define nullptr 0
 #	endif
 #endif
@@ -79,7 +73,7 @@ namespace MyGUI
 	// Define version
 #define MYGUI_VERSION_MAJOR 3
 #define MYGUI_VERSION_MINOR 2
-#define MYGUI_VERSION_PATCH 1
+#define MYGUI_VERSION_PATCH 2
 
 #define MYGUI_VERSION    MYGUI_DEFINE_VERSION(MYGUI_VERSION_MAJOR, MYGUI_VERSION_MINOR, MYGUI_VERSION_PATCH)
 
@@ -98,4 +92,4 @@ namespace MyGUI
 
 #include "MyGUI_DeprecatedTypes.h"
 
-#endif // __MYGUI_PREREQUEST_H__
+#endif // MYGUI_PREREQUEST_H_

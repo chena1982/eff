@@ -15,8 +15,9 @@ EFFBASE_BEGIN
 enum EFFOSVERSION
 {
 	WinXP,
-	Win7,
 	Win2003,
+	Win7,
+	Win8,
 	OS_Unknown
 };
 

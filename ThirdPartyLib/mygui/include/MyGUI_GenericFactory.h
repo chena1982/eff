@@ -4,12 +4,13 @@
  * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef __MYGUI_GENERIC_FACTORY_H__
-#define __MYGUI_GENERIC_FACTORY_H__
+#ifndef MYGUI_GENERIC_FACTORY_H_
+#define MYGUI_GENERIC_FACTORY_H_
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Types.h"
 #include "MyGUI_Delegate.h"
+#include "MyGUI_IObject.h"
 
 namespace MyGUI
 {
@@ -33,4 +34,4 @@ namespace MyGUI
 
 } // namespace MyGUI
 
-#endif // __MYGUI_GENERIC_FACTORY_H__
+#endif // MYGUI_GENERIC_FACTORY_H_

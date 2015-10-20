@@ -4,8 +4,6 @@ set(EXE_NAME Game)
 
 
 
-aux_source_directory(${CMAKE_SOURCE_DIR}/Tools/${EXE_NAME} GAME_SRCS)
-
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${EXE_NAME})
 include_directories($ENV{BOOST_ROOT})
@@ -30,14 +28,15 @@ endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 
 
-add_executable(${EXE_NAME} WIN32 ${GAME_SRCS})
+include(${EXE_NAME}.list)
+add_executable(${EXE_NAME} WIN32 ${HEADER_FILES} ${SOURCE_FILES})
 
 #启用最小生成
-set_target_properties(${EXE_NAME} PROPERTIES COMPILE_FLAGS "/Gm")
+target_compile_options(${EXE_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${EXE_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
-set_source_files_properties(${GAME_SRCS} PROPERTIES COMPILE_FLAGS "/YuGamePCH.h")
+set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "/YuGamePCH.h")
 set_source_files_properties(${CMAKE_SOURCE_DIR}/Tools/${EXE_NAME}/GamePCH.cpp PROPERTIES COMPILE_FLAGS "/YcGamePCH.h")
 
 

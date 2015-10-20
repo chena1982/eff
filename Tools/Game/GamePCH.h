@@ -18,14 +18,7 @@
 
 // TODO: 在此处引用程序需要的其他头文件
 
-#include "EFFBase.h"
-USE_EFFBASE
+#include <EFF3D.h>
+using namespace EFF3D;
 
-#include "EFFMath.h"
-USE_EFFMATH
-
-#include "EFF3D.h"
-USE_EFF3D
-
-
-#include "EFFFramework.h"
+#include <EFFFramework.h>

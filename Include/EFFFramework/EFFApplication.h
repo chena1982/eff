@@ -35,15 +35,23 @@ public:
 	effVOID	SetBackGroundColor(effUINT color);
 
 	effVOID MoveWindow(effINT x, effINT y, effINT width, effINT height);
+
+	HWND GetHWND() { return hWnd; }
 protected:
 	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host);
+
 	effVOID	Update();
 	effVOID Render(effFLOAT elapsedTime);
 
 	effBOOL	CreateMemFile();
 	effVOID ReadHWNDFromMemFile();
+
+	effVOID InitGui();
+	effVOID CreateGui();
 public:
-	EFFEvent					OnRenderGUI;
+	EFFEvent						OnRenderGUI;
+	static EFFEvent					OnWindowMove;
+	static EFFEvent					OnWindowResize;
 protected:
 	EFF3DDevice *				device;
 	HANDLE						memFile;
@@ -51,6 +59,8 @@ protected:
 	effUINT						backGroundColor;
 	effBOOL						host;
 	effBOOL						window;
+
+	HWND						hWnd;
 };
 
 

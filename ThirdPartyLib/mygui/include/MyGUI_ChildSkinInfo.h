@@ -4,11 +4,12 @@
  * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef __MYGUI_CHILD_SKIN_INFO_H__
-#define __MYGUI_CHILD_SKIN_INFO_H__
+#ifndef MYGUI_CHILD_SKIN_INFO_H_
+#define MYGUI_CHILD_SKIN_INFO_H_
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_WidgetStyle.h"
+#include "MyGUI_Types.h"
 
 namespace MyGUI
 {
@@ -34,4 +35,4 @@ namespace MyGUI
 } // namespace MyGUI
 
 
-#endif // __MYGUI_CHILD_SKIN_INFO_H__
+#endif // MYGUI_CHILD_SKIN_INFO_H_

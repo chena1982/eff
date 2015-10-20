@@ -155,12 +155,12 @@ public:\
 	typedef C ClassType;\
 	__member_callable##N##__(FunctionPtrTypeReal m)\
 	{\
-		funcPtr = (FunctionPtrType)m;\
+		funcPtr = m;\
 		info->returnType = GetParameterProperty<R>(_effT("")).parameterProperty; /*得到返回值类型*/ \
 		__REPEAT(N, __ADD_METHOD_ARGS__, __SEMICOLON__, __NOTHING__); /*得到参数类型*/ \
 	}\
 public:\
-	FunctionPtrType		funcPtr;\
+	FunctionPtrTypeReal		funcPtr;\
 };
 
 

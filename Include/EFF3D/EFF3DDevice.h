@@ -9,9 +9,9 @@
 #define __EFF3DDevice_2008_12_1__
 
 
-namespace Awesomium {
+/*namespace Awesomium {
 	class WebCore;
-};
+};*/
 
 EFF3D_BEGIN
 
@@ -98,8 +98,12 @@ public:
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
-	virtual effBOOL				SetScissorRect(const RECT * rect) = 0; 
+	virtual effBOOL				SetScissorRect(const EFFRect * rect) = 0; 
 
+
+	virtual effBOOL				GetRenderTarget(effUINT index, EFF3DSurface ** surface) = 0;
+	virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport) = 0;
+	virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool) = 0;
 
 	//下面是一些经过包装的方便使用的接口，这样使用引擎的人既可以快速方便的渲染一些东西，也可以使用上面的接口，以便于更细粒度的控制
 	//不至于像某些引擎全部包装好了，你必须按照它的模式写代码，想增加一些功能时想要更细粒度的控制却发现不可能
@@ -115,7 +119,7 @@ public:
 	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
 	inline EFFInputManager *	GetInputManager() { return inputManager; }
-	inline Awesomium::WebCore * GetWebCore() { return webCore; }
+	//inline Awesomium::WebCore * GetWebCore() { return webCore; }
 
 	effVOID						SetBackBufferSize(effINT width,effINT weight);
 	effINT						GetBackBufferWidth() { return width; }
@@ -139,7 +143,7 @@ private:
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
 	EFFInputManager *			inputManager;
-	Awesomium::WebCore *		webCore;
+	//Awesomium::WebCore *		webCore;
 
 	effINT						width;
 	effINT						height;

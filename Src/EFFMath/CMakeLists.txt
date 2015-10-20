@@ -2,11 +2,8 @@ project(EFFMath)
 
 set(LIB_NAME EFFMath)
 
-aux_source_directory(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME} EFFMATH_SRCS)
-
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
-include_directories($ENV{BOOST_ROOT})
 include_directories($ENV{DXSDK_DIR}Include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 
@@ -29,15 +26,16 @@ endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 
 
-add_library(${LIB_NAME} SHARED ${EFFMATH_SRCS})
+include(${LIB_NAME}.list)
+add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
 #启用最小生成
-set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Gm")
+target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
-set_source_files_properties(${EFFMATH_SRCS} PROPERTIES COMPILE_FLAGS "/Yu")
-set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/stdafx.cpp PROPERTIES COMPILE_FLAGS "/Yc")
+set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "/YuEFFMathPCH.h")
+set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFMathPCH.cpp PROPERTIES COMPILE_FLAGS "/YcEFFMathPCH.h")
 
 #设置生产dll的Debug后缀
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")

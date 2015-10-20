@@ -16,11 +16,11 @@
 #include "EFF3DDevice.h"
 #include "EFF3DObject.h"
 #include "EFF3DFont.h"
-#include "EFF3DWebGui.h"
+//#include "EFF3DWebGui.h"
 
 
-#include <Awesomium/WebCore.h>
-#include <Awesomium/STLHelpers.h>
+//#include <Awesomium/WebCore.h>
+//#include <Awesomium/STLHelpers.h>
 
 #include <direct.h>
 
@@ -124,10 +124,10 @@ EFF3DDevice::~EFF3DDevice()
 	//Py_Finalize();//调用Py_Finalize，这个根Py_Initialize相对应的。
 
 
-	Awesomium::WebCore::Shutdown();
-	webCore = NULL;
+	//Awesomium::WebCore::Shutdown();
+	//webCore = NULL;
 
-	wkeShutdown();
+	//wkeShutdown();
 
 	SF_DELETE(imageManager);
 	SF_DELETE(sceneManager);
@@ -156,19 +156,19 @@ effVOID EFF3DDevice::Init()
 
 	inputManager = EFFNEW EFFInputManager();
 
-	wkeInit();
-	jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);
+	//wkeInit();
+	//jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);
 
 
 	char buffer[MAX_PATH];
     _getcwd(buffer, MAX_PATH);
 
-	Awesomium::WebConfig config;
-	config.log_path = Awesomium::WSLit(buffer);
-	config.log_level = Awesomium::kLogLevel_Normal;
+	//Awesomium::WebConfig config;
+	//config.log_path = Awesomium::WSLit(buffer);
+	//config.log_level = Awesomium::kLogLevel_Normal;
 	//config.additional_options.Push(Awesomium::WSLit("disable-3d-apis"));
 
-	webCore = Awesomium::WebCore::Initialize(config);
+	//webCore = Awesomium::WebCore::Initialize(config);
 }
 
 effVOID EFF3DDevice::InitProperty()
@@ -304,10 +304,10 @@ effVOID EFF3DDevice::Update()
 		inputManager->Update();
 	}
 
-	if ( webCore != NULL )
+	/*if ( webCore != NULL )
 	{
 		webCore->Update();
-	}
+	}*/
 }
 
 EFF3D_END

@@ -20,3 +20,7 @@ USE_EFF3D
 #include <dwmapi.h>
 
 #include "EFFFrameworkBaseDefines.h"
+
+#include <MyGUI.h>
+using namespace MyGUI;
+

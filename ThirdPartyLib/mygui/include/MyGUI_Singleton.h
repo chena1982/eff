@@ -4,15 +4,15 @@
  * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef __MYGUI_SINGLETON_H__
-#define __MYGUI_SINGLETON_H__
+#ifndef MYGUI_SINGLETON_H_
+#define MYGUI_SINGLETON_H_
 
 #include "MyGUI_Diagnostic.h"
 
 namespace MyGUI
 {
 
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || MYGUI_PLATFORM == MYGUI_PLATFORM_APPLE
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
 	template <class T>
 	class Singleton
 #else
@@ -58,4 +58,4 @@ namespace MyGUI
 
 } // namespace MyGUI
 
-#endif // __MYGUI_SINGLETON_H__
+#endif // MYGUI_SINGLETON_H_

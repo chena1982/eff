@@ -730,11 +730,11 @@ EFF3DVertexBuffer * EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT nLev
 
 		effHRESULT hr;
 		effVOID * pData = NULL;
-		if ( !FAILED(hr = m_pVB->Lock(offset, size, &pData, 0)) )
+		if ( !FAILED(hr = m_pVB->LockBuffer(offset, size, &pData, 0)) )
 		{
 			memcpy(pData, &m_pVertices[offset], size);
 
-			m_pVB->Unlock();
+			m_pVB->UnlockBuffer();
 		}
 	}
 

@@ -10,11 +10,14 @@
 
 #include <d3d9.h>
 
+
+#include <EFF3D.h>
+using namespace EFF3D;
+
+#include <EFFFramework.h>
+
+
+
 #include <Base/Main.h>  
 #include <BaseManager.h>
 #include <MyGUI.h>
-#include <MyGUI_DirectXPlatform.h>
-
-
-#include <EFFBase.h>
-using namespace EFFBase;

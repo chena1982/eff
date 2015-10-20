@@ -497,11 +497,11 @@ effVOID imguiRenderDraw()
 			if (cmd.flags)
 			{
 				device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effTRUE);
-				RECT rc;
+				EFFRect rc;
 				rc.left = cmd.rect.x;
 				rc.top = cmd.rect.y;
-				rc.right = cmd.rect.x + cmd.rect.w;
-				rc.bottom = cmd.rect.y + cmd.rect.h;
+				rc.right = (effFLOAT)(cmd.rect.x + cmd.rect.w);
+				rc.bottom = (effFLOAT)(cmd.rect.y + cmd.rect.h);
 				device->SetScissorRect(&rc);
 			}
 			else

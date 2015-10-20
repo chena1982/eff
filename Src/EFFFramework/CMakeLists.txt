@@ -2,14 +2,14 @@ project(EFFFramework)
 
 set(LIB_NAME EFFFramework)
 
-aux_source_directory(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME} EFFFRAMEWORK_SRCS)
+
 
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
-include_directories($ENV{BOOST_ROOT})
 include_directories($ENV{DXSDK_DIR}Include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
-
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/mygui/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/mygui/Platforms/DirectX/include)
 
 link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 link_directories($ENV{DXSDK_DIR}Lib/x86)
@@ -29,14 +29,15 @@ endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 
 
-add_library(${LIB_NAME} SHARED ${EFFFRAMEWORK_SRCS})
+include(${LIB_NAME}.list)
+add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
 #启用最小生成
-set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Gm")
+target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
-set_source_files_properties(${EFFFRAMEWORK_SRCS} PROPERTIES COMPILE_FLAGS "/YuEFFFrameworkPCH.h")
+set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "/YuEFFFrameworkPCH.h")
 set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFFrameworkPCH.cpp PROPERTIES COMPILE_FLAGS "/YcEFFFrameworkPCH.h")
 
 #设置生产dll的Debug后缀

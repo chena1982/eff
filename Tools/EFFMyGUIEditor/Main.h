@@ -16,6 +16,8 @@ public:
 
 	virtual void windowResized();
 	virtual void windowMove();
+
+	void ReceiveMsg(effFLOAT elapsedTime);
 private:
 	virtual void setupResources();
 

@@ -66,7 +66,7 @@ effBOOL EFFNetClient::Send(EFFObject * object, const effString & propertyName)
 
 effBOOL EFFNetClient::ReceiveMsg(effVOID * buffer, effINT size)
 {
-    effINT receiveSize = zmq_recv(socket, buffer, size, ZMQ_DONTWAIT);
+	effINT receiveSize = zmq_recv(socket, buffer, size, ZMQ_DONTWAIT);
 	if ( receiveSize > 0 && receiveSize <= size )
 	{
 		return effTRUE;
@@ -77,9 +77,25 @@ effBOOL EFFNetClient::ReceiveMsg(effVOID * buffer, effINT size)
 
 effBOOL EFFNetClient::SendCmd(effINT id)
 {
-	if ( zmq_send(socket, &id, sizeof(effINT), 0) == -1 )
+	if (zmq_send(socket, &id, sizeof(effINT), ZMQ_DONTWAIT) == -1)
 	{
-		std::string error = zmq_strerror(zmq_errno());
+		int error = zmq_errno();
+		int count = 0;
+		while (error == EAGAIN && count < 10)
+		{
+			if (zmq_send(socket, &id, sizeof(effINT), ZMQ_DONTWAIT) == -1)
+			{
+				error = zmq_errno();
+			}
+			else
+			{
+				return effTRUE;
+			}
+
+			count++;
+		}
+
+		std::string errorText = zmq_strerror(error);
 		return effFALSE;
 	}
 
@@ -88,9 +104,25 @@ effBOOL EFFNetClient::SendCmd(effINT id)
 
 effBOOL EFFNetClient::SendMsg(effINT id, effVOID * buffer, effINT size)
 {
-	if ( zmq_send(socket, buffer, size, 0) == -1 )
+	if (zmq_send(socket, buffer, size, ZMQ_DONTWAIT) == -1)
 	{
-		std::string error = zmq_strerror(zmq_errno());
+		int error = zmq_errno();
+		int count = 0;
+		while (error == EAGAIN && count < 10)
+		{
+			if (zmq_send(socket, buffer, size, ZMQ_DONTWAIT) == -1)
+			{
+				error = zmq_errno();
+			}
+			else
+			{
+				return effTRUE;
+			}
+
+			count++;
+		}
+
+		std::string errorText = zmq_strerror(error);
 		return effFALSE;
 	}
 

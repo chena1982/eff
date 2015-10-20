@@ -67,7 +67,11 @@ public:
 	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil);
 
 	virtual effBOOL				SetShader(EFF3DShader * shader);
-	virtual effBOOL				SetScissorRect(const RECT * rect); 
+	virtual effBOOL				SetScissorRect(const EFFRect * rect);
+
+	virtual effBOOL				GetRenderTarget(effUINT index, EFF3DSurface ** surface);
+	virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport);
+	virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool);
 public:
 	virtual effVOID				Release();
 

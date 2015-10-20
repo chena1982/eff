@@ -14,7 +14,7 @@
 EFF3D_BEGIN
 
 
-class  EFF3D_API EFF3DImage : public EFF3DResource
+class EFF3D_API EFF3DImage : public EFF3DResource
 {
 	RTTI_DECLARE_PURE(EFF3DImage, EFF3DResource)
 public:
@@ -39,9 +39,9 @@ protected:
 	}
 	virtual ~EFF3DTexture() {};
 public:
-	virtual effHRESULT			GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc) = 0;
-	virtual effHRESULT			GetSurfaceLevel(effUINT Level,EFF3DSurface ** ppSurfaceLevel) = 0;
-	virtual effHRESULT			LockRect(effUINT Level,EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags) = 0;
+	virtual effHRESULT			GetLevelDesc(effUINT Level, EFF3DSURFACE_DESC * pDesc) = 0;
+	virtual effHRESULT			GetSurfaceLevel(effUINT Level, EFF3DSurface ** ppSurfaceLevel) = 0;
+	virtual effHRESULT			LockRect(effUINT Level, EFF3DLOCKED_RECT * pLockedRect, const EFFRect * pRect, effUINT Flags) = 0;
 	virtual effHRESULT			UnlockRect(effUINT Level) = 0;
 };
 

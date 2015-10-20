@@ -12,13 +12,14 @@
 class EFFD3D9VertexBuffer : public EFF3DVertexBuffer
 {
 	friend class EFFD3D9Device;
+	//RTTI_DECLARE(EFFD3D9VertexBuffer, EFF3DVertexBuffer)
 public:
 	EFFD3D9VertexBuffer();
 	virtual ~EFFD3D9VertexBuffer();
 public:
 	virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc);
-	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags);
-	virtual effHRESULT				Unlock();
+	virtual effHRESULT				LockBuffer(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags);
+	virtual effHRESULT				UnlockBuffer();
 protected:
 	LPDIRECT3DVERTEXBUFFER9		m_pBuf;
 };

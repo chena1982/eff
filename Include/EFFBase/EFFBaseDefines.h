@@ -171,11 +171,7 @@ static inline effULONG mem_size(MemberType ClassType::*member)
 #define USE_EFFBASE			using namespace EFFBase;
 
 #ifndef EFFBASE_EXPORTS
-	#ifndef EFFLIB
-		#define EFFBASE_API		__declspec(dllimport)
-	#else
-		#define EFFBASE_API
-	#endif
+	#define EFFBASE_API		__declspec(dllimport)
 #else
 	#define EFFBASE_API		__declspec(dllexport)
 #endif

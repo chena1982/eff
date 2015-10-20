@@ -4,8 +4,8 @@
  * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef __MYGUI_LANGUAGE_MANAGER_H__
-#define __MYGUI_LANGUAGE_MANAGER_H__
+#ifndef MYGUI_LANGUAGE_MANAGER_H_
+#define MYGUI_LANGUAGE_MANAGER_H_
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Singleton.h"
@@ -31,6 +31,8 @@ namespace MyGUI
 		void setCurrentLanguage(const std::string& _name);
 		/** Get current language */
 		const std::string& getCurrentLanguage() const;
+		/** Get all available languages */
+		VectorString getLanguages() const;
 
 		/** Replace all tags #{tagname} in _line with appropriate string dependent
 		on current language or keep #{tagname} if 'tagname' not found found */
@@ -88,4 +90,4 @@ namespace MyGUI
 
 } // namespace MyGUI
 
-#endif // __MYGUI_LANGUAGE_MANAGER_H__
+#endif // MYGUI_LANGUAGE_MANAGER_H_

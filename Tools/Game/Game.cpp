@@ -52,7 +52,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	EFFApplication app;
 	application = &app;
 	app.Init(effTRUE, 1024, 768, effTRUE, effFALSE);
-	app.SetBackGroundColor(0x80FF0000);
+	app.SetBackGroundColor(0x00FF0000);
 	app.OnRenderGUI += EFFEventCall(&ReceiveMsg);
 
 	app.Run();

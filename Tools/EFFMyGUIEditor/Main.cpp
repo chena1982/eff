@@ -14,6 +14,7 @@ template <> const char * MyGUI::Singleton<EFFEditor>::mClassTypeName = "EFFEdito
 
 EFFEditor::EFFEditor()
 {
+	mMainPanelControl = NULL;
 }
 
 EFFEditor::~EFFEditor()
@@ -46,7 +47,7 @@ void EFFEditor::createScene()
 
 	InitServer();
 
-	eventUpdate += MyGUI::newDelegate(&ReceiveMsg);
+	//eventUpdate += MyGUI::newDelegate(&ReceiveMsg);
 }  
 
 
@@ -76,4 +77,47 @@ void EFFEditor::windowMove()
 	SendWindowPosAndSize();
 }
 
-MYGUI_APP(EFFEditor)  
+
+effBYTE buffer[256];
+
+void EFFEditor::ReceiveMsg(effFLOAT elapsedTime)
+{
+	if (GetServer()->ReceiveMsg(buffer, 256))
+	{
+		effINT id = *((effINT *)buffer);
+		if (id == RequestGameWindowPosAndSize)
+		{
+			SendWindowPosAndSize();
+		}
+		else
+		{
+			int z = 0;
+		}
+	}
+}
+
+int APIENTRY _tWinMain(HINSTANCE hInstance,
+                     HINSTANCE hPrevInstance,
+                     LPTSTR    lpCmdLine,
+                     int       nCmdShow)
+{
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+
+
+	EFFApplication app;
+	app.Init(effTRUE, 1024, 768, effFALSE, effTRUE);
+
+	EFFEditor editor;
+	editor.create(app.GetHWND());
+
+	app.OnRenderGUI += EFFEventCall((base::BaseManager *)&editor, &base::BaseManager::drawOneFrame);
+	//app.OnRenderGUI += EFFEventCall(&editor, &EFFEditor::ReceiveMsg);
+
+	//app.OnWindowMove += EFFEventCall(&editor, &EFFEditor::windowMove);
+
+	app.Run();
+
+
+ 	return 0;
+}

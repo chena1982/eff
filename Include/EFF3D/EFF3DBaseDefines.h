@@ -1227,11 +1227,7 @@ typedef struct EFF3DVERTEXBUFFER_DESC {
 
 
 #ifndef EFF3D_EXPORTS
-	#ifndef _EFFLIB
-		#define EFF3D_API		__declspec(dllimport)
-	#else
-		#define EFF3D_API
-	#endif
+	#define EFF3D_API		__declspec(dllimport)
 #else
 	#define EFF3D_API		__declspec(dllexport)
 #endif

@@ -13,7 +13,6 @@
 #define MEMFILE_SIZE 256
 
 HINSTANCE hInst;								// 当前实例
-HWND hWnd;
 
 TCHAR szTitle[MAX_LOADSTRING];					// 标题栏文本
 TCHAR szWindowClass[MAX_LOADSTRING];			// 主窗口类名
@@ -109,6 +108,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
+	case WM_MOVE:
+		EFFApplication::OnWindowMove();
+		break;
 	case WM_DESTROY:
 		appExit = effTRUE;
 		break;
@@ -140,6 +142,9 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 }
 
 
+EFFEvent EFFApplication::OnWindowMove;
+EFFEvent EFFApplication::OnWindowResize;
+
 EFFApplication::EFFApplication()
 {
 	device = NULL;
@@ -147,6 +152,7 @@ EFFApplication::EFFApplication()
 	backGroundColor = 0xFF4c4c52;
 	host = effFALSE;
 	window = effFALSE;
+	hWnd = NULL;
 }
 
 EFFApplication::~EFFApplication()
@@ -169,7 +175,11 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 		return effFALSE;
 	}
 
-	Create3DDevice(L"EFFD3D9UD.dll", &device, window, hWnd, width, height);
+#ifdef _DEBUG
+	Create3DDevice(L"EFFD3D9_d.dll", &device, window, hWnd, width, height);
+#else
+	Create3DDevice(L"EFFD3D9.dll", &device, window, hWnd, width, height);
+#endif
 
 	if ( device == NULL )
 	{
@@ -311,7 +321,7 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 				ClientToScreen(mpwh.hWndMain, reinterpret_cast<POINT *>(&windowRect.right));
 				::MoveWindow(hWnd, windowRect.left, windowRect.top, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, TRUE);
 				
-				//SetParent(hWnd, mpwh.hWndMain);
+				SetParent(hWnd, mpwh.hWndMain);
 			}
 
 			MARGINS mgDWMMargins = {-1, -1, -1, -1};
@@ -326,7 +336,7 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 			bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
 			bb.fEnable = FALSE;
 			bb.hRgnBlur = rect;
-			bb.fTransitionOnMaximized = FALSE;
+			bb.fTransitionOnMaximized = 0;
 
 			// Apply Blur Behind
 			DwmEnableBlurBehindWindow(hWnd, &bb);*/
@@ -444,5 +454,7 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 }
 
 
+effVOID EFFApplication::InitGui()
+{
 
-
+}
