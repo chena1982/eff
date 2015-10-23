@@ -19,11 +19,9 @@
 /Bin/media
 /Bin/localstorage
 /Bin/webix
-/Tools/EFFEditor/*.sdf
-/Tools/EFFEditor/*.suo
+*.sdf
+*.suo
 ipch
-/Build/VC/VC2010/*.sdf
-/Build/VC/VC2010/*.suo
 /Tools/EFFAssetServer
 /Tools/EFFWPFEditor
 /Tools/EFFQtEditor
