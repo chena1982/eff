@@ -14,6 +14,9 @@
 
 #define SendGameWindowPosAndSize 1
 
+#define RequestApp 2
+#define SendApp 3
+
 struct GameWindowPosAndSize
 {
 	effINT id;
@@ -21,6 +24,12 @@ struct GameWindowPosAndSize
 	effINT y;
 	effINT width;
 	effINT height;
+};
+
+struct ApplicationInfo
+{
+	effINT id;
+	effVOID * app;
 };
 
 

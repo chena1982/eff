@@ -348,7 +348,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 {
 	assert(texture != NULL);
 
-	EFFD3D9Texture * effD3D9Texture = new EFFD3D9Texture();
+	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
 
 	effHRESULT hr;
 

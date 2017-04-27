@@ -59,8 +59,14 @@ public:
 	EFFEvent	OnKeyReleased;
 
 	EFFEvent	OnMouseMove;
-	EFFEvent	OnMouseButtonPressed;
-	EFFEvent	OnMouseButtonReleased;
+	EFFEvent	OnMouseLButtonPressed;
+	EFFEvent	OnMouseLButtonReleased;
+
+	EFFEvent	OnMouseMButtonPressed;
+	EFFEvent	OnMouseMButtonReleased;
+
+	EFFEvent	OnMouseRButtonPressed;
+	EFFEvent	OnMouseRButtonReleased;
 protected:
 
 	effINT		x;

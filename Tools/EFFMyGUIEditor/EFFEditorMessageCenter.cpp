@@ -9,6 +9,7 @@
 #include "WorkspaceControl.h"
 #include "ScenePanelControl.h"
 
+EFFNetClient * client = NULL;
 EFFNetServer * server = NULL;
 
 void InitServer()
@@ -28,10 +29,27 @@ EFFNetServer * GetServer()
 	return server;
 }
 
+void InitClient()
+{
+	client = EFFNEW EFFNetClient();
+	client->Init();
+	client->Connect(_effT("tcp://127.0.0.1:5555"));
+}
+
+EFFNetClient * GetClient()
+{
+	if (client == NULL)
+	{
+		InitClient();
+	}
+
+	return client;
+}
+
 effVOID ReceiveMsg(effFLOAT elapsedTime)
 {
 	effBYTE buffer[256];
-	if ( server->ReceiveMsg(buffer, 256) )
+	if ( client->ReceiveMsg(buffer, 256) )
 	{
 		effINT id = *((effINT *)buffer);
 		if ( id == RequestGameWindowPosAndSize )
@@ -69,7 +87,7 @@ effVOID SendWindowPosAndSize()
 	ClientToScreen(hWnd, reinterpret_cast<POINT *>(&rc.right));
 
 	MainPanelControl * mpc = EFFEditor::getInstance().GetMainPanelControl();
-	if ( mpc != NULL )
+	/*if ( mpc != NULL )
 	{
 		MyGUI::Widget * sceneWindow = mpc->GetMainWorkspaceControl()->GetWorkspaceControl()->GetScenePanelControl()->GetSceneWindow();
 		gwpas.x = sceneWindow->getAbsoluteLeft() + rc.left;
@@ -77,5 +95,5 @@ effVOID SendWindowPosAndSize()
 		gwpas.width = sceneWindow->getWidth();
 		gwpas.height = sceneWindow->getHeight();
 		server->SendMsg(gwpas.id, &gwpas, sizeof(gwpas));
-	}
+	}*/
 }

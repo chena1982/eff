@@ -19,13 +19,15 @@ TCHAR szWindowClass[MAX_LOADSTRING];			// 主窗口类名
 
 effBOOL	appExit = effFALSE;
 
-
+EFFApplication * application = NULL;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
 
-
+	static effBOOL moveorsizing = effFALSE;
+	static effINT width = 0;
+	static effINT height = 0;
 
 	switch (message)
 	{
@@ -101,7 +103,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if ( device != NULL )
 			{
 				EFFInputManager * inputManager = device->GetInputManager();
-				if ( wParam == WA_INACTIVE )
+				if (wParam == WA_INACTIVE)
 				{
 					inputManager->SetLeftButtonDown(effFALSE);
 				}
@@ -109,7 +111,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_MOVE:
-		EFFApplication::OnWindowMove();
+		{
+			EFFApplication * application = EFFGetApplication();
+
+			application->OnWindowMove();
+		}
+		break;
+	case WM_SIZE:
+		{
+			EFFApplication * application = EFFGetApplication();
+
+			if (SIZE_MAXIMIZED == wParam || SIZE_RESTORED == wParam)
+			{
+				width = LOWORD(lParam);
+				height = HIWORD(lParam);
+
+				application->SetWindowMinimized(effFALSE);
+
+				if (!moveorsizing && application->IsWindowSizeChanged(width, height))
+				{
+					application->OnWindowResize(width, height);
+				}
+			}
+			else if (SIZE_MINIMIZED == wParam)
+			{
+				application->SetWindowMinimized(effTRUE);
+			}
+		}
+		break;
+	case WM_ENTERSIZEMOVE:
+		{
+			moveorsizing = effTRUE;
+		}
+		break;
+	case WM_EXITSIZEMOVE:
+		{
+			moveorsizing = effFALSE;
+
+			EFFApplication * application = EFFGetApplication();
+			if (application->IsWindowSizeChanged(width, height))
+			{
+				application->OnWindowResize(width, height);
+			}
+		}
 		break;
 	case WM_DESTROY:
 		appExit = effTRUE;
@@ -142,17 +186,22 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 }
 
 
-EFFEvent EFFApplication::OnWindowMove;
-EFFEvent EFFApplication::OnWindowResize;
 
 EFFApplication::EFFApplication()
 {
 	device = NULL;
 	memFile = NULL;
-	backGroundColor = 0xFF4c4c52;
+	//backGroundColor = 0xFF4c4c52;
+	backGroundColor = 0x80000000;
 	host = effFALSE;
 	window = effFALSE;
 	hWnd = NULL;
+
+	width = 0;
+	height = 0;
+	minimized = effFALSE;
+
+	application = this;
 }
 
 EFFApplication::~EFFApplication()
@@ -199,7 +248,7 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 	camera->SetProjParams(PI * 0.5f, aspect, 1.0f, 500.0f);
 
 	//device->GetSceneManager();
-	imguiRenderInit(_effT("Font\\msyh.ttf"));
+	//imguiRenderInit(_effT("Font\\msyh.ttf"));
 
 	return effTRUE;
 }
@@ -242,7 +291,11 @@ effVOID EFFApplication::Run()
         }
 
         interpolation = effFLOAT(GetTickCount() + SKIP_TICKS - nextGameTick) / effFLOAT(SKIP_TICKS);
-        Render(interpolation);
+
+		if (!minimized)
+		{
+			Render(interpolation);
+		}
     }
 
 
@@ -349,6 +402,8 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 	UpdateWindow(hWnd);
 
 
+	OnWindowResize += EFFEventCall(this, &EFFApplication::WindowResized);
+
 	return effTRUE;
 }
 
@@ -366,6 +421,24 @@ effVOID EFFApplication::MoveWindow(effINT x, effINT y, effINT width, effINT heig
 		::MoveWindow(hWnd, x, y, width, height, effFALSE);
 		device->Reset(window, width, height);
 	}
+}
+
+effVOID EFFApplication::WindowResized(effINT width, effINT height)
+{
+	this->width = width;
+	this->height = height;
+
+	device->Reset(window, width, height);
+}
+
+effBOOL EFFApplication::IsWindowSizeChanged(effINT width, effINT height)
+{
+	return this->width != width || this->height != height;
+}
+
+effVOID EFFApplication::SetWindowMinimized(effBOOL minimized)
+{
+	this->minimized = minimized;
 }
 
 effBOOL EFFApplication::CreateMemFile()
@@ -457,4 +530,9 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 effVOID EFFApplication::InitGui()
 {
 
+}
+
+EFFApplication * EFFGetApplication()
+{
+	return application;
 }

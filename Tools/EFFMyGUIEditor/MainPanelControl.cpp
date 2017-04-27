@@ -11,7 +11,7 @@ MainPanelControl::MainPanelControl() :
 	mMainWorkspaceControl(NULL)
 {
 	assignBase(mMainMenuControl, "MainMenuControl");
-	assignBase(mMainWorkspaceControl, "MainWorkspaceControl");
+	//assignBase(mMainWorkspaceControl, "MainWorkspaceControl");
 }
 
 MainPanelControl::~MainPanelControl()

@@ -13,10 +13,10 @@ MainWorkspaceControl::MainWorkspaceControl(MyGUI::Widget* _parent) :
 	mWorkspaceControl(nullptr),
 	mSeparatorControl(NULL)
 {
-	assignBase(mToolsControl, "ToolsControl");
+	//assignBase(mToolsControl, "ToolsControl");
 	assignBase(mWorkspaceControl, "WorkspaceControl");
 
-	assignWidget(mSeparatorControl, "SeparatorV");
+	//assignWidget(mSeparatorControl, "SeparatorV");
 }
 
 MainWorkspaceControl::~MainWorkspaceControl()

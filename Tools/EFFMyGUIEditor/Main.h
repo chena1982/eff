@@ -24,3 +24,7 @@ private:
 private:
 	MainPanelControl * mMainPanelControl;
 };
+
+
+EFFMYGUIEDITOR_API VOID InitEditor();
+EFFMYGUIEDITOR_API VOID DestroyEidtor();

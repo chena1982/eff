@@ -21,3 +21,12 @@ using namespace EFF3D;
 #include <Base/Main.h>  
 #include <BaseManager.h>
 #include <MyGUI.h>
+
+#include <SettingsManager.h>
+using namespace tools;
+
+#ifndef EFFMYGUIEDITOR_EXPORTS
+	#define EFFMYGUIEDITOR_API		__declspec(dllimport)
+#else
+	#define EFFMYGUIEDITOR_API		__declspec(dllexport)
+#endif

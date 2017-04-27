@@ -25,8 +25,8 @@ EFFGameObject::~EFFGameObject()
 	components.clear();
 }
 
-//这里暂时有个问题，如果一个Object包含了两个动态组件，如果这两个动态组件都支持同一个接口，那么
-//无法判断返回哪个接口
+//杩欓噷鏆傛椂鏈変釜闂锛屽鏋滀竴涓狾bject鍖呭惈浜嗕袱涓姩鎬佺粍浠讹紝濡傛灉杩欎袱涓姩鎬佺粍浠堕兘鏀寔鍚屼竴涓帴鍙ｏ紝閭ｄ箞
+//鏃犳硶鍒ゆ柇杩斿洖鍝釜鎺ュ彛
 EFFComponent * EFFGameObject::GetComponent(const ClassID & classID)
 {	
 	std::vector<EFFComponent *>::iterator it = components.begin();

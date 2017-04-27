@@ -37,6 +37,10 @@ public:
 	effVOID MoveWindow(effINT x, effINT y, effINT width, effINT height);
 
 	HWND GetHWND() { return hWnd; }
+
+	effBOOL IsWindowSizeChanged(effINT width, effINT height);
+
+	effVOID SetWindowMinimized(effBOOL minimized);
 protected:
 	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host);
 
@@ -48,10 +52,13 @@ protected:
 
 	effVOID InitGui();
 	effVOID CreateGui();
+
+	effVOID WindowResized(effINT width, effINT height);
+
 public:
-	EFFEvent						OnRenderGUI;
-	static EFFEvent					OnWindowMove;
-	static EFFEvent					OnWindowResize;
+	EFFEvent					OnRenderGUI;
+	EFFEvent					OnWindowMove;
+	EFFEvent					OnWindowResize;
 protected:
 	EFF3DDevice *				device;
 	HANDLE						memFile;
@@ -61,7 +68,12 @@ protected:
 	effBOOL						window;
 
 	HWND						hWnd;
+
+	effINT						width;
+	effINT						height;
+
+	effBOOL						minimized;
 };
 
-
+EFFF_API EFFApplication * EFFGetApplication();
 #endif

@@ -332,18 +332,34 @@ effVOID EFFInputManager::Update()
 		lastY = y;
 	}
 
-	if ( (leftButtonDown && !lastLeftButtonDown) ||
-		 (middleButtonDown && !lastMiddleButtonDown) ||
-		 (rightButtonDown && !lastRightButtonDown) )
+	if (leftButtonDown && !lastLeftButtonDown)
 	{
-		OnMouseButtonPressed(this);
+		OnMouseLButtonPressed(this);
 	}
 
-	if ( (!leftButtonDown && lastLeftButtonDown) ||
-		 (!middleButtonDown && lastMiddleButtonDown) ||
-		 (!rightButtonDown && lastRightButtonDown) )
+	if (!leftButtonDown && lastLeftButtonDown)
 	{
-		OnMouseButtonReleased(this);
+		OnMouseLButtonReleased(this);
+	}
+
+	if (middleButtonDown && !lastMiddleButtonDown)
+	{
+		OnMouseMButtonPressed(this);
+	}
+
+	if (!middleButtonDown && lastMiddleButtonDown)
+	{
+		OnMouseMButtonReleased(this);
+	}
+
+	if (rightButtonDown && !lastRightButtonDown)
+	{
+		OnMouseRButtonPressed(this);
+	}
+
+	if (!rightButtonDown && lastRightButtonDown)
+	{
+		OnMouseRButtonReleased(this);
 	}
 
 	lastLeftButtonDown = leftButtonDown;

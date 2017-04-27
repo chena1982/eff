@@ -1,0 +1,14 @@
+set (HEADER_FILES
+  EFFRender.h
+  EFFRenderPCH.h
+)
+
+set (SOURCE_FILES
+  EFFRender.cpp
+  EFFRenderPCH.cpp
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFRenderPCH.cpp
+  EFFRenderPCH.h
+)
