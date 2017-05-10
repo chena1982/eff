@@ -225,9 +225,9 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 	}
 
 #ifdef _DEBUG
-	Create3DDevice(L"EFFD3D9_d.dll", &device, window, hWnd, width, height);
+	Create3DDevice(L"EFFD3D9_d.dll", &device, window, host, hWnd, width, height);
 #else
-	Create3DDevice(L"EFFD3D9.dll", &device, window, hWnd, width, height);
+	Create3DDevice(L"EFFD3D9.dll", &device, window, host, hWnd, width, height);
 #endif
 
 	if ( device == NULL )
@@ -236,6 +236,8 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 	}
 
 	this->window = window;
+    this->host = host;
+
 
 	//terrain = TestMyTerrain();
 
@@ -321,7 +323,7 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 	effUINT style = 0;
 	effUINT exStyle = 0;
 
-	if ( multiProcess )
+	/*if ( multiProcess )
 	{
 		if ( host )
 		{
@@ -343,7 +345,7 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 			exStyle = WS_EX_COMPOSITED;
 		}
 	}
-	else
+	else*/
 	{
 		style = WS_OVERLAPPEDWINDOW;
 	}
@@ -358,7 +360,7 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 		return effFALSE;
 	}
 
-	if ( multiProcess )
+	/*if ( multiProcess )
 	{
 		if ( host )
 		{
@@ -381,21 +383,21 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 			//MARGINS mgDWMMargins = {0, 0, 0, 25};
 			DwmExtendFrameIntoClientArea(hWnd, &mgDWMMargins);
 
-			/*DWM_BLURBEHIND bb = {0};
+			//DWM_BLURBEHIND bb = {0};
 
-			HRGN rect = CreateRectRgn(-1, -1, 0, 0);
+			//HRGN rect = CreateRectRgn(-1, -1, 0, 0);
 
-			// Enable Blur Behind and apply to the entire client area
-			bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
-			bb.fEnable = FALSE;
-			bb.hRgnBlur = rect;
-			bb.fTransitionOnMaximized = 0;
+			//// Enable Blur Behind and apply to the entire client area
+			//bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
+			//bb.fEnable = FALSE;
+			//bb.hRgnBlur = rect;
+			//bb.fTransitionOnMaximized = 0;
 
-			// Apply Blur Behind
-			DwmEnableBlurBehindWindow(hWnd, &bb);*/
+			//// Apply Blur Behind
+			//DwmEnableBlurBehindWindow(hWnd, &bb);
 
 		}
-	}
+	}*/
 
 
 	ShowWindow(hWnd, SW_SHOW);
@@ -522,7 +524,11 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 		OnRenderGUI(elapsedTime);
 
 		device->EndScene();
-		device->Present(NULL, NULL);
+
+        //if (host)
+        {
+            device->Present(NULL, NULL);
+        }
 	}
 }
 

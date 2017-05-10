@@ -24,6 +24,9 @@ public:
 	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
 													EFF3DTexture ** txture);
 
+    virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+                                                    EFF3DSharedTexture ** txture);
+
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture);
 
 	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,

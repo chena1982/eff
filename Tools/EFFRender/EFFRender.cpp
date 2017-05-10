@@ -73,7 +73,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	InitServer();
+	//InitServer();
 	//InitClient();
 	//client->SendCmd(RequestGameWindowPosAndSize);
 
@@ -81,9 +81,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	application = &app;
 	app.Init(effTRUE, 1024, 768, effFALSE, effFALSE);
 	app.SetBackGroundColor(0x00FF0000);
-	app.OnRenderGUI += EFFEventCall(&ReceiveMsg);
+	//app.OnRenderGUI += EFFEventCall(&ReceiveMsg);
 
-	LoadLibrary(_effT("EFFMyGUIEditor_d.dll"));
+	//LoadLibrary(_effT("EFFMyGUIEditor_d.dll"));
 
 	app.Run();
 

@@ -166,3 +166,22 @@ effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
 
 	return effTRUE;
 }
+
+EFFD3D9SharedTexture::EFFD3D9SharedTexture()
+{
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        texture[i] = NULL;
+        sharedHandle[i] = NULL;
+    }
+
+    device = NULL;
+}
+
+EFFD3D9SharedTexture::~EFFD3D9SharedTexture()
+{
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        SF_RELEASE(texture[i]);
+    }
+}

@@ -37,7 +37,7 @@ EFF3DDevice * EFF3DGetDevice()
 
 typedef effBOOL (*effCREATE3DDEVICE)(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
 
-effBOOL EFF3D_API Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height)
+effBOOL EFF3D_API Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, effBOOL host, HWND hWnd, effINT width, effINT height)
 {
 	HMODULE hDLL = LoadLibrary(dllName.c_str());
 	if ( hDLL != NULL )
@@ -52,7 +52,7 @@ effBOOL EFF3D_API Create3DDevice(const effString & dllName, EFF3DDevice ** eff3D
 		if ( succeed )
 		{
 			device = *eff3DDevice;
-			device->Init();
+			device->Init(host);
 		}
 	}
 	return effFALSE;
@@ -116,7 +116,7 @@ EFF3DDevice::EFF3DDevice()
 	height = 0;
 	//m_pImageManager->CreateFromFile(_effT(""),EFF3DRTYPE_TEXTURE);
 
-
+    sharedRenderTarget = NULL;
 }
 
 EFF3DDevice::~EFF3DDevice()
@@ -129,6 +129,8 @@ EFF3DDevice::~EFF3DDevice()
 
 	//wkeShutdown();
 
+    SF_RELEASE(sharedRenderTarget);
+
 	SF_DELETE(imageManager);
 	SF_DELETE(sceneManager);
 
@@ -136,7 +138,7 @@ EFF3DDevice::~EFF3DDevice()
 	SF_DELETE(inputManager);
 }
 
-effVOID EFF3DDevice::Init()
+effVOID EFF3DDevice::Init(effBOOL host)
 {
 	ilInit();
 
@@ -169,6 +171,14 @@ effVOID EFF3DDevice::Init()
 	//config.additional_options.Push(Awesomium::WSLit("disable-3d-apis"));
 
 	//webCore = Awesomium::WebCore::Initialize(config);
+
+    if (!host)
+    {
+        if (!CreateSharedTexture(width, height, 1, 0, EFF3DFMT_X8R8G8B8, &sharedRenderTarget))
+        {
+            //create shared texture failed;
+        }
+    }
 }
 
 effVOID EFF3DDevice::InitProperty()

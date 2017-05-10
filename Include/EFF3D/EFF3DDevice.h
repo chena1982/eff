@@ -17,6 +17,7 @@ EFF3D_BEGIN
 
 class EFF3DImage;
 class EFF3DTexture;
+class EFF3DSharedTexture;
 class EFF3DVertexBuffer;
 class EFF3DVertexDeclaration;
 class EFF3DIndexBuffer;
@@ -54,6 +55,9 @@ public:
 	
 	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
 													EFF3DTexture ** txture) = 0;
+
+	virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+                                                    EFF3DSharedTexture ** txture) = 0;
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture) = 0;
 
@@ -132,9 +136,9 @@ protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
 	virtual effBOOL				DrawQuad(EFFRect * rect);
 protected:
-	effVOID						Init();
+	effVOID						Init(effBOOL host);
 	effVOID						InitProperty();
-	friend effBOOL EFF3D_API	Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
+	friend effBOOL EFF3D_API	Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, effBOOL host, HWND hWnd, effINT width, effINT height);
 
 
 private:
@@ -148,6 +152,8 @@ private:
 	effINT						width;
 	effINT						height;
 
+    //process share render target
+    EFF3DSharedTexture *        sharedRenderTarget;
 
 
 };
