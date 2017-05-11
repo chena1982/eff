@@ -37,6 +37,7 @@ set (HEADER_FILES
   ../../Include/EFFBase/GetDllExportFunctionsName.h
   ../../Include/EFFBase/Reflection4CppEnum.h
   ../../Include/EFFBase/YAMLWrap.h
+  ../../Include/EFFBase/EFFSemaphore.h
 )
 
 set (SOURCE_FILES
@@ -74,6 +75,7 @@ set (SOURCE_FILES
   md5.cpp
   md5.h
   YAMLWrap.cpp
+  EFFSemaphore.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -157,8 +159,10 @@ SOURCE_GROUP("Platform" FILES
   ../../Include/EFFBase/EFFSTLRttiWrap.h
   ../../Include/EFFBase/EFFStringHash.h
   ../../Include/EFFBase/EFFThread.h
+  ../../Include/EFFBase/EFFSemaphore.h
   EFFOSVersion.cpp
   EFFSTLFile.cpp
   EFFSTLRttiWrap.cpp
   EFFThread.cpp
+  EFFSemaphore.cpp
 )

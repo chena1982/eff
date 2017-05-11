@@ -29,6 +29,7 @@
 #include "EFFBase\EFFEvent.h"
 #include "EFFBase\Reflection4CppEnum.h"
 //#include "EFFBase\EFFThread.h"
+#include "EFFBase\EFFSemaphore.h"
 #include "EFFBase\EFFStringHash.h"
 #include "EFFBase\EFFNetClient.h"
 #include "EFFBase\EFFNetServer.h"

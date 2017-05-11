@@ -19,12 +19,16 @@ RTTI_IMPLEMENT_PURE(EFF3DImage, 0)
 
 EFF3DSharedTexture::EFF3DSharedTexture()
 {
-
 }
 
 EFF3DSharedTexture::~EFF3DSharedTexture()
 {
 
+}
+
+effVOID EFF3DSharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo)
+{
+    lstrcpy(sharedTextureInfo->name, name.c_str());
 }
 
 EFF3DImageManager::EFF3DImageManager()

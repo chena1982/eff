@@ -372,7 +372,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 	return effTRUE;	
 }
 
-effBOOL EFFD3D9Device::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture** texture)
+effBOOL EFFD3D9Device::_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture** texture)
 {
     assert(texture != NULL);
 
@@ -398,6 +398,39 @@ effBOOL EFFD3D9Device::CreateSharedTexture(effUINT width, effUINT height, effUIN
     effD3D9Texture->m_ImageInfo.resourceType = EFF3DRTYPE_TEXTURE;
 
     effD3D9Texture->AddRef();
+
+
+    *texture = effD3D9Texture;
+
+    return effTRUE;
+}
+
+effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture)
+{
+
+    EFFD3D9SharedTexture * effD3D9Texture = EFFNEW EFFD3D9SharedTexture();
+
+    effD3D9Texture->sharedHandle[0] = (HANDLE)sharedTextureInfo->sharedTextureHandle[0];
+    effD3D9Texture->sharedHandle[1] = (HANDLE)sharedTextureInfo->sharedTextureHandle[1];
+
+    effHRESULT hr;
+
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        if (FAILED(hr = D3D9Device->CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, (D3DFORMAT)sharedTextureInfo->format, D3DPOOL_DEFAULT, &effD3D9Texture->texture[i], &effD3D9Texture->sharedHandle[i])))
+        {
+            SF_DELETE(effD3D9Texture);
+            return effFALSE;
+        }
+    }
+
+
+    effD3D9Texture->sharedHandle[0] = NULL;
+    effD3D9Texture->sharedHandle[1] = NULL;
+
+    effD3D9Texture->AddRef();
+
+
     *texture = effD3D9Texture;
 
     return effTRUE;

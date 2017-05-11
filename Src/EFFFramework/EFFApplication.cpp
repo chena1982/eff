@@ -304,6 +304,11 @@ effVOID EFFApplication::Run()
 	return;
 }
 
+effVOID EFFApplication::Quit()
+{
+    appExit = effTRUE;
+}
+
 
 effVOID	EFFApplication::SetBackGroundColor(effUINT color)
 {
@@ -493,7 +498,7 @@ effVOID	EFFApplication::Update()
 
 	device->Update();
 
-
+    OnUpdate();
 }
 
 
@@ -525,7 +530,7 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 
 		device->EndScene();
 
-        //if (host)
+        if (host)
         {
             device->Present(NULL, NULL);
         }

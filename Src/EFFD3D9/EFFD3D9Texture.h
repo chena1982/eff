@@ -46,7 +46,8 @@ class EFFD3D9SharedTexture : public EFF3DSharedTexture
 public:
     EFFD3D9SharedTexture();
     virtual ~EFFD3D9SharedTexture();
-
+public:
+    effVOID                                 GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo);
 protected:
     effBOOL									LoadDataFromFile(const effString & strFilePath) { return effFALSE;  }
 protected:

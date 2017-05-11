@@ -54,10 +54,12 @@ public:
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height) = 0;
 	
 	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-													EFF3DTexture ** txture) = 0;
+													EFF3DTexture ** texture) = 0;
 
 	virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
-                                                    EFF3DSharedTexture ** txture) = 0;
+                                                    EFF3DSharedTexture ** texture);
+
+    virtual effBOOL             CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture) = 0;
 
@@ -87,7 +89,7 @@ public:
 	virtual effBOOL				DrawPrimitive(EFF3DPRIMITIVETYPE primitiveType, effUINT startVertex, effUINT primitiveCount) = 0;
 
 	virtual effBOOL				DrawPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData,
-													effUINT vertexStreamZeroStride) = 0;
+								                    effUINT vertexStreamZeroStride) = 0;
 
 	virtual effBOOL				SetTransform(EFF3DTRANSFORMSTATETYPE state, const EFFMatrix4 * matrix) = 0;
 	virtual effBOOL				SetFVF(effUINT FVF) = 0;
@@ -123,6 +125,7 @@ public:
 	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
 	inline EFFInputManager *	GetInputManager() { return inputManager; }
+    inline EFF3DSharedTexture * GetSharedRenderTarget() { return sharedRenderTarget; }
 	//inline Awesomium::WebCore * GetWebCore() { return webCore; }
 
 	effVOID						SetBackBufferSize(effINT width,effINT weight);
@@ -132,7 +135,14 @@ public:
 
 	effVOID						Update();
 
+    effVOID                     InitSharedTexture(SharedTextureInfo * sharedTextureInfo);
+
 protected:
+    virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+                                                    EFF3DSharedTexture ** texture) = 0;
+
+    virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture) = 0;
+
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
 	virtual effBOOL				DrawQuad(EFFRect * rect);
 protected:

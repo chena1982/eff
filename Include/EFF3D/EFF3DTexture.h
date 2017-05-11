@@ -48,12 +48,18 @@ public:
 
 class EFF3D_API EFF3DSharedTexture : public EFF3DImage
 {
+    friend class EFF3DDevice;
+
 protected:
     EFF3DSharedTexture();
     virtual ~EFF3DSharedTexture();
 
 public:
+    virtual effVOID GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo);
 
+protected:
+    EFFSemaphore clientSemaphore;
+    EFFSemaphore hostSemaphore;
 };
 
 class EFF3D_API EFF3DImageManager : public EFF3DResourceManager

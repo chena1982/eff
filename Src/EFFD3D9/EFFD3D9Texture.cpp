@@ -182,6 +182,22 @@ EFFD3D9SharedTexture::~EFFD3D9SharedTexture()
 {
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
+        CloseHandle(sharedHandle[i]);
         SF_RELEASE(texture[i]);
+    }
+}
+
+effVOID EFFD3D9SharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo)
+{
+
+    EFF3DSharedTexture::GetSharedTextureInfo(sharedTextureInfo);
+
+    sharedTextureInfo->width = m_ImageInfo.width;
+    sharedTextureInfo->height = m_ImageInfo.height;
+    sharedTextureInfo->format = (effUINT)m_ImageInfo.format;
+
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        sharedTextureInfo->sharedTextureHandle[i] = (effDWORD)sharedHandle[i];
     }
 }

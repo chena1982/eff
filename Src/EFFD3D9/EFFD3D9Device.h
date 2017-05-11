@@ -22,10 +22,8 @@ public:
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height);
 	
 	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-													EFF3DTexture ** txture);
+													EFF3DTexture ** texture);
 
-    virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
-                                                    EFF3DSharedTexture ** txture);
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture);
 
@@ -86,6 +84,11 @@ public:
 	CGcontext					GetCGContex() { return cgContext; }
 
 protected:
+    virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+                                                    EFF3DSharedTexture ** texture);
+
+    virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
+
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType);
 protected:
 	LPDIRECT3D9EX				D3D9;       

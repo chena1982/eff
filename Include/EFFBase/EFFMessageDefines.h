@@ -17,6 +17,11 @@
 #define RequestApp 2
 #define SendApp 3
 
+#define RequestSharedTexture 4
+#define SendSharedTexture 5
+
+#define QuitApp 7
+
 struct GameWindowPosAndSize
 {
 	effINT id;
@@ -30,6 +35,16 @@ struct ApplicationInfo
 {
 	effINT id;
 	effVOID * app;
+};
+
+struct SharedTextureInfo
+{
+    effINT id;
+    effUINT width;
+    effUINT height;
+    effUINT format;
+    effDWORD sharedTextureHandle[2];
+    effTCHAR name[32];
 };
 
 

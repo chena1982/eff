@@ -138,6 +138,36 @@ EFF3DDevice::~EFF3DDevice()
 	SF_DELETE(inputManager);
 }
 
+effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture ** texture)
+{
+    if (!_CreateSharedTexture(width, height, levels, usage, format, texture))
+    {
+        return effFALSE;
+    }
+
+    (*texture)->name = _effT("ClientSharedTexture");
+    (*texture)->clientSemaphore.Create(2, 2, (*texture)->name.c_str());
+
+
+
+    return effTRUE;
+}
+
+effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture)
+{
+    if (!_CreateSharedTexture(sharedTextureInfo, texture))
+    {
+        return effFALSE;
+    }
+
+    (*texture)->name = _effT("HostSharedTexture");
+    (*texture)->hostSemaphore.Create(2, 2, (*texture)->name.c_str());
+
+    (*texture)->clientSemaphore.Open(sharedTextureInfo->name);
+
+    return effTRUE;
+}
+
 effVOID EFF3DDevice::Init(effBOOL host)
 {
 	ilInit();
@@ -180,6 +210,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
         }
     }
 }
+
 
 effVOID EFF3DDevice::InitProperty()
 {
@@ -319,5 +350,13 @@ effVOID EFF3DDevice::Update()
 		webCore->Update();
 	}*/
 }
+
+effVOID EFF3DDevice::InitSharedTexture(SharedTextureInfo * sharedTextureInfo)
+{
+    SF_RELEASE(sharedRenderTarget);
+
+    CreateSharedTexture(sharedTextureInfo, &sharedRenderTarget);
+}
+
 
 EFF3D_END

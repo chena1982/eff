@@ -1,5 +1,5 @@
 #pragma once
 
 
-effVOID ReceiveMsg(effFLOAT elapsedTime);
+effVOID ReceiveMsg();
 effVOID ReceiveWindowPosAndSize();

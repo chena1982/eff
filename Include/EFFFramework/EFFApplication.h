@@ -31,6 +31,7 @@ public:
 public:
 	effBOOL Init(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host);
 	effVOID Run();
+    effVOID Quit();
 
 	effVOID	SetBackGroundColor(effUINT color);
 
@@ -56,6 +57,7 @@ protected:
 	effVOID WindowResized(effINT width, effINT height);
 
 public:
+    EFFEvent                    OnUpdate;
 	EFFEvent					OnRenderGUI;
 	EFFEvent					OnWindowMove;
 	EFFEvent					OnWindowResize;

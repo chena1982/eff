@@ -100,15 +100,21 @@ void EFFEditor::windowMove()
 
 effBYTE buffer[256];
 
-void EFFEditor::ReceiveMsg(effFLOAT elapsedTime)
+void EFFEditor::ReceiveMsg()
 {
-	if (GetClient()->ReceiveMsg(buffer, 256))
+	if (GetServer()->ReceiveMsg(buffer, 256))
 	{
 		effINT id = *((effINT *)buffer);
 		if (id == RequestGameWindowPosAndSize)
 		{
 			SendWindowPosAndSize();
 		}
+        else if (id == SendSharedTexture)
+        {
+            SharedTextureInfo * sharedTextureInfo = (SharedTextureInfo *)buffer;
+
+            EFF3DGetDevice()->InitSharedTexture(sharedTextureInfo);
+        }
 		else
 		{
 			int z = 0;
@@ -116,7 +122,12 @@ void EFFEditor::ReceiveMsg(effFLOAT elapsedTime)
 	}
 }
 
-/*int APIENTRY _tWinMain(HINSTANCE hInstance,
+void StartRender()
+{
+    WinExec("EFFRender_d.exe", SW_HIDE);
+}
+
+int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
@@ -125,6 +136,10 @@ void EFFEditor::ReceiveMsg(effFLOAT elapsedTime)
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 
+    InitServer();
+
+    StartRender();
+
 	EFFApplication app;
 	app.Init(effTRUE, 1024, 768, effTRUE, effTRUE);
 
@@ -132,14 +147,18 @@ void EFFEditor::ReceiveMsg(effFLOAT elapsedTime)
 	EFFEditor editor;
 	editor.create(app.GetHWND());
 
+    app.OnUpdate += EFFEventCall(&editor, &EFFEditor::ReceiveMsg);
+
 	app.OnRenderGUI += EFFEventCall((base::BaseManager *)&editor, &base::BaseManager::drawOneFrame);
 
 
 	app.Run();
 
+    GetServer()->SendCmd(QuitApp);
+
 
  	return 0;
-}*/
+}
 
 
 VOID InitEditor(EFFApplication * app)
@@ -179,7 +198,7 @@ VOID CALLBACK TimerProc(HWND hWnd, UINT nMsg, UINT nTimerid, DWORD dwTime)
 	}
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule,
+/*BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
 	)
@@ -204,4 +223,4 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	}
 
 	return TRUE;
-}
+}*/
