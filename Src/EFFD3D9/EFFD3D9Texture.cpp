@@ -167,7 +167,7 @@ effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
 	return effTRUE;
 }
 
-EFFD3D9SharedTexture::EFFD3D9SharedTexture()
+/*EFFD3D9SharedTexture::EFFD3D9SharedTexture()
 {
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
@@ -176,6 +176,7 @@ EFFD3D9SharedTexture::EFFD3D9SharedTexture()
     }
 
     device = NULL;
+    currentIndex = 0;
 }
 
 EFFD3D9SharedTexture::~EFFD3D9SharedTexture()
@@ -185,6 +186,30 @@ EFFD3D9SharedTexture::~EFFD3D9SharedTexture()
         CloseHandle(sharedHandle[i]);
         SF_RELEASE(texture[i]);
     }
+}
+
+
+effHRESULT EFFD3D9SharedTexture::GetSurfaceLevel(effUINT level, EFF3DSurface ** surfaceLevel)
+{
+    assert(texture[currentIndex] != NULL);
+
+    EFFD3D9Surface * effD3D9Surface = EFFNEW EFFD3D9Surface();
+
+    effHRESULT hr = texture[currentIndex]->GetSurfaceLevel(level, &effD3D9Surface->m_pSurface);
+
+    if (FAILED(hr))
+    {
+        SF_DELETE(effD3D9Surface);
+        return hr;
+    }
+
+    effD3D9Surface->m_ImageInfo.surfaceType = GetFromTexture_Surface;
+    effD3D9Surface->m_ImageInfo.textureLevel = level;
+
+    //m_pDevice->m_pImageManager->AddFirstCreateResource(pSurface,std::string(_ucT("Surface")));
+
+    *surfaceLevel = effD3D9Surface;
+    return hr;
 }
 
 effVOID EFFD3D9SharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo)
@@ -200,4 +225,4 @@ effVOID EFFD3D9SharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTex
     {
         sharedTextureInfo->sharedTextureHandle[i] = (effDWORD)sharedHandle[i];
     }
-}
+}*/

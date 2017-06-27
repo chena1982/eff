@@ -19,17 +19,88 @@ RTTI_IMPLEMENT_PURE(EFF3DImage, 0)
 
 EFF3DSharedTexture::EFF3DSharedTexture()
 {
+	host = effFALSE;
+
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        texture[i] = NULL;
+        sharedHandle[i] = NULL;
+    }
+
+    currentIndex = 0;
 }
 
 EFF3DSharedTexture::~EFF3DSharedTexture()
 {
-
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        SF_RELEASE(texture[i]);
+    }
 }
 
 effVOID EFF3DSharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo)
 {
-    lstrcpy(sharedTextureInfo->name, name.c_str());
+    //lstrcpy(sharedTextureInfo->name, name.c_str());
+
+    //EFF3DSharedTexture::GetSharedTextureInfo(sharedTextureInfo);
+
+    sharedTextureInfo->width = texture[0]->GetImageInfo().width;
+    sharedTextureInfo->height = texture[0]->GetImageInfo().height;
+    sharedTextureInfo->format = (effUINT)texture[0]->GetImageInfo().format;
+
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        sharedTextureInfo->sharedTextureHandle[i] = (effDWORD)sharedHandle[i];
+    }
 }
+
+EFF3DTexture * EFF3DSharedTexture::GetClientTexture()
+{
+    effINT result = currentIndex;
+
+    currentIndex = (currentIndex + 1) % SHAREDTEXTURE_BUFFER_COUNT;
+
+    return texture[result];
+}
+
+
+EFF3DTexture * EFF3DSharedTexture::GetHostTexture(effINT index)
+{
+    return texture[index];
+}
+
+effVOID EFF3DSharedTexture::ClientWaitToStartRendering()
+{
+    clientSemaphore.Wait();
+}
+
+effVOID EFF3DSharedTexture::NotifyClientStartRendering()
+{
+    clientSemaphore.Release(1);
+}
+
+effVOID EFF3DSharedTexture::HostWaitToStartRendering()
+{
+	hostSemaphore.Wait();
+}
+
+effVOID EFF3DSharedTexture::NotifyHostStartRendering(effUINT renderTargetIndex)
+{
+    EFF3DGetDevice()->OnNotifyHostStartRendering(renderTargetIndex);
+    hostSemaphore.Release(1);
+}
+
+effVOID EFF3DSharedTexture::InitSemaphore()
+{
+	if (host)
+	{
+		hostSemaphore.Create(3, 3, _effT("SharedTextureHost"));
+		clientSemaphore.Create(0, 1, _effT("SharedTextureClient"));
+	}
+}
+
+
+
 
 EFF3DImageManager::EFF3DImageManager()
 {

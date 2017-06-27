@@ -45,8 +45,9 @@ public:
 	virtual effHRESULT			UnlockRect(effUINT Level) = 0;
 };
 
+#define SHAREDTEXTURE_BUFFER_COUNT 3
 
-class EFF3D_API EFF3DSharedTexture : public EFF3DImage
+class EFF3D_API EFF3DSharedTexture
 {
     friend class EFF3DDevice;
 
@@ -55,11 +56,29 @@ protected:
     virtual ~EFF3DSharedTexture();
 
 public:
-    virtual effVOID GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo);
+	//virtual effHRESULT			GetSurfaceLevel(effUINT Level, EFF3DSurface ** ppSurfaceLevel) = 0;
+    virtual effVOID				GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo);
 
+    EFF3DTexture *              GetClientTexture();
+    EFF3DTexture *              GetHostTexture(effINT index);
+
+
+	effVOID						ClientWaitToStartRendering();
+    effVOID                     NotifyClientStartRendering();
+
+	effVOID                     HostWaitToStartRendering();
+    effVOID                     NotifyHostStartRendering(effUINT renderTargetIndex);
+protected:
+	effVOID InitSemaphore();
 protected:
     EFFSemaphore clientSemaphore;
     EFFSemaphore hostSemaphore;
+	effBOOL host;
+
+    EFF3DTexture *						    texture[SHAREDTEXTURE_BUFFER_COUNT];
+    HANDLE                                  sharedHandle[SHAREDTEXTURE_BUFFER_COUNT];
+    EFF3DDevice *							device;
+    effINT                                  currentIndex;
 };
 
 class EFF3D_API EFF3DImageManager : public EFF3DResourceManager

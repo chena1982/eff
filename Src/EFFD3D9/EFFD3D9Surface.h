@@ -14,6 +14,7 @@ class EFFD3D9Surface : public EFF3DSurface
 {
 	friend class EFFD3D9Texture;
 	friend class EFFD3D9Device;
+    friend class EFFD3D9SharedTexture;
 public:
 	EFFD3D9Surface();
 	virtual ~EFFD3D9Surface();

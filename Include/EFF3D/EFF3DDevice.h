@@ -29,7 +29,7 @@ class EFF3DShader;
 class EFF3DSceneManager;
 class EFF3DFontManager;
 class EFF3DInputManager;
-
+class EFF3DQuery;
 
 
 class EFF3D_API EFF3DDevice
@@ -54,7 +54,7 @@ public:
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height) = 0;
 	
 	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-													EFF3DTexture ** texture) = 0;
+													EFF3DTexture ** texture, effHANDLE * handle = NULL) = 0;
 
 	virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
                                                     EFF3DSharedTexture ** texture);
@@ -78,6 +78,8 @@ public:
 	virtual effBOOL				CreateVertexBuffer(effUINT length, effUINT usage, effUINT FVF, EFF3DPOOL pool, EFF3DVertexBuffer ** vertexBuffer) = 0;
 
 	virtual effBOOL				CreateVertexDeclaration(const EFF3DVERTEXELEMENT * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
+
+    virtual effBOOL             CreateQuery(EFF3DQUERYTYPE type, effUINT flag, EFF3DQuery ** query) = 0;
 
 	virtual effBOOL				DrawIndexedPrimitive(EFF3DPRIMITIVETYPE type, effINT baseVertexIndex, effUINT minIndex,effUINT numVertices,
 													effUINT startIndex, effUINT primitiveCount) = 0;
@@ -136,12 +138,13 @@ public:
 	effVOID						Update();
 
     effVOID                     InitSharedTexture(SharedTextureInfo * sharedTextureInfo);
+    effBOOL                     IsHost() { return host; }
 
 protected:
-    virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+    /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
                                                     EFF3DSharedTexture ** texture) = 0;
 
-    virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture) = 0;
+    virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture) = 0;*/
 
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
 	virtual effBOOL				DrawQuad(EFFRect * rect);
@@ -151,6 +154,8 @@ protected:
 	friend effBOOL EFF3D_API	Create3DDevice(const effString & dllName, EFF3DDevice ** eff3DDevice, effBOOL window, effBOOL host, HWND hWnd, effINT width, effINT height);
 
 
+public:
+    EFFEvent                    OnNotifyHostStartRendering;
 private:
 
 	EFF3DImageManager *			imageManager;
@@ -164,6 +169,8 @@ private:
 
     //process share render target
     EFF3DSharedTexture *        sharedRenderTarget;
+    effBOOL                     host;
+
 
 
 };

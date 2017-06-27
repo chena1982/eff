@@ -48,8 +48,9 @@ protected:
 	effVOID	Update();
 	effVOID Render(effFLOAT elapsedTime);
 
-	effBOOL	CreateMemFile();
-	effVOID ReadHWNDFromMemFile();
+    effVOID OnNotifyHostStartRendering(effUINT index);
+	effBOOL	SendSharedTextureIndexFromMemFile(effUINT index);
+    effUINT ReadSharedTextureIndexFromMemFile();
 
 	effVOID InitGui();
 	effVOID CreateGui();
@@ -61,6 +62,8 @@ public:
 	EFFEvent					OnRenderGUI;
 	EFFEvent					OnWindowMove;
 	EFFEvent					OnWindowResize;
+
+    EFFEvent                    OnQuit();
 protected:
 	EFF3DDevice *				device;
 	HANDLE						memFile;

@@ -7,6 +7,8 @@
 #include <windows.h>
 #include <tchar.h>
 #include <Windowsx.h>
+#include <Shellapi.h>
+
 
 #include <d3d9.h>
 

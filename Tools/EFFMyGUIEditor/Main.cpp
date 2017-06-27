@@ -12,7 +12,7 @@ template <> EFFEditor * MyGUI::Singleton<EFFEditor>::msInstance = NULL;
 template <> const char * MyGUI::Singleton<EFFEditor>::mClassTypeName = "EFFEditor";
 
 
-EFFApplication * app = NULL;
+EFFApplication * application = NULL;
 EFFEditor * editor = NULL;
 
 EFFEditor::EFFEditor()
@@ -114,6 +114,8 @@ void EFFEditor::ReceiveMsg()
             SharedTextureInfo * sharedTextureInfo = (SharedTextureInfo *)buffer;
 
             EFF3DGetDevice()->InitSharedTexture(sharedTextureInfo);
+
+            SetActiveWindow(application->GetHWND());
         }
 		else
 		{
@@ -124,7 +126,7 @@ void EFFEditor::ReceiveMsg()
 
 void StartRender()
 {
-    WinExec("EFFRender_d.exe", SW_HIDE);
+    ShellExecute(NULL, NULL, _effT("EFFRender_d.exe"), NULL, NULL, SW_HIDE);
 }
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
@@ -143,6 +145,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	EFFApplication app;
 	app.Init(effTRUE, 1024, 768, effTRUE, effTRUE);
 
+    application = &app;
 
 	EFFEditor editor;
 	editor.create(app.GetHWND());

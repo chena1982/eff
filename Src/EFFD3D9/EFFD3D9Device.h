@@ -22,7 +22,7 @@ public:
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height);
 	
 	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-													EFF3DTexture ** texture);
+                                                    EFF3DTexture ** texture, effHANDLE * handle = NULL);
 
 
 	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture);
@@ -42,6 +42,8 @@ public:
 	virtual effBOOL				CreateVertexBuffer(effUINT length, effUINT usage, effUINT FVF, EFF3DPOOL pool, EFF3DVertexBuffer ** vertexBuffer);
 
 	virtual effBOOL				CreateVertexDeclaration(const EFF3DVERTEXELEMENT * vertexElements, EFF3DVertexDeclaration ** decl);
+
+    virtual effBOOL             CreateQuery(EFF3DQUERYTYPE type, effUINT flag, EFF3DQuery ** query);
 
 	virtual effBOOL				DrawIndexedPrimitive(EFF3DPRIMITIVETYPE type, effINT baseVertexIndex, effUINT minIndex,effUINT numVertices,
 													effUINT startIndex, effUINT primitiveCount);
@@ -84,10 +86,10 @@ public:
 	CGcontext					GetCGContex() { return cgContext; }
 
 protected:
-    virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+    /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
                                                     EFF3DSharedTexture ** texture);
 
-    virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
+    virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);*/
 
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType);
 protected:

@@ -129,7 +129,7 @@ EFF3DDevice::~EFF3DDevice()
 
 	//wkeShutdown();
 
-    SF_RELEASE(sharedRenderTarget);
+    SF_DELETE(sharedRenderTarget);
 
 	SF_DELETE(imageManager);
 	SF_DELETE(sceneManager);
@@ -140,30 +140,51 @@ EFF3DDevice::~EFF3DDevice()
 
 effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture ** texture)
 {
-    if (!_CreateSharedTexture(width, height, levels, usage, format, texture))
+    /*if (!_CreateSharedTexture(width, height, levels, usage, format, texture))
     {
         return effFALSE;
+    }*/
+
+    EFF3DSharedTexture * sharedTexture = EFFNEW EFF3DSharedTexture();
+
+    //(*texture)->name = _effT("ClientSharedTexture");
+
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        CreateTexture(width, height, levels, usage, format, EFF3DPOOL_DEFAULT, &sharedTexture->texture[i], &sharedTexture->sharedHandle[i]);
     }
 
-    (*texture)->name = _effT("ClientSharedTexture");
-    (*texture)->clientSemaphore.Create(2, 2, (*texture)->name.c_str());
+    sharedTexture->clientSemaphore.Create(3, 3, _effT("ClientSharedTextureSemaphore"));
+    sharedTexture->hostSemaphore.Create(0, 1, _effT("HostSharedTextureSemaphore"));
 
 
+    *texture = sharedTexture;
 
     return effTRUE;
 }
 
 effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture)
 {
-    if (!_CreateSharedTexture(sharedTextureInfo, texture))
+    /*if (!_CreateSharedTexture(sharedTextureInfo, texture))
     {
         return effFALSE;
+    }*/
+
+    EFF3DSharedTexture * sharedTexture = EFFNEW EFF3DSharedTexture();
+
+    for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
+    {
+        effHANDLE handle = (effHANDLE)sharedTextureInfo->sharedTextureHandle[i];
+        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, EFF3DUSAGE_RENDERTARGET, (EFF3DFORMAT)sharedTextureInfo->format, EFF3DPOOL_DEFAULT, &sharedTexture->texture[i], &handle);
     }
 
-    (*texture)->name = _effT("HostSharedTexture");
-    (*texture)->hostSemaphore.Create(2, 2, (*texture)->name.c_str());
+	//(*texture)->name = _effT("HostSharedTexture");
 
-    (*texture)->clientSemaphore.Open(sharedTextureInfo->name);
+
+    sharedTexture->clientSemaphore.Open(_effT("ClientSharedTextureSemaphore"));
+    sharedTexture->hostSemaphore.Open(_effT("HostSharedTextureSemaphore"));
+
+    *texture = sharedTexture;
 
     return effTRUE;
 }
@@ -202,9 +223,11 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
 	//webCore = Awesomium::WebCore::Initialize(config);
 
+    this->host = host;
+
     if (!host)
     {
-        if (!CreateSharedTexture(width, height, 1, 0, EFF3DFMT_X8R8G8B8, &sharedRenderTarget))
+        if (!CreateSharedTexture(width, height, 1, EFF3DUSAGE_RENDERTARGET, EFF3DFMT_X8R8G8B8, &sharedRenderTarget))
         {
             //create shared texture failed;
         }
@@ -282,8 +305,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 	SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
 	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);
 
-	effHRESULT hr = DrawQuad(rect);
-	return SUCCEEDED(hr);
+	return DrawQuad(rect);
 }
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL blend)
@@ -306,8 +328,8 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL bl
 	}
 
 	SetTexture(0, texture);
-	effHRESULT hr = DrawQuad(rect);
-	return SUCCEEDED(hr);
+	return DrawQuad(rect);
+
 }
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTexture * texture)
@@ -324,11 +346,10 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTex
 		return effFALSE;
 	}
 
-	effHRESULT hr;
+
 	SetTexture(0, texture);
 	//shader->UpdateAutoParametersPerShader(this, autoParamDataSource);
-	hr = DrawQuad(rect);
-	return SUCCEEDED(hr);
+	return DrawQuad(rect);
 }
 
 effVOID EFF3DDevice::SetBackBufferSize(effINT width, effINT height)
@@ -353,7 +374,7 @@ effVOID EFF3DDevice::Update()
 
 effVOID EFF3DDevice::InitSharedTexture(SharedTextureInfo * sharedTextureInfo)
 {
-    SF_RELEASE(sharedRenderTarget);
+    SF_DELETE(sharedRenderTarget);
 
     CreateSharedTexture(sharedTextureInfo, &sharedRenderTarget);
 }

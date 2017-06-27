@@ -252,6 +252,9 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 	//device->GetSceneManager();
 	//imguiRenderInit(_effT("Font\\msyh.ttf"));
 
+    device->OnNotifyHostStartRendering += EFFEventCall(this, &EFFApplication::OnNotifyHostStartRendering);
+
+
 	return effTRUE;
 }
 
@@ -294,12 +297,22 @@ effVOID EFFApplication::Run()
 
         interpolation = effFLOAT(GetTickCount() + SKIP_TICKS - nextGameTick) / effFLOAT(SKIP_TICKS);
 
-		if (!minimized)
+        //让client渲染最后一帧，否则有可能client正在wait，这样的话client无法退出
+        if (host && appExit)
+        {
+            EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
+            if (sharedTexture != NULL)
+            {
+                sharedTexture->NotifyClientStartRendering();
+            }
+        }
+
+		if (!minimized && !appExit)
 		{
 			Render(interpolation);
+            EFF3DGPUProfiler::GlobalProfiler.EndFrame();
 		}
     }
-
 
 	return;
 }
@@ -448,7 +461,12 @@ effVOID EFFApplication::SetWindowMinimized(effBOOL minimized)
 	this->minimized = minimized;
 }
 
-effBOOL EFFApplication::CreateMemFile()
+effVOID EFFApplication::OnNotifyHostStartRendering(effUINT index)
+{
+    SendSharedTextureIndexFromMemFile(index);
+}
+
+effBOOL EFFApplication::SendSharedTextureIndexFromMemFile(effUINT index)
 {
     //创建一个内存镜像文件 
     memFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, MEMFILE_SIZE, _effT("EFFEngine"));
@@ -460,28 +478,37 @@ effBOOL EFFApplication::CreateMemFile()
 
     effVOID * address = MapViewOfFile(memFile, FILE_MAP_ALL_ACCESS, 0, 0, MEMFILE_SIZE);
 
-	mpwh.hWndMain = hWnd;
-    CopyMemory(address, &mpwh, sizeof(mpwh)); 
+	//mpwh.hWndMain = hWnd;
+    //CopyMemory(address, &mpwh, sizeof(mpwh)); 
+    
+    CopyMemory(address, &index, sizeof(index));
+    
     UnmapViewOfFile(address);
 
 	return effTRUE;
 }
 
-effVOID EFFApplication::ReadHWNDFromMemFile()
+effUINT EFFApplication::ReadSharedTextureIndexFromMemFile()
 {
-
-    //创建一个内存镜像文件 
-    memFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, MEMFILE_SIZE, _effT("EFFEngine"));
-
     if ( memFile == NULL )
     {
-        return; 
+        //创建一个内存镜像文件 
+        memFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, MEMFILE_SIZE, _effT("EFFEngine"));
+    }
+
+    if (memFile == NULL)
+    {
+        return -1;
     }
 
     effVOID * address = MapViewOfFile(memFile, FILE_MAP_ALL_ACCESS, 0, 0, MEMFILE_SIZE);
 
-    CopyMemory(&mpwh, address, sizeof(mpwh)); 
+    effUINT index;
+
+    CopyMemory(&index, address, sizeof(index));
     UnmapViewOfFile(address); 
+
+    return index;
 }
 
 
@@ -504,9 +531,28 @@ effVOID	EFFApplication::Update()
 
 effVOID EFFApplication::Render(effFLOAT elapsedTime)
 {
+    EFF3DGPUProfileBlock profileBlock(_effT("Render"));
+
 	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, backGroundColor, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
+
+		if (!host)
+		{
+            EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
+
+            sharedTexture->ClientWaitToStartRendering();
+
+            EFF3DSurface * sharedRenderTarget = NULL;
+            
+            EFF3DTexture * shared3DTexture = sharedTexture->GetClientTexture();
+            if (SUCCEEDED(shared3DTexture->GetSurfaceLevel(0, &sharedRenderTarget)))
+            {
+                device->SetRenderTarget(0, sharedRenderTarget);
+                SF_RELEASE(sharedRenderTarget);
+            }
+		}
+
 		EFFMatrix4 rotate;
 		rotate.RotationMatrixX(PI);
 		rotate.Identity();
@@ -525,14 +571,37 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 			//terrain->Render(device);
 		}
 
+        if (host)
+        {
+            EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
+            if (sharedTexture != NULL)
+            {
+                sharedTexture->HostWaitToStartRendering();
+
+                effUINT index = ReadSharedTextureIndexFromMemFile();
+                if (index != -1)
+                {
+                    EFF3DTexture * shared3DTexture = sharedTexture->GetHostTexture(index);
+                    device->DrawQuad(NULL, shared3DTexture, effFALSE);
+                }
+            }
+        }
+
 		//wkeUpdate();
 		OnRenderGUI(elapsedTime);
 
 		device->EndScene();
 
+
+        device->Present(NULL, NULL);
+
         if (host)
         {
-            device->Present(NULL, NULL);
+            EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
+            if (sharedTexture != NULL)
+            {
+                sharedTexture->NotifyClientStartRendering();
+            }
         }
 	}
 }

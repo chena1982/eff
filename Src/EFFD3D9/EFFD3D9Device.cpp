@@ -14,6 +14,7 @@
 #include "EFFD3D9VertexBuffer.h"
 #include "EFFD3D9VertexDeclaration.h"
 #include "EFFD3D9Shader.h"
+#include "EFFD3D9Query.h"
 
 //#define new EFFNEW
 
@@ -344,7 +345,7 @@ EFF3DResource * EFFD3D9Device::CreateEmptyResource(EFF3DRESOURCETYPE resourceTyp
 	return resource;
 }
 
-effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool, EFF3DTexture** texture)
+effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool, EFF3DTexture** texture, effHANDLE * handle)
 {
 	assert(texture != NULL);
 
@@ -352,7 +353,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 
 	effHRESULT hr;
 
-	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, (D3DFORMAT)format, (D3DPOOL)pool, &effD3D9Texture->texture, NULL)) )
+	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, (D3DFORMAT)format, (D3DPOOL)pool, &effD3D9Texture->texture, handle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
@@ -372,7 +373,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 	return effTRUE;	
 }
 
-effBOOL EFFD3D9Device::_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture** texture)
+/*effBOOL EFFD3D9Device::_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture** texture)
 {
     assert(texture != NULL);
 
@@ -412,6 +413,7 @@ effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInf
 
     effD3D9Texture->sharedHandle[0] = (HANDLE)sharedTextureInfo->sharedTextureHandle[0];
     effD3D9Texture->sharedHandle[1] = (HANDLE)sharedTextureInfo->sharedTextureHandle[1];
+	effD3D9Texture->sharedHandle[2] = (HANDLE)sharedTextureInfo->sharedTextureHandle[2];
 
     effHRESULT hr;
 
@@ -427,6 +429,7 @@ effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInf
 
     effD3D9Texture->sharedHandle[0] = NULL;
     effD3D9Texture->sharedHandle[1] = NULL;
+	effD3D9Texture->sharedHandle[2] = NULL;
 
     effD3D9Texture->AddRef();
 
@@ -434,7 +437,7 @@ effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInf
     *texture = effD3D9Texture;
 
     return effTRUE;
-}
+}*/
 
 effBOOL	EFFD3D9Device::CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture)
 {
@@ -613,6 +616,22 @@ effBOOL EFFD3D9Device::CreateVertexDeclaration(const EFF3DVERTEXELEMENT * vertex
 	return effTRUE;
 }
 
+effBOOL EFFD3D9Device::CreateQuery(EFF3DQUERYTYPE type, effUINT flag, EFF3DQuery ** query)
+{
+
+    EFFD3D9Query * effD3D9Query = EFFNEW EFFD3D9Query();
+
+    effHRESULT hr;
+    if (FAILED(hr = D3D9Device->CreateQuery((D3DQUERYTYPE)type, &effD3D9Query->query)))
+    {
+        SF_DELETE(effD3D9Query);
+        return effFALSE;
+    }
+
+    *query = effD3D9Query;
+    return effTRUE;
+}
+
 effBOOL EFFD3D9Device::DrawIndexedPrimitive(EFF3DPRIMITIVETYPE type, effINT baseVertexIndex, effUINT minIndex, effUINT numVertices, effUINT startIndex, effUINT primitiveCount)
 {
 	return SUCCEEDED(D3D9Device->DrawIndexedPrimitive((D3DPRIMITIVETYPE)type, baseVertexIndex, minIndex, numVertices, startIndex, primitiveCount));
@@ -680,7 +699,8 @@ effBOOL EFFD3D9Device::SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Ty
 effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget)
 {
 	EFFD3D9Surface * effD3D9Surface = (EFFD3D9Surface *)renderTarget;
-	return SUCCEEDED(D3D9Device->SetRenderTarget(renderTargetIndex, effD3D9Surface->m_pSurface));
+    effHRESULT hr = D3D9Device->SetRenderTarget(renderTargetIndex, effD3D9Surface->m_pSurface);
+	return SUCCEEDED(hr);
 }
 
 effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DImage * texture)
