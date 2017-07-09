@@ -1,0 +1,29 @@
+set (HEADER_FILES
+  ../../Include/EFFGUI.h
+  ../../Include/EFFGUI/EFFGUIDefines.h
+  ../../Include/EFFGUI/EFFGUIWidget.h
+  ../../Include/EFFGUI/EFFGUICoord.h
+  EFFGUIPCH.h
+
+)
+
+set (SOURCE_FILES
+  EFFGUIPCH.cpp
+  EFFGUIWidget.cpp  
+)
+
+SOURCE_GROUP("" FILES
+  ../../Include/EFFGUI.h
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFGUIPCH.cpp
+  EFFGUIPCH.h
+)
+
+SOURCE_GROUP("Common" FILES
+  ../../Include/EFFGUI/EFFGUIDefines.h
+  ../../Include/EFFGUI/EFFGUICoord.h  
+  ../../Include/EFFGUI/EFFGUIWidget.h
+  EFFGUIWidget.cpp  
+)
