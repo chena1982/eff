@@ -1,0 +1,967 @@
+The system is: Windows - 10.0.15063 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler:  
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Microsoft (R) ��������汾 15.1.1012.6693
+��Ȩ����(C) Microsoft Corporation����������Ȩ����
+
+��������ʱ��Ϊ 2017/7/8 15:35:51��
+�ڵ� 1 �ϵ���Ŀ��D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\3.9.0-rc5\CompilerIdC\CompilerIdC.vcxproj��(Ĭ��Ŀ��)��
+PrepareForBuild:
+  ���ڴ���Ŀ¼��Debug\����
+  ���ڴ���Ŀ¼��Debug\CompilerIdC.tlog\����
+InitializeBuildStatus:
+  ���ڴ�����Debug\CompilerIdC.tlog\unsuccessfulbuild������Ϊ��ָ����AlwaysCreate����
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /nologo /W0 /WX- /diagnostics:classic /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TC /errorReport:queue CMakeCCompilerId.c
+  CMakeCCompilerId.c
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdC.lib" /MACHINE:X64 Debug\CMakeCCompilerId.obj
+  CompilerIdC.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\3.9.0-rc5\CompilerIdC\.\CompilerIdC.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_C_COMPILER=D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\cl.exe
+FinalizeBuildStatus:
+  ����ɾ���ļ���Debug\CompilerIdC.tlog\unsuccessfulbuild����
+  ���ڶԡ�Debug\CompilerIdC.tlog\CompilerIdC.lastbuildstate��ִ�� Touch ����
+�����������Ŀ��D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\3.9.0-rc5\CompilerIdC\CompilerIdC.vcxproj��(Ĭ��Ŀ��)�Ĳ�����
+
+�ѳɹ����ɡ�
+    0 ������
+    0 ������
+
+����ʱ�� 00:00:00.51
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+
+The C compiler identification is MSVC, found in "D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/3.9.0-rc5/CompilerIdC/CompilerIdC.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler:  
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Microsoft (R) ��������汾 15.1.1012.6693
+��Ȩ����(C) Microsoft Corporation����������Ȩ����
+
+��������ʱ��Ϊ 2017/7/8 15:35:51��
+�ڵ� 1 �ϵ���Ŀ��D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\3.9.0-rc5\CompilerIdCXX\CompilerIdCXX.vcxproj��(Ĭ��Ŀ��)��
+PrepareForBuild:
+  ���ڴ���Ŀ¼��Debug\����
+  ���ڴ���Ŀ¼��Debug\CompilerIdCXX.tlog\����
+InitializeBuildStatus:
+  ���ڴ�����Debug\CompilerIdCXX.tlog\unsuccessfulbuild������Ϊ��ָ����AlwaysCreate����
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /nologo /W0 /WX- /diagnostics:classic /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /errorReport:queue CMakeCXXCompilerId.cpp
+  CMakeCXXCompilerId.cpp
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdCXX.lib" /MACHINE:X64 Debug\CMakeCXXCompilerId.obj
+  CompilerIdCXX.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\3.9.0-rc5\CompilerIdCXX\.\CompilerIdCXX.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_CXX_COMPILER=D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\cl.exe
+FinalizeBuildStatus:
+  ����ɾ���ļ���Debug\CompilerIdCXX.tlog\unsuccessfulbuild����
+  ���ڶԡ�Debug\CompilerIdCXX.tlog\CompilerIdCXX.lastbuildstate��ִ�� Touch ����
+�����������Ŀ��D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\3.9.0-rc5\CompilerIdCXX\CompilerIdCXX.vcxproj��(Ĭ��Ŀ��)�Ĳ�����
+
+�ѳɹ����ɡ�
+    0 ������
+    0 ������
+
+����ʱ�� 00:00:00.60
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+
+The CXX compiler identification is MSVC, found in "D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/3.9.0-rc5/CompilerIdCXX/CompilerIdCXX.exe"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_30958.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:52。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_30958.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_30958.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_30958.dir\Debug\cmTC_30958.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_30958.dir\Debug\cmTC_30958.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_30958.dir\Debug\\" /Fd"cmTC_30958.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\testCCompiler.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_30958.dir\Debug\\" /Fd"cmTC_30958.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\testCCompiler.c"
+  testCCompiler.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_30958.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_30958.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_30958.lib" /MACHINE:X64  /machine:x64 cmTC_30958.dir\Debug\testCCompiler.obj
+  cmTC_30958.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_30958.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_30958.dir\Debug\cmTC_30958.tlog\unsuccessfulbuild”。
+  正在对“cmTC_30958.dir\Debug\cmTC_30958.tlog\cmTC_30958.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_30958.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.55
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_c1b8d.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:53。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_c1b8d.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_c1b8d.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_c1b8d.dir\Debug\cmTC_c1b8d.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_c1b8d.dir\Debug\cmTC_c1b8d.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_c1b8d.dir\Debug\\" /Fd"cmTC_c1b8d.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CMakeCCompilerABI.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_c1b8d.dir\Debug\\" /Fd"cmTC_c1b8d.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CMakeCCompilerABI.c"
+  CMakeCCompilerABI.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_c1b8d.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_c1b8d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_c1b8d.lib" /MACHINE:X64  /machine:x64 cmTC_c1b8d.dir\Debug\CMakeCCompilerABI.obj
+  cmTC_c1b8d.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_c1b8d.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_c1b8d.dir\Debug\cmTC_c1b8d.tlog\unsuccessfulbuild”。
+  正在对“cmTC_c1b8d.dir\Debug\cmTC_c1b8d.tlog\cmTC_c1b8d.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_c1b8d.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.62
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_53ca5.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:53。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_53ca5.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_53ca5.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_53ca5.dir\Debug\cmTC_53ca5.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_53ca5.dir\Debug\cmTC_53ca5.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_53ca5.dir\Debug\\" /Fd"cmTC_53ca5.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_53ca5.dir\Debug\\" /Fd"cmTC_53ca5.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  testCXXCompiler.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_53ca5.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_53ca5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_53ca5.lib" /MACHINE:X64  /machine:x64 cmTC_53ca5.dir\Debug\testCXXCompiler.obj
+  cmTC_53ca5.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_53ca5.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_53ca5.dir\Debug\cmTC_53ca5.tlog\unsuccessfulbuild”。
+  正在对“cmTC_53ca5.dir\Debug\cmTC_53ca5.tlog\cmTC_53ca5.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_53ca5.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.54
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_de84f.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:54。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_de84f.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_de84f.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_de84f.dir\Debug\cmTC_de84f.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_de84f.dir\Debug\cmTC_de84f.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_de84f.dir\Debug\\" /Fd"cmTC_de84f.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CMakeCXXCompilerABI.cpp"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_de84f.dir\Debug\\" /Fd"cmTC_de84f.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CMakeCXXCompilerABI.cpp"
+  CMakeCXXCompilerABI.cpp
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_de84f.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_de84f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_de84f.lib" /MACHINE:X64  /machine:x64 cmTC_de84f.dir\Debug\CMakeCXXCompilerABI.obj
+  cmTC_de84f.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_de84f.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_de84f.dir\Debug\cmTC_de84f.tlog\unsuccessfulbuild”。
+  正在对“cmTC_de84f.dir\Debug\cmTC_de84f.tlog\cmTC_de84f.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_de84f.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.62
+
+
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_37997.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:55。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_37997.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_37997.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_37997.dir\Debug\cmTC_37997.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_37997.dir\Debug\cmTC_37997.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_37997.dir\Debug\\" /Fd"cmTC_37997.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_37997.dir\Debug\\" /Fd"cmTC_37997.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  feature_tests.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_37997.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_37997.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_37997.lib" /MACHINE:X64  /machine:x64 cmTC_37997.dir\Debug\feature_tests.obj
+  cmTC_37997.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_37997.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_37997.dir\Debug\cmTC_37997.tlog\unsuccessfulbuild”。
+  正在对“cmTC_37997.dir\Debug\cmTC_37997.tlog\cmTC_37997.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_37997.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.56
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_7cbab.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:56。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_7cbab.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_7cbab.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_7cbab.dir\Debug\cmTC_7cbab.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_7cbab.dir\Debug\cmTC_7cbab.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7cbab.dir\Debug\\" /Fd"cmTC_7cbab.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7cbab.dir\Debug\\" /Fd"cmTC_7cbab.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  feature_tests.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_7cbab.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_7cbab.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_7cbab.lib" /MACHINE:X64  /machine:x64 cmTC_7cbab.dir\Debug\feature_tests.obj
+  cmTC_7cbab.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_7cbab.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_7cbab.dir\Debug\cmTC_7cbab.tlog\unsuccessfulbuild”。
+  正在对“cmTC_7cbab.dir\Debug\cmTC_7cbab.tlog\cmTC_7cbab.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_7cbab.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.61
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_3d0a9.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:57。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_3d0a9.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_3d0a9.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_3d0a9.dir\Debug\cmTC_3d0a9.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_3d0a9.dir\Debug\cmTC_3d0a9.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_3d0a9.dir\Debug\\" /Fd"cmTC_3d0a9.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_3d0a9.dir\Debug\\" /Fd"cmTC_3d0a9.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  feature_tests.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_3d0a9.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_3d0a9.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_3d0a9.lib" /MACHINE:X64  /machine:x64 cmTC_3d0a9.dir\Debug\feature_tests.obj
+  cmTC_3d0a9.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_3d0a9.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_3d0a9.dir\Debug\cmTC_3d0a9.tlog\unsuccessfulbuild”。
+  正在对“cmTC_3d0a9.dir\Debug\cmTC_3d0a9.tlog\cmTC_3d0a9.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_3d0a9.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.58
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_3e59b.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:58。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_3e59b.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_3e59b.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_3e59b.dir\Debug\cmTC_3e59b.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_3e59b.dir\Debug\cmTC_3e59b.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_3e59b.dir\Debug\\" /Fd"cmTC_3e59b.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_3e59b.dir\Debug\\" /Fd"cmTC_3e59b.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\feature_tests.cxx"
+  feature_tests.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_3e59b.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_3e59b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_3e59b.lib" /MACHINE:X64  /machine:x64 cmTC_3e59b.dir\Debug\feature_tests.obj
+  cmTC_3e59b.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_3e59b.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_3e59b.dir\Debug\cmTC_3e59b.tlog\unsuccessfulbuild”。
+  正在对“cmTC_3e59b.dir\Debug\cmTC_3e59b.tlog\cmTC_3e59b.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_3e59b.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.54
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+Performing C++ SOURCE FILE Test COMPILER_SUPPORTS_CXX11 succeeded with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_5cc5f.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:35:59。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_5cc5f.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_5cc5f.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_5cc5f.dir\Debug\cmTC_5cc5f.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_5cc5f.dir\Debug\cmTC_5cc5f.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D COMPILER_SUPPORTS_CXX11 /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_5cc5f.dir\Debug\\" /Fd"cmTC_5cc5f.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\src.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D COMPILER_SUPPORTS_CXX11 /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_5cc5f.dir\Debug\\" /Fd"cmTC_5cc5f.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\src.cxx"
+  src.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_5cc5f.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_5cc5f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_5cc5f.lib" /MACHINE:X64  /machine:x64 cmTC_5cc5f.dir\Debug\src.obj
+  cmTC_5cc5f.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_5cc5f.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_5cc5f.dir\Debug\cmTC_5cc5f.tlog\unsuccessfulbuild”。
+  正在对“cmTC_5cc5f.dir\Debug\cmTC_5cc5f.tlog\cmTC_5cc5f.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_5cc5f.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.67
+
+Source file was:
+int main() { return 0; }
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_7daab.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:01。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_7daab.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_7daab.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_7daab.dir\Debug\cmTC_7daab.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_7daab.dir\Debug\cmTC_7daab.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\sys\devpoll.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7daab.dir\Debug\\" /Fd"cmTC_7daab.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\sys\devpoll.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7daab.dir\Debug\\" /Fd"cmTC_7daab.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_7daab.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_7daab.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_7daab.lib" /MACHINE:X64  /machine:x64 cmTC_7daab.dir\Debug\CheckIncludeFile.obj
+  cmTC_7daab.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_7daab.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_7daab.dir\Debug\cmTC_7daab.tlog\unsuccessfulbuild”。
+  正在对“cmTC_7daab.dir\Debug\cmTC_7daab.tlog\cmTC_7daab.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_7daab.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.61
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_8e6aa.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:02。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_8e6aa.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_8e6aa.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_8e6aa.dir\Debug\cmTC_8e6aa.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_8e6aa.dir\Debug\cmTC_8e6aa.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\sys\devpoll.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_8e6aa.dir\Debug\\" /Fd"cmTC_8e6aa.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\sys\devpoll.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_8e6aa.dir\Debug\\" /Fd"cmTC_8e6aa.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_8e6aa.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_8e6aa.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_8e6aa.lib" /MACHINE:X64  /machine:x64 cmTC_8e6aa.dir\Debug\CheckIncludeFile.obj
+  cmTC_8e6aa.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_8e6aa.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_8e6aa.dir\Debug\cmTC_8e6aa.tlog\unsuccessfulbuild”。
+  正在对“cmTC_8e6aa.dir\Debug\cmTC_8e6aa.tlog\cmTC_8e6aa.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_8e6aa.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.53
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_e735c.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:03。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_e735c.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_e735c.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_e735c.dir\Debug\cmTC_e735c.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_e735c.dir\Debug\cmTC_e735c.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\sys\devpoll.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e735c.dir\Debug\\" /Fd"cmTC_e735c.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\sys\devpoll.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e735c.dir\Debug\\" /Fd"cmTC_e735c.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_e735c.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_e735c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_e735c.lib" /MACHINE:X64  /machine:x64 cmTC_e735c.dir\Debug\CheckIncludeFile.obj
+  cmTC_e735c.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_e735c.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_e735c.dir\Debug\cmTC_e735c.tlog\unsuccessfulbuild”。
+  正在对“cmTC_e735c.dir\Debug\cmTC_e735c.tlog\cmTC_e735c.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_e735c.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.60
+
+
+Determining if files windows.h exist passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_2a9f9.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:06。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_2a9f9.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_2a9f9.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_2a9f9.dir\Debug\cmTC_2a9f9.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_2a9f9.dir\Debug\cmTC_2a9f9.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\winsock2.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_2a9f9.dir\Debug\\" /Fd"cmTC_2a9f9.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFiles.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /I"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\winsock2.h" /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_2a9f9.dir\Debug\\" /Fd"cmTC_2a9f9.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\CheckIncludeFiles.c"
+  CheckIncludeFiles.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_2a9f9.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_2a9f9.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_2a9f9.lib" /MACHINE:X64  /machine:x64 cmTC_2a9f9.dir\Debug\CheckIncludeFiles.obj
+  cmTC_2a9f9.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_2a9f9.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_2a9f9.dir\Debug\cmTC_2a9f9.tlog\unsuccessfulbuild”。
+  正在对“cmTC_2a9f9.dir\Debug\cmTC_2a9f9.tlog\cmTC_2a9f9.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_2a9f9.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.79
+
+
+Determining if the function fopen exists in the ws2_32 passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_cae5f.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:08。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_cae5f.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_cae5f.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_cae5f.dir\Debug\cmTC_cae5f.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_cae5f.dir\Debug\cmTC_cae5f.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fopen /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_cae5f.dir\Debug\\" /Fd"cmTC_cae5f.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CheckFunctionExists.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fopen /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_cae5f.dir\Debug\\" /Fd"cmTC_cae5f.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CheckFunctionExists.c"
+  CheckFunctionExists.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_cae5f.exe" /INCREMENTAL /NOLOGO ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_cae5f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_cae5f.lib" /MACHINE:X64  /machine:x64 cmTC_cae5f.dir\Debug\CheckFunctionExists.obj
+  cmTC_cae5f.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_cae5f.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_cae5f.dir\Debug\cmTC_cae5f.tlog\unsuccessfulbuild”。
+  正在对“cmTC_cae5f.dir\Debug\cmTC_cae5f.tlog\cmTC_cae5f.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_cae5f.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.54
+
+
+Determining if the function fopen exists in the rpcrt4 passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_1febc.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:09。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_1febc.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_1febc.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_1febc.dir\Debug\cmTC_1febc.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_1febc.dir\Debug\cmTC_1febc.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fopen /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1febc.dir\Debug\\" /Fd"cmTC_1febc.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CheckFunctionExists.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fopen /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1febc.dir\Debug\\" /Fd"cmTC_1febc.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CheckFunctionExists.c"
+  CheckFunctionExists.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_1febc.exe" /INCREMENTAL /NOLOGO rpcrt4.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_1febc.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_1febc.lib" /MACHINE:X64  /machine:x64 cmTC_1febc.dir\Debug\CheckFunctionExists.obj
+  cmTC_1febc.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_1febc.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_1febc.dir\Debug\cmTC_1febc.tlog\unsuccessfulbuild”。
+  正在对“cmTC_1febc.dir\Debug\cmTC_1febc.tlog\cmTC_1febc.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_1febc.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.59
+
+
+Determining if the function fopen exists in the iphlpapi passed with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_f0a6f.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:10。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_f0a6f.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_f0a6f.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_f0a6f.dir\Debug\cmTC_f0a6f.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_f0a6f.dir\Debug\cmTC_f0a6f.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fopen /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f0a6f.dir\Debug\\" /Fd"cmTC_f0a6f.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CheckFunctionExists.c"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fopen /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f0a6f.dir\Debug\\" /Fd"cmTC_f0a6f.dir\Debug\vc141.pdb" /Gd /TC /errorReport:queue "D:\Program Files\cmake-3.9.0-rc5-win64-x64\share\cmake-3.9\Modules\CheckFunctionExists.c"
+  CheckFunctionExists.c
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_f0a6f.exe" /INCREMENTAL /NOLOGO iphlpapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_f0a6f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_f0a6f.lib" /MACHINE:X64  /machine:x64 cmTC_f0a6f.dir\Debug\CheckFunctionExists.obj
+  cmTC_f0a6f.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_f0a6f.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_f0a6f.dir\Debug\cmTC_f0a6f.tlog\unsuccessfulbuild”。
+  正在对“cmTC_f0a6f.dir\Debug\cmTC_f0a6f.tlog\cmTC_f0a6f.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_f0a6f.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.53
+
+
+Performing C++ SOURCE FILE Test HAVE_FLAG_/W3 succeeded with the following output:
+Change Dir: D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:\Program Files (x86)\Microsoft Visual Studio\2017\Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_d031c.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) 生成引擎版本 15.1.1012.6693
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/7/8 15:36:14。
+节点 1 上的项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_d031c.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_d031c.dir\Debug\”。
+  正在创建目录“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_d031c.dir\Debug\cmTC_d031c.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_d031c.dir\Debug\cmTC_d031c.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D HAVE_FLAG_/W3 /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_d031c.dir\Debug\\" /Fd"cmTC_d031c.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\src.cxx"
+  用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.10.25019 版
+  版权所有(C) Microsoft Corporation。保留所有权利。
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /D WIN32 /D _WINDOWS /D HAVE_FLAG_/W3 /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_d031c.dir\Debug\\" /Fd"cmTC_d031c.dir\Debug\vc141.pdb" /Gd /TP /errorReport:queue "D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\src.cxx"
+  src.cxx
+  
+Link:
+  D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_d031c.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_d031c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/EFF/ThirdPartyLib/zeromq-4.2.2/builds/CMakeFiles/CMakeTmp/Debug/cmTC_d031c.lib" /MACHINE:X64  /machine:x64 cmTC_d031c.dir\Debug\src.obj
+  cmTC_d031c.vcxproj -> D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\Debug\cmTC_d031c.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_d031c.dir\Debug\cmTC_d031c.tlog\unsuccessfulbuild”。
+  正在对“cmTC_d031c.dir\Debug\cmTC_d031c.tlog\cmTC_d031c.lastbuildstate”执行 Touch 任务。
+已完成生成项目“D:\EFF\ThirdPartyLib\zeromq-4.2.2\builds\CMakeFiles\CMakeTmp\cmTC_d031c.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.57
+
+Source file was:
+int main() { return 0; }
