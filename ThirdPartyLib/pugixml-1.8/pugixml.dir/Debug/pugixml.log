@@ -1,0 +1,4 @@
+﻿  Building Custom Rule D:/EFF/ThirdPartyLib/pugixml-1.8/CMakeLists.txt
+  CMake does not need to re-run because D:/EFF/ThirdPartyLib/pugixml-1.8/build/CMakeFiles/generate.stamp is up-to-date.
+  pugixml.cpp
+  pugixml.vcxproj -> D:\EFF\ThirdPartyLib\pugixml-1.8\build\Debug\pugixml.lib
