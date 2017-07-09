@@ -14,8 +14,8 @@ class EFFBASE_API EFFFile
 {
 public:
 	virtual effBOOL Open(const effString & filePath, const effTCHAR * openMode) = 0;
-	virtual effUINT Read(effVOID * buffer, effUINT size) = 0;
-	virtual effUINT Write(effVOID * buffer, effUINT size) = 0;
+    virtual effSIZE Read(effVOID * buffer, effSIZE size) = 0;
+    virtual effSIZE Write(effVOID * buffer, effSIZE size) = 0;
 	virtual effVOID Close() = 0;
 	virtual effUINT Length() = 0;
 protected:

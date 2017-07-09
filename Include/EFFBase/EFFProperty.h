@@ -89,7 +89,7 @@ public:
 
 	virtual effUINT				GetOffset() { return offset; }
 	virtual effUINT				GetSize() { return size; }
-	virtual effString			GetName() { return name; }
+	virtual effString &			GetName() { return name; }
 	virtual EFFStringHash		GetNameHash() { return nameHash; }
 	virtual EFFClass *			GetClass() { return Class; }
 	virtual effBOOL				GetIsPointer() { return isPointer; }
@@ -113,7 +113,7 @@ public:
 	{
 		if ( stlContainerType == EFFProperty::ContainerType_Vector )
 		{
-			std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + offset));
+			VECTOR<PropertyType> & propertyVector = *((VECTOR<PropertyType> *)((effBYTE *)baseAddress + offset));
 			result = propertyVector[index];
 			return effTRUE;
 		}
@@ -122,7 +122,7 @@ public:
 		return effFALSE;
 	}
 
-	effINT GetElementCount(effVOID * baseAddress);
+	effSIZE GetElementCount(effVOID * baseAddress);
 
 	template<typename PropertyType, typename Visitor>
 	effVOID ForEach(effVOID * baseAddress, Visitor visitor)
@@ -130,8 +130,8 @@ public:
 		if ( stlContainerType == EFFProperty::ContainerType_Vector )
 		{
 			//PropertyForEachString(baseAddress, visitor);
-			std::vector<PropertyType> & propertyVector = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + offset));
-			for_each(propertyVector.begin(), propertyVector.end(), visitor);
+			VECTOR<PropertyType> & propertyVector = *((VECTOR<PropertyType> *)((effBYTE *)baseAddress + offset));
+			FOR_EACH(propertyVector.begin(), propertyVector.end(), visitor);
 		}
 	}
 
@@ -323,7 +323,7 @@ public:
 };
 
 template<typename PropertyType>
-class EFFPropertyImpl<std::vector<PropertyType>, boost::false_type> : public EFFProperty
+class EFFPropertyImpl<VECTOR<PropertyType>, boost::false_type> : public EFFProperty
 {
 	friend class EFFClass;
 public:
@@ -337,7 +337,7 @@ public:
 public:
 	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
-		std::vector<PropertyType> & datas = *(std::vector<PropertyType> *)baseAddress;
+		VECTOR<PropertyType> & datas = *(VECTOR<PropertyType> *)baseAddress;
 
 		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
@@ -348,7 +348,7 @@ public:
 };
 
 template<typename PropertyType>
-class EFFPropertyImpl<std::vector<PropertyType>, boost::true_type> : public EFFProperty
+class EFFPropertyImpl<VECTOR<PropertyType>, boost::true_type> : public EFFProperty
 {
 	friend class EFFClass;
 public:
@@ -367,12 +367,12 @@ public:
 
 		if ( Class->GetNameHash() == EFFStringHash(_effT("effString")) )
 		{
-			std::vector<effString> & datas = *((std::vector<effString> *)((effBYTE *)baseAddress + offset));
+			VECTOR<effString> & datas = *((VECTOR<effString> *)((effBYTE *)baseAddress + offset));
 			SaveStringVectorProperty(file, name, datas, isBinary);
 		}
 		else if ( Class->GetNameHash() == EFFStringHash(_effT("effINT")) )
 		{
-			std::vector<effINT> & datas = *((std::vector<effINT> *)((effBYTE *)baseAddress + offset));
+			VECTOR<effINT> & datas = *((VECTOR<effINT> *)((effBYTE *)baseAddress + offset));
 			SaveIntVectorProperty(file, name, datas, isBinary);
 		}
 		/*else if ( Class->GetNameHash() == EFFStringHash(_effT("effUINT")) )
@@ -390,7 +390,7 @@ public:
 };
 
 template<typename PropertyType>
-class EFFPropertyImpl<std::vector<PropertyType *>, boost::false_type> : public EFFProperty
+class EFFPropertyImpl<VECTOR<PropertyType *>, boost::false_type> : public EFFProperty
 {
 	friend class EFFClass;
 public:
@@ -404,7 +404,7 @@ public:
 public:
 	virtual effVOID	SaveToFile(EFFFile * file, effVOID * baseAddress, effBOOL isBinary)
 	{
-		std::vector<PropertyType *> & datas = *(std::vector<PropertyType *> *)baseAddress;
+		VECTOR<PropertyType *> & datas = *(VECTOR<PropertyType *> *)baseAddress;
 
 		for ( effUINT i = 0; i < datas.size(); i++ )
 		{
@@ -436,8 +436,8 @@ class EFFVectorProperty : public EFFProperty
 public:
 	virtual effVOID SaveToFile(EFFFile * file, effVOID * baseAddress)
 	{
-		std::vector<propertyType> & data = *((std::vector<propertyType> *)((effBYTE *)baseAddress + offset));
-		std::vector<propertyType>::iterator it = data.begin();
+		VECTOR<propertyType> & data = *((VECTOR<propertyType> *)((effBYTE *)baseAddress + offset));
+		VECTOR<propertyType>::iterator it = data.begin();
 		
 		if ( Class->GetName() == _effT("effString") )
 		{

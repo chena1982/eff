@@ -8,7 +8,7 @@
 #include <cerrno>
 #include <cstdarg>
 #include <cstdlib>
-#include <cstring>
+//#include <cstring>
 
 #ifdef	WIN32
 	#define	vsnprintf _vsnprintf

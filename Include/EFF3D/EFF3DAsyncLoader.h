@@ -59,9 +59,9 @@ private:
 	effBOOL IOThreadDone;
 	effUINT toServiceResourcesCount;
 	effUINT oustandingResourcesCount;
-	std::vector<RESOURCE_REQUEST> IOQueue;
-	std::vector<RESOURCE_REQUEST> processQueue;
-	std::vector<RESOURCE_REQUEST> enderThreadQueue;
+	VECTOR<RESOURCE_REQUEST> IOQueue;
+	VECTOR<RESOURCE_REQUEST> processQueue;
+	VECTOR<RESOURCE_REQUEST> enderThreadQueue;
 
 	CRITICAL_SECTION IOQueueCriticalSection;
 	CRITICAL_SECTION processQueueCriticalSection;

@@ -26,7 +26,7 @@ class EFFProperty;
 	((unsigned long)(&((const C *)0)->M))
 
 
-std::string EFFBASE_API getClassNameFromTypeName(const char * pszTypeName);
+effStringA EFFBASE_API getClassNameFromTypeName(const effCHAR * pszTypeName);
 
 #define __REPEAT0(M, C, S)         
 #define __REPEAT1(M, C, S)         S M(1)
@@ -76,10 +76,10 @@ class	__delegatee__
 class __callable__info__
 {
 public:
-	std::string						methodName;
+    effStringA						methodName;
 	EFFProperty *					returnType;
 	EFFProperty *					classType;
-	std::vector<EFFProperty *>		argTypes;
+	VECTOR<EFFProperty *>			argTypes;
 
 public:
 	__callable__info__()
@@ -264,12 +264,12 @@ public:
 	__real_property__(unsigned long ulOffset,unsigned long ulSize,const char * pszName, const T & defaultValue, const T & minValue, const T & maxValue) : 
 		m_ulOffset(ulOffset),m_ulSize(ulSize),m_strName(pszName),m_defaultValue(defaultValue),m_minValue(minValue),m_maxValue(maxValue) {}
 
-	unsigned long		m_ulOffset;
-	unsigned long		m_ulSize;
-	std::string				m_strName;
-	T							m_defaultValue;
-	T							m_minValue;
-	T							m_maxValue;
+	effUINT		        m_ulOffset;
+	effUINT		        m_ulSize;
+    effStringA		    m_strName;
+	T				    m_defaultValue;
+	T					m_minValue;
+	T					m_maxValue;
 
 
 };

@@ -120,8 +120,8 @@ struct EFFPLANE
 	};
 };
 
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
+//#define MIN(x, y) ((x) < (y) ? (x) : (y))
+//#define MAX(x, y) ((x) > (y) ? (x) : (y))
 
 #define EFFMATH_EPSILON		(1.0e-5f)
 

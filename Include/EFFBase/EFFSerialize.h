@@ -24,7 +24,7 @@
 struct ArgWriteBin
 {
 	EFFFile *			pFile;
-	std::string			strFileName;
+    effStringA		    strFileName;
 	unsigned int		dwFileVersion;
 	unsigned int		dwClassVersion;
 };
@@ -32,7 +32,7 @@ struct ArgWriteBin
 struct ArgReadBin
 {
 	EFFFile *			pFile;
-	std::string			strFileName;
+    effStringA			strFileName;
 	unsigned int		dwFileVersion;
 	unsigned int		dwClassVersion;
 	//BinFormat format;
@@ -48,7 +48,7 @@ template<typename PropertyType>
 inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary)
 {
 	PropertyType * data = NULL;
-	if ( !Property->GetIsPointer() )
+	if (!Property->GetIsPointer())
 	{
 		data = (PropertyType *)((effBYTE *)baseAddress + Property->GetOffset());
 	}
@@ -57,7 +57,7 @@ inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFF
 		data = *(PropertyType **)((effBYTE *)baseAddress + Property->GetOffset());
 	}
 
-	if ( isBinary )
+	if (isBinary)
 	{
 		file->Write(data, sizeof(PropertyType));
 	}
@@ -70,10 +70,10 @@ inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFF
 
 inline effVOID SaveStringProperty(EFFFile * file, const effString & propertyName, const effString & data, effBOOL isBinary)
 {
-	if ( isBinary )
+	if (isBinary)
 	{
-		effUINT length = data.length();
-		file->Write(&length, 4);
+        effSIZE length = data.length();
+		file->Write(&length, sizeof(effSIZE));
 		file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
 	}
 	else
@@ -83,20 +83,20 @@ inline effVOID SaveStringProperty(EFFFile * file, const effString & propertyName
 	}
 }
 
-inline effVOID SaveStringVectorProperty(EFFFile * file, const effString & propertyName, const std::vector<effString> & datas, effBOOL isBinary)
+inline effVOID SaveStringVectorProperty(EFFFile * file, const effString & propertyName, const VECTOR<effString> & datas, effBOOL isBinary)
 {
-	if ( isBinary )
+	if (isBinary)
 	{
-		effUINT length = datas.size();
-		file->Write(&length, 4);
-		for ( effUINT i = 0; i < datas.size(); i++ )
+		effSIZE length = datas.size();
+		file->Write(&length, sizeof(effSIZE));
+		for (effSIZE i = 0; i < datas.size(); i++)
 		{
 			SaveStringProperty(file, propertyName, datas[i], isBinary);
 		}
 	}
 	else
 	{
-		for ( effUINT i = 0; i < datas.size(); i++ )
+        for (effSIZE i = 0; i < datas.size(); i++)
 		{
 			SaveStringPropertyToYAMLFile(propertyName, datas[i]);
 		}
@@ -105,7 +105,7 @@ inline effVOID SaveStringVectorProperty(EFFFile * file, const effString & proper
 
 inline effVOID SaveIntProperty(EFFFile * file, const effString & propertyName, effINT data, effBOOL isBinary)
 {
-	if ( isBinary )
+	if (isBinary)
 	{
 		file->Write(&data, 4);
 	}
@@ -115,13 +115,13 @@ inline effVOID SaveIntProperty(EFFFile * file, const effString & propertyName, e
 	}
 }
 
-inline effVOID SaveIntVectorProperty(EFFFile * file, const effString & propertyName, const std::vector<effINT> & datas, effBOOL isBinary)
+inline effVOID SaveIntVectorProperty(EFFFile * file, const effString & propertyName, const VECTOR<effINT> & datas, effBOOL isBinary)
 {
-	if ( isBinary )
+	if (isBinary)
 	{
-		effUINT length = datas.size();
-		file->Write(&length, 4);
-		if ( length > 0 )
+		effSIZE length = datas.size();
+		file->Write(&length, sizeof(effSIZE));
+		if (length > 0)
 		{
 			file->Write((effVOID *)&datas[0], 4 * length);
 		}
@@ -134,7 +134,7 @@ inline effVOID SaveIntVectorProperty(EFFFile * file, const effString & propertyN
 
 inline effVOID SaveUintProperty(EFFFile * file, const effString & propertyName, effUINT data, effBOOL isBinary)
 {
-	if ( isBinary )
+	if (isBinary)
 	{
 		file->Write(&data, 4);
 	}
@@ -146,7 +146,7 @@ inline effVOID SaveUintProperty(EFFFile * file, const effString & propertyName, 
 
 inline effVOID SaveFloatProperty(EFFFile * file, const effString & propertyName, effFLOAT data, effBOOL isBinary)
 {
-	if ( isBinary )
+	if (isBinary)
 	{
 		file->Write(&data, 4);
 	}
@@ -171,8 +171,8 @@ inline void SaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * pr
 /*template<typename PropertyType>
 inline void SavePODVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
 {
-	std::vector<PropertyType> & datas = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + property->GetOffset()));
-	std::vector<PropertyType>::iterator it = datas.begin();
+	VECTOR<PropertyType> & datas = *((VECTOR<PropertyType> *)((effBYTE *)baseAddress + property->GetOffset()));
+	VECTOR<PropertyType>::iterator it = datas.begin();
 
 	effUINT size = datas.size();
 	file->Write(&size, 4);
@@ -205,8 +205,8 @@ inline void SavePODVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProp
 template<typename PropertyType>
 inline void SaveVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
 {
-	std::vector<PropertyType> & datas = *((std::vector<PropertyType> *)((effBYTE *)baseAddress + property->GetOffset()));
-	std::vector<PropertyType>::iterator it = datas.begin();
+	VECTOR<PropertyType> & datas = *((VECTOR<PropertyType> *)((effBYTE *)baseAddress + property->GetOffset()));
+	VECTOR<PropertyType>::iterator it = datas.begin();
 
 	effUINT size = datas.size();
 	file->Write(&size, 4);
@@ -221,8 +221,8 @@ inline void SaveVectorProperty(EFFFile * file, effVOID * baseAddress, EFFPropert
 template<typename PropertyType>
 inline void SavePointerVectorProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * property)
 {
-	std::vector<PropertyType *> & datas = *((std::vector<PropertyType *> *)((effBYTE *)baseAddress + property->GetOffset()));
-	std::vector<PropertyType *>::iterator it = datas.begin();
+	VECTOR<PropertyType *> & datas = *((VECTOR<PropertyType *> *)((effBYTE *)baseAddress + property->GetOffset()));
+	VECTOR<PropertyType *>::iterator it = datas.begin();
 
 	effUINT size = datas.size();
 	file->Write(&size, 4);
@@ -265,7 +265,7 @@ inline void SaveProperty(std::string & data,ArgWriteBin * pArgWriteBin,boost::fa
 
 
 template<typename T>
-inline void SaveProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(VECTOR<T> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	pArgWriteBin->pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
 };
@@ -275,14 +275,14 @@ inline void SaveProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost:
 
 
 template<typename T>
-inline void SaveProperty(std::vector<T> & data,ArgWriteBin * pArgWriteBin,boost::true_type)
+inline void SaveProperty(VECTOR<T> & data,ArgWriteBin * pArgWriteBin,boost::true_type)
 {
 	unsigned int dwSize = data.size();
 	pArgWriteBin->pFile->Write(&dwSize,4);
 	pArgWriteBin->pFile->Write((void *)&data.at(0),sizeof(T) * data.size());
 };
 
-inline void SaveProperty(std::vector<std::string> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
+inline void SaveProperty(VECTOR<std::string> & data,ArgWriteBin * pArgWriteBin,boost::false_type)
 {
 	unsigned int dwSize = data.size();
 	pArgWriteBin->pFile->Write(&dwSize,4);

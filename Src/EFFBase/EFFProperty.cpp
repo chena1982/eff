@@ -46,14 +46,14 @@ effVOID	EFFProperty::SetName(const effString & name)
 	nameHash.CalculateHash(name);
 }
 
-effINT EFFProperty::GetElementCount(effVOID * baseAddress)
+effSIZE EFFProperty::GetElementCount(effVOID * baseAddress)
 {
 	if ( stlContainerType == EFFProperty::ContainerType_Vector )
 	{
 		effString propertyClassName = Class->GetName();
 		if ( nameHash == EFFStringHash(_effT("effString")) )
 		{
-			std::vector<effString> & propertyVector = *((std::vector<effString> *)((effBYTE *)baseAddress + offset));
+			VECTOR<effString> & propertyVector = *((VECTOR<effString> *)((effBYTE *)baseAddress + offset));
 			return propertyVector.size();
 		}
 	}

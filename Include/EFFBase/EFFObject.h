@@ -83,25 +83,25 @@ public:
 	effBOOL				AddChild(EFFObject * object);
 	effBOOL				RemoveChild(EFFObject * object);
 	EFFObject *			GetChild(effUINT index);
-	effUINT				GetChildrenCount() { return children.size(); }
+	effSIZE				GetChildrenCount() { return children.size(); }
 	EFFObject *			GetParent() { return parent; }
 
 	EFFComponent *		AddComponent(EFFComponent * component);
 	EFFComponent *		AddComponent(const ClassID & classID);
 	EFFComponent *		GetComponent(const ClassID & classID);
 	EFFComponent *		GetComponent(effINT index);
-	effINT				GetComponentCount() { return components.size(); }
+	effSIZE				GetComponentCount() { return components.size(); }
 
 
 protected:
 	EFFObject();
 	effVOID				DetachFromTree();
 	//遍历object tree找到所有需要保存的objects和property中不是pod类型的properties，property如果不是pod需要从EFFComponent派生
-	effVOID				TraverseObjectTree(std::vector<EFFObject *> & objects, std::vector<EFFComponent *> & properties);
+	effVOID				TraverseObjectTree(VECTOR<EFFObject *> & objects, VECTOR<EFFComponent *> & properties);
 protected:
-	std::vector<EFFObject *>		children;
+	VECTOR<EFFObject *>		children;
 	EFFObject *						parent;
-	std::vector<EFFComponent *>		components;
+	VECTOR<EFFComponent *>		components;
 };
 
 effVOID EFFBaseInitProperty();

@@ -47,9 +47,9 @@ documentation and/or software.
 
 #include "md5.h"
 
-#include <cassert>
-#include <string>
-#include <iostream>
+//#include <cassert>
+//#include <string>
+//#include <iostream>
 
 
 //#define new EFFNEW
@@ -76,7 +76,7 @@ void MD5::update (uint1 *input, uint4 input_length) {
   uint4 buffer_space;                // how much space is left in buffer
 
   if (finalized){  // so we can't update!
-    cerr << "MD5::update:  Can't update a finalized digest!" << endl;
+    //cerr << "MD5::update:  Can't update a finalized digest!" << endl;
     return;
   }
 
@@ -118,12 +118,12 @@ void MD5::update (uint1 *input, uint4 input_length) {
 // MD5 update for files.
 // Like above, except that it works on files (and uses above as a primitive.)
 
-void MD5::update(FILE *file){
+/*void MD5::update(FILE *file){
 
   unsigned char buffer[1024];
-  int len;
+  uint4 len;
 
-  while (len=fread(buffer, 1, 1024, file))
+  while (len = (uint4)fread(buffer, 1, 1024, file))
     update(buffer, len);
 
   fclose (file);
@@ -170,7 +170,7 @@ void MD5::update(ifstream& stream){
     update(buffer, len);
   }
 
-}
+}*/
 
 
 
@@ -192,7 +192,7 @@ void MD5::finalize (){
     };
 
   if (finalized){
-    cerr << "MD5::finalize:  Already finalized this digest!" << endl;
+    //cerr << "MD5::finalize:  Already finalized this digest!" << endl;
     return;
   }
 
@@ -220,7 +220,7 @@ void MD5::finalize (){
 
 
 
-MD5::MD5(FILE *file){
+/*MD5::MD5(FILE *file){
 
   init();  // must be called be all constructors
   update(file);
@@ -244,7 +244,7 @@ MD5::MD5(ifstream& stream){
   init();  // must called by all constructors
   update (stream);
   finalize();
-}
+}*/
 
 
 
@@ -252,8 +252,7 @@ unsigned char *MD5::raw_digest(){
 
 
   if (!finalized){
-    cerr << "MD5::raw_digest:  Can't get digest if you haven't "<<
-      "finalized the digest!" <<endl;
+    //cerr << "MD5::raw_digest:  Can't get digest if you haven't " << "finalized the digest!" <<endl;
     return ( (unsigned char*) "");
   }
 
@@ -268,8 +267,7 @@ char *MD5::hex_digest(){
 
 
   if (!finalized){
-    cerr << "MD5::hex_digest:  Can't get digest if you haven't "<<
-      "finalized the digest!" <<endl;
+    //cerr << "MD5::hex_digest:  Can't get digest if you haven't " << "finalized the digest!" <<endl;
     return "";
   }
 
@@ -285,11 +283,11 @@ char *MD5::hex_digest(){
 
 
 
-ostream& operator<<(ostream &stream, MD5 context){
+/*ostream& operator<<(ostream &stream, MD5 context){
 
   stream << context.hex_digest();
   return stream;
-}
+}*/
 
 
 

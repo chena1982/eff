@@ -24,21 +24,21 @@ public:
 	virtual effBOOL			CreateFromFile(const effString & filePath, EFF3DDevice * device);
 
 public:
-	inline CGprogram		GetVertexShader() { return vertexShader; }
-	inline CGprogram		GetPixelShader() { return pixelShader; }
+	//inline CGprogram		GetVertexShader() { return vertexShader; }
+	//inline CGprogram		GetPixelShader() { return pixelShader; }
 
 protected:
-	ParameterSemantic		GetParameterSemantic(CGparameter cgParameter);
+	//ParameterSemantic		GetParameterSemantic(CGparameter cgParameter);
 protected:
-	CGprogram				vertexShader;
-	CGprogram				pixelShader;
+	//CGprogram				vertexShader;
+	//CGprogram				pixelShader;
 };
 
 class EFFD3D9ShaderParameter : public EFF3DShaderParameter
 {
 public:
-	CGparameter				cgParameter;
-	CGtype					cgType;
+	//CGparameter				cgParameter;
+	//CGtype					cgType;
 };
 
 

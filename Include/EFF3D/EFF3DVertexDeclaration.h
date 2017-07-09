@@ -132,10 +132,10 @@ public:
 public:
 	effWORD													m_wStream;     // Stream index
 	effWORD													m_wOffset;     // Offset in the stream in bytes
-	effBYTE														m_Type;       // Data type
-	effBYTE														m_Method;     // Processing method
-	effBYTE														m_Semantic;      // Semantics
-	effBYTE														m_SemanticIndex; // Semantic index
+	effBYTE													m_Type;       // Data type
+	effBYTE													m_Method;     // Processing method
+	effBYTE													m_Semantic;      // Semantics
+	effBYTE													m_SemanticIndex; // Semantic index
 };
 
 class EFF3D_API EFF3DVertexDeclaration
@@ -145,21 +145,21 @@ public:
 	EFF3DVertexDeclaration(const EFF3DVertexDeclaration & rhs);
 	virtual ~EFF3DVertexDeclaration();
 public:
-	typedef std::vector<EFF3DVertexElement>		VertexElementArray;
+	typedef VECTOR<EFF3DVertexElement>		VertexElementArray;
 public:
 
 
-	effUINT												GetElementCount() { return m_aryElement.size(); }
+	effUINT											GetElementCount() { return (effUINT)m_aryElement.size(); }
 	const VertexElementArray &						GetElements() const;
 	const EFF3DVertexElement *						GetElement(effWORD index);
-	effWORD													GetMaxSource() const;
-	effUINT												GetVertexSize(effWORD stream);
-	effUINT												GetFVF();
+	effWORD											GetMaxSource() const;
+	effUINT											GetVertexSize(effWORD stream);
+	effUINT											GetFVF();
 
-	virtual const EFF3DVertexElement &			AddElement(effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0,EFF3DVertexElementMethod method = VEM_DEFAULT);
-	virtual const EFF3DVertexElement &			InsertElement(effWORD atPosition,effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0);
-	virtual effVOID											RemoveElement(effWORD elemIndex);
-	virtual effVOID											ModifyElement(effWORD elemIndex,effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0);
+	virtual const EFF3DVertexElement &				AddElement(effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0,EFF3DVertexElementMethod method = VEM_DEFAULT);
+	virtual const EFF3DVertexElement &				InsertElement(effWORD atPosition,effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0);
+	virtual effVOID									RemoveElement(effWORD elemIndex);
+	virtual effVOID									ModifyElement(effWORD elemIndex,effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index = 0);
 
 
 
@@ -192,7 +192,7 @@ protected:
 };
 
 
-effUINT CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWORD stream);
+effUINT CalculateVertexSize(VECTOR<EFF3DVertexElement> & aryElement,effWORD stream);
 
 
 EFF3D_END

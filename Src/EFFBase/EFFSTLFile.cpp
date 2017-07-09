@@ -38,13 +38,13 @@ effBOOL EFFSTLFile::Open(const effString & filePath, const effTCHAR * openMode)
 	return effFALSE;
 }
 
-effUINT EFFSTLFile::Read(effVOID * buffer, effUINT size)
+effSIZE EFFSTLFile::Read(effVOID * buffer, effSIZE size)
 {
 
 	return fread(buffer, size, 1, file);
 }
 
-effUINT EFFSTLFile::Write(effVOID * buffer, effUINT size)
+effSIZE EFFSTLFile::Write(effVOID * buffer, effSIZE size)
 {
 	return fwrite(buffer, size, 1, file);
 }

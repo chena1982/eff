@@ -85,9 +85,9 @@ public:
 	EFFEvent				OnEndRender;
 	effString				errorCode;
 protected:
-	std::vector<EFF3DShaderParameter *>		perShaderAutoParameters;
-	std::vector<EFF3DShaderParameter *>		perObjectAutoParameters;
-	std::vector<EFF3DShaderParameter *>		perRenderableAutoParameters;
+	VECTOR<EFF3DShaderParameter *>		perShaderAutoParameters;
+	VECTOR<EFF3DShaderParameter *>		perObjectAutoParameters;
+	VECTOR<EFF3DShaderParameter *>		perRenderableAutoParameters;
 
 
 };

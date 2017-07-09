@@ -137,7 +137,7 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 
 		memset(pVerticesUsed, 0, sizeof(effBOOL) * TERRAIN_TILE_PIXEL_SIZE * TERRAIN_TILE_PIXEL_SIZE);
 
-		std::vector<effUINT16> aryIndices;
+		VECTOR<effUINT16> aryIndices;
 
 		TriTreeNode * pPreNode = NULL;
 		TriTreeNode * pNode = pFirstNode;
@@ -258,7 +258,7 @@ effVOID EFF3DTerrainROAMImproveTileData::GenerateGeometryDataFromElevationMap(ef
 	memset(pGeneratedVerticesId, -1, sizeof(effINT)*TERRAIN_TILE_PIXEL_SIZE * TERRAIN_TILE_PIXEL_SIZE);
 	effINT nGeneratedVerticesNum = 0;
 
-	std::vector<effFLOAT> aryVertices;
+	VECTOR<effFLOAT> aryVertices;
 
 	for ( effINT i = 0; i < nLevel; i++ )
 	{
@@ -504,7 +504,7 @@ EFF3DTerrainROAMImproveTileData::TriTreeNode * EFF3DTerrainROAMImproveTileData::
 		}
 		else
 		{
-			_asm int 3;// Illegal Left Neighbor!
+			//_asm int 3;// Illegal Left Neighbor!
 		}
 	}
 
@@ -525,7 +525,7 @@ EFF3DTerrainROAMImproveTileData::TriTreeNode * EFF3DTerrainROAMImproveTileData::
 		}
 		else
 		{
-			_asm int 3;// Illegal Right Neighbor!
+			//_asm int 3;// Illegal Right Neighbor!
 		}
 	}
 

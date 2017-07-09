@@ -27,27 +27,27 @@ public:
 	{
 	}
 public:
-	inline T operator [](effINT index) { return vector[index]; }
-	inline effVOID push_back(const T & element) { vector.push_back(element); }
+	inline T operator [](effINT index) { return VECTOR[index]; }
+	inline effVOID push_back(const T & element) { VECTOR.push_back(element); }
 
 	virtual effVOID SaveToFile(EFFFile * file)
 	{
-		if ( vector.size() == 0 )
+		if ( VECTOR.size() == 0 )
 		{
 			return;
 		}
 
 		if ( GetRuntimeClass()->IsPODType() )
 		{
-			file->Write(&vector[0], sizeof(T) * vector.size());
+			file->Write(&VECTOR[0], sizeof(T) * VECTOR.size());
 		}
 		else
 		{
-			SaveProperty(file, vector[0]);
+			SaveProperty(file, VECTOR[0]);
 		}
 	}
 protected:
-	std::vector<T> vector;
+	VECTOR<T> VECTOR;
 };
 
 
@@ -59,28 +59,28 @@ public:
 	{
 	}
 public:
-	inline T * operator [](effINT index) { return vector[index]; }
+	inline T * operator [](effINT index) { return VECTOR[index]; }
 
-	effVOID push_back(T * element) { vector.push_back(element); }
+	effVOID push_back(T * element) { VECTOR.push_back(element); }
 
 	virtual effVOID SaveToFile(EFFFile * file)
 	{
-		if ( vector.size() == 0 )
+		if ( VECTOR.size() == 0 )
 		{
 			return;
 		}
 
 		if ( GetRuntimeClass()->IsPODType() )
 		{
-			file->Write(&vector[0], sizeof(T) * vector.size());
+			file->Write(&VECTOR[0], sizeof(T) * VECTOR.size());
 		}
 		else
 		{
-			SaveProperty(file, *vector[0]);
+			SaveProperty(file, *VECTOR[0]);
 		}
 	}
 protected:
-	std::vector<T *> vector;
+	VECTOR<T *> VECTOR;
 };*/
 
 

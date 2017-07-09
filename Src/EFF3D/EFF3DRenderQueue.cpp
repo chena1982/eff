@@ -57,7 +57,7 @@ bool sortByOrder(const EFF3DRenderQueue::RenderQueueElement & s1, const EFF3DRen
 
 effVOID EFF3DRenderQueue::Sort()
 {
-	std::vector<RenderQueueElement>::iterator it = renderables.begin();
+	VECTOR<RenderQueueElement>::iterator it = renderables.begin();
 	for ( ; it != renderables.end(); it++ )
 	{
 		if ( !it->renderable->GetEnabled() )
@@ -117,7 +117,7 @@ effVOID	EFF3DRenderQueue::Render(EFF3DDevice * device)
 	EFF3DShader * lastShader = NULL;
 	EFF3DObject * lastObject = NULL;
 
-	effUINT renderablesCount = renderables.size();
+	effUINT renderablesCount = (effUINT)renderables.size();
 	for ( effUINT i = 0; i < renderablesCount; i++ )
 	{
 		RenderQueueElement & renderQueueElement = renderables[i];

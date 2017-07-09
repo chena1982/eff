@@ -72,7 +72,7 @@ public:
 		}
 	}
 
-	std::string toString() const
+    effStringA toString() const
 	{
 		if (v)
 		{
@@ -80,7 +80,7 @@ public:
 		}
 		else
 		{
-			return string();
+            return effStringA();
 		}
 	}
 
@@ -96,7 +96,7 @@ public:
 
 	virtual BaseValue * clone() const = 0;
 
-	virtual string toString() const = 0;
+    virtual effStringA toString() const = 0;
 
 	virtual void set(Value const & v) = 0;
 	// no get()!
@@ -115,7 +115,7 @@ public:
 		return new RealValue(*this);
 	}
 
-	string toString() const
+    effStringA toString() const
 	{
 		ostringstream os;
 		os << val;

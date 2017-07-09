@@ -38,6 +38,7 @@ set (HEADER_FILES
   ../../Include/EFFBase/Reflection4CppEnum.h
   ../../Include/EFFBase/YAMLWrap.h
   ../../Include/EFFBase/EFFSemaphore.h
+  ../../Include/EFFBase/EFFEntity.h
 )
 
 set (SOURCE_FILES
@@ -70,12 +71,11 @@ set (SOURCE_FILES
   EFFThread.cpp
   EFFUtility.cpp
   GetDllExportFunctionsName.cpp
-  malloc.cpp
-  malloc.h
   md5.cpp
   md5.h
   YAMLWrap.cpp
   EFFSemaphore.cpp
+  EFFEntity.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -110,6 +110,7 @@ SOURCE_GROUP("Common" FILES
   ../../Include/EFFBase/EFFScopeGuard.h
   ../../Include/EFFBase/EFFUtility.h
   ../../Include/EFFBase/GetDllExportFunctionsName.h
+  ../../Include/EFFBase/EFFEntity.h
   dllmain.cpp
   EFFBaseDefines.cpp
   EFFComponent.cpp
@@ -127,11 +128,10 @@ SOURCE_GROUP("Common" FILES
   EFFStringHash.cpp
   EFFUtility.cpp
   GetDllExportFunctionsName.cpp
-  malloc.cpp
-  malloc.h
   md5.cpp
   md5.h
-  EFFMessageCenter.cpp  
+  EFFMessageCenter.cpp
+  EFFEntity.cpp
 )
 
 SOURCE_GROUP("Reflection" FILES

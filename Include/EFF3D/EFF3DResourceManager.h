@@ -105,7 +105,7 @@ protected:
 	EFF3DResource *					GetResource(const effString & filePath);
 
 public:
-	typedef std::map<effString, EFF3DResource *>	ResourceMap;
+	typedef MAP<effString, EFF3DResource *>	ResourceMap;
 	//typedef std::map<effULONG, EFF3DResource *>		ResourceIdMap;
 protected:
 	ResourceMap						resources;

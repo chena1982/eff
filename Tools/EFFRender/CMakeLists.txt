@@ -9,10 +9,14 @@ include_directories(${CMAKE_SOURCE_DIR}/Include/${EXE_NAME})
 include_directories($ENV{BOOST_ROOT})
 include_directories($ENV{DXSDK_DIR}Include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
 
+if (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+    link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
+endif()
 
-link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
-link_directories($ENV{DXSDK_DIR}Lib/x86)
+link_directories($ENV{DXSDK_DIR}Lib/x64)
 link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib)
 
 add_definitions(-DGAME_EXPORTS)
@@ -42,3 +46,5 @@ set_source_files_properties(${CMAKE_SOURCE_DIR}/Tools/${EXE_NAME}/EFFRenderPCH.c
 
 #设置生产dll的Debug后缀
 set_target_properties(${EXE_NAME} PROPERTIES DEBUG_POSTFIX "_d")
+
+target_link_libraries(${EXE_NAME} EASTL.lib)

@@ -2,6 +2,7 @@ set (HEADER_FILES
   ../../Include/EFFD3D9.h
   ../../Include/EFFD3D9/EFFD3D9BaseDefines.h
   ../../Include/EFFD3D9/EFFD3D9Shader.h
+  ../../Include/EFFD3D9/EFFD3D9Query.h
 )
 
 set (SOURCE_FILES
@@ -20,6 +21,7 @@ set (SOURCE_FILES
   EFFD3D9VertexBuffer.h
   EFFD3D9VertexDeclaration.cpp
   EFFD3D9VertexDeclaration.h
+  EFFD3D9Query.cpp
 )
 
 SOURCE_GROUP("" FILES

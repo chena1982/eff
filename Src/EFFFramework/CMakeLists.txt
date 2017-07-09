@@ -10,9 +10,15 @@ include_directories($ENV{DXSDK_DIR}Include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/mygui/include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/mygui/Platforms/DirectX/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
 
-link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
-link_directories($ENV{DXSDK_DIR}Lib/x86)
+if (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+    link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
+endif()
+
+
+link_directories($ENV{DXSDK_DIR}Lib/x64)
 link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib)
 
 add_definitions(-DEFFFRAMEWORK_EXPORTS)
@@ -44,4 +50,4 @@ set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFFrameworkPCH.
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
 
 
-target_link_libraries(${LIB_NAME} d3dx9.lib)
+target_link_libraries(${LIB_NAME} EASTL.lib d3dx9.lib)

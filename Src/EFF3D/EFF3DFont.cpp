@@ -145,7 +145,7 @@ effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y, effU
 effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 {
 
-	std::vector<effWCHAR> unloadedCodePoints;
+	VECTOR<effWCHAR> unloadedCodePoints;
 	for ( effUINT i = 0; i < text.size(); i++ )
 	{
 		//text[i] is a ucs-2 character, so don't need check text[i] value
@@ -162,7 +162,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 		return effTRUE;
 	}
 
-	effINT maxWidth = 0;
+	effUINT maxWidth = 0;
 	effBYTE * glyphBuffer = fontManager->LoadGlyphBitmapFromFile(fontFilePath, fontSize, unloadedCodePoints, glyphsInfo, maxWidth);
 	if ( glyphBuffer == NULL )
 	{
@@ -193,7 +193,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 		{
 
 			//go to next line
-			if ( currentY + 2 * fontSize <= blankAreaY + blankAreaHeight )
+			if ( currentY + 2 * (effINT)fontSize <= blankAreaY + blankAreaHeight )
 			{
 				currentX = blankAreaX;
 				currentY += fontSize;
@@ -226,7 +226,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 		}
 
-		for ( effINT j = 0; j < fontSize; j++ )
+		for ( effUINT j = 0; j < fontSize; j++ )
 		{
 			memcpy(((effBYTE *)rc.pBits) + currentX + rc.Pitch * (currentY + j), currentGlyphBuffer + j * maxWidth, fontWidth);
 		}
@@ -247,7 +247,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 }
 
 
-effBOOL EFF3DFont::CheckTextureSize(const std::vector<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLOCKED_RECT & rc)
+effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLOCKED_RECT & rc)
 {
 
 
@@ -423,7 +423,7 @@ EFF3DFont *	EFF3DFontManager::GetFont(const effString & fontName)
 	return NULL;
 }
 
-effBYTE * EFF3DFontManager::LoadGlyphBitmapFromFile(const effString & fontFilePath, effINT fontSize, const std::vector<effWCHAR> & codePoints, EFF3DFontGlyphInfo * glyphsInfo, effINT & maxWidth)
+effBYTE * EFF3DFontManager::LoadGlyphBitmapFromFile(const effString & fontFilePath, effUINT fontSize, const VECTOR<effWCHAR> & codePoints, EFF3DFontGlyphInfo * glyphsInfo, effUINT & maxWidth)
 {
 
 	FontFaceInfo * fontFaceInfo = GetFontFace(fontFilePath);
@@ -480,7 +480,7 @@ effBYTE * EFF3DFontManager::LoadGlyphBitmapFromFile(const effString & fontFilePa
 
 		effINT fontWidth = bitmap.width;
 		//effINT fontWidth = min(bitmap.width, fontSize);
-		effINT fontHeight = min(bitmap.rows, fontSize);
+		effINT fontHeight = MIN(bitmap.rows, fontSize);
 
 		//内嵌点阵，bitmap是每pixel 1位的黑白图
 		if ( bitmap.pixel_mode == FT_PIXEL_MODE_MONO )
@@ -489,7 +489,7 @@ effBYTE * EFF3DFontManager::LoadGlyphBitmapFromFile(const effString & fontFilePa
 			{
 				effBYTE * bitmapBuffer = bitmap.buffer + j * bitmap.pitch;
 				effBYTE * lineStartGlyphBuffer = currentGlyphBuffer + j * maxWidth;
-				effINT x = 0;
+				effUINT x = 0;
 				for ( effINT k = 0; k < bitmap.pitch; k++ )
 				{
 					effBYTE value = *bitmapBuffer;

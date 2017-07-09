@@ -6,6 +6,8 @@
 
 //#define new EFFNEW
 
+EFFBASE_BEGIN
+
 bool GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExports, char ** & pszFunctions)
 {
 	HANDLE hFile;
@@ -37,7 +39,7 @@ bool GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExports, char ** &
 
 	pImg_DOS_Header = (PIMAGE_DOS_HEADER)lpFileBase;
 	pImg_NT_Header = (PIMAGE_NT_HEADERS)(
-		(LONG)pImg_DOS_Header + (LONG)pImg_DOS_Header->e_lfanew);
+		(effSIZE)pImg_DOS_Header + (effSIZE)pImg_DOS_Header->e_lfanew);
 
 	if(IsBadReadPtr(pImg_NT_Header, sizeof(IMAGE_NT_HEADERS))
 		|| pImg_NT_Header->Signature != IMAGE_NT_SIGNATURE)
@@ -48,8 +50,7 @@ bool GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExports, char ** &
 		return false;
 	}
 
-	pImg_Export_Dir = (PIMAGE_EXPORT_DIRECTORY)pImg_NT_Header->OptionalHeader
-		.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+	pImg_Export_Dir = (PIMAGE_EXPORT_DIRECTORY)(effSIZE)pImg_NT_Header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
 	if(!pImg_Export_Dir)
 	{
 		UnmapViewOfFile(lpFileBase);
@@ -58,13 +59,11 @@ bool GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExports, char ** &
 		return false;
 	}
 
-	pImg_Export_Dir= (PIMAGE_EXPORT_DIRECTORY)ImageRvaToVa(pImg_NT_Header,
-		pImg_DOS_Header, (DWORD)pImg_Export_Dir, 0);
+	pImg_Export_Dir= (PIMAGE_EXPORT_DIRECTORY)ImageRvaToVa(pImg_NT_Header, pImg_DOS_Header, (ULONG)(effSIZE)pImg_Export_Dir, 0);
 
-	DWORD **ppdwNames = (DWORD **)pImg_Export_Dir->AddressOfNames;
+	DWORD **ppdwNames = (DWORD **)(effSIZE)pImg_Export_Dir->AddressOfNames;
 
-	ppdwNames = (PDWORD*)ImageRvaToVa(pImg_NT_Header,
-		pImg_DOS_Header, (DWORD)ppdwNames, 0);
+	ppdwNames = (PDWORD*)ImageRvaToVa(pImg_NT_Header, pImg_DOS_Header, (DWORD)(effSIZE)ppdwNames, 0);
 	if(!ppdwNames)
 	{
 		UnmapViewOfFile(lpFileBase);
@@ -78,9 +77,9 @@ bool GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExports, char ** &
 
 	for(int i=0; i<nNumOfExports; i++)
 	{
-		char *szFunc=(PSTR)ImageRvaToVa(pImg_NT_Header, pImg_DOS_Header, (DWORD)*ppdwNames, 0);
+		char *szFunc=(PSTR)ImageRvaToVa(pImg_NT_Header, pImg_DOS_Header, (DWORD)(effSIZE)*ppdwNames, 0);
 
-		int length = strlen(szFunc);
+		size_t length = strlen(szFunc);
 		pszFunctions[i] = new char[length+1];
 		strcpy_s(pszFunctions[i],length+1,szFunc);
 
@@ -101,3 +100,5 @@ void FreeFunctionsNameArray(int nNumOfExports, char ** lppBuffer)
 
 	SFT_DELETE(lppBuffer);
 }
+
+EFFBASE_END

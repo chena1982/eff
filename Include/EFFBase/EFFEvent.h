@@ -81,6 +81,30 @@ void operator ()(C *object __REPEAT(N, __ARG__, __COMMA__, __COMMA__)) const\
 	}\
 	else\*/
 
+#ifdef EFF_PLATFORM_WIN64
+
+#define __EFFEVENTCALL_INVOKE__(N)\
+template <__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
+void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
+{\
+	if ( m_pDelegatee == NULL )\
+	{\
+		typedef __callable##N##__<void __REPEAT(N, __TYPE_ARG__, __COMMA__, __COMMA__)> CallableType;\
+		CallableType * cb = (CallableType *)m_pFunction;\
+		cb->invoke(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
+	}\
+	else\
+	{\
+		typedef void (__delegatee__::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
+		effBYTE * pBaseAddress = (effBYTE *)m_pFunction;\
+		pBaseAddress += 16;\
+		MethodType m = *(MethodType *)((effVOID *)pBaseAddress);\
+		(m_pDelegatee->*m)(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
+	}\
+}
+
+#else
+
 #define __EFFEVENTCALL_INVOKE__(N)\
 template <__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
 void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
@@ -100,6 +124,8 @@ void operator ()(__REPEAT(N, __ARG__, __COMMA__, __NOTHING__)) const\
 		(m_pDelegatee->*m)(__REPEAT(N, __PARAM__, __COMMA__, __NOTHING__));\
 	}\
 }
+
+#endif
 
 // typedef void (__delegatee__::*MethodType)(__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__));\
 // effBYTE * pBaseAddress = (effBYTE *)m_pFunction;\
@@ -179,7 +205,13 @@ public:
 		{
 			typedef void (__delegatee__::*MethodType)();
 			effBYTE * pBaseAddress = (effBYTE *)m_pFunction;
-			pBaseAddress += 8;
+
+			#ifdef EFF_PLATFORM_WIN64
+				pBaseAddress += 16;
+			#else
+				pBaseAddress += 8;
+			#endif
+
 			MethodType m = *(MethodType *)((effVOID *)pBaseAddress);
 			(m_pDelegatee->*m)();
 		}
@@ -289,7 +321,7 @@ public:
 		m_aryFunction.push_back(pEventCall);
 	}*/
 
-	std::vector<EFFEventCall *> m_aryFunction;
+	VECTOR<EFFEventCall *> m_aryFunction;
 
 };
 

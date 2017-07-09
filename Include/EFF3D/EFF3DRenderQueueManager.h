@@ -33,7 +33,7 @@ public:
 protected:
 	EFF3DRenderQueue *			CreateRenderQueue(effUINT renderQueueOrder, RENDER_QUEUE_TYPE renderQueueType, const effString & renderQueueName = _effT(""));
 protected:
-	std::map<effUINT, EFF3DRenderQueue *>		renderQueues;
+	MAP<effUINT, EFF3DRenderQueue *>		renderQueues;
 };
 
 EFF3D_END

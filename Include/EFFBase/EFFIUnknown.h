@@ -89,7 +89,7 @@ public:\
 protected:\
 	effULONG										m_ulObjectId;\
 	effULONG										m_ulRefCount;\
-	std::vector<EFFIUnknown *>		m_aryDynamicComponent;
+	VECTOR<EFFIUnknown *>		m_aryDynamicComponent;
 	//动态添加的组件，一般都是使用类派生来实现各种组件，我想比较固定的可以用派生来实现各种组件
 	//但是有很多是需要动态修改的，或者随着时间的推移增加组件的，这时用动态添加到组件比较好
 	//目前暂时设计成一个特定组件只能添加一个

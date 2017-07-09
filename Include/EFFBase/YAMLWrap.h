@@ -26,10 +26,10 @@ EFFBASE_API effBOOL EndSaveToYAMLFile();
 //effVOID	EndSaveObjectToYAMLFile(EFFObject * object);
 
 EFFBASE_API effVOID SaveStringPropertyToYAMLFile(const effString & propertyName, const effString & value);
-EFFBASE_API effVOID SaveStringVectorPropertyToYAMLFile(const effString & propertyName, const std::vector<effString> & values);
+EFFBASE_API effVOID SaveStringVectorPropertyToYAMLFile(const effString & propertyName, const VECTOR<effString> & values);
 
 EFFBASE_API effVOID SaveIntPropertyToYAMLFile(const effString & propertyName, effINT value);
-EFFBASE_API effVOID SaveIntVectorPropertyToYAMLFile(const effString & propertyName, const std::vector<effINT> & values);
+EFFBASE_API effVOID SaveIntVectorPropertyToYAMLFile(const effString & propertyName, const VECTOR<effINT> & values);
 
 EFFBASE_API effVOID SaveUintPropertyToYAMLFile(const effString & propertyName, effUINT value);
 EFFBASE_API effVOID SaveFloatPropertyToYAMLFile(const effString & propertyName, effFLOAT value);

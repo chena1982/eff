@@ -12,13 +12,13 @@
 
 EFFBASE_BEGIN
 
-std::string getClassNameFromTypeName(const char * pszTypeName)
+effStringA getClassNameFromTypeName(const effCHAR * pszTypeName)
 {
-	std::string strClassName = pszTypeName;
-	int nPos = strClassName.find("class ");
-	if ( nPos != -1 )
+    effStringA strClassName = pszTypeName;
+	effSIZE nPos = strClassName.find("class ");
+	if (nPos != -1)
 	{
-		strClassName.erase(0,6);
+		strClassName.erase(0, 6);
 	}
 	return strClassName;
 }

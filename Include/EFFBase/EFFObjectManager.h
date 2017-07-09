@@ -30,10 +30,6 @@ public:
 	effVOID								ReleaseObject(EFFObject * object);
 	EFFObject *							GetObject(effINT objectId);
 protected:
-	effVOID								CalculateNextId();
-protected:
-	effINT								currentId;
-	std::vector<effINT>					recycledIds;
 	EFFFastIdMap<EFFObject>				objects;
 };
 

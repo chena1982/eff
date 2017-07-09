@@ -20,7 +20,7 @@ static const effINT OBJECT_COUNT  = 10000;
 
 static const effWCHAR * allocText(const effWCHAR * text)
 {
-	effINT len = (wcslen(text) + 1) * sizeof(effWCHAR);
+	effINT len = (effINT)((wcslen(text) + 1) * sizeof(effWCHAR));
 
 	if ( g_textPoolSize + len >= TEXT_POOL_SIZE )
 	{
@@ -710,7 +710,7 @@ effBOOL imguiTree(EFF3DObject * object, effBOOL enabled)
 	effString name;
 	object->GetPropertyValue(_effT("name"), name);
 	
-	effUINT childrenCount = object->GetChildrenCount();
+	effUINT childrenCount = (effUINT)object->GetChildrenCount();
 	effINT indent = TREE_INDENT * g_state.treeDepth;
 
 	if ( childrenCount != 0 )

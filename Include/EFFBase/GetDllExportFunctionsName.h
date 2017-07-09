@@ -10,6 +10,8 @@
 #define __GetDllExportFunctionsName_2009_11_23__
 
 
+EFFBASE_BEGIN
+
 extern "C" {
 
 
@@ -18,5 +20,7 @@ bool EFFBASE_API GetDllExportFunctionsName(TCHAR *szFileName, int & nNumOfExport
 void EFFBASE_API FreeFunctionsNameArray(int nNumOfExports, char ** lppBuffer);
 
 }
+
+EFFBASE_END
 
 #endif

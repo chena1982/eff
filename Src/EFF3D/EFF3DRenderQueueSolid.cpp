@@ -35,7 +35,7 @@ effVOID EFF3DRenderQueueSolid::AddRenderable(EFF3DRenderable * renderable)
 
 effVOID EFF3DRenderQueueSolid::RemoveRenderable(EFF3DRenderable * renderable)
 {
-	std::vector<RenderQueueElement>::iterator it = renderables.begin();
+	VECTOR<RenderQueueElement>::iterator it = renderables.begin();
 
 	for ( ; it != renderables.end(); it++ )
 	{

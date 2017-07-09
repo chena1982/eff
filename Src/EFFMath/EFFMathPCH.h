@@ -14,13 +14,13 @@
 #include <windows.h>
 
 
-#include <string>
-#include <hash_map>
-#include <map>
-#include <vector>
-#include <fstream>
-#include <cmath>
-#include <cstdlib>
+//#include <string>
+//#include <hash_map>
+//#include <map>
+//#include <vector>
+//#include <fstream>
+//#include <cmath>
+//#include <cstdlib>
 
 
 

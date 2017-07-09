@@ -23,6 +23,7 @@ set (HEADER_FILES
   ../../Include/EFF3D/EFF3DTexture.h
   ../../Include/EFF3D/EFF3DVertexBuffer.h
   ../../Include/EFF3D/EFF3DVertexDeclaration.h
+  ../../Include/EFF3D/EFF3DQuery.h
 )
 
 set (SOURCE_FILES
@@ -64,6 +65,7 @@ set (SOURCE_FILES
   EFF3DTexture.cpp
   EFF3DVertexBuffer.cpp
   EFF3DVertexDeclaration.cpp
+  EFF3DQuery.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -151,11 +153,13 @@ SOURCE_GROUP("Device" FILES
   ../../Include/EFF3D/EFF3DTexture.h
   ../../Include/EFF3D/EFF3DVertexBuffer.h
   ../../Include/EFF3D/EFF3DVertexDeclaration.h
-
+  ../../Include/EFF3D/EFF3DQuery.h
+  
   EFF3DDevice.cpp
   EFF3DShader.cpp
   EFF3DSurface.cpp
   EFF3DTexture.cpp
   EFF3DVertexBuffer.cpp
   EFF3DVertexDeclaration.cpp
+  EFF3DQuery.cpp
 )

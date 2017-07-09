@@ -37,7 +37,7 @@ public:
 public:
 	EFFThreadMessageQueue * GetCurrentThreadMessageQueue();
 protected:
-	std::map<effUINT, EFFThreadMessageQueue *>		allThreadMessages;
+	MAP<effUINT, EFFThreadMessageQueue *>		allThreadMessages;
 	//EFFCriticalSection								threadCriticalSection;
 
 

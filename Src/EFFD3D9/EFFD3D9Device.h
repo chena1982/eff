@@ -82,8 +82,8 @@ public:
 	LPDIRECT3D9EX &				GetD3D9() { return D3D9; }
 	effVOID						SetD3D9(LPDIRECT3D9EX D3D9) { this->D3D9 = D3D9; } 
 	LPDIRECT3DDEVICE9EX &		GetD3D9Device() { return D3D9Device; }
-	effVOID						SetCGContex(CGcontext cgContext) { this->cgContext = cgContext; }
-	CGcontext					GetCGContex() { return cgContext; }
+	//effVOID						SetCGContex(CGcontext cgContext) { this->cgContext = cgContext; }
+	//CGcontext					GetCGContex() { return cgContext; }
 
 protected:
     /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
@@ -95,7 +95,7 @@ protected:
 protected:
 	LPDIRECT3D9EX				D3D9;       
 	LPDIRECT3DDEVICE9EX			D3D9Device;
-	CGcontext					cgContext;
+	//CGcontext					cgContext;
 };
 
 effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dpp, HWND hWnd);

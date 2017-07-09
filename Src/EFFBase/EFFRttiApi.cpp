@@ -16,31 +16,31 @@ EFFBASE_BEGIN
 
 ClassID ClassIDFromString(const effString & className)
 {
-	const char * ansiClassName = EFFSTRING2ANSI(className);
+	const effCHAR * ansiClassName = EFFSTRING2ANSI(className);
 
 
 
 	MD5 context;
-	unsigned int len = strlen(ansiClassName);
+	effUINT len = (effUINT)strlen(ansiClassName);
 
 
 	
-	context.update((unsigned char *)ansiClassName, len);
+	context.update((effBYTE *)ansiClassName, len);
 	context.finalize();
 
-	unsigned char * pDigset = context.raw_digest();
+	effBYTE * pDigset = context.raw_digest();
 
 	//char * sz = context.hex_digest();
 
 	ClassID classId;
-	unsigned char * pTemp = (unsigned char *)&classId;
-	for ( int i = 0; i < 8; i++ )
+	effBYTE * pTemp = (effBYTE *)&classId;
+	for (int i = 0; i < 8; i++)
 	{
 		*pTemp = pDigset[7-i];
 		pTemp++;
 	}
 
-	for ( int i = 0; i < 8; i++ )
+	for (int i = 0; i < 8; i++)
 	{
 		*pTemp = pDigset[15-i];
 		pTemp++;
@@ -52,20 +52,20 @@ ClassID ClassIDFromString(const effString & className)
 
 //不直接使用全局静态变量，因为无法保证全局静态变量的初始化顺序，如果别的静态变量比mapEFFRunTimeTypeInfo先初始化，
 //而且这个静态变量在构造函数里调用了EFFRegisterClass，那么程序会Crash
-std::map<ClassID, EFFClass *> & GetRuntimeTypeInfoMap()
+MAP<ClassID, EFFClass *> & GetRuntimeTypeInfoMap()
 {
-	static std::map<ClassID, EFFClass *> effRunTimeTypeInfo;
+	static MAP<ClassID, EFFClass *> effRunTimeTypeInfo;
 	return effRunTimeTypeInfo;
 }
 
 effVOID EFFRegisterClass(EFFClass * Class)
 {
-	GetRuntimeTypeInfoMap().insert(std::make_pair(Class->GetID(), Class));
+	GetRuntimeTypeInfoMap().insert(MAKE_PAIR(Class->GetID(), Class));
 }
 
 effVOID EFFUnRegisterClass(EFFClass * Class)
 {
-	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(Class->GetID());
+	MAP<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(Class->GetID());
 	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
 		GetRuntimeTypeInfoMap().erase(it);
@@ -117,7 +117,7 @@ EFFClass * EFFGetClass(const effString & className)
 
 EFFClass * EFFGetClass(const ClassID & classId)
 {
-	std::map<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classId);
+	MAP<ClassID, EFFClass *>::iterator it = GetRuntimeTypeInfoMap().find(classId);
 	if ( it != GetRuntimeTypeInfoMap().end() )
 	{
 		return it->second;

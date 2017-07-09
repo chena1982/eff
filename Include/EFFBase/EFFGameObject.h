@@ -24,11 +24,11 @@ public:
 	EFFComponent *		AddComponent(const ClassID & classID);
 	EFFComponent *		GetComponent(const ClassID & classID);
 	EFFComponent *		GetComponent(effINT index);
-	effINT				GetComponentCount() { return components.size(); }
+	effSIZE				GetComponentCount() { return components.size(); }
 
 	virtual effVOID		SaveComponentsToFile(EFFFile * file, effBOOL isBinary);
 protected:
-	std::vector<EFFComponent *>		components;
+	VECTOR<EFFComponent *>		components;
 };
 
 EFFBASE_END

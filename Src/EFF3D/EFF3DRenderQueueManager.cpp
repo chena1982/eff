@@ -38,7 +38,7 @@ EFF3DRenderQueueManager::~EFF3DRenderQueueManager()
 
 EFF3DRenderQueue * EFF3DRenderQueueManager::CreateRenderQueue(effUINT renderQueueOrder, RENDER_QUEUE_TYPE renderQueueType, const effString & renderQueueName)
 {
-	std::map<effUINT, EFF3DRenderQueue *>::iterator it = renderQueues.find(renderQueueOrder);
+	MAP<effUINT, EFF3DRenderQueue *>::iterator it = renderQueues.find(renderQueueOrder);
 
 	if ( it != renderQueues.end() )
 	{
@@ -74,7 +74,7 @@ EFF3DRenderQueue * EFF3DRenderQueueManager::CreateRenderQueue(effUINT renderQueu
 
 effVOID EFF3DRenderQueueManager::Render(EFF3DDevice * device)
 {
-	std::map<effUINT, EFF3DRenderQueue *>::iterator it = renderQueues.begin();
+	MAP<effUINT, EFF3DRenderQueue *>::iterator it = renderQueues.begin();
 	for ( ; it != renderQueues.end(); it++ )
 	{
 		EFF3DRenderQueue * queue = it->second;
@@ -84,7 +84,7 @@ effVOID EFF3DRenderQueueManager::Render(EFF3DDevice * device)
 
 EFF3DRenderQueue * EFF3DRenderQueueManager::GetRenderQueue(effUINT renderQueueOrder)
 {
-	std::map<effUINT, EFF3DRenderQueue *>::iterator it = renderQueues.find(renderQueueOrder);
+	MAP<effUINT, EFF3DRenderQueue *>::iterator it = renderQueues.find(renderQueueOrder);
 	if ( it != renderQueues.end() )
 	{
 		return it->second;

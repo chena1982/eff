@@ -77,6 +77,18 @@
 			EFFMemoryDelete(pMem,0,0);
 		}*/
 
+		// EASTL需要定义这两个函数
+
+		inline void* _cdecl operator new[](size_t size, const char* pName, int flags, unsigned int debugFlags, const char* file, int line)
+		{
+			return malloc(size);
+		}
+
+		inline void* _cdecl operator new[](size_t size, size_t alignment, size_t alignmentOffset, const char* pName, int flags, unsigned int debugFlags, const char* file, int line)
+		{
+			return malloc(size);
+		}
+
 	#else
 
 		EFFBASE_API void * EFFMemoryNew(size_t size);
@@ -104,7 +116,7 @@
 
 	#endif //end of _DEBUG
 
-	#undef EFFNEW
+
 
 	#ifdef _DEBUG
 		#define EFFNEW	new

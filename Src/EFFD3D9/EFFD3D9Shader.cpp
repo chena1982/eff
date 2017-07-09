@@ -12,14 +12,14 @@
 
 EFFD3D9Shader::EFFD3D9Shader()
 {
-	vertexShader = NULL;
-	pixelShader = NULL;
+	//vertexShader = NULL;
+	//pixelShader = NULL;
 }
 
 EFFD3D9Shader::~EFFD3D9Shader()
 {
-	cgDestroyProgram(vertexShader);
-	cgDestroyProgram(pixelShader);
+	//cgDestroyProgram(vertexShader);
+	//cgDestroyProgram(pixelShader);
 }
 
 effBOOL EFFD3D9Shader::SetParameterValue(const effString & name, const effVOID * address, effUINT size)
@@ -32,7 +32,7 @@ effBOOL EFFD3D9Shader::SetParameterValue(const EFF3DShaderParameter * parameter,
 {
 	const EFFD3D9ShaderParameter * d3d9ShaderParameter = (const EFFD3D9ShaderParameter *)parameter;
 
-	switch ( d3d9ShaderParameter->cgType )
+	/*switch ( d3d9ShaderParameter->cgType )
 	{
 	case CG_HALF1:
 	case CG_FLOAT1:
@@ -50,7 +50,7 @@ effBOOL EFFD3D9Shader::SetParameterValue(const EFF3DShaderParameter * parameter,
 	case CG_FLOAT4:
 		cgSetParameter4fv(d3d9ShaderParameter->cgParameter, (const effFLOAT *)address);
 		break;
-	}
+	}*/
 	return effTRUE;
 }
 
@@ -63,7 +63,8 @@ effBOOL EFFD3D9Shader::SetTexture(const EFF3DShaderParameter * parameter, const 
 {
 	const EFFD3D9ShaderParameter * d3d9ShaderParameter = (const EFFD3D9ShaderParameter *)parameter;
 	const EFFD3D9Texture * d3d9Texture = (const EFFD3D9Texture *)texture;
-	return SUCCEEDED(cgD3D9SetTexture(d3d9ShaderParameter->cgParameter, d3d9Texture->texture));
+	//return SUCCEEDED(cgD3D9SetTexture(d3d9ShaderParameter->cgParameter, d3d9Texture->texture));
+	return effTRUE;
 }
 
 effBOOL EFFD3D9Shader::CreateFromFile(const effString & filePath, EFF3DDevice * device)
@@ -80,7 +81,7 @@ effBOOL EFFD3D9Shader::CreateFromFile(const effString & filePath, EFF3DDevice * 
 	file.Read(source, file.Length());
 	file.Close();
 
-	EFFD3D9Device * effD3D9Device = (EFFD3D9Device *)device;
+	/*EFFD3D9Device * effD3D9Device = (EFFD3D9Device *)device;
 	vertexShader = cgCreateProgram(effD3D9Device->GetCGContex(), CG_SOURCE, source, CG_PROFILE_VS_3_0, "main_vs", NULL);
 	cgD3D9LoadProgram(vertexShader, CG_FALSE, 0);
 
@@ -127,13 +128,13 @@ effBOOL EFFD3D9Shader::CreateFromFile(const effString & filePath, EFF3DDevice * 
 
 
 		cgParameter = cgGetNextParameter(cgParameter);
-	}
+	}*/
 
 	SF_DELETE(source);
 	return effTRUE;
 }
 
-EFF3DShader::ParameterSemantic EFFD3D9Shader::GetParameterSemantic(CGparameter cgParameter)
+/*EFF3DShader::ParameterSemantic EFFD3D9Shader::GetParameterSemantic(CGparameter cgParameter)
 {
 	const effCHAR * semantic = cgGetParameterSemantic(cgParameter);
 	if ( semantic == NULL )
@@ -151,4 +152,4 @@ EFF3DShader::ParameterSemantic EFFD3D9Shader::GetParameterSemantic(CGparameter c
 	}
 
 	return EFF3DShader::NONE_SEMANTIC;
-}
+}*/

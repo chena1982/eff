@@ -79,9 +79,9 @@
 #ifndef REFLECT_CPP_ENUM_INCLUDE_GUARD
 #define REFLECT_CPP_ENUM_INCLUDE_GUARD
 
-#include <string>
-#include <stdio.h> // for tolower
-#include <cstring>
+//#include <string>
+//#include <stdio.h> // for tolower
+//#include <cstring>
 #include <stdexcept> // for runtime_error
 
 #define my_count_of(a)  (sizeof(a)/sizeof(a[0]))
@@ -149,12 +149,12 @@ public:
 						return ( (long long )lhs.enum_value < (long long)rhs.enum_value );
 					}
 		};
-		std::vector<GeneralEnumMetaData> all(all_enums_, all_enums_ + my_count_of(all_enums_) );
+		VECTOR<GeneralEnumMetaData> all(all_enums_, all_enums_ + my_count_of(all_enums_) );
 		sort(all.begin(), all.end(), Sorter::compare_enum_value);
 		// For the first pass, consume all the values exactly equal to
 
-		vector<const char *> found_enums;
-		for(vector<GeneralEnumMetaData>::reverse_iterator it = all.rbegin(); it != all.rend(); ++it)
+		VECTOR<const char *> found_enums;
+		for(VECTOR<GeneralEnumMetaData>::reverse_iterator it = all.rbegin(); it != all.rend(); ++it)
 		{
 			if( ((*it).enum_value & e) == (*it).enum_value )
 			{
@@ -256,7 +256,7 @@ public:
 		return e;
 	}
 
-	/// mimic the std::vector<T>::const_iterator
+	/// mimic the VECTOR<T>::const_iterator
 	class const_value_iterator {
 		friend class EnumHelper<Enum_T>;
 	public:
@@ -286,7 +286,7 @@ public:
 		const_str_iterator(GeneralEnumMetaData * p): m_ptr(p) { }
 	};
 
-	/// mimic std::vector<T>::begin(), end()
+	/// mimic VECTOR<T>::begin(), end()
 	/// do *NOT* try to provide the rbegin/rend version
 	static const_str_iterator str_begin() throw()
 	{

@@ -165,9 +165,9 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 	D3DDevice->SetBackBufferSize(backBufferDesc.Width, backBufferDesc.Height);
 	SF_RELEASE(backBuffer);
 
-	CGcontext cgContext = cgCreateContext();
-	D3DDevice->SetCGContex(cgContext);
-	cgD3D9SetDevice(D3DDevice->GetD3D9Device());
+	//CGcontext cgContext = cgCreateContext();
+	//D3DDevice->SetCGContex(cgContext);
+	//cgD3D9SetDevice(D3DDevice->GetD3D9Device());
 
 	*eff3DDevice =	D3DDevice;
 
@@ -178,13 +178,17 @@ EFFD3D9Device::EFFD3D9Device()
 {
 	D3D9 = NULL;       
 	D3D9Device = NULL;
-	cgContext = NULL;
+	//cgContext = NULL;
 }
+
+#ifdef __cplusplus
+#define XXX
+#endif
 
 EFFD3D9Device::~EFFD3D9Device()
 {
-	cgD3D9SetDevice(NULL);
-	cgDestroyContext(cgContext);
+	//cgD3D9SetDevice(NULL);
+	//cgDestroyContext(cgContext);
 
 	SF_RELEASE(D3D9Device);
 	SF_RELEASE(D3D9);
@@ -730,8 +734,8 @@ effBOOL EFFD3D9Device::SetShader(EFF3DShader * shader)
 {
 	EFFD3D9Shader * effD3D9Shader = (EFFD3D9Shader *)shader;
 
-	cgD3D9BindProgram(effD3D9Shader->GetVertexShader());
-	cgD3D9BindProgram(effD3D9Shader->GetPixelShader());
+	//cgD3D9BindProgram(effD3D9Shader->GetVertexShader());
+	//cgD3D9BindProgram(effD3D9Shader->GetPixelShader());
 
 	return effTRUE;
 }

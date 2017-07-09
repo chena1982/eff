@@ -59,7 +59,7 @@ IMPL_CREATE_FROM_FILE(2)*/
 effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
 {
 	effString originPath = res->GetOriginPath();
-	effINT pos = originPath.rfind('\\');
+	effSIZE pos = originPath.rfind('\\');
 	if ( pos != -1 )
 	{
 		originPath = originPath.substr(pos, originPath.length() - pos);
@@ -75,7 +75,7 @@ effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
 EFF3DResource * EFF3DResourceManager::GetResource(const effString & filePath)
 {
 	effString name;
-	effINT pos = filePath.rfind('\\');
+	effSIZE pos = filePath.rfind('\\');
 	if ( pos != -1 )
 	{
 		name = filePath.substr(pos, filePath.length() - pos);

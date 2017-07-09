@@ -9,8 +9,21 @@
 #define __EFFBaseDefines_2008_12_1__
 
 
+#define EFFBASE_BEGIN		namespace EFFBase {
+#define EFFBASE_END			}
+#define USE_EFFBASE			using namespace EFFBase;
 
+EFFBASE_BEGIN
 
+#if defined(_WIN32) || defined(__WIN32__) || defined(_WIN64)
+    #ifdef _WIN64 // VC++ defines both _WIN32 and _WIN64 when compiling for Win64.
+        #define EFF_PLATFORM_WIN64 1
+    #else
+        #define EFF_PLATFORM_WIN32 1
+    #endif
+#endif
+
+#define USE_EASTL 1
 
 
 #ifdef UNICODE
@@ -66,12 +79,40 @@
 typedef wchar_t effWCHAR;
 typedef char effCHAR;
 
-#if defined UNICODE || defined _UNICODE
-	typedef effWCHAR effTCHAR;
-	typedef std::wstring effString;
+
+#if defined(USE_EASTL)
+    #if defined UNICODE || defined _UNICODE
+	    typedef effWCHAR effTCHAR;
+	    typedef eastl::wstring effString;
+        typedef eastl::string effStringA;
+    #else
+	    typedef effCHAR effTCHAR;
+	    typedef eastl::string effString;
+		typedef eastl::string effStringA;
+    #endif
+
+	#define VECTOR eastl::vector
+	#define DEQUE eastl::deque
+	#define MAP eastl::map
+	#define MAKE_PAIR eastl::make_pair
+	#define FOR_EACH eastl::for_each
+	#define MIN eastl::min
 #else
-	typedef effCHAR effTCHAR;
-	typedef std::string effString;
+    #if defined UNICODE || defined _UNICODE
+        typedef effWCHAR effTCHAR;
+        typedef std::wstring effString;
+		typedef std::string effStringA;
+    #else
+        typedef effCHAR effTCHAR;
+        typedef std::string effString;
+    #endif
+
+	#define VECTOR std::vector
+	#define DEQUE std::deque
+	#define MAP std::map
+	#define MAKE_PAIR std::make_pair
+	#define FOR_EACH std::for_each
+	#define MIN std::min
 #endif
 
 typedef effCHAR *					effLPSTR;
@@ -105,6 +146,12 @@ typedef unsigned short				effUINT16;
 typedef unsigned int				effUINT32;
 typedef unsigned __int64			effUINT64;
 
+
+#if defined(EFF_PLATFORM_WIN64)
+    typedef unsigned __int64		effSIZE;
+#elif defined(EFF_PLATFORM_WIN32)
+    typedef unsigned int		    effSIZE;
+#endif
 
 typedef unsigned short				effWORD;
 typedef unsigned long				effDWORD;
@@ -151,7 +198,7 @@ effVOID SF_RELEASE(T * p)
 template<class ClassType, class MemberType>
 static inline effULONG mem_offset(MemberType ClassType::*member)
 {
-    return (effULONG)(effULONG *)&(((ClassType *)NULL)->*member); 
+    return (effULONG)(effSIZE)(effULONG *)&(((ClassType *)NULL)->*member); 
 }
 
 template<class ClassType, class MemberType>
@@ -166,12 +213,14 @@ static inline effULONG mem_size(MemberType ClassType::*member)
 
 
 
-#define EFFBASE_BEGIN		namespace EFFBase {
-#define EFFBASE_END			}
-#define USE_EFFBASE			using namespace EFFBase;
+
 
 #ifndef EFFBASE_EXPORTS
-	#define EFFBASE_API		__declspec(dllimport)
+	#ifndef EFFBASE_EXPORT_STATIC
+		#define EFFBASE_API		__declspec(dllimport)
+	#else
+		#define EFFBASE_API
+	#endif
 #else
 	#define EFFBASE_API		__declspec(dllexport)
 #endif
@@ -179,10 +228,8 @@ static inline effULONG mem_size(MemberType ClassType::*member)
 #define EFFINLINE	__forceinline
 
 
-	
 
-
-
+EFFBASE_END
 
 
 #endif

@@ -51,7 +51,7 @@ class EFFBASE_API EFFClass
 	friend class RegisterProperty;
 public:
 	EFFClass(effUINT version, effBOOL isPOD, const effString & name, EFFClass * baseClass)
-		:version(version), isPOD(isPOD), className(name), baseClass(baseClass)
+		:version(version), isPOD(isPOD), className(name.c_str()), baseClass(baseClass)
 	{
 		id = ClassIDFromString(name);
 		classNameHash.CalculateHash(name);
@@ -93,7 +93,7 @@ public:
 
 	inline effBOOL IsPODType() const { return isPOD; }
 
-	std::vector<EFFProperty *> & GetProperties()
+	VECTOR<EFFProperty *> & GetProperties()
 	{
 		return properties;
 	}
@@ -236,9 +236,9 @@ public:
 	}
 
 
-	//vector property
+	//VECTOR property
 	template<typename ClassType, typename PropertyType>
-	effVOID AddProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
+	effVOID AddProperty(VECTOR<PropertyType> ClassType::*member, const effString & name)
 	{
 
 		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
@@ -250,7 +250,7 @@ public:
 	}
 
 	template<typename ClassType, typename PropertyType>
-	effVOID AddPODProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
+	effVOID AddPODProperty(VECTOR<PropertyType> ClassType::*member, const effString & name)
 	{
 		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
 		EFFProperty * addedProperty = addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
@@ -260,7 +260,7 @@ public:
 	}
 
 	template<typename ClassType, typename PropertyType>
-	effVOID AddProperty(std::vector<PropertyType *> ClassType::*member, const effString & name)
+	effVOID AddProperty(VECTOR<PropertyType *> ClassType::*member, const effString & name)
 	{
 		EFFClass * propertyClass = EFFGetClass(ClassNameTrait<PropertyType>()());
 		EFFProperty * addedProperty = addProperty(mem_offset(member), sizeof(PropertyType), name, propertyClass);
@@ -269,7 +269,7 @@ public:
 
 		if ( propertyClass->isPOD )
 		{
-			BOOST_ASSERT_MSG(effFALSE, "dont't support pod pointer vector property.");
+			BOOST_ASSERT_MSG(effFALSE, "dont't support pod pointer VECTOR property.");
 		}
 		else
 		{
@@ -288,17 +288,17 @@ public:
 
 
 	template<typename ClassType, typename PropertyType>
-	effVOID AddProperty(std::vector<PropertyType> ClassType::*member, const effString & name)
+	effVOID AddProperty(VECTOR<PropertyType> ClassType::*member, const effString & name)
 	{
-		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>::type>::type>::type>();
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<VECTOR<PropertyType>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>::type>::type>::type>();
 		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
 		properties.push_back(addedProperty);
 	}
 
 	template<typename ClassType, typename PropertyType>
-	effVOID AddProperty(std::vector<PropertyType *> ClassType::*member, const effString & name)
+	effVOID AddProperty(VECTOR<PropertyType *> ClassType::*member, const effString & name)
 	{
-		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
+		EFFProperty * addedProperty = EFFNEW EFFPropertyImpl<VECTOR<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<PropertyType>::type>::type>();
 		SetProperty(addedProperty, mem_offset(member), sizeof(PropertyType), name);
 		properties.push_back(addedProperty);
 	}
@@ -317,7 +317,7 @@ protected:
 	effString									className;
 	EFFStringHash								classNameHash;
 	EFFClass *									baseClass;
-	std::vector<EFFProperty *>					properties;
+	VECTOR<EFFProperty *>					properties;
 };
 
 

@@ -264,7 +264,7 @@ effUINT EFF3DVertexDeclaration::GetVertexSize(effWORD stream)
 	return CalculateVertexSize(m_aryElement,stream);
 }
 
-effUINT CalculateVertexSize(std::vector<EFF3DVertexElement> & aryElement,effWORD stream)
+effUINT CalculateVertexSize(VECTOR<EFF3DVertexElement> & aryElement,effWORD stream)
 {
 	effUINT sz = 0;
 

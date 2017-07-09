@@ -9,6 +9,8 @@
 #define __EFFMessageDefines_2014_12_06__
 
 
+EFFBASE_BEGIN
+
 #define RequestGameWindowPosAndSize 0
 
 
@@ -43,9 +45,11 @@ struct SharedTextureInfo
     effUINT width;
     effUINT height;
     effUINT format;
-    effDWORD sharedTextureHandle[3];
+    effSIZE sharedTextureHandle[3];
     effTCHAR name[32];
 };
 
+
+EFFBASE_END
 
 #endif

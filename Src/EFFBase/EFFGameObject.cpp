@@ -29,7 +29,7 @@ EFFGameObject::~EFFGameObject()
 //无法判断返回哪个接口
 EFFComponent * EFFGameObject::GetComponent(const ClassID & classID)
 {	
-	std::vector<EFFComponent *>::iterator it = components.begin();
+	VECTOR<EFFComponent *>::iterator it = components.begin();
 
 	for ( ; it != components.end(); it++ )
 	{

@@ -23,8 +23,8 @@ public:
 public:
 
 	virtual effBOOL Open(const effString & filePath, const effTCHAR * openMode);
-	virtual effUINT Read(effVOID * buffer, effUINT size);
-	virtual effUINT Write(effVOID * buffer, effUINT size);
+    virtual effSIZE Read(effVOID * buffer, effSIZE size);
+    virtual effSIZE Write(effVOID * buffer, effSIZE size);
 	virtual effVOID Close();
 	virtual effUINT Length();
 protected:

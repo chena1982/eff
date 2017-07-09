@@ -33,7 +33,7 @@ effBOOL EFFNetClient::Connect(effString address)
 {
 	if ( zmq_connect(socket, EFFSTRING2ANSI(address)) == -1 )
 	{
-		std::string error = zmq_strerror(zmq_errno());
+		//std::string error = zmq_strerror(zmq_errno());
 		return effFALSE;
 	}
 
@@ -57,7 +57,7 @@ effBOOL EFFNetClient::Send(EFFObject * object, const effString & propertyName)
 	
 	if ( zmq_msg_send(&msg, socket, 0) == -1 )
 	{
-		std::string error = zmq_strerror(zmq_errno());
+		//std::string error = zmq_strerror(zmq_errno());
 		return effFALSE;
 	}
 
@@ -95,7 +95,7 @@ effBOOL EFFNetClient::SendCmd(effINT id)
 			count++;
 		}
 
-		std::string errorText = zmq_strerror(error);
+		//std::string errorText = zmq_strerror(error);
 		return effFALSE;
 	}
 
@@ -122,7 +122,7 @@ effBOOL EFFNetClient::SendMsg(effINT id, effVOID * buffer, effINT size)
 			count++;
 		}
 
-		std::string errorText = zmq_strerror(error);
+		//std::string errorText = zmq_strerror(error);
 		return effFALSE;
 	}
 

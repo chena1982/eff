@@ -14,7 +14,7 @@ purpose:
 
 EFF3D_BEGIN
 
-class EFF3DQuery : public EFFReferenceCount
+class EFF3D_API EFF3DQuery : public EFFReferenceCount
 {
 protected:
     EFF3DQuery() {};
@@ -69,7 +69,7 @@ protected:
         }
     };
 
-    typedef std::map<effString, ProfileData> ProfileMap;
+    typedef MAP<effString, ProfileData> ProfileMap;
 
     ProfileMap profiles;
     effUINT currFrame;

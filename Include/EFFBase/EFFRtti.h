@@ -238,12 +238,12 @@ public:
 
 
 template<typename PropertyType>
-class GetParameterProperty<std::vector<PropertyType>>
+class GetParameterProperty<VECTOR<PropertyType>>
 {
 public:
 	GetParameterProperty(const effString & name)
 	{
-		parameterProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType>, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		parameterProperty = EFFNEW EFFPropertyImpl<VECTOR<PropertyType>, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
 		SetProperty(parameterProperty, 0, sizeof(PropertyType), name);
 	}
 
@@ -251,12 +251,12 @@ public:
 };
 
 template<typename PropertyType>
-class GetParameterProperty<std::vector<PropertyType *>>
+class GetParameterProperty<VECTOR<PropertyType *>>
 {
 public:
 	GetParameterProperty(const effString & name)
 	{
-		parameterProperty = EFFNEW EFFPropertyImpl<std::vector<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
+		parameterProperty = EFFNEW EFFPropertyImpl<VECTOR<PropertyType *>, EFF_IS_POD<PropertyType, boost::is_pod<boost::remove_pointer<PropertyType>>::type>::type>();
 		SetProperty(parameterProperty, 0, sizeof(PropertyType), name);
 	}
 

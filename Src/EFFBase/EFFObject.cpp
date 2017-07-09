@@ -49,7 +49,7 @@ EFFObjectBase::~EFFObjectBase()
 
 effVOID EFFObjectBase::SaveToFile(EFFFile * file, effBOOL isBinary)
 {
-	std::vector<EFFClass *> classes;
+	VECTOR<EFFClass *> classes;
 	EFFClass * Class = GetRuntimeClass();
 	while ( Class != NULL )
 	{
@@ -59,7 +59,7 @@ effVOID EFFObjectBase::SaveToFile(EFFFile * file, effBOOL isBinary)
 
 	for ( effINT i = (effINT)(classes.size() - 1); i >= 0; i-- )
 	{
-		std::vector<EFFProperty *> & properties = classes[i]->GetProperties();
+		VECTOR<EFFProperty *> & properties = classes[i]->GetProperties();
 		for ( effUINT j = 0; j < properties.size(); j++ )
 		{
 			EFFProperty * curProperty = properties[j];
@@ -186,8 +186,8 @@ effVOID EFFObject::SaveToFile(const effString & filePath, effBOOL isBinary)
 	{
 		if ( StartSaveToYAMLFile(filePath) )
 		{
-			std::vector<EFFObject *> objects;
-			std::vector<EFFComponent *> properties;
+			VECTOR<EFFObject *> objects;
+			VECTOR<EFFComponent *> properties;
 			TraverseObjectTree(objects, properties);
 
 			effINT implicit = 0;
@@ -330,7 +330,7 @@ EFFComponent * EFFObject::AddComponent(const ClassID & classID)
 //无法判断返回哪个接口
 EFFComponent * EFFObject::GetComponent(const ClassID & classID)
 {	
-	std::vector<EFFComponent *>::iterator it = components.begin();
+	VECTOR<EFFComponent *>::iterator it = components.begin();
 
 	for ( ; it != components.end(); it++ )
 	{
@@ -365,7 +365,7 @@ effVOID	EFFObject::DetachFromTree()
 	parent = NULL;
 }
 
-effVOID	EFFObject::TraverseObjectTree(std::vector<EFFObject *> & objects, std::vector<EFFComponent *> & properties)
+effVOID	EFFObject::TraverseObjectTree(VECTOR<EFFObject *> & objects, VECTOR<EFFComponent *> & properties)
 {
 	objects.push_back(this);
 

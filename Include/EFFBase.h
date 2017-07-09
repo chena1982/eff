@@ -8,11 +8,16 @@
 #ifndef __EFFBase_2008_12_12__
 #define __EFFBase_2008_12_12__
 
-#include <string>
-#include <hash_map>
-#include <map>
-#include <vector>
-#include <iostream>
+//#include <string>
+//#include <hash_map>
+//#include <map>
+//#include <VECTOR>
+//#include <iostream>
+
+#include <EASTL/string.h>
+#include <EASTL/VECTOR.h>
+#include <EASTL/map.h>
+#include <EASTL/deque.h>
 
 #include "EFFBase\EFFBaseDefines.h"
 #include "EFFBase\EFFMemory.h"

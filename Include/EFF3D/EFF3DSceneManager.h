@@ -33,14 +33,14 @@ public:
 	effBOOL								LoadTerrain(const effString & filePath);
 
 public:
-	inline std::vector<EFF3DCamera *>	GetCameras() { return cameras; }
+	inline VECTOR<EFF3DCamera *>		GetCameras() { return cameras; }
 	inline EFF3DAsyncLoader *			GetAsyncLoader() { return asyncLoader; }
 	inline EFF3DMaterial *				GetRenderLayerMaterial(effINT renderLayer) { return renderLayerMaterial[renderLayer]; }
 
 
 protected:
 
-	std::vector<EFF3DCamera *>			cameras;
+	VECTOR<EFF3DCamera *>				cameras;
 	EFF3DRenderQueue *					renderQueue;
 	EFF3DAsyncLoader *					asyncLoader;
 

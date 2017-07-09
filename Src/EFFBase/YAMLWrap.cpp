@@ -171,11 +171,11 @@ effVOID SaveStringPropertyToYAMLFile(const effString & propertyName, const effSt
 	yaml_emitter_emit(&emitter, &yamlEvent);
 }
 
-effVOID SaveStringVectorPropertyToYAMLFile(const effString & propertyName, const std::vector<effString> & values)
+effVOID SaveStringVectorPropertyToYAMLFile(const effString & propertyName, const VECTOR<effString> & values)
 {
 	BeginSaveSequenceToYAMLFile(propertyName);
 
-	for ( effUINT i = 0; i < values.size(); i++ )
+	for (effSIZE i = 0; i < values.size(); i++)
 	{
 		const effCHAR * scalarValue = EFFSTRING2UTF8(values[i]);
 		yaml_scalar_event_initialize(&yamlEvent, NULL, NULL, (yaml_char_t *)scalarValue, -1, 1, 1, YAML_PLAIN_SCALAR_STYLE);
@@ -197,11 +197,11 @@ effVOID SaveIntPropertyToYAMLFile(const effString & propertyName, effINT value)
 	yaml_emitter_emit(&emitter, &yamlEvent);
 }
 
-effVOID SaveIntVectorPropertyToYAMLFile(const effString & propertyName, const std::vector<effINT> & values)
+effVOID SaveIntVectorPropertyToYAMLFile(const effString & propertyName, const VECTOR<effINT> & values)
 {
 	BeginSaveSequenceToYAMLFile(propertyName);
 
-	for ( effUINT i = 0; i < values.size(); i++ )
+    for (effSIZE i = 0; i < values.size(); i++)
 	{
 		effCHAR buffer[32];
 		sprintf_s(buffer, 32, "%d", values[i]);

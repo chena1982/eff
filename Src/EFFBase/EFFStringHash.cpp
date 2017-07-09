@@ -7,7 +7,7 @@ EFFBASE_BEGIN
 effUINT CalculateFNV(const effTCHAR * str)
 {
 #if defined UNICODE || defined _UNICODE
-	const effUINT length = wcslen(str) + 1;
+	const effUINT length = (effUINT)wcslen(str) + 1;
 #else
 	const effUINT length = strlen(str) + 1;
 #endif

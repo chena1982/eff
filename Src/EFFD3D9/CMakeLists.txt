@@ -6,15 +6,19 @@ include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
 include_directories($ENV{DXSDK_DIR}Include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cg/include)
+#include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cg/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
 
 if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2013)
+elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+    link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
 endif()
 
-link_directories($ENV{DXSDK_DIR}Lib/x86)
+link_directories($ENV{DXSDK_DIR}Lib/x64)
 link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib)
 
 add_definitions(-DEFFD3D9_EXPORTS)
@@ -46,5 +50,5 @@ set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFD3D9PCH.cpp P
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
 set_target_properties(${LIB_NAME} PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/Src/EFFD3D9/Exports.def\" /NODEFAULTLIB:\"dxerr9.lib\"")
 
-target_link_libraries(${LIB_NAME} d3d9.lib cg.lib cgD3D9.lib)
+target_link_libraries(${LIB_NAME} EASTL.lib d3d9.lib)
 

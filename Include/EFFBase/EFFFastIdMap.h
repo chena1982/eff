@@ -10,7 +10,7 @@
 
 EFFBASE_BEGIN
 
-//快速存取id，value的一种map，id固定是int
+//快速存取id，value的一种map
 
 template<typename T>
 class EFFFastIdMap
@@ -18,151 +18,169 @@ class EFFFastIdMap
 public:
 	EFFFastIdMap(effINT initCount)
 	{
-		map = EFFNEW effINT[initCount];
-		memset(map, 0, sizeof(effINT) * initCount);
+		mapValue = EFFNEW effSIZE[initCount];
+		memset(mapValue, 0, sizeof(effSIZE) * initCount);
 		count = initCount;
 
 		first = -1;
 		current = -1;
+		nextId = -1;
 	}
 
-	effVOID Add(effINT index, T * value)
+	effINT Add(T * value)
 	{
-		if ( index < 0 )
-		{
-			return;
-		}
+		CalculateNextId();
+		effINT index = nextId;
 
-		if ( index >= count )
+		if (index >= count)
 		{
 			effINT newCount = count * 2;
-			effINT * newMap = EFFNEW effINT[newCount];
-			memset(newMap, 0, sizeof(effINT) * newCount);
+			effSIZE * newMap = EFFNEW effSIZE[newCount];
+			memset(newMap, 0, sizeof(effSIZE) * newCount);
 
-			memcpy(newMap, map, sizeof(effINT) * count);
+			memcpy(newMap, mapValue, sizeof(effSIZE) * count);
 
-			SFT_DELETE(map);
-			map = newMap;
+			SFT_DELETE(mapValue);
+			mapValue = newMap;
 			count = newCount;
 		}
 
-		map[index] = (effINT)(effVOID *)value;
-		if ( first == -1 )
+		mapValue[index] = (effSIZE)(effVOID *)value;
+		if (first == -1)
 		{
 			first = index;
 		}
 
-		if ( first > index )
+		//如果新插入的值的索引index在first前面
+		if (first > index)
 		{
 			effINT oldFirst = first;
 			first = index;
-			while ( ++index < oldFirst )
+			while (++index < oldFirst)
 			{
-				if ( map[index] < count )
+				//指向有值的index
+				if (mapValue[index] < count)
 				{
-					map[index] = oldFirst;
+					mapValue[index] = oldFirst;
 					break;
 				}
 			}
 		}
+
+		return index;
 	}
 
 	effVOID Remove(effINT index)	
 	{
 #ifdef _DEBUG
-		if ( index >= count || index < 0 )
+		if (index >= count || index < 0)
 		{
 			return;
 		}
 
-		if ( first == -1 )
+		if (first == -1)
 		{
 			return;
 		}
 #endif
-
-		if ( map[index] < count )
+		// 如果map[index]是索引
+		if (mapValue[index] < count)
 		{
 			return;
 		}
 
-		if ( first == index )
+		// 如果移除第一个指针
+		if (first == index)
 		{
 			effINT next = index + 1;
 
-			if ( next < count )
+			if (next < count)
 			{
-				if ( map[next] > count )
+				// 如果map[next]是指针
+				if (mapValue[next] > count)
 				{
 					first = next;
-					map[index] = 0;
+					mapValue[index] = 0;
 				}
+				// 如果map[next]是索引
 				else
 				{
-					first = map[next];
-					map[next] = 0;
-					map[index] = 0;
+					first = (effINT)mapValue[next];
+					mapValue[next] = 0;
+					mapValue[index] = 0;
 				}
 			}
+			// 如果first是最后一个(next == count)
 			else
 			{
 				first = -1;
-				map[index] = 0;
+				mapValue[index] = 0;
 			}
 		}
 		else
 		{
 			int pre = index - 1;
-			while ( pre >= first )
+			// 向前遍历到第一个指针
+			while (pre >= first)
 			{
-				if ( map[pre] > count )
+				// 如果map[pre]是指针
+				if (mapValue[pre] > count)
 				{
 					effINT next = index + 1;
+					// index不是最后一个
 					if ( next < count )
 					{
-						if ( map[next] > count )
+						// 如果map[next]是指针
+						if (mapValue[next] > count)
 						{
-							map[index] = next;
+							mapValue[index] = next;
 						}
+						// 如果map[next]是0或者索引
 						else
 						{
-							map[index] = map[next];
-							map[next] = 0;
+							mapValue[index] = mapValue[next];
+							mapValue[next] = 0;
 						}
 					}
+					// index是最后一个
 					else
 					{
-						map[index] = 0;
+						mapValue[index] = 0;
 					}
 					
 					break;
 				}
-				else if ( map[pre] == 0 )
+				else if (mapValue[pre] == 0)
 				{
 					pre--;
 					continue;
 				}
+				// 如果map[pre]是索引
 				else
 				{
 					effINT next = index + 1;
-					if ( next < count )
+					// index不是最后一个
+					if (next < count)
 					{
-						if ( map[next] > count )
+						// 如果map[next]是指针
+						if (mapValue[next] > count)
 						{
-							map[index] = 0;
-							map[pre] = next;
+							mapValue[index] = 0;
+							mapValue[pre] = next;
 						}
+						// 如果map[next]是0或者索引
 						else
 						{
-							map[index] = 0;
-							map[pre] = map[next];
-							map[next] = 0;
+							mapValue[index] = 0;
+							mapValue[pre] = mapValue[next];
+							mapValue[next] = 0;
 						}
 					}
+					// index是最后一个
 					else
 					{
-						map[pre] = 0;
-						map[index] = 0;
+						mapValue[pre] = 0;
+						mapValue[index] = 0;
 					}
 
 					break;
@@ -170,58 +188,77 @@ public:
 			}
 		}
 		
-
+		recycledIds.push_back(index);
 	}
 
 	T * operator [] (effINT index)
 	{
 #ifdef _DEBUG
-		if ( index >= count || index < 0 )
+		if (index >= count || index < 0)
 		{
 			return NULL;
 		}
 #endif
-		return (T *)(effVOID *)map[index];
+		return (T *)(effVOID *)mapValue[index];
 	}
 
 
 	T * GetFirst()
 	{
-		if ( first == -1 )
+		if (first == -1)
 		{
 			return NULL;
 		}
 
 		current = first;
-		return (T *)(effVOID *)map[first];
+		return (T *)(effVOID *)mapValue[first];
 	}
 
 	T * GetNext()
 	{
 		current++;
-		while ( current < count )
+		while (current < count)
 		{
-			if ( map[current] > count )
+			if (mapValue[current] > count)
 			{
-				return (T *)(effVOID *)map[current];
+				return (T *)(effVOID *)mapValue[current];
 			}
-			else if ( map[current] == 0 )
+			else if (mapValue[current] == 0)
 			{
 				return NULL;
 			}
 			else
 			{
-				current = map[current];
+				// 下一个指针的索引
+				current = (effINT)mapValue[current];
 			}
 		}
 
 		return NULL;
 	}
+
 protected:
-	effINT *	map;
+	effVOID	CalculateNextId()
+	{
+		if (recycledIds.size() == 0)
+		{
+			nextId++;
+			return;
+		}
+
+		nextId = recycledIds[0];
+		recycledIds.erase(recycledIds.begin());
+	}
+protected:
+	// map存的有三种值，一种是0，一种是指针，另一种是下一个指针的索引
+	// 如果map的中间有空洞，每个空洞的第一个元素的值是下一个指针的索引
+	effSIZE *	mapValue;
 	effINT		count;
 	effINT		first;
 	effINT		current;
+	effINT		nextId;
+
+	VECTOR<effINT>	recycledIds;
 };
 
 

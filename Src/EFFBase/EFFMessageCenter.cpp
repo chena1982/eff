@@ -89,7 +89,7 @@ EFFThreadMessageQueue * EFFMessageCenter::GetCurrentThreadMessageQueue()
 	//threadCriticalSection.Enter();
 
 	effUINT threadId = GetCurrentThreadId();
-	std::map<effUINT, EFFThreadMessageQueue *>::iterator it = allThreadMessages.find(threadId);
+	MAP<effUINT, EFFThreadMessageQueue *>::iterator it = allThreadMessages.find(threadId);
 	if ( it != allThreadMessages.end() )
 	{
 		return it->second;
