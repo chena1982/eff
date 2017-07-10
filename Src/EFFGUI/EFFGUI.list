@@ -3,13 +3,18 @@ set (HEADER_FILES
   ../../Include/EFFGUI/EFFGUIDefines.h
   ../../Include/EFFGUI/EFFGUIWidget.h
   ../../Include/EFFGUI/EFFGUICoord.h
+  ../../Include/EFFGUI/EFFGUILayoutManager.h
+  ../../Include/EFFGUI/EFFGUICommonLayout.h
+  ../../Include/EFFGUI/EFFGUIGridLayout.h
   EFFGUIPCH.h
-
 )
 
 set (SOURCE_FILES
   EFFGUIPCH.cpp
-  EFFGUIWidget.cpp  
+  EFFGUIWidget.cpp
+  EFFGUILayoutManager.cpp
+  EFFGUICommonLayout.cpp
+  EFFGUIGridLayout.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -21,9 +26,23 @@ SOURCE_GROUP("Precompiled" FILES
   EFFGUIPCH.h
 )
 
+
+
 SOURCE_GROUP("Common" FILES
   ../../Include/EFFGUI/EFFGUIDefines.h
-  ../../Include/EFFGUI/EFFGUICoord.h  
-  ../../Include/EFFGUI/EFFGUIWidget.h
-  EFFGUIWidget.cpp  
+  ../../Include/EFFGUI/EFFGUICoord.h
 )
+
+SOURCE_GROUP("Component" FILES
+  ../../Include/EFFGUI/EFFGUIWidget.h
+  EFFGUIWidget.cpp
+  ../../Include/EFFGUI/EFFGUICommonLayout.h  
+  ../../Include/EFFGUI/EFFGUIGridLayout.h
+  EFFGUICommonLayout.cpp
+  EFFGUIGridLayout.cpp    
+)
+
+SOURCE_GROUP("System" FILES
+  ../../Include/EFFGUI/EFFGUILayoutManager.h
+  EFFGUILayoutManager.cpp
+)  

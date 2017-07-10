@@ -19,29 +19,7 @@ enum WidgetStyle
     Window,
 };
 
-enum PositionType
-{
-    Absolute = 0, 
-    Relative, 
-};
 
-enum Align
-{
-    HCenter = 1,
-    VCenter = 2,
-    Center = HCenter | VCenter,
-
-    Left = 4,
-    Right = 8,
-    HStretch = Left | Right,
-
-    Top = 16,
-    Bottom = 32,
-    VStretch = Top | Bottom,
-
-    Stretch = HStretch | VStretch,
-    Default = Left | Top
-};
 
 struct EFFGUI_API ControllerInfo
 {
@@ -64,7 +42,7 @@ public:
     VECTOR<ControllerInfo> controllers;
     effStringA type;
     effStringA skin;
-    Align align;
+    effUINT align;
     WidgetStyle style;
     effStringA name;
     effStringA layer;

@@ -10,10 +10,11 @@
 
 
 #include "EFFObject.h"
+#include "EFFFastIdMap.h"
 
 EFFBASE_BEGIN
 
-
+class EFFEntity;
 class EFFProperty;
 
 
@@ -36,6 +37,64 @@ protected:
 	EFFObject *		object;
 };
 
+template<typename C>
+class EFFBASE_API EFFTreeNode
+{
+public:
+    EFFTreeNode()
+    {
+        parent = NULL;
+        firstChild = NULL;
+        nextSibling = NULL;
+        preSibling = NULL;
+        depth = 0;
+    }
+
+    ~EFFTreeNode() {}
+public:
+    C * parent;
+    C * firstChild;
+    C * nextSibling;
+    C * preSibling;
+    effUINT depth;
+};
+
+#define TreeComponent_MaxDepth 8
+
+template<class C>
+class EFFBASE_API EFFTreeComponentManager
+{
+public:
+    EFFTreeComponentManager() {}
+    virtual ~EFFTreeComponentManager() {}
+
+public:
+    effVOID AddComponent(EFFEntity * parent)
+    {
+        if (parent != NULL)
+        {
+            effUINT parentDepth = GetDepth(entity);
+
+            C component;
+            component.
+
+            datas[parentDepth].push_back(C());
+
+            datas.insert((C *)components[parent->index()]);
+        }
+    }
+
+
+    virtual C * GetParent(EFFEntity entity) = 0;
+    virtual C * GetFirstChild(EFFEntity entity) = 0;
+    virtual C * GetLastChild(EFFEntity entity) = 0;
+    virtual effUINT GetDepth(EFFEntity entity) = 0;
+    virtual effUINT SetDepth(EFFEntity entity, effUINT depth) = 0;
+
+protected:
+    EFFFastIdMap<C> components;
+    VECTOR<C> datas[TreeComponent_MaxDepth];
+};
 
 EFFBASE_END
 

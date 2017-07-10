@@ -15,7 +15,7 @@ EFFGUI_BEGIN
 
 WidgetInfo::WidgetInfo()
 {
-    align = Align::Default;
+    align = Align_Default;
     style = WidgetStyle::Child;
     positionType = Relative;
 }

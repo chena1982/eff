@@ -44,6 +44,7 @@
 #include "EFFBase\EFFInputManager.h"
 
 #include "EFFBase\EFFMessageDefines.h"
+#include "EFFBase\EFFEntity.h"
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

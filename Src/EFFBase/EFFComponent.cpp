@@ -8,7 +8,7 @@
 
 #include "EFFBasePCH.h"
 #include "EFFComponent.h"
-
+#include "EFFEntity.h"
 
 
 
@@ -68,5 +68,6 @@ effVOID EFFComponent::SaveToFile(const effString & filePath, effBOOL isBinary)
 
 	return NULL;
 }*/
+
 
 EFFBASE_END

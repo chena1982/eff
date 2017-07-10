@@ -11,22 +11,23 @@ purpose:
 
 EFFBASE_BEGIN
 
-const effUINT ENTITY_INDEX_BITS = 24;
+const effUINT ENTITY_INDEX_BITS = 20;
 const effUINT ENTITY_INDEX_MASK = (1 << ENTITY_INDEX_BITS) - 1;
+
 
 const effUINT ENTITY_GENERATION_BITS = 8;
 const effUINT ENTITY_GENERATION_MASK = (1 << ENTITY_GENERATION_BITS) - 1;
 
 const effUINT MINIMUM_FREE_INDICES = 1024;
 
-class EFFBASE_API Entity
+class EFFBASE_API EFFEntity
 {
 public:
-    Entity() { id = 0; }
-    ~Entity() {}
+    EFFEntity() { id = 0; }
+    ~EFFEntity() {}
 public:
-    inline effUINT index() const { return id & ENTITY_INDEX_MASK; }
-    inline effUINT generation() const { return (id >> ENTITY_INDEX_BITS) & ENTITY_GENERATION_MASK; }
+    inline effUINT Index() const { return id & ENTITY_INDEX_MASK; }
+    inline effUINT Generation() const { return (id >> ENTITY_INDEX_BITS) & ENTITY_GENERATION_MASK; }
 public:
     effUINT id;
 };
@@ -37,14 +38,14 @@ public:
     EntityManager();
     ~EntityManager();
 public:
-    Entity Create();
+    EFFEntity Create();
     
-    inline effBOOL Alive(Entity e) const
+    inline effBOOL Alive(EFFEntity e) const
     {
-        return generation[e.index()] == e.generation();
+        return generation[e.Index()] == e.Generation();
     }
 
-    effVOID Destroy(Entity e);
+    effVOID Destroy(EFFEntity e);
 
 
 private:

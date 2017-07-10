@@ -20,7 +20,7 @@ EntityManager::~EntityManager()
 {
 }
 
-Entity EntityManager::Create()
+EFFEntity EntityManager::Create()
 {
     effUINT idx;
     if (free_indices.size() > MINIMUM_FREE_INDICES)
@@ -35,15 +35,15 @@ Entity EntityManager::Create()
         assert(idx < (1 << ENTITY_INDEX_BITS));
     }
 
-    Entity entity;
+    EFFEntity entity;
     entity.id = (idx << ENTITY_INDEX_BITS) + generation[idx];
 
     return entity;
 }
 
-effVOID EntityManager::Destroy(Entity e)
+effVOID EntityManager::Destroy(EFFEntity e)
 {
-    const effUINT idx = e.index();
+    const effUINT idx = e.Index();
     generation[idx] += 1;
     free_indices.push_back(idx);
 }

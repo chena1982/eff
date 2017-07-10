@@ -16,7 +16,7 @@ template<typename T>
 class EFFFastIdMap
 {
 public:
-	EFFFastIdMap(effINT initCount)
+	EFFFastIdMap(effINT initCount = 4)
 	{
 		mapValue = EFFNEW effSIZE[initCount];
 		memset(mapValue, 0, sizeof(effSIZE) * initCount);
