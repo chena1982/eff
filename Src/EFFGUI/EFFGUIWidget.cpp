@@ -15,9 +15,7 @@ EFFGUI_BEGIN
 
 WidgetInfo::WidgetInfo()
 {
-    align = Align_Default;
     style = WidgetStyle::Child;
-    positionType = Relative;
 }
 
 WidgetInfo::~WidgetInfo()
@@ -91,15 +89,15 @@ effVOID WidgetManager::LoadWidget(const pugi::xml_node & widgetNode)
 	attr = widgetNode.attribute("position");
 	if (attr)
 	{
-		widgetInfo->intCoord = IntCoord::parse(attr.as_string());
-		widgetInfo->positionType = PositionType::Absolute;
+		//widgetInfo->intCoord = IntCoord::parse(attr.as_string());
+		//widgetInfo->positionType = PositionType::Absolute;
 	}
 
 	attr = widgetNode.attribute("position_real");
 	if (attr)
 	{
-		widgetInfo->floatCoord = FloatCoord::parse(attr.as_string());
-		widgetInfo->positionType = PositionType::Relative;
+		//widgetInfo->floatCoord = FloatCoord::parse(attr.as_string());
+		//widgetInfo->positionType = PositionType::Relative;
 	}
 
 	pugi::xml_node widgetChildNode = widgetNode.first_child();

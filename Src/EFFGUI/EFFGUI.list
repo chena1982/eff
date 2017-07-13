@@ -4,8 +4,10 @@ set (HEADER_FILES
   ../../Include/EFFGUI/EFFGUIWidget.h
   ../../Include/EFFGUI/EFFGUICoord.h
   ../../Include/EFFGUI/EFFGUILayoutManager.h
-  ../../Include/EFFGUI/EFFGUICommonLayout.h
+  ../../Include/EFFGUI/EFFGUILayoutInfo.h
   ../../Include/EFFGUI/EFFGUIGridLayout.h
+  ../../Include/EFFGUI/EFFGUIFlowLayout.h
+  ../../Include/EFFGUI/EFFGUIBorderLayout.h
   EFFGUIPCH.h
 )
 
@@ -13,8 +15,10 @@ set (SOURCE_FILES
   EFFGUIPCH.cpp
   EFFGUIWidget.cpp
   EFFGUILayoutManager.cpp
-  EFFGUICommonLayout.cpp
+  EFFGUILayoutInfo.cpp
   EFFGUIGridLayout.cpp
+  EFFGUIFlowLayout.cpp
+  EFFGUIBorderLayout.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -36,10 +40,14 @@ SOURCE_GROUP("Common" FILES
 SOURCE_GROUP("Component" FILES
   ../../Include/EFFGUI/EFFGUIWidget.h
   EFFGUIWidget.cpp
-  ../../Include/EFFGUI/EFFGUICommonLayout.h  
+  ../../Include/EFFGUI/EFFGUILayoutInfo.h  
   ../../Include/EFFGUI/EFFGUIGridLayout.h
-  EFFGUICommonLayout.cpp
-  EFFGUIGridLayout.cpp    
+  ../../Include/EFFGUI/EFFGUIFlowLayout.h
+  ../../Include/EFFGUI/EFFGUIBorderLayout.h  
+  EFFGUILayoutInfo.cpp
+  EFFGUIGridLayout.cpp
+  EFFGUIFlowLayout.cpp
+  EFFGUIBorderLayout.cpp  
 )
 
 SOURCE_GROUP("System" FILES

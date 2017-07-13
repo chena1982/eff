@@ -16,8 +16,8 @@ EFFGUI_BEGIN
 
 enum PositionType
 {
-	Absolute = 0,
-	Relative,
+	Position_Absolute = 0,
+	Position_Relative,
 };
 
 #define Align_HCenter	1

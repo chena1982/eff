@@ -1,20 +1,21 @@
 /******************************************************************************
-created:	2017-07-10   22:29
-file path:	d:\EFF\Include\EFFGUI\EFFGUICommonLayout.cpp
+created:	2017-07-13   22:18
+file path:	d:\EFF\Src\EFFGUI\EFFGUIFlowLayout.cpp
 author:		ChenA
 
 purpose:
 ******************************************************************************/
 
 #include "EFFGUIPCH.h"
-#include "EFFGUICommonLayout.h"
+#include "EFFGUIFlowLayout.h"
 
 
 EFFGUI_BEGIN
 
 
+effVOID FlowLayoutCalculateSize(EFFEntity entity, EFFGUILayoutInfoManager * layoutInfoManager)
+{
 
-
-
+}
 
 EFFGUI_END

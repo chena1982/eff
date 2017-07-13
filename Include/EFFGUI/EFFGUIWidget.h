@@ -48,9 +48,7 @@ public:
     effStringA layer;
 
 
-    PositionType positionType;
-    IntCoord intCoord;
-    FloatCoord floatCoord;
+
 
 	effINT id;
 };

@@ -373,7 +373,7 @@ effVOID EFF3DAsyncLoader::ProcessDeviceWorkItems(effUINT currentToServiceResourc
 	}
 
 	EnterCriticalSection( &renderThreadQueueCriticalSection );
-	effUINT numJobs = enderThreadQueue.size();
+	effUINT numJobs = (effUINT)enderThreadQueue.size();
 	LeaveCriticalSection( &renderThreadQueueCriticalSection );
 
 	for( effUINT i = 0; i < numJobs && i < currentToServiceResourcesNum; i++ )

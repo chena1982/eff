@@ -16,8 +16,8 @@
 
 
 
-#include <EFFBase.h>
-USE_EFFBASE
+#include "EFF3D.h"
+USE_EFF3D
 
 #include <pugixml-1.8/src/pugixml.hpp>
 

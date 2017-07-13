@@ -11,16 +11,17 @@ purpose:
 
 EFFBASE_BEGIN
 
-EntityManager::EntityManager()
+
+EFFEntityManager::EFFEntityManager()
 {
 }
 
 
-EntityManager::~EntityManager()
+EFFEntityManager::~EFFEntityManager()
 {
 }
 
-EFFEntity EntityManager::Create()
+EFFEntity EFFEntityManager::Create()
 {
     effUINT idx;
     if (free_indices.size() > MINIMUM_FREE_INDICES)
@@ -41,7 +42,7 @@ EFFEntity EntityManager::Create()
     return entity;
 }
 
-effVOID EntityManager::Destroy(EFFEntity e)
+effVOID EFFEntityManager::Destroy(EFFEntity e)
 {
     const effUINT idx = e.Index();
     generation[idx] += 1;

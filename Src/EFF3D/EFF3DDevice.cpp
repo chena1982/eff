@@ -209,6 +209,8 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
 	inputManager = EFFNEW EFFInputManager();
 
+    entityManager = EFFNEW EFFEntityManager();
+
 	//wkeInit();
 	//jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);
 

@@ -11,10 +11,11 @@
 
 #include "EFFObject.h"
 #include "EFFFastIdMap.h"
+#include "EFFEntity.h"
 
 EFFBASE_BEGIN
 
-class EFFEntity;
+
 class EFFProperty;
 
 
@@ -37,7 +38,7 @@ protected:
 	EFFObject *		object;
 };
 
-template<typename C>
+/*template<typename C>
 class EFFBASE_API EFFTreeNode
 {
 public:
@@ -57,43 +58,156 @@ public:
     C * nextSibling;
     C * preSibling;
     effUINT depth;
+};*/
+
+class EFFTreeNode
+{
+public:
+    EFFTreeNode()
+    {
+        firstChild = -1;
+        lastChild = -1;
+        //preSibling = -1;
+        //nextSibling = -1;
+    }
+
+    ~EFFTreeNode() {}
+
+public:
+    EFFEntity parent;
+    effUINT firstChild;
+    effUINT lastChild;
+    //effUINT preSibling;
+    //effUINT nextSibling;
 };
 
 #define TreeComponent_MaxDepth 8
 
+const effUINT COMPONENT_INDEX_BITS = 24;
+const effUINT COMPONENT_INDEX_MASK = (1 << COMPONENT_INDEX_BITS) - 1;
+
+
+const effUINT COMPONENT_DEPTH_BITS = 3;
+const effUINT COMPONENT_DEPTH_MASK = (1 << COMPONENT_DEPTH_BITS) - 1;
+
+
 template<class C>
-class EFFBASE_API EFFTreeComponentManager
+class EFFTreeComponentManager
 {
 public:
-    EFFTreeComponentManager() {}
+    EFFTreeComponentManager()
+    {
+    }
+
     virtual ~EFFTreeComponentManager() {}
 
 public:
-    effVOID AddComponent(EFFEntity * parent)
+
+
+
+
+
+    effVOID AddComponent(EFFEntity entity, EFFEntity parentEntity)
     {
-        if (parent != NULL)
+        if (parentEntity.IsValid())
         {
-            effUINT parentDepth = GetDepth(entity);
+            effUINT parentDepth = Depth(parentEntity);
+
+            effUINT depth = parentDepth + 1;
+
+
+
+            C * parentComponent = GetComponentPoint(parentEntity);
+            EFFTreeNode * parentTreeNode = (EFFTreeNode *)&parentComponent;
+
+            effUINT index = parentTreeNode->lastChild + 1;
 
             C component;
-            component.
+            AddNode(index, (EFFTreeNode *)&component, parentTreeNode, parentDepth);
 
-            datas[parentDepth].push_back(C());
 
-            datas.insert((C *)components[parent->index()]);
+            datas[depth].insert(datas[depth].begin() + index, C);
+
+            indices[entity] = index;
+        }
+        else
+        {
+            C component;
+            AddNode((effUINT)datas[0].size(), (EFFTreeNode *)&component, NULL, 0);
+
+            datas[0].push_back(C);
+            indices[entity] = (effUINT)datas[0].size();
         }
     }
 
-
-    virtual C * GetParent(EFFEntity entity) = 0;
-    virtual C * GetFirstChild(EFFEntity entity) = 0;
-    virtual C * GetLastChild(EFFEntity entity) = 0;
-    virtual effUINT GetDepth(EFFEntity entity) = 0;
-    virtual effUINT SetDepth(EFFEntity entity, effUINT depth) = 0;
+    inline effUINT GetComponent(EFFEntity entity)
+    {
+        return indices[entity];
+    }
 
 protected:
-    EFFFastIdMap<C> components;
+    inline effUINT Index(EFFEntity entity)
+    {
+        return indices[entity] & COMPONENT_INDEX_MASK;
+    }
+
+    inline effUINT Depth(EFFEntity entity)
+    {
+        return (indices[entity] >> COMPONENT_INDEX_BITS) & COMPONENT_DEPTH_MASK;
+    }
+
+    inline C * GetComponentPoint(EFFEntity entity)
+    {
+        effUINT index = Index(entity);
+        effUINT depth = Depth(entity);
+
+
+        return &datas[depth][index];
+    }
+
+    effVOID AddNode(effUINT index, EFFTreeNode * node, EFFTreeNode * root, effUINT rootDepth)
+    {
+        if (root != NULL && root->firstChild == -1)
+        {
+            root->firstChild = index;
+
+            //node->preSibling = index;
+            //node->nextSibling = index;
+        }
+        else
+        {
+            //EFFTreeNode * firstChildNode = (EFFTreeNode *)&datas[rootDepth + 1][root->firstChild];
+            //firstChildNode->preSibling = index;
+            //node->nextSibling = root->firstChild;
+        }
+
+
+        if (root != NULL)
+        {
+            root->lastChild = index;
+        }
+
+        /*if (root->lastChild == -1)
+        {
+            root->lastChild = index;
+        }
+        else
+        {
+            EFFTreeNode * lastChildNode = (EFFTreeNode *)&datas[rootDepth + 1][root->lastChild];
+            lastChildNode->nextSibling = index;
+
+            node->preSibling = root->lastChild;
+            root->lastChild = index;
+        }*/
+    }
+
+protected:
+    MAP<EFFEntity, effUINT> indices;
+    //MAP<EFFEntity, effUINT> indices[TreeComponent_MaxDepth];
+    //EFFFastIdMap<C> indices;
     VECTOR<C> datas[TreeComponent_MaxDepth];
+
+    //EFFTreeNode root;
 };
 
 EFFBASE_END

@@ -129,6 +129,7 @@ public:
 	inline EFFInputManager *	GetInputManager() { return inputManager; }
     inline EFF3DSharedTexture * GetSharedRenderTarget() { return sharedRenderTarget; }
 	//inline Awesomium::WebCore * GetWebCore() { return webCore; }
+    inline EFFBase::EFFEntityManager *   GetEntityManager() { return entityManager; }
 
 	effVOID						SetBackBufferSize(effINT width,effINT weight);
 	effINT						GetBackBufferWidth() { return width; }
@@ -162,6 +163,7 @@ private:
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
 	EFFInputManager *			inputManager;
+    EFFEntityManager *          entityManager;
 	//Awesomium::WebCore *		webCore;
 
 	effINT						width;
