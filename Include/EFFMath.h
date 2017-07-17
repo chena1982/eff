@@ -13,6 +13,7 @@
 #include ".\EFFMath\EFFMathFunction.h"
 #include ".\EFFMath\EFFRect.h"
 #include ".\EFFMath\EFFMatrix4.h"
+#include ".\EFFMath\EFFVector2.h"
 #include ".\EFFMath\EFFVector3.h"
 #include ".\EFFMath\EFFVector4.h"
 #include ".\EFFMath\EFFAabb.h"

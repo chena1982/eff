@@ -8,7 +8,7 @@ purpose:
 #ifndef __EFFGUILayoutInfo_2017_07_10__
 #define __EFFGUILayoutInfo_2017_07_10__
 
-#include "EFFGUICoord.h"
+
 
 EFFGUI_BEGIN
 
@@ -59,6 +59,7 @@ public:
 
 class EFFGUILayoutInfoManager : public EFFTreeComponentManager<EFFGUILayoutInfo>
 {
+    friend class EFFGUIRenderer;
 public:
     EFFGUILayoutInfoManager();
     virtual ~EFFGUILayoutInfoManager();

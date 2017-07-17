@@ -28,10 +28,11 @@
 
 
 #include <EASTL/string.h>
-#include <EASTL/VECTOR.h>
+#include <EASTL/vector.h>
 #include <EASTL/map.h>
 #include <EASTL/deque.h>
 #include <EASTL/algorithm.h>
+#include <EASTL/fixed_allocator.h>
 
 #include <zeromq-4.2.2/include/zmq.h>
 #include <jsoncpp-1.8.1/include/json/json.h>
@@ -42,6 +43,7 @@
 #include "EFFMemory.h"
 #include "EFFUtility.h"
 #include "EFFRtti.h"
+#include "EFFFastIdMap.h"
 
 
 

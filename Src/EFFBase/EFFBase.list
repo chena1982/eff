@@ -39,6 +39,7 @@ set (HEADER_FILES
   ../../Include/EFFBase/YAMLWrap.h
   ../../Include/EFFBase/EFFSemaphore.h
   ../../Include/EFFBase/EFFEntity.h
+  ../../Include/EFFBase/EFFString.h
 )
 
 set (SOURCE_FILES
@@ -76,6 +77,7 @@ set (SOURCE_FILES
   YAMLWrap.cpp
   EFFSemaphore.cpp
   EFFEntity.cpp
+  EFFString.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -111,6 +113,7 @@ SOURCE_GROUP("Common" FILES
   ../../Include/EFFBase/EFFUtility.h
   ../../Include/EFFBase/GetDllExportFunctionsName.h
   ../../Include/EFFBase/EFFEntity.h
+  ../../Include/EFFBase/EFFString.h  
   dllmain.cpp
   EFFBaseDefines.cpp
   EFFComponent.cpp
@@ -132,6 +135,7 @@ SOURCE_GROUP("Common" FILES
   md5.h
   EFFMessageCenter.cpp
   EFFEntity.cpp
+  EFFString.cpp
 )
 
 SOURCE_GROUP("Reflection" FILES

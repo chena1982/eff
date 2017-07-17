@@ -193,7 +193,7 @@ struct QuadColoredVertex
 };
 
 
-EFF3D_API EFF3DDevice * EFF3DGetDevice();
+EFF3D_API EFFINLINE EFF3DDevice * EFF3DGetDevice();
 EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DFORMAT format);
 
 

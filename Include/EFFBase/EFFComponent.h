@@ -38,6 +38,43 @@ protected:
 	EFFObject *		object;
 };
 
+
+
+
+template<typename C>
+class EFFComponentManager
+{
+public:
+    EFFComponentManager() {}
+    virtual ~EFFComponentManager() {}
+
+
+public:
+    effVOID AddComponent(EFFEntity entity)
+    {
+        C c;
+        datas.push_back(c);
+
+        indices[entity] = (effUINT)(datas.size() - 1);
+    }
+
+    inline effUINT GetComponent(EFFEntity entity)
+    {
+        return indices[entity];
+    }
+
+protected:
+    //只有声明为友元的manager才能调用这个函数
+    inline C * GetComponentPoint(effUINT index)
+    {
+        return &datas[index];
+    }
+
+private:
+    MAP<EFFEntity, effUINT> indices;
+    VECTOR<C> datas;
+};
+
 /*template<typename C>
 class EFFBASE_API EFFTreeNode
 {
@@ -75,6 +112,7 @@ public:
 
 public:
     EFFEntity parent;
+    EFFEntity entity;
     effUINT firstChild;
     effUINT lastChild;
     //effUINT preSibling;

@@ -19,10 +19,13 @@
 #include "EFF3D.h"
 USE_EFF3D
 
+#include "EFFMath.h"
+USE_EFFMATH
+
 #include <pugixml-1.8/src/pugixml.hpp>
 
 #include "EFFGUIDefines.h"
-
+#include "EFFGUICoord.h"
 
 
 

@@ -30,7 +30,7 @@ EFF3D_BEGIN
 
 static EFF3DDevice * device = NULL;
 
-EFF3DDevice * EFF3DGetDevice()
+EFFINLINE EFF3DDevice * EFF3DGetDevice()
 {
 	return device;
 }

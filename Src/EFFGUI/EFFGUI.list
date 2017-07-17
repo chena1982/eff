@@ -8,6 +8,10 @@ set (HEADER_FILES
   ../../Include/EFFGUI/EFFGUIGridLayout.h
   ../../Include/EFFGUI/EFFGUIFlowLayout.h
   ../../Include/EFFGUI/EFFGUIBorderLayout.h
+  ../../Include/EFFGUI/EFFGUIRendering.h
+  ../../Include/EFFGUI/EFFGUIText.h
+  ../../Include/EFFGUI/EFFGUIRect.h
+  ../../Include/EFFGUI/EFFGUIImage.h  
   EFFGUIPCH.h
 )
 
@@ -19,6 +23,10 @@ set (SOURCE_FILES
   EFFGUIGridLayout.cpp
   EFFGUIFlowLayout.cpp
   EFFGUIBorderLayout.cpp
+  EFFGUIRendering.cpp
+  EFFGUIText.cpp
+  EFFGUIRect.cpp
+  EFFGUIImage.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -43,12 +51,24 @@ SOURCE_GROUP("Component" FILES
   ../../Include/EFFGUI/EFFGUILayoutInfo.h  
   ../../Include/EFFGUI/EFFGUIGridLayout.h
   ../../Include/EFFGUI/EFFGUIFlowLayout.h
-  ../../Include/EFFGUI/EFFGUIBorderLayout.h  
+  ../../Include/EFFGUI/EFFGUIBorderLayout.h
   EFFGUILayoutInfo.cpp
   EFFGUIGridLayout.cpp
   EFFGUIFlowLayout.cpp
-  EFFGUIBorderLayout.cpp  
+  EFFGUIBorderLayout.cpp
 )
+
+SOURCE_GROUP("Rendering" FILES
+  ../../Include/EFFGUI/EFFGUIRendering.h
+  ../../Include/EFFGUI/EFFGUIText.h
+  ../../Include/EFFGUI/EFFGUIRect.h
+  ../../Include/EFFGUI/EFFGUIImage.h  
+  EFFGUIRendering.cpp
+  EFFGUIText.cpp
+  EFFGUIRect.cpp
+  EFFGUIImage.cpp  
+)
+
 
 SOURCE_GROUP("System" FILES
   ../../Include/EFFGUI/EFFGUILayoutManager.h
