@@ -15,6 +15,7 @@
 #include <boost/type_traits.hpp>
 #include <boost/typeof/typeof.hpp>
 #include <boost/function.hpp>
+#include <boost/bind.hpp>
 
 EFFBASE_BEGIN
 

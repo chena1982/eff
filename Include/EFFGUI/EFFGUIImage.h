@@ -26,19 +26,23 @@ public:
 
     ~EFFGUIImage() {}
 
-private:
+public:
+    EFFEntity entity;
     effINT textureNameId;
     EFF3DCOLOR color;
 };
 
 
-class EFFGUIImageManager : EFFComponentManager<EFFGUIImage>
+class EFFGUIImageManager : public EFFComponentManager<EFFGUIImage>
 {
     friend class EFFGUIRenderer;
+
 public:
     EFFGUIImageManager();
     ~EFFGUIImageManager();
 
+public:
+    typedef EFFGUIImage ComponentType;
 protected:
 
 };

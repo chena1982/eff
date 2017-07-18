@@ -17,6 +17,7 @@ effVOID RenderingText(EFFGUILayoutInfo * layoutInfo, EFF3DFont * font, const eff
 
 struct EFFGUIText
 {
+    EFFEntity entity;
     effUINT textId;
     effUINT fontId;
 };

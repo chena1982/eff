@@ -30,4 +30,5 @@ ipch
 /Tools/test
 *.nvuser
 obj
+objs
 /ThirdPartyLib/zeromq-4.2.2/bin

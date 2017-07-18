@@ -27,7 +27,7 @@ struct EFFGUIDrawVert
 {
     EFFVector2  pos;
     EFFVector2  uv;
-    effUINT     color;
+    //effUINT     color;
 };
 
 struct EFFGUIDrawList
@@ -52,6 +52,9 @@ public:
 
 public:
     effVOID GenerateDrawList(EFFGUILayoutInfoManager * layoutManager, EFFGUIImageManager * imageManager, EFFGUITextManager * textManager);
+
+    effVOID GenerateImageRenderCmd(effVOID * manager, effUINT index, effVOID * userData);
+    effVOID GenerateTextRenderCmd(effVOID * manager, effUINT index, effVOID * userData);
 private:
     VECTOR<EFFGUIDrawList> imageDrawLists;
     VECTOR<EFFGUIDrawList> textDrawLists;

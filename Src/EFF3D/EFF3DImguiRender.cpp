@@ -420,7 +420,7 @@ static effVOID drawText(effFLOAT x, effFLOAT y, const effWCHAR * text, effINT al
 
 	EFF3DDevice * device = EFF3DGetDevice();
 	//EFF3DFont * font = device->GetFontManager()->GetFont(L"Î¢ÈíÑÅºÚ");
-	EFF3DFont * font = device->GetFontManager()->GetFont(L"ËÎÌå");
+	/*EFF3DFont * font = device->GetFontManager()->GetFont(L"ËÎÌå");
 
 	if ( font == NULL )
 	{
@@ -429,7 +429,7 @@ static effVOID drawText(effFLOAT x, effFLOAT y, const effWCHAR * text, effINT al
 	
 	effINT posX = (effINT)x;
 	effINT posY = (effINT)y;
-	font->DrawText(text, posX, posY, col);
+	font->DrawText(text, posX, posY, col);*/
 }
 
 

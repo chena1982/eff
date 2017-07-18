@@ -45,6 +45,7 @@
 
 #include "EFFBase\EFFMessageDefines.h"
 #include "EFFBase\EFFEntity.h"
+#include "EFFBase\EFFString.h"
 
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 

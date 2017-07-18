@@ -18,19 +18,23 @@ const effUINT STRING_INDEX_MASK = (1 << STRING_INDEX_BITS) - 1;
 const effUINT STRING_SZIE_BITS = 4;
 const effUINT STRING_SIZE_MASK = (1 << STRING_SZIE_BITS) - 1;
 
-class EFFStaticStringManager
+class EFFBASE_API EFFStaticStringManager
 {
 public:
     EFFStaticStringManager();
     ~EFFStaticStringManager();
 
 
-    effINT AddString(const effCHAR * str);
+    effINT AddString(const effWCHAR * str);
+
+    const effWCHAR * GetString(effUINT index) { return indices[index]; }
+
+    inline effUINT Length(effUINT index) { return (effUINT)wcslen(indices[index]); }
 private:
 
-    VECTOR<effCHAR> strBuffer;
+    VECTOR<effWCHAR> strBuffer;
 
-    EFFFastIdMap<effCHAR> indices;
+    EFFFastIdMap<effWCHAR> indices;
 
     effUINT count;
 };

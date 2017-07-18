@@ -52,7 +52,7 @@ protected:
 	~EFF3DFont();
 public:
 
-	effBOOL DrawText(const effString & text, effINT & x, effINT & y, effUINT color);
+    effBOOL         DrawText(const effString & text, effINT & x, effINT & y, effUINT color);
 
 protected:
 	effBOOL AddCodePointsToTexture(const effString & text);
@@ -94,8 +94,11 @@ public:
 public:
 	EFF3DFont *		CreateFromFile(const effString & fontFilePath, effINT fontSize);
 	effVOID			ReleaseFont(EFF3DFont * font);
-	EFF3DFont *		GetFont(const effString & fontName);
+	effUINT		    GetFont(const effString & fontName);
 
+    effUINT         GetFontTextureId(effUINT fontId) { return 0; }
+public:
+    effBOOL         GenerateTextRenderCmd(effUINT fontIndex, effVOID * vertexBuffer, effWORD * indexBuffer, effWORD vertexBaseIndex, effUINT strIndex, effFLOAT x, effFLOAT y, effFLOAT width, effFLOAT height, effUINT color);
 protected:
 	class FontFaceInfo
 	{

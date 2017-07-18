@@ -36,9 +36,9 @@ EFFINLINE effVOID GetMaxSizeAndIndex(effUINT strSize, effUINT & maxSize)
     }
 }
 
-effINT EFFStaticStringManager::AddString(const effCHAR * str)
+effINT EFFStaticStringManager::AddString(const effWCHAR * str)
 {
-    effUINT strSize = (effUINT)strlen(str) + 1;
+    effUINT strSize = (effUINT)wcslen(str) + 1;
 
     effUINT maxSize;
     GetMaxSizeAndIndex(strSize, maxSize);
@@ -46,7 +46,7 @@ effINT EFFStaticStringManager::AddString(const effCHAR * str)
     effUINT bufferSize = (effUINT)strBuffer.size();
     strBuffer.resize(bufferSize + maxSize);
 
-    strcpy_s(&strBuffer[bufferSize], maxSize, str);
+    wcscpy_s(&strBuffer[bufferSize], maxSize, str);
 
     return indices.Add(&strBuffer[bufferSize]);
 }

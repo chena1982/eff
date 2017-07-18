@@ -410,13 +410,13 @@ effVOID	EFF3DFontManager::ReleaseFont(EFF3DFont * font)
 	}
 }
 
-EFF3DFont *	EFF3DFontManager::GetFont(const effString & fontName)
+effUINT EFF3DFontManager::GetFont(const effString & fontName)
 {
 	for ( effUINT i = 0; i < fonts.size(); i++ )
 	{
 		if ( fonts[i]->fontName == fontName )
 		{
-			return fonts[i];
+            return i;
 		}
 	}
 
@@ -641,5 +641,97 @@ EFF3DFontManager::FontFaceInfo * EFF3DFontManager::GetFontFace(const effString &
 	return &(*fontsFaceInfo.rbegin());
 }
 
+struct FontVertex
+{
+    effFLOAT			x, y;
+    effFLOAT			u, v;
+};
+
+effBOOL EFF3DFontManager::GenerateTextRenderCmd(effUINT fontIndex, effVOID * vertexBuffer, effWORD * indexBuffer, effWORD vertexBaseIndex, effUINT strIndex, 
+    effFLOAT x, effFLOAT y, effFLOAT width, effFLOAT height, effUINT color)
+{
+
+    EFF3DFont * font = fonts[fontIndex];
+
+    EFFStaticStringManager * strManager = EFF3DGetDevice()->GetStaticStringManager();
+    const effWCHAR * text = strManager->GetString(strIndex);
+
+    font->AddCodePointsToTexture(text);
+
+
+    FontVertex * buff = (FontVertex *)vertexBuffer;
+
+
+
+    for (effUINT i = 0; i < strManager->Length(strIndex); i++)
+    {
+        //text[i] is a ucs-2 character, so don't need check text[i] value
+        EFF3DFontGlyphInfo & glyphInfo = font->glyphsInfo[text[i]];
+
+        //glyph bitmap don't loaded
+        if (glyphInfo.y1 == 0)
+        {
+            continue;
+        }
+
+
+        effINT16 glyphWidth = glyphInfo.x1 - glyphInfo.x0;
+        effINT16 glyphHeight = glyphInfo.y1 - glyphInfo.y0;
+
+        EFF3DTexture * fontTexture = font->fontTexture;
+
+
+
+
+
+        //memset(buff, 0, sizeof(buff));
+
+        // 0------1
+        // |      |
+        // |      |
+        // 2------3
+
+        // dx9, all x, y coordinate -0.5f, to Directly Mapping Texels to Pixels
+        float offset = 0.5f;
+
+        buff[0].x = x + glyphInfo.xoffset - offset;
+        buff[0].y = y + glyphInfo.yoffset - offset;
+        buff[0].u = (effFLOAT)glyphInfo.x0;
+        buff[0].v = (effFLOAT)glyphInfo.y0;
+
+        buff[1].x = x + glyphInfo.xoffset + glyphWidth - offset;
+        buff[1].y = y + glyphInfo.yoffset - offset;
+        buff[1].u = (effFLOAT)glyphInfo.x1;
+        buff[1].v = (effFLOAT)glyphInfo.y0;
+
+        buff[2].x = x + glyphInfo.xoffset - offset;
+        buff[2].y = y + glyphInfo.yoffset + glyphHeight- offset;
+        buff[2].u = (effFLOAT)glyphInfo.x0;
+        buff[2].v = (effFLOAT)glyphInfo.y1;
+
+
+        buff[3].x = x + glyphInfo.xoffset + glyphWidth - offset;
+        buff[3].y = y + glyphInfo.yoffset + glyphHeight - offset;
+        buff[3].u = (effFLOAT)glyphInfo.x1;
+        buff[3].v = (effFLOAT)glyphInfo.y1;
+
+
+        indexBuffer[0] = vertexBaseIndex + 0;
+        indexBuffer[1] = vertexBaseIndex + 1;
+        indexBuffer[2] = vertexBaseIndex + 2;
+        indexBuffer[3] = vertexBaseIndex + 1;
+        indexBuffer[4] = vertexBaseIndex + 2;
+        indexBuffer[5] = vertexBaseIndex + 3;
+
+        indexBuffer += 6;
+        buff += 4;
+
+
+        x += glyphInfo.width;
+
+    }
+
+    return effTRUE;
+}
 
 EFF3D_END

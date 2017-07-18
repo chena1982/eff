@@ -16,8 +16,10 @@ purpose:
 EFFGUI_BEGIN
 
 
+
 EFFGUIRenderer::EFFGUIRenderer()
 {
+    //boost::function<effVOID(EFFGUIImageManager *, effUINT)> f = GDL;
 }
 
 EFFGUIRenderer::~EFFGUIRenderer()
@@ -25,15 +27,186 @@ EFFGUIRenderer::~EFFGUIRenderer()
 
 }
 
+struct GenerateRenderCmdUserData
+{
+    EFFGUILayoutInfoManager * layoutManager;
+    EFFGUIDrawList * drawList;
+};
+
+effVOID EFFGUIRenderer::GenerateImageRenderCmd(effVOID * manager, effUINT index, effVOID * userData)
+{
+    EFFGUIImageManager * imageManager = (EFFGUIImageManager *)manager;
+    EFFGUIImage * image = imageManager->GetComponentPoint(index);
+
+    GenerateRenderCmdUserData * grcUserData = (GenerateRenderCmdUserData *)userData;
+
+    EFFGUILayoutInfoManager * layoutManager = grcUserData->layoutManager;
+    EFFGUIDrawList * drawList = grcUserData->drawList;
+
+
+    EFFGUILayoutInfo * layoutInfo = layoutManager->GetComponentPoint(image->entity);
+
+    EFFGUIDrawCmd * currentCmd = NULL;
+
+    if (drawList->CmdBuffer.size() == 0)
+    {
+        EFFGUIDrawCmd cmd;
+        //cmd.textureId = image->textureNameId;
+
+        drawList->CmdBuffer.push_back(cmd);
+
+        currentCmd = &drawList->CmdBuffer[0];
+    }
+    else
+    {
+        currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
+        if (image->textureNameId != currentCmd->textureId)
+        {
+            EFFGUIDrawCmd cmd;
+            //cmd.textureId = image->textureNameId;
+
+            drawList->CmdBuffer.push_back(cmd);
+
+            currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
+        }
+    }
+
+
+    effUINT vertexCount = (effUINT)drawList->VtxBuffer.size();
+
+    EFFGUIDrawVert vertex;
+
+    // 0------1
+    // |      |
+    // |      |
+    // 2------3
+
+    vertex.pos.x = layoutInfo->floatCoord.left;
+    vertex.pos.y = layoutInfo->floatCoord.top;
+    vertex.uv.x = 0.0f;
+    vertex.uv.y = 0.0f;
+    drawList->VtxBuffer.push_back(vertex);
+
+    vertex.pos.x = layoutInfo->floatCoord.right();
+    vertex.pos.y = layoutInfo->floatCoord.top;
+    vertex.uv.x = 1.0f;
+    vertex.uv.y = 0.0f;
+    drawList->VtxBuffer.push_back(vertex);
+
+    vertex.pos.x = layoutInfo->floatCoord.left;
+    vertex.pos.y = layoutInfo->floatCoord.bottom();
+    vertex.uv.x = 0.0f;
+    vertex.uv.y = 1.0f;
+    drawList->VtxBuffer.push_back(vertex);
+
+    vertex.pos.x = layoutInfo->floatCoord.right();
+    vertex.pos.y = layoutInfo->floatCoord.bottom();
+    vertex.uv.x = 1.0f;
+    vertex.uv.y = 1.0f;
+    drawList->VtxBuffer.push_back(vertex);
+
+
+
+
+    drawList->IdxBuffer.push_back(vertexCount + 0);
+    drawList->IdxBuffer.push_back(vertexCount + 1);
+    drawList->IdxBuffer.push_back(vertexCount + 2);
+    drawList->IdxBuffer.push_back(vertexCount + 1);
+    drawList->IdxBuffer.push_back(vertexCount + 2);
+    drawList->IdxBuffer.push_back(vertexCount + 3);
+
+    currentCmd->elemCount += 2;
+}
+
+effVOID EFFGUIRenderer::GenerateTextRenderCmd(effVOID * manager, effUINT index, effVOID * userData)
+{
+    EFFGUITextManager * textManager = (EFFGUITextManager *)manager;
+    EFFGUIText * text = textManager->GetComponentPoint(index);
+
+    GenerateRenderCmdUserData * grcUserData = (GenerateRenderCmdUserData *)userData;
+
+    EFFGUILayoutInfoManager * layoutManager = grcUserData->layoutManager;
+    EFFGUIDrawList * drawList = grcUserData->drawList;
+
+
+    EFFGUILayoutInfo * layoutInfo = layoutManager->GetComponentPoint(text->entity);
+
+    EFFGUIDrawCmd * currentCmd = NULL;
+
+    if (drawList->CmdBuffer.size() == 0)
+    {
+        EFFGUIDrawCmd cmd;
+        //cmd.textureId = image->textureNameId;
+
+        drawList->CmdBuffer.push_back(cmd);
+
+        currentCmd = &drawList->CmdBuffer[0];
+    }
+    else
+    {
+        currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
+
+        effUINT textureId = EFF3DGetDevice()->GetFontManager()->GetFontTextureId(text->fontId);
+
+        if (textureId != currentCmd->textureId)
+        {
+            EFFGUIDrawCmd cmd;
+            cmd.textureId = textureId;
+
+            drawList->CmdBuffer.push_back(cmd);
+            currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
+        }
+    }
+
+    effUINT vertexCount = (effUINT)drawList->VtxBuffer.size();
+
+
+    EFFStaticStringManager * strManager = EFF3DGetDevice()->GetStaticStringManager();
+
+
+    effUINT textLength = strManager->Length(text->fontId);
+
+    drawList->VtxBuffer.resize(vertexCount + textLength * 4);
+
+    effUINT indexCount = (effUINT)drawList->IdxBuffer.size();
+    drawList->IdxBuffer.resize(indexCount + textLength * 6);
+
+
+    EFF3DGetDevice()->GetFontManager()->GenerateTextRenderCmd(text->fontId, &drawList->VtxBuffer[vertexCount], &drawList->IdxBuffer[indexCount],
+        vertexCount, text->textId, layoutInfo->floatCoord.left, layoutInfo->floatCoord.top, layoutInfo->floatCoord.width, layoutInfo->floatCoord.height, 0);
+
+    currentCmd->elemCount += textLength * 2;
+}
+
 effVOID EFFGUIRenderer::GenerateDrawList(EFFGUILayoutInfoManager * layoutManager, EFFGUIImageManager * imageManager, EFFGUITextManager * textManager)
 {
+
+
+
     effUINT topWindowCount = (effUINT)layoutManager->datas[0].size();
 
     imageDrawLists.resize(topWindowCount);
     textDrawLists.resize(topWindowCount);
 
-    //遍历所有的top layoutinfo
+
     for (effUINT i = 0; i < topWindowCount; i++)
+    {
+        EFFGUILayoutInfo * topLayoutInfo = &layoutManager->datas[0][i];
+
+
+        GenerateRenderCmdUserData grcUserData;
+        grcUserData.layoutManager = layoutManager;
+        grcUserData.drawList = &imageDrawLists[i];
+
+        layoutManager->ForEach(topLayoutInfo->treeNode.entity, imageManager, boost::bind(&EFFGUIRenderer::GenerateImageRenderCmd, this, _1, _2, _3), &grcUserData);
+
+        layoutManager->ForEach(topLayoutInfo->treeNode.entity, textManager, boost::bind(&EFFGUIRenderer::GenerateTextRenderCmd, this, _1, _2, _3), &grcUserData);
+    }
+
+
+
+    //遍历所有的top layoutinfo
+    /*for (effUINT i = 0; i < topWindowCount; i++)
     {
         EFFGUILayoutInfo * topLayoutInfo = &layoutManager->datas[0][i];
 
@@ -50,11 +223,11 @@ effVOID EFFGUIRenderer::GenerateDrawList(EFFGUILayoutInfoManager * layoutManager
                 continue;
             }
 
-            EFFGUILayoutInfo * childLayoutInfo = &layoutManager->datas[j][firstChild];
-            EFFGUILayoutInfo * lastLayoutInfo = &layoutManager->datas[j][lastChild];
+            EFFGUILayoutInfo * firstChildLayoutInfo = &layoutManager->datas[j][firstChild];
+            EFFGUILayoutInfo * lastChildLayoutInfo = &layoutManager->datas[j][lastChild];
 
-            effUINT imageFirstChild = imageManager->GetComponent(childLayoutInfo->treeNode.entity);
-            effUINT imageLastChild = imageManager->GetComponent(childLayoutInfo->treeNode.entity);
+            effUINT imageFirstChild = imageManager->GetComponent(firstChildLayoutInfo->treeNode.entity);
+            effUINT imageLastChild = imageManager->GetComponent(lastChildLayoutInfo->treeNode.entity);
 
             if (imageFirstChild != -1)
             {
@@ -64,8 +237,8 @@ effVOID EFFGUIRenderer::GenerateDrawList(EFFGUILayoutInfoManager * layoutManager
                 }
             }
 
-            effUINT textFirstChild = textManager->GetComponent(childLayoutInfo->treeNode.entity);
-            effUINT textLastChild = textManager->GetComponent(childLayoutInfo->treeNode.entity);
+            effUINT textFirstChild = textManager->GetComponent(firstChildLayoutInfo->treeNode.entity);
+            effUINT textLastChild = textManager->GetComponent(lastChildLayoutInfo->treeNode.entity);
 
             if (textFirstChild != -1)
             {
@@ -76,10 +249,10 @@ effVOID EFFGUIRenderer::GenerateDrawList(EFFGUILayoutInfoManager * layoutManager
             }
 
 
-            firstChild = childLayoutInfo->treeNode.firstChild;
-            lastChild = childLayoutInfo->treeNode.lastChild;
+            firstChild = firstChildLayoutInfo->treeNode.firstChild;
+            lastChild = lastChildLayoutInfo->treeNode.lastChild;
         }
-    }
+    }*/
 }
 
 

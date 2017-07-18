@@ -136,6 +136,9 @@ EFF3DDevice::~EFF3DDevice()
 
 	SF_DELETE(fontManager);
 	SF_DELETE(inputManager);
+
+    SF_DELETE(entityManager);
+    SF_DELETE(staticStringManager);
 }
 
 effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture ** texture)
@@ -210,6 +213,8 @@ effVOID EFF3DDevice::Init(effBOOL host)
 	inputManager = EFFNEW EFFInputManager();
 
     entityManager = EFFNEW EFFEntityManager();
+
+    staticStringManager = EFFNEW EFFStaticStringManager();
 
 	//wkeInit();
 	//jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);

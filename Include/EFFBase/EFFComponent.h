@@ -129,7 +129,7 @@ const effUINT COMPONENT_DEPTH_BITS = 3;
 const effUINT COMPONENT_DEPTH_MASK = (1 << COMPONENT_DEPTH_BITS) - 1;
 
 
-template<class C>
+template<typename C>
 class EFFTreeComponentManager
 {
 public:
@@ -140,11 +140,6 @@ public:
     virtual ~EFFTreeComponentManager() {}
 
 public:
-
-
-
-
-
     effVOID AddComponent(EFFEntity entity, EFFEntity parentEntity)
     {
         if (parentEntity.IsValid())
@@ -181,6 +176,65 @@ public:
     inline effUINT GetComponent(EFFEntity entity)
     {
         return indices[entity];
+    }
+
+    template<typename CM>
+    effVOID ForEach(EFFEntity entity, CM * manager, boost::function<effVOID (effVOID *, effUINT, effVOID *)> function, effVOID * userData)
+    {
+        effUINT topComponentStart;
+        effUINT topComponentEnd;
+        effUINT depth;
+        
+        if (!entity.IsValid())
+        {
+            depth = 0;
+            topComponentStart = 0;
+            topComponentEnd = (effUINT)datas[0].size() - 1;
+        }
+        else
+        {
+            depth = Depth(entity);
+            topComponentStart = Index(entity);
+            topComponentEnd = topComponentStart;
+        }
+
+        //遍历所有的top component
+        for (effUINT i = topComponentStart; i <= topComponentEnd; i++)
+        {
+            C * component = &datas[depth][i];
+
+            effUINT firstChild = component->treeNode.firstChild;
+            effUINT lastChild = component->treeNode.lastChild;
+
+
+
+            //遍历树的1-最下层
+            for (effUINT j = depth + 1; j < TreeComponent_MaxDepth; j++)
+            {
+                if (firstChild == -1)
+                {
+                    continue;
+                }
+
+
+                C * firstChildComponent = &datas[j][firstChild];
+                C * lastChildComponent = &datas[j][lastChild];
+
+                effUINT c2FirstChild = manager->GetComponent(firstChildComponent->treeNode.entity);
+                effUINT c2LastChild = manager->GetComponent(lastChildComponent->treeNode.entity);
+
+                if (c2FirstChild != -1)
+                {
+                    for (effUINT k = c2FirstChild; k <= c2LastChild; k++)
+                    {
+                        function(manager, k, userData);
+                    }
+                }
+
+                firstChild = firstChildComponent->treeNode.firstChild;
+                lastChild = lastChildComponent->treeNode.lastChild;
+            }
+        }
     }
 
 protected:
