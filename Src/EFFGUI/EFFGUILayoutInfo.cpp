@@ -38,7 +38,8 @@ effVOID EFFGUILayoutInfoManager::CalculateSize()
 
     for (effUINT i = 0; i < TreeComponent_MaxDepth - 1; i++)
     {
-        effINT hStretchCount, vStretchCount = 0;
+        effINT hStretchCount = 0;
+        effINT vStretchCount = 0;
 
         for (effUINT j = 0; j < (effUINT)datas[i].size(); j++)
         {

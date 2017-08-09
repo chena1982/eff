@@ -42,14 +42,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_KEYDOWN:
         {
 			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
-			inputManager->SetKeyDown(inputManager->ConvertOsVKey2EFFVKey(wParam));
+			inputManager->SetKeyDown(inputManager->ConvertOsVKey2EFFVKey((effUINT)wParam));
         }
         break;
 
     case WM_KEYUP:
         {
 			EFFInputManager * inputManager = EFF3DGetDevice()->GetInputManager();
-			inputManager->SetKeyUp(inputManager->ConvertOsVKey2EFFVKey(wParam));
+			inputManager->SetKeyUp(inputManager->ConvertOsVKey2EFFVKey((effUINT)wParam));
         }
         break;
 

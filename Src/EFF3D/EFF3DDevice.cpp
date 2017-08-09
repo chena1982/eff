@@ -131,7 +131,7 @@ EFF3DDevice::~EFF3DDevice()
 
     SF_DELETE(sharedRenderTarget);
 
-	SF_DELETE(imageManager);
+	SF_DELETE(textureManager);
 	SF_DELETE(sceneManager);
 
 	SF_DELETE(fontManager);
@@ -196,8 +196,8 @@ effVOID EFF3DDevice::Init(effBOOL host)
 {
 	ilInit();
 
-	imageManager = EFFNEW EFF3DImageManager();
-	EFFRegisterObjectManager(EFF3DImage::GetThisClass(), imageManager);
+	textureManager = EFFNEW EFF3DTextureManager();
+	//EFFRegisterObjectManager(EFF3DImage::GetThisClass(), imageManager);
 	
 	sceneManager = EFFNEW EFF3DSceneManager();
 

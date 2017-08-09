@@ -76,10 +76,10 @@ protected:
 	virtual effVOID								LoadResourceEnd() = 0;
 };*/
 
-class EFF3D_API EFF3DResource : public EFFObject
+class EFF3D_API EFF3DResource : public EFFReferenceCount
 {
 
-	RTTI_DECLARE_PURE(EFF3DResource, EFFObject)
+	RTTI_DECLARE_PURE(EFF3DResource, EFFReferenceCount)
 
 protected:
 	EFF3DResource() : isUnloaded(effFALSE), isLoaded(effFALSE), memorySize(0), videoMemorySize(0),
@@ -95,7 +95,7 @@ public:
 
 
 
-	effVOID SetOrigin(const effString & originPath) { this->originPath = originPath; }
+	/*effVOID SetOrigin(const effString & originPath) { this->originPath = originPath; }
 	const effString & GetOriginPath() const { return originPath; }
 
 	effVOID SetName(const effString & name) { this->name = name; }
@@ -111,7 +111,8 @@ public:
 
 	effUINT GetMemorySize() const { return memorySize; }
 	effUINT GetVideoMemorySize() const { return videoMemorySize; }
-	effUINT GetAGPMemorySize() const { return AGPMeorySize; }
+	effUINT GetAGPMemorySize() const { return AGPMeorySize; }*/
+
 
 public:
 
@@ -135,7 +136,8 @@ public:
 
 	EFFEvent						OnUnload;
 
-protected:
+public:
+    EFFId                           id;
 	effString						name;
 	effString						groupName;
 	effBOOL							isUnloaded;

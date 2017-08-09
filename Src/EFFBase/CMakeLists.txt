@@ -3,10 +3,11 @@ project(EFFBase)
 set(LIB_NAME EFFBase)
 
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
-#include_directories($ENV{BOOST_ROOT})
+include_directories($ENV{BOOST_ROOT})
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
 if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)

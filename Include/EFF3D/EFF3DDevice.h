@@ -22,7 +22,7 @@ class EFF3DVertexBuffer;
 class EFF3DVertexDeclaration;
 class EFF3DIndexBuffer;
 class EFF3DSurface;
-class EFF3DImageManager;
+class EFF3DTextureManager;
 class EFF3DResource;
 class EFF3DMaterial;
 class EFF3DShader;
@@ -123,11 +123,11 @@ public:
 	virtual effVOID				Release() = 0;
 
 public:
-	inline EFF3DImageManager *	GetImageManager() { return imageManager; }
-	inline EFF3DSceneManager *	GetSceneManager() { return sceneManager; }
-	inline EFF3DFontManager *	GetFontManager() { return fontManager; }
-	inline EFFInputManager *	GetInputManager() { return inputManager; }
-    inline EFF3DSharedTexture * GetSharedRenderTarget() { return sharedRenderTarget; }
+	inline EFF3DTextureManager *	GetTextureManager() { return textureManager; }
+	inline EFF3DSceneManager *	    GetSceneManager() { return sceneManager; }
+	inline EFF3DFontManager *	    GetFontManager() { return fontManager; }
+	inline EFFInputManager *	    GetInputManager() { return inputManager; }
+    inline EFF3DSharedTexture *     GetSharedRenderTarget() { return sharedRenderTarget; }
 	//inline Awesomium::WebCore * GetWebCore() { return webCore; }
     inline EFFBase::EFFEntityManager *          GetEntityManager() { return entityManager; }
     inline EFFBase::EFFStaticStringManager *    GetStaticStringManager() { return staticStringManager; }
@@ -160,7 +160,7 @@ public:
     EFFEvent                    OnNotifyHostStartRendering;
 private:
 
-	EFF3DImageManager *			imageManager;
+    EFF3DTextureManager *		textureManager;
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
 	EFFInputManager *			inputManager;

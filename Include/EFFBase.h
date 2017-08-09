@@ -15,7 +15,7 @@
 //#include <iostream>
 
 #include <EASTL/string.h>
-#include <EASTL/VECTOR.h>
+#include <EASTL/vector.h>
 #include <EASTL/map.h>
 #include <EASTL/deque.h>
 

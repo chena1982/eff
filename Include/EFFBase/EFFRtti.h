@@ -211,7 +211,7 @@ public:
 };
 
 template<typename PropertyType>
-class GetParameterProperty<typename PropertyType *>
+class GetParameterProperty<PropertyType *>
 {
 public:
 	GetParameterProperty(const effString & name)

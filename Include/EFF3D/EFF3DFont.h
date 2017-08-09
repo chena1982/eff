@@ -96,8 +96,7 @@ public:
 	effVOID			ReleaseFont(EFF3DFont * font);
 	effUINT		    GetFont(const effString & fontName);
 
-    effUINT         GetFontTextureId(effUINT fontId) { return 0; }
-public:
+    EFFId           GetFontTextureId(effUINT fontId);
     effBOOL         GenerateTextRenderCmd(effUINT fontIndex, effVOID * vertexBuffer, effWORD * indexBuffer, effWORD vertexBaseIndex, effUINT strIndex, effFLOAT x, effFLOAT y, effFLOAT width, effFLOAT height, effUINT color);
 protected:
 	class FontFaceInfo

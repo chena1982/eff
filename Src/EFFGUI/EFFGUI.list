@@ -25,6 +25,7 @@ set (SOURCE_FILES
   EFFGUIRendering.cpp
   EFFGUIText.cpp
   EFFGUIImage.cpp
+  dllmain.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -41,6 +42,7 @@ SOURCE_GROUP("Precompiled" FILES
 SOURCE_GROUP("Common" FILES
   ../../Include/EFFGUI/EFFGUIDefines.h
   ../../Include/EFFGUI/EFFGUICoord.h
+  dllmain.cpp
 )
 
 SOURCE_GROUP("Component" FILES

@@ -45,7 +45,8 @@ effVOID EFFD3D9Surface::CalculateSize()
 
 effBOOL EFFD3D9Surface::LoadDataFromFile(const effString & strFilePath)
 {
-	SetOrigin(strFilePath);
+    originPath = strFilePath;
+	//SetOrigin(strFilePath);
 	return effTRUE;
 }
 

@@ -4,10 +4,14 @@ set(LIB_NAME EFFGUI)
 
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
-#include_directories($ENV{BOOST_ROOT})
+include_directories($ENV{BOOST_ROOT})
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Runtime)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common/Lib)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
+include_directories(${CMAKE_SOURCE_DIR}/Src/EFFReflection)
 
 link_directories(${CMAKE_SOURCE_DIR}/Temp/Lib)
 
@@ -51,4 +55,4 @@ set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFGUIPCH.cpp PR
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
 
 
-target_link_libraries(${LIB_NAME} EASTL.lib pugixml.lib)
+target_link_libraries(${LIB_NAME} EASTL.lib MetaRuntime.lib pugixml.lib libyaml-cppmdd.lib)

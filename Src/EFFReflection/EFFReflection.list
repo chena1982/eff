@@ -1,0 +1,20 @@
+set (HEADER_FILES
+  ../../Include/EFFReflection.h
+  EFFReflectionPCH.h
+)
+
+set (SOURCE_FILES
+  EFFReflectionPCH.cpp
+)
+
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFReflectionPCH.cpp
+  EFFReflectionPCH.h
+)
+
+SOURCE_GROUP("" FILES
+  ../../Include/EFFReflection.h
+)
+
+

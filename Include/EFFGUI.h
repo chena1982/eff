@@ -8,8 +8,11 @@ purpose:
 #ifndef __EFFGUI_2017_07_07__
 #define __EFFGUI_2017_07_07__
 
+#include <pugixml-1.8/src/pugixml.hpp>
 
+#include "EFFGUI/EFFGUIDefines.h"
 #include "EFFGUI/EFFGUIWidget.h"
+
 
 
 #if defined UNICODE || defined _UNICODE

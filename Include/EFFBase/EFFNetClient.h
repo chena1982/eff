@@ -9,7 +9,7 @@
 #define __EFFNetClient_2012_08_27__
 
 
-class Json::Value;
+//class Json::Value;
 
 EFFBASE_BEGIN
 

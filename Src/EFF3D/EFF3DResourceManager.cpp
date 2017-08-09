@@ -55,44 +55,7 @@ IMPL_CREATE_FROM_FILE(2)*/
 
 
 
-
-effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
-{
-	effString originPath = res->GetOriginPath();
-	effSIZE pos = originPath.rfind('\\');
-	if ( pos != -1 )
-	{
-		originPath = originPath.substr(pos, originPath.length() - pos);
-	}
-	res->SetName(originPath);
-	res->SetResourceManager(this);
-	res->CalculateSize();
-	memoryUsed += res->GetMemorySize();
-
-	resources[res->GetName()] = res;
-}
-
-EFF3DResource * EFF3DResourceManager::GetResource(const effString & filePath)
-{
-	effString name;
-	effSIZE pos = filePath.rfind('\\');
-	if ( pos != -1 )
-	{
-		name = filePath.substr(pos, filePath.length() - pos);
-	}
-
-	ResourceMap::iterator it = resources.find(name);
-	if ( it != resources.end() )
-	{
-		it->second->AddRef();
-		return it->second;
-	}
-
-	return NULL;
-}
-
-
-EFF3DResource * EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType, EFF3DDevice * device)
+EFFId EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType)
 {
 	
 	//BOOST_ASSERT(Class->IsKindOf(EFF3DResource::GetThisClass()));
@@ -101,21 +64,73 @@ EFF3DResource * EFF3DResourceManager::AsyncCreateFromFile(const effString & file
 
 	if ( resource != NULL )
 	{
-		return resource;
+		return resource->id;
 	}
+
+    EFF3DDevice * device = EFF3DGetDevice();
 
 	resource = device->CreateEmptyResource(resourceType);
 	if ( resource == NULL )
 	{
-		return NULL;
+		return EFFId();
 	}
 
 	AddResource(resource);
 
 	effBOOL hr;
-	device->GetSceneManager()->GetAsyncLoader()->AddWorkItem(resource, &hr);
+    device->GetSceneManager()->GetAsyncLoader()->AddWorkItem(resource, &hr);
 
-	return resource;
+	return resource->id;
+}
+
+effVOID EFF3DResourceManager::ForEach(boost::function<effVOID(EFF3DResource *, effVOID *)> visitor, effVOID * userData)
+{
+    EFF3DResource * resource = indices.GetFirst();
+    while (resource != NULL)
+    {
+        visitor(resource, userData);
+
+        resource = indices.GetNext();
+    }
+}
+
+
+effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
+{
+    effString originPath = res->originPath;
+    effSIZE pos = originPath.rfind('\\');
+    if (pos != -1)
+    {
+        originPath = originPath.substr(pos, originPath.length() - pos);
+    }
+
+    res->name = originPath;
+    //res->SetName(originPath);
+    res->manager = this;
+    //res->SetResourceManager(this);
+    res->CalculateSize();
+    memoryUsed += res->memorySize;
+
+    resources[res->name] = res;
+}
+
+EFF3DResource * EFF3DResourceManager::GetResource(const effString & filePath)
+{
+    effString name;
+    effSIZE pos = filePath.rfind('\\');
+    if (pos != -1)
+    {
+        name = filePath.substr(pos, filePath.length() - pos);
+    }
+
+    ResourceMap::iterator it = resources.find(name);
+    if (it != resources.end())
+    {
+        it->second->AddRef();
+        return it->second;
+    }
+
+    return NULL;
 }
 
 EFF3D_END

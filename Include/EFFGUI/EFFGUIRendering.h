@@ -18,8 +18,8 @@ struct EFFGUIDrawCmd
     EFFGUIDrawCmd() { elemCount = 0; }
 
 
-    effUINT   elemCount;
-    effUINT   textureId;
+    effUINT     elemCount;
+    EFFId       textureId;
 };
 
 
@@ -55,6 +55,8 @@ public:
 
     effVOID GenerateImageRenderCmd(effVOID * manager, effUINT index, effVOID * userData);
     effVOID GenerateTextRenderCmd(effVOID * manager, effUINT index, effVOID * userData);
+
+    effVOID DrawOneFrame();
 private:
     VECTOR<EFFGUIDrawList> imageDrawLists;
     VECTOR<EFFGUIDrawList> textDrawLists;

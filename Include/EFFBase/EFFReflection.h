@@ -141,7 +141,7 @@ public:\
 		functionPtr(__REPEAT(N,__PARAM__,__COMMA__,__NOTHING__));\
 	}\
 protected:\
-	boost::function<R (__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__))>	functionPtr;\
+	boost::function<R (__REPEAT(N, __TYPE_ARG__, __COMMA__, __NOTHING__))>	functionPtr;\
 };
 
 

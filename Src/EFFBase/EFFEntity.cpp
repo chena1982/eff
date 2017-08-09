@@ -12,16 +12,18 @@ purpose:
 EFFBASE_BEGIN
 
 
-EFFEntityManager::EFFEntityManager()
+RTTI_IMPLEMENT_BASE(EFFIdManager, 0)
+
+EFFIdManager::EFFIdManager()
 {
 }
 
 
-EFFEntityManager::~EFFEntityManager()
+EFFIdManager::~EFFIdManager()
 {
 }
 
-EFFEntity EFFEntityManager::Create()
+EFFId EFFIdManager::Create()
 {
     effUINT idx;
     if (free_indices.size() > MINIMUM_FREE_INDICES)
@@ -33,16 +35,16 @@ EFFEntity EFFEntityManager::Create()
     {
         generation.push_back(0);
         idx = (effUINT)generation.size() - 1;
-        assert(idx < (1 << ENTITY_INDEX_BITS));
+        assert(idx < (1 << INDEX_BITS));
     }
 
-    EFFEntity entity;
-    entity.id = (idx << ENTITY_INDEX_BITS) + generation[idx];
+    EFFId id;
+    id.id = (idx << INDEX_BITS) + generation[idx];
 
-    return entity;
+    return id;
 }
 
-effVOID EFFEntityManager::Destroy(EFFEntity e)
+effVOID EFFIdManager::Destroy(EFFId e)
 {
     const effUINT idx = e.Index();
     generation[idx] += 1;

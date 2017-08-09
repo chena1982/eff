@@ -37,6 +37,7 @@
 #include <zeromq-4.2.2/include/zmq.h>
 #include <jsoncpp-1.8.1/include/json/json.h>
 #include <yaml/yaml.h>
+#include <yaml-cpp/yaml.h>
 
 
 #include "EFFBaseDefines.h"

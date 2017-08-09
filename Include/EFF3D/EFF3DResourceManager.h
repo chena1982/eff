@@ -22,9 +22,9 @@ EFF3DIResource *		CreateFromFile(const effString & strFilePath,__REPEAT(N, __ARG
 template<__REPEAT(N, __TEMPLATE_ARG__, __COMMA__, __NOTHING__)>\
 EFF3DIResource *		CreateFromFileImpl(const effString & strFilePath,__REPEAT(N, __ARG__, __COMMA__, __NOTHING__));
 
-class EFF3D_API EFF3DResourceManager : public EFFObjectManager
+class EFF3D_API EFF3DResourceManager : public EFFIdManager
 {
-	RTTI_DECLARE(EFF3DResourceManager, EFFObjectManager)
+	RTTI_DECLARE(EFF3DResourceManager, EFFIdManager)
 public:
 	EFF3DResourceManager();
 	virtual ~EFF3DResourceManager();
@@ -97,7 +97,9 @@ public:
 	//DECLARE_CREATE_FROM_FILE_IMPL(1)
 	//DECLARE_CREATE_FROM_FILE_IMPL(2)
 public:
-	EFF3DResource *					AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType, EFF3DDevice * device);
+	EFFId					        AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType);
+
+    effVOID                         ForEach(boost::function<effVOID (EFF3DResource *, effVOID *)> visitor, effVOID * userData);
 protected:
 	effVOID							AddResource(EFF3DResource * res);
 	//effVOID							AddResource(EFF3DResource * res);
@@ -110,6 +112,7 @@ public:
 protected:
 	ResourceMap						resources;
 	//ResourceIdMap					resourcesId;
+    EFFFastIdMap<EFF3DResource>     indices;
 
 	effUINT							memoryUsed;
 	effUINT							videoMemoryUsed;

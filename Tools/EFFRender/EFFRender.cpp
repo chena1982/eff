@@ -80,7 +80,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	//InitServer();
 	InitClient();
 
-
+    MetaInitialize(UsingModule(EFFReflection));
 
 	EFFApplication app;
 	application = &app;

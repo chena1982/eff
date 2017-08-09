@@ -91,7 +91,9 @@ effBOOL EFFD3D9Texture::Unload()
 
 effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & strFilePath)
 {
-	SetOrigin(strFilePath);
+	//SetOrigin(strFilePath);
+
+    originPath = strFilePath;
 
 	effTCHAR szDir[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH,szDir);

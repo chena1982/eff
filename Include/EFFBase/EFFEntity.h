@@ -11,52 +11,81 @@ purpose:
 
 EFFBASE_BEGIN
 
-const effUINT ENTITY_INDEX_BITS = 24;
-const effUINT ENTITY_INDEX_MASK = (1 << ENTITY_INDEX_BITS) - 1;
+const effUINT INDEX_BITS = 24;
+const effUINT INDEX_MASK = (1 << INDEX_BITS) - 1;
 
 
-const effUINT ENTITY_GENERATION_BITS = 8;
-const effUINT ENTITY_GENERATION_MASK = (1 << ENTITY_GENERATION_BITS) - 1;
+const effUINT GENERATION_BITS = 8;
+const effUINT GENERATION_MASK = (1 << GENERATION_BITS) - 1;
 
 const effUINT MINIMUM_FREE_INDICES = 1024;
 
-class EFFBASE_API EFFEntity
+class EFFBASE_API EFFId
 {
 public:
-    EFFEntity() { id = -1; }
-    ~EFFEntity() {}
+    EFFId() { id = -1; }
+    ~EFFId() {}
 public:
     inline effBOOL IsValid() { return id != -1;  }
-    inline effUINT Index() const { return id & ENTITY_INDEX_MASK; }
-    inline effUINT Generation() const { return (id >> ENTITY_INDEX_BITS) & ENTITY_GENERATION_MASK; }
+    inline effUINT Index() const { return id & INDEX_MASK; }
+    inline effUINT Generation() const { return (id >> INDEX_BITS) & GENERATION_MASK; }
 
-    inline bool operator < (const EFFEntity & entity) const
+    inline bool operator < (const EFFId & id) const
     {
-        return Index() < entity.Index();
+        return Index() < id.Index();
+    }
+
+    inline bool operator != (const EFFId & id) const
+    {
+        return this->id != id.id;
+    }
+
+    inline bool operator == (const EFFId & id) const
+    {
+        return this->id == id.id;
     }
 public:
     effUINT id;
 };
 
-class EFFBASE_API EFFEntityManager
+class EFFBASE_API EFFEntity : public EFFId
 {
 public:
-    EFFEntityManager();
-    ~EFFEntityManager();
+    EFFEntity() {};
+    ~EFFEntity() {};
+};
+
+class EFFBASE_API EFFIdManager
+{
+    RTTI_DECLARE_BASE(EFFIdManager)
 public:
-    EFFEntity Create();
+    EFFIdManager();
+    virtual ~EFFIdManager();
+public:
+    EFFId Create();
     
-    inline effBOOL Alive(EFFEntity e) const
+    inline effBOOL Alive(EFFId id) const
     {
-        return generation[e.Index()] == e.Generation();
+        return generation[id.Index()] == id.Generation();
     }
 
-    effVOID Destroy(EFFEntity e);
+    effVOID Destroy(EFFId e);
 
 
 private:
     VECTOR<effBYTE> generation;
     DEQUE<effUINT> free_indices;
+};
+
+
+class EFFBASE_API EFFEntityManager : public EFFIdManager
+{
+public:
+    EFFEntityManager() {};
+    ~EFFEntityManager() {};
+
+public:
+    effVOID SaveBinary();
 };
 
 EFFBASE_END

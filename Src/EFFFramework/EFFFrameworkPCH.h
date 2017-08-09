@@ -21,6 +21,6 @@ USE_EFF3D
 
 #include "EFFFrameworkBaseDefines.h"
 
-#include <MyGUI.h>
-using namespace MyGUI;
+//#include <MyGUI.h>
+//using namespace MyGUI;
 

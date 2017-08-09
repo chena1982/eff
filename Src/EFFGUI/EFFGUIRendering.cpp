@@ -48,25 +48,27 @@ effVOID EFFGUIRenderer::GenerateImageRenderCmd(effVOID * manager, effUINT index,
 
     EFFGUIDrawCmd * currentCmd = NULL;
 
+    const effWCHAR * textureName = EFF3DGetDevice()->GetStaticStringManager()->GetString(image->textureNameId);
+    EFFId textureId = EFF3DGetDevice()->GetTextureManager()->AsyncCreateFromFile(textureName, EFF3DRTYPE_TEXTURE);
+
     if (drawList->CmdBuffer.size() == 0)
     {
         EFFGUIDrawCmd cmd;
-        //cmd.textureId = image->textureNameId;
+        cmd.textureId = textureId;
 
         drawList->CmdBuffer.push_back(cmd);
-
         currentCmd = &drawList->CmdBuffer[0];
     }
     else
     {
         currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
-        if (image->textureNameId != currentCmd->textureId)
+
+        if (textureId != currentCmd->textureId)
         {
             EFFGUIDrawCmd cmd;
-            //cmd.textureId = image->textureNameId;
+            cmd.textureId = textureId;
 
             drawList->CmdBuffer.push_back(cmd);
-
             currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
         }
     }
@@ -133,20 +135,20 @@ effVOID EFFGUIRenderer::GenerateTextRenderCmd(effVOID * manager, effUINT index, 
 
     EFFGUIDrawCmd * currentCmd = NULL;
 
+
+    EFFId textureId = EFF3DGetDevice()->GetFontManager()->GetFontTextureId(text->fontId);
+
     if (drawList->CmdBuffer.size() == 0)
     {
         EFFGUIDrawCmd cmd;
-        //cmd.textureId = image->textureNameId;
+        cmd.textureId = textureId;
 
         drawList->CmdBuffer.push_back(cmd);
-
         currentCmd = &drawList->CmdBuffer[0];
     }
     else
     {
         currentCmd = &drawList->CmdBuffer[drawList->CmdBuffer.size() - 1];
-
-        effUINT textureId = EFF3DGetDevice()->GetFontManager()->GetFontTextureId(text->fontId);
 
         if (textureId != currentCmd->textureId)
         {
@@ -255,5 +257,10 @@ effVOID EFFGUIRenderer::GenerateDrawList(EFFGUILayoutInfoManager * layoutManager
     }*/
 }
 
+
+effVOID EFFGUIRenderer::DrawOneFrame()
+{
+
+}
 
 EFFGUI_END

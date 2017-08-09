@@ -34,7 +34,8 @@ EFF3DSharedTexture::~EFF3DSharedTexture()
 {
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        SF_RELEASE(texture[i]);
+        //EFF3DGetDevice()->GetImageManager()-
+        //SF_DELETE(texture[i]);
     }
 }
 
@@ -102,11 +103,11 @@ effVOID EFF3DSharedTexture::InitSemaphore()
 
 
 
-EFF3DImageManager::EFF3DImageManager()
+EFF3DTextureManager::EFF3DTextureManager()
 {
 	//OnCreateFromFile += EFFEventCall(this, &EFF3DImageManager::CreateFromFileImpl);
 
-	device = NULL;
+	//device = NULL;
 
 	//EFF3DResource * pR = NULL;
 	//effString s = _effT("ChenA");
@@ -114,30 +115,31 @@ EFF3DImageManager::EFF3DImageManager()
 
 }
 
-EFF3DImageManager::~EFF3DImageManager()
+EFF3DTextureManager::~EFF3DTextureManager()
 {
 }
 
 
-EFF3DResource * EFF3DImageManager::CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType)
+EFFId EFF3DTextureManager::CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType)
 {
 	EFF3DResource * resource = GetResource(filePath);
 
 	if ( resource != NULL )
 	{
-		return resource;
+		return resource->id;
 	}
 
 	if ( resourceType == EFF3DRTYPE_TEXTURE )
 	{
 		EFF3DTexture * texture = NULL;
-		if ( device->CreateTextureFromFile(filePath, &texture) )
+		if ( EFF3DGetDevice()->CreateTextureFromFile(filePath, &texture) )
 		{
 			AddResource(texture);
-			return texture;
+			return texture->id;
 		}
 	}
-	return NULL;
+
+	return EFFId();
 }
 
 EFF3D_END

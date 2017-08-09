@@ -215,6 +215,51 @@ effBOOL EFFD3D9Device::Present(const EFFRect * sourceRect, const EFFRect * destR
 	return SUCCEEDED(D3D9Device->PresentEx((const RECT *)sourceRect, (const RECT *)destRect, NULL, NULL, 0));
 }
 
+effVOID UnloadTexture(EFF3DResource * resource, effVOID * userData)
+{
+
+    EFF3DImage * image = (EFF3DImage *)resource;
+    EFF3DIMAGE_INFO & imageInfo = image->GetImageInfo();
+
+    if (imageInfo.pool == EFF3DPOOL_DEFAULT)
+    {
+        image->Unload();
+        return;
+    }
+
+    if (imageInfo.resourceType == EFF3DRTYPE_SURFACE)
+    {
+        if (imageInfo.surfaceType == DepthStencil_Surface || imageInfo.surfaceType == GetFromTexture_Surface)
+        {
+            EFF3DSurface * surface = (EFF3DSurface *)resource;
+            surface->Unload();
+            return;
+        }
+
+        /*if ( imageInfo.surfaceType == RenderTo_Surface )
+        {
+        EFF3DRenderToSurface * renderToSurface = reinterpret_cast<EFF3DRenderToSurface *>(it->second);
+        renderToSurface->UnloadResource();
+        continue;
+        }*/
+
+    }
+    //it->second->UnloadResource();
+   
+}
+
+effVOID ReloadTexture(EFF3DResource * resource, effVOID * userData)
+{
+    EFF3DImage * image = (EFF3DImage *)resource;
+    if (image->isUnloaded)
+    {
+        if (!image->Reload())
+        {
+            return;
+        }
+    }
+}
+
 effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 {
 	D3DPRESENT_PARAMETERS d3dpp;
@@ -229,40 +274,8 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 	InitWindow(width, height, &d3dpp, effFALSE, (effUINT)DSSurfaceDesc.Format);
 	SF_RELEASE(pDSSurface);
 
-	EFFFastIdMap<EFFObject> & images = GetImageManager()->GetObjects();
-	EFFObject * object = images.GetFirst();
-	for ( ; object != NULL; object = images.GetNext() )
-	{
-		EFF3DImage * image = reinterpret_cast<EFF3DImage *>(object);
-		EFF3DIMAGE_INFO & imageInfo = image->GetImageInfo();
 
-		if ( imageInfo.pool == EFF3DPOOL_DEFAULT )
-		{
-
-			image->Unload();
-			continue;
-		}
-
-		if ( imageInfo.resourceType == EFF3DRTYPE_SURFACE )
-		{
-			if ( imageInfo.surfaceType == DepthStencil_Surface || imageInfo.surfaceType == GetFromTexture_Surface )
-			{
-				EFF3DSurface * surface = reinterpret_cast<EFF3DSurface *>(object);
-				surface->Unload();
-				continue;
-			}
-
-			/*if ( imageInfo.surfaceType == RenderTo_Surface )
-			{
-				EFF3DRenderToSurface * renderToSurface = reinterpret_cast<EFF3DRenderToSurface *>(it->second);
-				renderToSurface->UnloadResource();
-				continue;
-			}*/
-
-		}
-		//it->second->UnloadResource();
-	}
-
+    GetTextureManager()->ForEach(UnloadTexture, NULL);
 
 	/*UCFontMap::iterator itFont = mapFont.begin();
 	for ( ; itFont != mapFont.end(); itFont++ )
@@ -284,6 +297,9 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 		return effFALSE;
 	}
 
+
+    GetTextureManager()->ForEach(ReloadTexture, NULL);
+
 	//m_EndReset(this,NULL);
 
 	//GetEffectManager()->OnResetDevice();
@@ -303,18 +319,7 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 		m_pLine->OnResetDevice();
 	}*/
 
-	object = images.GetFirst();
-	for ( ; object != NULL; object = images.GetNext() )
-	{
-		EFF3DImage * image = reinterpret_cast<EFF3DImage *>(object);
-		if ( image->IsUnloaded() )
-		{
-			if ( !image->Reload() )
-			{
-				return effFALSE;
-			}
-		}
-	}
+
 
 	IDirect3DSurface9 * backBuffer = NULL;
 	if ( FAILED(D3D9Device->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer)) )

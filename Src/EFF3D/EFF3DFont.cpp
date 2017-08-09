@@ -423,6 +423,11 @@ effUINT EFF3DFontManager::GetFont(const effString & fontName)
 	return NULL;
 }
 
+EFFId EFF3DFontManager::GetFontTextureId(effUINT fontId)
+{
+    return EFFId();
+}
+
 effBYTE * EFF3DFontManager::LoadGlyphBitmapFromFile(const effString & fontFilePath, effUINT fontSize, const VECTOR<effWCHAR> & codePoints, EFF3DFontGlyphInfo * glyphsInfo, effUINT & maxWidth)
 {
 

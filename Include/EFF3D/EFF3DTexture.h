@@ -81,19 +81,19 @@ protected:
     effINT                                  currentIndex;
 };
 
-class EFF3D_API EFF3DImageManager : public EFF3DResourceManager
+class EFF3D_API EFF3DTextureManager : public EFF3DResourceManager
 {
 	friend class EFF3DDevice;
 protected:
-	EFF3DImageManager();
-	virtual ~EFF3DImageManager();
+    EFF3DTextureManager();
+	virtual ~EFF3DTextureManager();
 public:
 
-	EFF3DResource * CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType);
+	EFFId CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType);
 protected:
-	inline effVOID	SetDevice(EFF3DDevice * device) { this->device = device; }
+	//inline effVOID	SetDevice(EFF3DDevice * device) { this->device = device; }
 protected:
-	EFF3DDevice *	device;
+	//EFF3DDevice *	device;
 };
 
 EFF3D_END
