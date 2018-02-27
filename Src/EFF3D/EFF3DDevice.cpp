@@ -117,6 +117,11 @@ EFF3DDevice::EFF3DDevice()
 	//m_pImageManager->CreateFromFile(_effT(""),EFF3DRTYPE_TEXTURE);
 
     sharedRenderTarget = NULL;
+
+    CurrentState = EFF3D_STATE_NONE;
+    CurrentStencilState = EFF3D_STENCIL_NONE;
+    BlendFactor = 0;
+    AtocSupport = effFALSE;
 }
 
 EFF3DDevice::~EFF3DDevice()
@@ -246,8 +251,6 @@ effVOID EFF3DDevice::InitProperty()
 {
 	EFF3DObjectInitProperty();
 }
-
-
 
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)

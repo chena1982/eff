@@ -690,9 +690,145 @@ effBOOL EFFD3D9Device::SetIndices(EFF3DIndexBuffer * indexData)
 	return SUCCEEDED(D3D9Device->SetIndices(effD3D9IB->m_pBuf));
 }
 
-effBOOL EFFD3D9Device::SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value)
+//effBOOL EFFD3D9Device::SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value)
+//{
+//	return SUCCEEDED(D3D9Device->SetRenderState((D3DRENDERSTATETYPE)state, value));
+//}
+
+effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
 {
-	return SUCCEEDED(D3D9Device->SetRenderState((D3DRENDERSTATETYPE)state, value));
+
+    if (CurrentState == State)
+    {
+        return;
+    }
+
+    effUINT64 changedFlags = CurrentState ^ State;
+
+    if ((EFF3D_STATE_CULL_MASK
+        | EFF3D_STATE_WRITE_Z
+        | EFF3D_STATE_DEPTH_TEST_MASK
+        | EFF3D_STATE_WRITE_RGB
+        | EFF3D_STATE_WRITE_A
+        | EFF3D_STATE_BLEND_MASK
+        | EFF3D_STATE_BLEND_EQUATION_MASK
+        | EFF3D_STATE_ALPHA_REF_MASK
+        | EFF3D_STATE_PT_MASK
+        | EFF3D_STATE_POINT_SIZE_MASK
+        | EFF3D_STATE_MSAA) & changedFlags)
+    {
+        if (EFF3D_STATE_CULL_MASK & changedFlags)
+        {
+            effUINT32 cull = (State & EFF3D_STATE_CULL_MASK) >> EFF3D_STATE_CULL_SHIFT;
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_CULLMODE, s_cullMode[cull]));
+        }
+
+        if (EFF3D_STATE_WRITE_Z & changedFlags)
+        {
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ZWRITEENABLE, !!(EFF3D_STATE_WRITE_Z & State)));
+        }
+
+        if (EFF3D_STATE_DEPTH_TEST_MASK & changedFlags)
+        {
+            effUINT32 func = (State & EFF3D_STATE_DEPTH_TEST_MASK) >> EFF3D_STATE_DEPTH_TEST_SHIFT;
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ZENABLE, 0 != func));
+
+            if (0 != func)
+            {
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_ZFUNC, s_cmpFunc[func]));
+            }
+        }
+
+        if (EFF3D_STATE_ALPHA_REF_MASK & changedFlags)
+        {
+            effUINT32 ref = (State & EFF3D_STATE_ALPHA_REF_MASK) >> EFF3D_STATE_ALPHA_REF_SHIFT;
+            //viewState.m_alphaRef = ref / 255.0f;
+        }
+
+        if ((EFF3D_STATE_PT_POINTS | EFF3D_STATE_POINT_SIZE_MASK) & changedFlags)
+        {
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_POINTSIZE, (effUINT32)((State & EFF3D_STATE_POINT_SIZE_MASK) >> EFF3D_STATE_POINT_SIZE_SHIFT)));
+        }
+
+        if (EFF3D_STATE_MSAA & changedFlags)
+        {
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, (State & EFF3D_STATE_MSAA) == EFF3D_STATE_MSAA));
+        }
+
+        if (EFF3D_STATE_LINEAA & changedFlags)
+        {
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, !!(State & EFF3D_STATE_LINEAA)));
+        }
+
+        if ((EFF3D_STATE_WRITE_A | EFF3D_STATE_WRITE_RGB) & changedFlags)
+        {
+            effUINT32 writeEnable = 0;
+            writeEnable |= (State & EFF3D_STATE_WRITE_R) ? D3DCOLORWRITEENABLE_RED : 0;
+            writeEnable |= (State & EFF3D_STATE_WRITE_G) ? D3DCOLORWRITEENABLE_GREEN : 0;
+            writeEnable |= (State & EFF3D_STATE_WRITE_B) ? D3DCOLORWRITEENABLE_BLUE : 0;
+            writeEnable |= (State & EFF3D_STATE_WRITE_A) ? D3DCOLORWRITEENABLE_ALPHA : 0;
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_COLORWRITEENABLE, writeEnable));
+        }
+
+        if (((EFF3D_STATE_BLEND_MASK
+            | EFF3D_STATE_BLEND_EQUATION_MASK
+            | EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE
+            ) & changedFlags)
+            || BlendFactor != Color)
+        {
+            effBOOL enabled = !!(EFF3D_STATE_BLEND_MASK & State);
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ALPHABLENDENABLE, enabled));
+
+            if (AtocSupport && EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE & changedFlags)
+            {
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_ADAPTIVETESS_Y, !!(State & EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE) ? D3DFMT_ATOC : 0));
+            }
+
+            if (enabled)
+            {
+                const effUINT32 blend = uint32_t((State & EFF3D_STATE_BLEND_MASK) >> EFF3D_STATE_BLEND_SHIFT);
+                const effUINT32 equation = uint32_t((State & EFF3D_STATE_BLEND_EQUATION_MASK) >> EFF3D_STATE_BLEND_EQUATION_SHIFT);
+
+                const effUINT32 srcRGB = (blend) & 0xf;
+                const effUINT32 dstRGB = (blend >> 4) & 0xf;
+                const effUINT32 srcA = (blend >> 8) & 0xf;
+                const effUINT32 dstA = (blend >> 12) & 0xf;
+
+                const effUINT32 equRGB = (equation) & 0x7;
+                const effUINT32 equA = (equation >> 3) & 0x7;
+
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_SRCBLEND, s_blendFactor[srcRGB].m_src));
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_DESTBLEND, s_blendFactor[dstRGB].m_dst));
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_BLENDOP, s_blendEquation[equRGB]));
+
+                const bool separate = srcRGB != srcA || dstRGB != dstA || equRGB != equA;
+
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, separate));
+                if (separate)
+                {
+                    DX_CHECK(D3D9Device->SetRenderState(D3DRS_SRCBLENDALPHA, s_blendFactor[srcA].m_src));
+                    DX_CHECK(D3D9Device->SetRenderState(D3DRS_DESTBLENDALPHA, s_blendFactor[dstA].m_dst));
+                    DX_CHECK(D3D9Device->SetRenderState(D3DRS_BLENDOPALPHA, s_blendEquation[equA]));
+                }
+
+                if ((s_blendFactor[srcRGB].m_factor || s_blendFactor[dstRGB].m_factor)
+                    && BlendFactor != Color)
+                {
+                    const effUINT32 rgba = Color;
+                    D3DCOLOR color = D3DCOLOR_RGBA(rgba >> 24
+                        , (rgba >> 16) & 0xff
+                        , (rgba >> 8) & 0xff
+                        , (rgba) & 0xff
+                    );
+                    DX_CHECK(D3D9Device->SetRenderState(D3DRS_BLENDFACTOR, color));
+                }
+            }
+
+            BlendFactor = Color;
+        }
+    }
+
+    CurrentState = State;
 }
 
 effBOOL EFFD3D9Device::SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value)

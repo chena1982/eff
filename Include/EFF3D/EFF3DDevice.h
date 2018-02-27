@@ -39,12 +39,7 @@ public:
 	EFF3DDevice();
 	virtual ~EFF3DDevice();
 public:
-	//这一层是渲染的抽象层，打算支持OpenGL和D3D，接口的设计方面直接使用D3D的接口，可能加入一点小的修改
-	//因为OpenGL和D3D的接口不一样，有3种设计方案
-	//1.使用OpenGL的接口，使用D3D渲染时，把各种接口转到D3D
-	//2.使用D3D的接口，使用OpenGL的时候，把各种接口转到OpenGL
-	//3.使用自己的接口，使用D3D和OpenGL时都做转换
-	//第3种方案麻烦且没什么意义，第1种方案和第2种方案比的话，我觉得游戏这个行业还是D3D使用更方便，所以选择使用第2种方案
+
 
 
 	virtual effBOOL				BeginScene() = 0;
@@ -98,7 +93,10 @@ public:
 	virtual effBOOL				SetVertexDeclaration(EFF3DVertexDeclaration * decl) = 0;
 	virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBuffer * streamData, effUINT offsetInBytes, effUINT stride) = 0;
 	virtual effBOOL				SetIndices(EFF3DIndexBuffer * indexData) = 0;
-	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
+	//virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
+
+    virtual effVOID             SetRenderState(effUINT64 State, effUINT32 Color = 0) = 0;
+
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
 	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value) = 0;
 	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget) = 0;
@@ -158,6 +156,15 @@ protected:
 
 public:
     EFFEvent                    OnNotifyHostStartRendering;
+
+
+protected:
+    effUINT64                   CurrentState;
+    effUINT64                   CurrentStencilState;
+    effUINT32                   BlendFactor;
+
+    // alpha to coverage supported?
+    effBOOL                     AtocSupport;
 private:
 
     EFF3DTextureManager *		textureManager;
@@ -174,9 +181,6 @@ private:
     //process share render target
     EFF3DSharedTexture *        sharedRenderTarget;
     effBOOL                     host;
-
-
-
 };
 
 struct QuadVertex

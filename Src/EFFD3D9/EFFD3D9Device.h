@@ -62,7 +62,10 @@ public:
 	virtual effBOOL				SetVertexDeclaration(EFF3DVertexDeclaration * decl);
 	virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBuffer * streamData, effUINT offsetInBytes, effUINT stride);
 	virtual effBOOL				SetIndices(EFF3DIndexBuffer * indexData);
-	virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value);
+	//virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value);
+
+    virtual effVOID             SetRenderState(effUINT64 State, effUINT32 Color = 0);
+
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value);
 	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value);
 	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget);
