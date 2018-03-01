@@ -1,0 +1,5 @@
+﻿  Building Custom Rule D:/EFF/ThirdPartyLib/protobuf-3.3.0/cmake/CMakeLists.txt
+  CMake does not need to re-run because D:/EFF/ThirdPartyLib/protobuf-3.3.0/cmake/build/CMakeFiles/generate.stamp is up-to-date.
+  main.cc
+  protoc.vcxproj -> D:\EFF\ThirdPartyLib\protobuf-3.3.0\cmake\build\Debug\protoc.exe
+  protoc.vcxproj -> D:/EFF/ThirdPartyLib/protobuf-3.3.0/cmake/build/Debug/protoc.pdb (Full PDB)
