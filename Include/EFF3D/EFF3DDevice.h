@@ -48,10 +48,10 @@ public:
 	virtual effBOOL				Present(const EFFRect * sourceRect, const EFFRect * destRect) = 0;
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height) = 0;
 	
-	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-													EFF3DTexture ** texture, effHANDLE * handle = NULL) = 0;
+	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DTextureType type,
+                                                    EFF3DTextureHandle * textureHandle) = 0;
 
-	virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
+	virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format,
                                                     EFF3DSharedTexture ** texture);
 
     virtual effBOOL             CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);

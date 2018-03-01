@@ -29,7 +29,8 @@ effVOID EFF3DRenderQueue::AddRenderable(EFF3DRenderable * renderable)
 		EFF3DCamera * camera = sceneManager->GetCameras()[i];
 		for ( effUINT j = 0; j < OBJECT_MAX_RENDER_LAYER; j++ )
 		{
-			EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
+            EFF3DObject * object = NULL;
+			//EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
 			if ( camera->GetLayerMask() && object->GetRenderLayer(j) )
 			{
 				RenderQueueElement rqe;
@@ -123,7 +124,8 @@ effVOID	EFF3DRenderQueue::Render(EFF3DDevice * device)
 		RenderQueueElement & renderQueueElement = renderables[i];
 		EFF3DRenderable * renderable = renderQueueElement.renderable;
 
-		EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
+        EFF3DObject * object = NULL;
+		//EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
 		EFF3DAutoParamDataSource * autoParamDataSource = renderables[i].camera->GetAutoParamDataSource();
 
 

@@ -146,7 +146,7 @@ EFF3DDevice::~EFF3DDevice()
     SF_DELETE(staticStringManager);
 }
 
-effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture ** texture)
+effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DSharedTexture ** texture)
 {
     /*if (!_CreateSharedTexture(width, height, levels, usage, format, texture))
     {
@@ -159,7 +159,7 @@ effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT 
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        CreateTexture(width, height, levels, usage, format, EFF3DPOOL_DEFAULT, &sharedTexture->texture[i], &sharedTexture->sharedHandle[i]);
+        CreateTexture(width, height, levels, flag, format, EFF3DTextureType_RenderTarget, &sharedTexture->sharedHandle[i]);
     }
 
     sharedTexture->clientSemaphore.Create(3, 3, _effT("ClientSharedTextureSemaphore"));
@@ -183,7 +183,8 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
         effHANDLE handle = (effHANDLE)sharedTextureInfo->sharedTextureHandle[i];
-        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, EFF3DUSAGE_RENDERTARGET, (EFF3DFORMAT)sharedTextureInfo->format, EFF3DPOOL_DEFAULT, &sharedTexture->texture[i], &handle);
+
+        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DTextureType_RenderTarget, &sharedTexture->sharedHandle[i]);
     }
 
 	//(*texture)->name = _effT("HostSharedTexture");
@@ -239,7 +240,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
     if (!host)
     {
-        if (!CreateSharedTexture(width, height, 1, EFF3DUSAGE_RENDERTARGET, EFF3DFMT_X8R8G8B8, &sharedRenderTarget))
+        if (!CreateSharedTexture(width, height, 1, 0, RGBA8, &sharedRenderTarget))
         {
             //create shared texture failed;
         }

@@ -8,7 +8,6 @@
 
 #include "EFF3DPCH.h"
 #include "EFF3DTexture.h"
-#include "EFF3DSurface.h"
 #include "EFF3DDevice.h"
 //#define new EFFNEW
 
@@ -24,7 +23,7 @@ EFF3DSharedTexture::EFF3DSharedTexture()
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
         texture[i] = NULL;
-        sharedHandle[i] = NULL;
+        sharedHandle[i].idx = EFF_INVALID_HANDLE;
     }
 
     currentIndex = 0;
@@ -51,7 +50,7 @@ effVOID EFF3DSharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextu
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        sharedTextureInfo->sharedTextureHandle[i] = (effSIZE)sharedHandle[i];
+        sharedTextureInfo->sharedTextureHandle[i] = sharedHandle[i].idx;
     }
 }
 

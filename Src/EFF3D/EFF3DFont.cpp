@@ -254,7 +254,10 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
 	if ( fontTexture == NULL )
 	{
 		EFF3DDevice * device = EFF3DGetDevice();
-		device->CreateTexture(textureWidth, textureHeight, 1, EFF3DUSAGE_DYNAMIC, EFF3DFMT_A8, EFF3DPOOL_DEFAULT, &fontTexture);
+
+        effUINT flag = EFF3DUSAGE_DYNAMIC;
+
+		device->CreateTexture(textureWidth, textureHeight, 1, flag, A8, EFF3DTextureType_2D, &fontTextureHandle);
 
 		if ( FAILED(fontTexture->LockRect(0, &rc, NULL, 0)) )
 		{
@@ -288,8 +291,12 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
 		}
 
 		EFF3DTexture * newFontTexture = NULL;
+        EFF3DTextureHandle newFontTextureHandle;
 		EFF3DDevice * device = EFF3DGetDevice();
-		device->CreateTexture(newTextureWidth, newTextureHeight, 1, EFF3DUSAGE_DYNAMIC, EFF3DFMT_A8, EFF3DPOOL_DEFAULT, &newFontTexture);
+
+        effUINT flag = EFF3DUSAGE_DYNAMIC;
+
+		device->CreateTexture(newTextureWidth, newTextureHeight, 1, flag, A8, EFF3DTextureType_2D, &newFontTextureHandle);
 
 
 

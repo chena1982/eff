@@ -935,63 +935,7 @@ typedef enum _EFF3DMULTISAMPLE_TYPE
 	EFF3DMULTISAMPLE_FORCE_DWORD     = 0x7fffffff
 } EFF3DMULTISAMPLE_TYPE;
 
-enum EFF3DSurfaceType
-{
-	Normal_Surface,
-	DepthStencil_Surface,
-	RenderTo_Surface,
-	GetFromTexture_Surface,
-};
 
-struct EFF3DIMAGE_INFO
-{
-	effUINT width;
-	effUINT height;
-	effUINT depth;
-	effUINT mipLevels;
-	EFF3DFORMAT format;
-	EFF3DRESOURCETYPE resourceType;
-	EFF3DIMAGE_FILEFORMAT imageFileFormat;
-
-	effUINT usage;
-	EFF3DPOOL pool;
-	effUINT filter;
-	effUINT mipFilter;
-	EFF3DCOLOR colorKey;
-	EFF3DSurfaceType surfaceType;
-	effBOOL	depthStencil;
-	EFF3DFORMAT depthStencilFormat;
-	EFF3DMULTISAMPLE_TYPE multiSample;
-	effUINT multisampleQuality;
-	effBOOL discard;
-	effULONG textureHandle;
-	effUINT textureLevel;
-
-	EFF3DIMAGE_INFO()
-	{
-		width = 0;
-		height = 0;
-		depth = 0;
-		mipLevels = 0;
-		format = EFF3DFMT_UNKNOWN;
-		resourceType = EFF3DRTYPE_FORCE_DWORD;
-		imageFileFormat = EFF3DXIFF_FORCE_DWORD;
-
-		usage = 0;
-		pool = EFF3DPOOL_FORCE_DWORD;
-		filter = 0;
-		mipFilter = 0;
-		colorKey = 0;
-		surfaceType = Normal_Surface;
-		depthStencil = effFALSE;
-		depthStencilFormat = EFF3DFMT_UNKNOWN;
-		multiSample = EFF3DMULTISAMPLE_NONE;
-		multisampleQuality = 0;
-		discard = effTRUE;
-		textureHandle = NULL;
-		textureLevel = 0;
-	}
-};
 
 
 
@@ -1254,6 +1198,70 @@ typedef struct EFF3DVERTEXBUFFER_DESC {
 
 //#define from bgfx https://github.com/bkaradzic/bgfx
 
+
+
+EFF_HANDLE(EFF3DTextureHandle)
+
+
+
+
+
+#define EFF3D_TEXTURE_NONE                UINT32_C(0x00000000) //!<
+#define EFF3D_TEXTURE_U_MIRROR            UINT32_C(0x00000001) //!< Wrap U mode: Mirror
+#define EFF3D_TEXTURE_U_CLAMP             UINT32_C(0x00000002) //!< Wrap U mode: Clamp
+#define EFF3D_TEXTURE_U_BORDER            UINT32_C(0x00000003) //!< Wrap U mode: Border
+#define EFF3D_TEXTURE_U_SHIFT             0                    //!<
+#define EFF3D_TEXTURE_U_MASK              UINT32_C(0x00000003) //!<
+#define EFF3D_TEXTURE_V_MIRROR            UINT32_C(0x00000004) //!< Wrap V mode: Mirror
+#define EFF3D_TEXTURE_V_CLAMP             UINT32_C(0x00000008) //!< Wrap V mode: Clamp
+#define EFF3D_TEXTURE_V_BORDER            UINT32_C(0x0000000c) //!< Wrap V mode: Border
+#define EFF3D_TEXTURE_V_SHIFT             2                    //!<
+#define EFF3D_TEXTURE_V_MASK              UINT32_C(0x0000000c) //!<
+#define EFF3D_TEXTURE_W_MIRROR            UINT32_C(0x00000010) //!< Wrap W mode: Mirror
+#define EFF3D_TEXTURE_W_CLAMP             UINT32_C(0x00000020) //!< Wrap W mode: Clamp
+#define EFF3D_TEXTURE_W_BORDER            UINT32_C(0x00000030) //!< Wrap W mode: Border
+#define EFF3D_TEXTURE_W_SHIFT             4                    //!<
+#define EFF3D_TEXTURE_W_MASK              UINT32_C(0x00000030) //!<
+#define EFF3D_TEXTURE_MIN_POINT           UINT32_C(0x00000040) //!< Min sampling mode: Point
+#define EFF3D_TEXTURE_MIN_ANISOTROPIC     UINT32_C(0x00000080) //!< Min sampling mode: Anisotropic
+#define EFF3D_TEXTURE_MIN_SHIFT           6                    //!<
+#define EFF3D_TEXTURE_MIN_MASK            UINT32_C(0x000000c0) //!<
+#define EFF3D_TEXTURE_MAG_POINT           UINT32_C(0x00000100) //!< Mag sampling mode: Point
+#define EFF3D_TEXTURE_MAG_ANISOTROPIC     UINT32_C(0x00000200) //!< Mag sampling mode: Anisotropic
+#define EFF3D_TEXTURE_MAG_SHIFT           8                    //!<
+#define EFF3D_TEXTURE_MAG_MASK            UINT32_C(0x00000300) //!<
+#define EFF3D_TEXTURE_MIP_POINT           UINT32_C(0x00000400) //!< Mip sampling mode: Point
+#define EFF3D_TEXTURE_MIP_SHIFT           10                   //!<
+#define EFF3D_TEXTURE_MIP_MASK            UINT32_C(0x00000400) //!<
+#define EFF3D_TEXTURE_MSAA_SAMPLE         UINT32_C(0x00000800) //!< Texture will be used for MSAA sampling.
+#define EFF3D_TEXTURE_RT                  UINT32_C(0x00001000) //!<
+#define EFF3D_TEXTURE_RT_MSAA_X2          UINT32_C(0x00002000) //!< Render target MSAAx2 mode.
+#define EFF3D_TEXTURE_RT_MSAA_X4          UINT32_C(0x00003000) //!< Render target MSAAx4 mode.
+#define EFF3D_TEXTURE_RT_MSAA_X8          UINT32_C(0x00004000) //!< Render target MSAAx8 mode.
+#define EFF3D_TEXTURE_RT_MSAA_X16         UINT32_C(0x00005000) //!< Render target MSAAx16 mode.
+#define EFF3D_TEXTURE_RT_MSAA_SHIFT       12                   //!<
+#define EFF3D_TEXTURE_RT_MSAA_MASK        UINT32_C(0x00007000) //!<
+#define EFF3D_TEXTURE_RT_WRITE_ONLY       UINT32_C(0x00008000) //!< Render target will be used for writing only.
+#define EFF3D_TEXTURE_RT_MASK             UINT32_C(0x0000f000) //!<
+#define EFF3D_TEXTURE_COMPARE_LESS        UINT32_C(0x00010000) //!< Compare when sampling depth texture: less.
+#define EFF3D_TEXTURE_COMPARE_LEQUAL      UINT32_C(0x00020000) //!< Compare when sampling depth texture: less or equal.
+#define EFF3D_TEXTURE_COMPARE_EQUAL       UINT32_C(0x00030000) //!< Compare when sampling depth texture: equal.
+#define EFF3D_TEXTURE_COMPARE_GEQUAL      UINT32_C(0x00040000) //!< Compare when sampling depth texture: greater or equal.
+#define EFF3D_TEXTURE_COMPARE_GREATER     UINT32_C(0x00050000) //!< Compare when sampling depth texture: greater.
+#define EFF3D_TEXTURE_COMPARE_NOTEQUAL    UINT32_C(0x00060000) //!< Compare when sampling depth texture: not equal.
+#define EFF3D_TEXTURE_COMPARE_NEVER       UINT32_C(0x00070000) //!< Compare when sampling depth texture: never.
+#define EFF3D_TEXTURE_COMPARE_ALWAYS      UINT32_C(0x00080000) //!< Compare when sampling depth texture: always.
+#define EFF3D_TEXTURE_COMPARE_SHIFT       16                   //!<
+#define EFF3D_TEXTURE_COMPARE_MASK        UINT32_C(0x000f0000) //!<
+#define EFF3D_TEXTURE_COMPUTE_WRITE       UINT32_C(0x00100000) //!< Texture will be used for compute write.
+#define EFF3D_TEXTURE_SRGB                UINT32_C(0x00200000) //!< Sample texture as sRGB.
+#define EFF3D_TEXTURE_BLIT_DST            UINT32_C(0x00400000) //!< Texture will be used as blit destination.
+#define EFF3D_TEXTURE_READ_BACK           UINT32_C(0x00800000) //!< Texture will be used for read back from GPU.
+#define EFF3D_TEXTURE_BORDER_COLOR_SHIFT  24                   //!<
+#define EFF3D_TEXTURE_BORDER_COLOR_MASK   UINT32_C(0x0f000000) //!<
+#define EFF3D_TEXTURE_RESERVED_SHIFT      28                   //!<
+#define EFF3D_TEXTURE_RESERVED_MASK       UINT32_C(0xf0000000) //!<
+
 enum EFF3DAccess
 {
     Read,
@@ -1283,7 +1291,7 @@ enum EFF3DTextureFormat
     PTC22,        //!< PVRTC2 RGBA 2BPP
     PTC24,        //!< PVRTC2 RGBA 4BPP
 
-    Unknown,      // Compressed formats above.
+    EFF3DTextureFormatUnknown,      // Compressed formats above.
 
     R1,
     A8,
@@ -1335,7 +1343,7 @@ enum EFF3DTextureFormat
     RGB10A2,
     RG11B10F,
 
-    UnknownDepth, // Depth formats below.
+    EFF3DTextureFormatUnknownDepth, // Depth formats below.
 
     D16,
     D24,
@@ -1346,9 +1354,57 @@ enum EFF3DTextureFormat
     D32F,
     D0S8,
 
-    TextureFormatCount
+    EFF3DTextureFormatCount
 };
 
+
+enum EFF3DTextureType
+{
+    EFF3DTextureType_2D,
+    EFF3DTextureType_3D,
+    EFF3DTextureType_Cube,
+    EFF3DTextureType_RenderTarget,
+    EFF3DTextureType_DepthStencil,
+    EFF3DTextureType_ReadBack,
+};
+
+struct EFF3DImageInfo
+{
+    effUINT width;
+    effUINT height;
+    effUINT depth;
+    effUINT mipLevels;
+    EFF3DTextureFormat format;
+    EFF3DTextureType type;
+
+    effUINT filter;
+    effUINT mipFilter;
+
+ 
+    EFF3DMULTISAMPLE_TYPE multiSample;
+    effUINT multisampleQuality;
+ 
+    effULONG textureHandle;
+    effUINT textureLevel;
+
+    EFF3DImageInfo()
+    {
+        width = 0;
+        height = 0;
+        depth = 0;
+        mipLevels = 0;
+        format = EFF3DTextureFormatUnknown;
+        type = EFF3DTextureType_2D;
+
+        filter = 0;
+        mipFilter = 0;
+
+        multiSample = EFF3DMULTISAMPLE_NONE;
+        multisampleQuality = 0;
+        textureHandle = EFF_INVALID_HANDLE;
+        textureLevel = 0;
+    }
+};
 
 /// Color RGB/alpha/depth write. When it's not specified write will be disabled.
 #define EFF3D_STATE_WRITE_R                 UINT64_C(0x0000000000000001) //!< Enable R write.

@@ -210,8 +210,35 @@ static inline effULONG mem_size(MemberType ClassType::*member)
 #define MEM_OFFSET(CLASS, MEMBER) (mem_offset(&CLASS::MEMBER))
 #define MEM_SIZE(CLASS, MEMBER) (mem_size(&CLASS::MEMBER))
 
+enum class SliderType
+{
+    Horizontal,
+    Vertical
+};
+
+struct Slider
+{
+    SliderType type;
+
+    Slider(SliderType type)
+        : type(type) { }
+};
+
+struct Range
+{
+    float min, max;
+
+    Range(float min, float max)
+        : min(min)
+        , max(max) { }
+};
 
 
+#define EFF_INVALID_HANDLE 0xFFFFFFFF
+
+#define EFF_HANDLE(name)                                                           \
+	struct name { effUINT idx; };                                                  \
+	inline effBOOL isValid(name handle) { return EFF_INVALID_HANDLE != handle.idx; }
 
 
 

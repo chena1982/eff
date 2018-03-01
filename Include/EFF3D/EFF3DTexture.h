@@ -21,9 +21,9 @@ public:
 	EFF3DImage() {}
 	virtual ~EFF3DImage() {}
 public:
-	EFF3DIMAGE_INFO & GetImageInfo() { return m_ImageInfo; }
+	EFF3DImageInfo & GetImageInfo() { return imageInfo; }
 protected:
-	EFF3DIMAGE_INFO m_ImageInfo;
+    EFF3DImageInfo imageInfo;
 };
 
 
@@ -35,7 +35,7 @@ class EFF3D_API EFF3DTexture : public EFF3DImage
 protected:
 	EFF3DTexture()
 	{
-		m_ImageInfo.resourceType = EFF3DRTYPE_TEXTURE;
+        imageInfo.type = EFF3DTextureType_2D;
 	}
 	virtual ~EFF3DTexture() {};
 public:
@@ -76,7 +76,7 @@ protected:
 	effBOOL host;
 
     EFF3DTexture *						    texture[SHAREDTEXTURE_BUFFER_COUNT];
-    HANDLE                                  sharedHandle[SHAREDTEXTURE_BUFFER_COUNT];
+    EFF3DTextureHandle                      sharedHandle[SHAREDTEXTURE_BUFFER_COUNT];
     EFF3DDevice *							device;
     effINT                                  currentIndex;
 };
