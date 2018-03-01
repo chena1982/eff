@@ -82,6 +82,17 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     MetaInitialize(UsingModule(EFFReflection));
 
+    // type representing the SlideType enum
+    Type sliderTypeEnumType = typeof(LayoutType);
+
+    // enum representing the SliderType
+    const Enum &sliderTypeEnum = sliderTypeEnumType.GetEnum();
+
+    LayoutType zz = FlowLayout;
+
+    std::string keyName = sliderTypeEnum.GetKey(zz);
+
+
 	EFFApplication app;
 	application = &app;
 	app.Init(effTRUE, 1024, 768, effFALSE, effFALSE);

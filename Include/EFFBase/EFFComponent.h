@@ -19,23 +19,27 @@ EFFBASE_BEGIN
 class EFFProperty;
 
 
-class EFFBASE_API EFFComponent : public EFFObjectBase
+class EFFBASE_API EFFComponent
 {
-	RTTI_DECLARE_CUSTOM_SAVE(EFFComponent, EFFObjectBase)
+    RTTI_DECLARE_BASE_CUSTOM_SAVE(EFFComponent)
 public:
 	virtual ~EFFComponent() {}
 public:
 	inline effBOOL		GetEnabled() { return enabled; }
 	inline effVOID		SetEnabled(effBOOL enabled) { this->enabled = enabled; }
 
-	inline EFFObject *	GetObject() { return object; }
-	inline effVOID		SetObject(EFFObject * object) { this->object = object; }
+	inline EFFEntity    GetObject() { return object; }
+	inline effVOID		SetObject(EFFEntity object) { this->object = object; }
+
+    inline effUINT      GetID() { return id; }
+    inline effVOID      SetID(effUINT id) { this->id = id; }
 protected:
 	EFFComponent();
 
 protected:
 	effBOOL			enabled;
-	EFFObject *		object;
+    EFFEntity       object;
+    effUINT         id;
 };
 
 

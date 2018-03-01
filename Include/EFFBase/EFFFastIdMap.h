@@ -30,12 +30,12 @@ public:
 	effINT Add(T * value)
 	{
 		CalculateNextId();
-		effINT index = nextId;
+        effUINT index = nextId;
 
 		if (index >= count)
 		{
 			effINT newCount = count * 2;
-			effSIZE * newMap = EFFNEW effSIZE[newCount];
+            effSIZE * newMap = EFFNEW effSIZE[newCount];
 			memset(newMap, 0, sizeof(effSIZE) * newCount);
 
 			memcpy(newMap, mapValue, sizeof(effSIZE) * count);
@@ -54,7 +54,7 @@ public:
 		//如果新插入的值的索引index在first前面
 		if (first > index)
 		{
-			effINT oldFirst = first;
+            effUINT oldFirst = first;
 			first = index;
 			while (++index < oldFirst)
 			{
@@ -70,7 +70,7 @@ public:
 		return index;
 	}
 
-	effVOID Remove(effINT index)	
+	effVOID Remove(effUINT index)	
 	{
 #ifdef _DEBUG
 		if (index >= count || index < 0)
@@ -92,7 +92,7 @@ public:
 		// 如果移除第一个指针
 		if (first == index)
 		{
-			effINT next = index + 1;
+            effUINT next = index + 1;
 
 			if (next < count)
 			{
@@ -119,14 +119,14 @@ public:
 		}
 		else
 		{
-			int pre = index - 1;
+            effUINT pre = index - 1;
 			// 向前遍历到第一个指针
 			while (pre >= first)
 			{
 				// 如果map[pre]是指针
 				if (mapValue[pre] > count)
 				{
-					effINT next = index + 1;
+                    effUINT next = index + 1;
 					// index不是最后一个
 					if ( next < count )
 					{
@@ -158,7 +158,7 @@ public:
 				// 如果map[pre]是索引
 				else
 				{
-					effINT next = index + 1;
+                    effUINT next = index + 1;
 					// index不是最后一个
 					if (next < count)
 					{
@@ -191,7 +191,7 @@ public:
 		recycledIds.push_back(index);
 	}
 
-	T * operator [] (effINT index)
+	T * operator [] (effUINT index)
 	{
 #ifdef _DEBUG
 		if (index >= count || index < 0)
@@ -252,13 +252,13 @@ protected:
 protected:
 	// map存的有三种值，一种是0，一种是指针，另一种是下一个指针的索引
 	// 如果map的中间有空洞，每个空洞的第一个元素的值是下一个指针的索引
-	effSIZE *	mapValue;
-	effINT		count;
-	effINT		first;
-	effINT		current;
-	effINT		nextId;
+    effSIZE *	mapValue;
+    effUINT		count;
+    effUINT		first;
+    effUINT		current;
+    effUINT		nextId;
 
-	VECTOR<effINT>	recycledIds;
+	VECTOR<effUINT>	recycledIds;
 };
 
 

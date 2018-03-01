@@ -22,16 +22,16 @@ USE_EFF3D
 #include "EFFMath.h"
 USE_EFFMATH
 
+#include <EFFReflection.h>
+
 #include <pugixml-1.8/src/pugixml.hpp>
 
-#include <yaml-cpp/yaml.h>
 
-#include <Meta.h>
 
 #include "EFFGUIDefines.h"
 #include "EFFGUICoord.h"
 
-#include <EFFReflection.h>
+
 
 
 

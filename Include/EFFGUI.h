@@ -14,19 +14,20 @@ purpose:
 #include "EFFGUI/EFFGUIWidget.h"
 
 
-
-#if defined UNICODE || defined _UNICODE
-	#ifdef _DEBUG 
-		#pragma comment(lib, "EFFGUI_d.lib")
-	#else
-		#pragma comment(lib, "EFFGUI.lib")
-	#endif
-#else
-	#if _DEBUG 
-		#pragma comment(lib, "EFFGUI_d.lib")
-	#else
-		#pragma comment(lib, "EFFGUI.lib")
-	#endif
+#ifndef EFFGUI_NOT_IMPORTS
+    #if defined UNICODE || defined _UNICODE
+	    #ifdef _DEBUG 
+		    #pragma comment(lib, "EFFGUI_d.lib")
+	    #else
+		    #pragma comment(lib, "EFFGUI.lib")
+	    #endif
+    #else
+	    #if _DEBUG 
+		    #pragma comment(lib, "EFFGUI_d.lib")
+	    #else
+		    #pragma comment(lib, "EFFGUI.lib")
+	    #endif
+    #endif
 #endif
 
 

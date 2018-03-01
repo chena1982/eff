@@ -9,6 +9,10 @@ include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
+#include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common)
+#include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common/Lib)
+#include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Runtime)
+
 if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")

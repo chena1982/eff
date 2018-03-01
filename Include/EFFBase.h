@@ -19,6 +19,16 @@
 #include <EASTL/map.h>
 #include <EASTL/deque.h>
 
+#include <jsoncpp-1.8.1/include/json/json.h>
+#include <yaml/yaml.h>
+#include <yaml-cpp/yaml.h>
+
+#include <Cpp-Reflection/Runtime/Meta.h>
+using namespace ursine;
+using namespace meta;
+
+
+
 #include "EFFBase\EFFBaseDefines.h"
 #include "EFFBase\EFFMemory.h"
 #include "EFFBase\EFFUtility.h"

@@ -23,7 +23,6 @@ USE_EFFBASE
 #include <EFFGUI.h>
 USE_EFFGUI
 
-#include <Meta.h>
 
 
 

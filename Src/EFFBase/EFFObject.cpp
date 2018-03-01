@@ -210,18 +210,18 @@ effVOID EFFObject::SaveToFile(const effString & filePath, effBOOL isBinary)
 				for ( effUINT i = 0; i < object->components.size(); i++ )
 				{
 					EFFComponent * component = object->components[i];
-					BeginSaveObjectBaseToYAMLFile(component, implicit);
+					//BeginSaveObjectBaseToYAMLFile(component, implicit);
 					component->SaveToFile(NULL, isBinary);
-					EndSaveObjectBaseToYAMLFile(component);
+					//EndSaveObjectBaseToYAMLFile(component);
 				}
 			}
 
 			for ( effUINT i = 0; i < properties.size(); i++ )
 			{
 				EFFComponent * component = properties[i];
-				BeginSaveObjectBaseToYAMLFile(component, implicit);
+				//BeginSaveObjectBaseToYAMLFile(component, implicit);
 				component->SaveToFile(NULL, isBinary);
-				EndSaveObjectBaseToYAMLFile(component);
+				//EndSaveObjectBaseToYAMLFile(component);
 			}
 
 			EndSaveToYAMLFile();
@@ -321,7 +321,7 @@ EFFComponent * EFFObject::AddComponent(EFFComponent * component)
 EFFComponent * EFFObject::AddComponent(const ClassID & classID)
 {
 	EFFComponent * component = static_cast<EFFComponent *>(EFFCreateObject(classID));
-	component->SetObject(this);
+	//component->SetObject(this);
 	components.push_back(component);
 	return component;
 }

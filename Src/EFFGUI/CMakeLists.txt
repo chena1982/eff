@@ -9,7 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Runtime)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common/Lib)
+#include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common/Lib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 include_directories(${CMAKE_SOURCE_DIR}/Src/EFFReflection)
 
@@ -29,6 +29,8 @@ add_definitions(-DNO_MALLINFO)
 add_definitions(-DYAML_DECLARE_STATIC)
 add_definitions(-D_UNICODE)
 add_definitions(-DUNICODE)
+add_definitions(-DEFFGUI_NOT_IMPORTS)
+
 
 foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)

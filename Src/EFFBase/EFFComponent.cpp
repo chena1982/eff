@@ -17,18 +17,17 @@
 EFFBASE_BEGIN
 
 
-RTTI_IMPLEMENT_CUSTOM_SAVE(EFFComponent, 0)
+RTTI_IMPLEMENT_BASE_CUSTOM_SAVE(EFFComponent, 0)
 
 
 EFFComponent::EFFComponent()
 {
 	SetEnabled(effTRUE);
-	object = NULL;
 }
 
 effVOID EFFComponent::SaveToFile(EFFFile * file, effBOOL isBinary)
 {
-	EFFObjectBase::SaveToFile(file, isBinary);
+	//EFFObjectBase::SaveToFile(file, isBinary);
 }
 
 effVOID EFFComponent::SaveToFile(const effString & filePath, effBOOL isBinary)
@@ -46,9 +45,9 @@ effVOID EFFComponent::SaveToFile(const effString & filePath, effBOOL isBinary)
 	{
 		if ( StartSaveToYAMLFile(filePath) )
 		{
-			BeginSaveObjectBaseToYAMLFile(this, 1);
+			//BeginSaveObjectBaseToYAMLFile(this, 1);
 			SaveToFile(NULL, isBinary);
-			EndSaveObjectBaseToYAMLFile(this);
+			//EndSaveObjectBaseToYAMLFile(this);
 			EndSaveToYAMLFile();
 		}
 	}

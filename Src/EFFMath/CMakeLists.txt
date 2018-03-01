@@ -9,6 +9,7 @@ include_directories($ENV{BOOST_ROOT})
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
 link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 link_directories($ENV{DXSDK_DIR}Lib/x86)

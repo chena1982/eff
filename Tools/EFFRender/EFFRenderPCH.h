@@ -23,8 +23,5 @@ using namespace EFF3D;
 
 #include <EFFFramework.h>
 
-
-#include <yaml-cpp/yaml.h>
-
 #include <EFFReflection.h>
 

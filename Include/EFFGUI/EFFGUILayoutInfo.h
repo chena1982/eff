@@ -18,7 +18,7 @@ enum LayoutType
     FlexBoxLayout,
     GridLayout,
     BorderLayout
-} Meta(Enable);
+};
 
 struct LayoutCalculateSizeContext
 {

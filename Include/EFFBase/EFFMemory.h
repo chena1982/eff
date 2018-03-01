@@ -94,22 +94,22 @@
 		EFFBASE_API void * EFFMemoryNew(size_t size);
 		EFFBASE_API void EFFMemoryDelete(void * memory);
 
-		inline void * _cdecl operator new (size_t size)
+		void * _cdecl operator new (size_t size)
 		{
 			return EFFMemoryNew(size);
 		}
 
-		inline void _cdecl operator delete (void * pMem)
+		void _cdecl operator delete (void * pMem)
 		{
 			EFFMemoryDelete(pMem);
 		}	
 
-		inline void * _cdecl operator new [] (size_t size)
+		void * _cdecl operator new [] (size_t size)
 		{
 			return EFFMemoryNew(size);
 		}
 
-		inline void _cdecl operator delete [] (void * pMem)
+		void _cdecl operator delete [] (void * pMem)
 		{
 			EFFMemoryDelete(pMem);
 		}	

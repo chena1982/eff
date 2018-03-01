@@ -8,11 +8,10 @@ purpose:
 #ifndef __EFFReflection_2017_07_27__
 #define __EFFReflection_2017_07_27__
 
-#include <Meta.h>
-using namespace ursine;
-using namespace meta;
+
 
 #include <EFFReflectionModule.h>
+#include <EFFReflectionHeader.h>
 
 
 

@@ -57,7 +57,7 @@ EFFComponent * EFFGameObject::GetComponent(effINT index)
 EFFComponent * EFFGameObject::AddComponent(const ClassID & classID)
 {
 	EFFComponent * component = static_cast<EFFComponent *>(EFFCreateObject(classID));
-	component->SetObject(this);
+	//component->SetObject(this);
 	components.push_back(component);
 	return component;
 }
