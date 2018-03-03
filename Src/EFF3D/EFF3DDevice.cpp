@@ -161,12 +161,7 @@ effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT 
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        EFF3DResource * resource = CreateEmptyResource(EFF3DResourceType_RenderTarget);
-        EFF3DTexture * texture = (EFF3DTexture *)resource;
-
-        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, texture);
-
-        sharedTexture->sharedHandle[i] = resource->id;
+        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, &sharedTexture->sharedHandle[i]);
     }
 
     sharedTexture->clientSemaphore.Create(3, 3, _effT("ClientSharedTextureSemaphore"));

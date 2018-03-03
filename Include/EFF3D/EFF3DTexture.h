@@ -36,6 +36,7 @@ protected:
 	EFF3DTexture()
 	{
         imageInfo.type = EFF3DResourceType_Texture2D;
+        userData = NULL;
 	}
 	virtual ~EFF3DTexture() {};
 public:

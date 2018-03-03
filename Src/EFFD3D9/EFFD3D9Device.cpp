@@ -378,7 +378,10 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 		return effFALSE;
 	}
 
-    texture->userData = shareHandle;
+    if (texture->userData == NULL)
+    {
+        texture->userData = shareHandle;
+    }
 
 	effD3D9Texture->imageInfo.width = width;
 	effD3D9Texture->imageInfo.height = height;

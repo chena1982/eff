@@ -50,7 +50,7 @@ effVOID EFF3DSharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextu
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        sharedTextureInfo->sharedTextureHandle[i] = sharedHandle[i].id;
+        sharedTextureInfo->sharedTextureHandle[i] = (effSIZE)texture[i]->userData;
     }
 }
 
