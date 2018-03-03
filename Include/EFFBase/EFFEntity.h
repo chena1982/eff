@@ -74,7 +74,7 @@ public:
 
 private:
     VECTOR<effBYTE> generation;
-    DEQUE<effUINT> free_indices;
+    DEQUE<effUINT> freeIndices;
 };
 
 

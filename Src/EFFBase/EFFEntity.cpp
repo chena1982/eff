@@ -26,10 +26,10 @@ EFFIdManager::~EFFIdManager()
 EFFId EFFIdManager::Create()
 {
     effUINT idx;
-    if (free_indices.size() > MINIMUM_FREE_INDICES)
+    if (freeIndices.size() > MINIMUM_FREE_INDICES)
     {
-        idx = free_indices.front();
-        free_indices.pop_front();
+        idx = freeIndices.front();
+        freeIndices.pop_front();
     }
     else
     {
@@ -48,7 +48,7 @@ effVOID EFFIdManager::Destroy(EFFId e)
 {
     const effUINT idx = e.Index();
     generation[idx] += 1;
-    free_indices.push_back(idx);
+    freeIndices.push_back(idx);
 }
 
 EFFBASE_END

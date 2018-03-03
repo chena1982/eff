@@ -1200,9 +1200,9 @@ typedef struct EFF3DVERTEXBUFFER_DESC {
 
 
 
-EFF_HANDLE(EFF3DTextureHandle)
+//EFF_HANDLE(EFF3DTextureHandle)
 
-
+typedef EFFId EFF3DTextureHandle;
 
 
 
@@ -1358,14 +1358,16 @@ enum EFF3DTextureFormat
 };
 
 
-enum EFF3DTextureType
+enum EFF3DResourceType
 {
-    EFF3DTextureType_2D,
-    EFF3DTextureType_3D,
-    EFF3DTextureType_Cube,
-    EFF3DTextureType_RenderTarget,
-    EFF3DTextureType_DepthStencil,
-    EFF3DTextureType_ReadBack,
+    EFF3DResourceType_Texture2D,
+    EFF3DResourceType_Texture3D,
+    EFF3DResourceType_TextureCube,
+    EFF3DResourceType_RenderTarget,
+    EFF3DResourceType_DepthStencil,
+    EFF3DResourceType_TextureReadBack,
+    EFF3DResourceType_IndexBuffer,
+    EFF3DResourceType_VertexBuffer,
 };
 
 struct EFF3DImageInfo
@@ -1375,7 +1377,7 @@ struct EFF3DImageInfo
     effUINT depth;
     effUINT mipLevels;
     EFF3DTextureFormat format;
-    EFF3DTextureType type;
+    EFF3DResourceType type;
 
     effUINT filter;
     effUINT mipFilter;
@@ -1394,7 +1396,7 @@ struct EFF3DImageInfo
         depth = 0;
         mipLevels = 0;
         format = EFF3DTextureFormatUnknown;
-        type = EFF3DTextureType_2D;
+        type = EFF3DResourceType_Texture2D;
 
         filter = 0;
         mipFilter = 0;

@@ -9,6 +9,8 @@
 #define __EFFD3D9Device_2008_12_2__
 
 
+class EFFD3D9Texture;
+
 class EFFD3D9Device : public EFF3DDevice
 {
 public:
@@ -21,20 +23,12 @@ public:
 	virtual effBOOL				Present(const EFFRect * sourceRect, const EFFRect * destRect);
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height);
 	
-	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-                                                    EFF3DTexture ** texture, effHANDLE * handle = NULL);
 
-
-	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture);
-
-	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,
-													effINT level, EFF3DTexture ** texture);
-
-	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
+	/*virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface);
 
 	virtual effBOOL				CreateDepthStencilSurface(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
-													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface);
+													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface);*/
 	
 	virtual effBOOL				CreateIndexBuffer(effUINT length, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
 													EFF3DIndexBuffer ** indexBuffer);
@@ -68,14 +62,14 @@ public:
 
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value);
 	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value);
-	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget);
+	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DTexture * renderTarget);
 	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture);
-	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil);
+	virtual effBOOL				SetDepthStencil(EFF3DTexture * depthStencil);
 
 	virtual effBOOL				SetShader(EFF3DShader * shader);
 	virtual effBOOL				SetScissorRect(const EFFRect * rect);
 
-	virtual effBOOL				GetRenderTarget(effUINT index, EFF3DSurface ** surface);
+	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index);
 	virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport);
 	virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool);
 public:
@@ -94,11 +88,20 @@ protected:
 
     virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);*/
 
-	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType);
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+                                                    EFF3DTexture * texture);
+
+    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
+                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture);
+
+
+	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType);
 protected:
 	LPDIRECT3D9EX				D3D9;       
 	LPDIRECT3DDEVICE9EX			D3D9Device;
 	//CGcontext					cgContext;
+
+    EFFD3D9Texture *            CurrentRenderTarget;
 };
 
 effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dpp, HWND hWnd);

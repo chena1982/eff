@@ -219,22 +219,22 @@ effVOID UnloadTexture(EFF3DResource * resource, effVOID * userData)
 {
 
     EFF3DImage * image = (EFF3DImage *)resource;
-    EFF3DIMAGE_INFO & imageInfo = image->GetImageInfo();
+    EFF3DImageInfo & imageInfo = image->GetImageInfo();
 
-    if (imageInfo.pool == EFF3DPOOL_DEFAULT)
+    /*if (imageInfo.pool == EFF3DPOOL_DEFAULT)
     {
         image->Unload();
         return;
-    }
+    }*/
 
-    if (imageInfo.resourceType == EFF3DRTYPE_SURFACE)
+    if (imageInfo.type == EFF3DResourceType_Texture2D)
     {
-        if (imageInfo.surfaceType == DepthStencil_Surface || imageInfo.surfaceType == GetFromTexture_Surface)
+        /*if (imageInfo.surfaceType == DepthStencil_Surface || imageInfo.surfaceType == GetFromTexture_Surface)
         {
             EFF3DSurface * surface = (EFF3DSurface *)resource;
             surface->Unload();
             return;
-        }
+        }*/
 
         /*if ( imageInfo.surfaceType == RenderTo_Surface )
         {
@@ -336,13 +336,13 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 	return effTRUE;
 }
 
-EFF3DResource * EFFD3D9Device::CreateEmptyResource(EFF3DRESOURCETYPE resourceType)
+EFF3DResource * EFFD3D9Device::CreateEmptyResource(EFF3DResourceType resourceType)
 {
 	EFF3DResource * resource = NULL;
 	
 	switch(resourceType)
 	{
-	case EFF3DRTYPE_TEXTURE:
+	case EFF3DResourceType_Texture2D:
 		{
 			resource = EFFNEW EFFD3D9Texture();
 		}
@@ -354,30 +354,32 @@ EFF3DResource * EFFD3D9Device::CreateEmptyResource(EFF3DRESOURCETYPE resourceTyp
 	return resource;
 }
 
-effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool, EFF3DTexture** texture, effHANDLE * handle)
+effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture)
 {
 	assert(texture != NULL);
 
-	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)texture;
 
 	effHRESULT hr;
 
-	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, (D3DFORMAT)format, (D3DPOOL)pool, &effD3D9Texture->texture, handle)) )
+    effUINT usage = 0;
+
+    effHANDLE shareHandle;
+
+	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
 
-	effD3D9Texture->m_ImageInfo.width = width;
-	effD3D9Texture->m_ImageInfo.height = height;
-	effD3D9Texture->m_ImageInfo.mipLevels = levels;
-	effD3D9Texture->m_ImageInfo.usage = usage;
-	effD3D9Texture->m_ImageInfo.format = (EFF3DFORMAT)format;
-	effD3D9Texture->m_ImageInfo.pool = (EFF3DPOOL)pool;
-	effD3D9Texture->m_ImageInfo.resourceType = EFF3DRTYPE_TEXTURE;
+	effD3D9Texture->imageInfo.width = width;
+	effD3D9Texture->imageInfo.height = height;
+	effD3D9Texture->imageInfo.mipLevels = levels;
+	effD3D9Texture->imageInfo.format = format;
+	effD3D9Texture->imageInfo.type = resourceType;
 
 	effD3D9Texture->AddRef();
-	*texture = effD3D9Texture;
+
 
 	return effTRUE;	
 }
@@ -448,41 +450,10 @@ effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInf
     return effTRUE;
 }*/
 
-effBOOL	EFFD3D9Device::CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture)
-{
-	assert(texture != NULL);
-
-	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
-
-	if (FAILED(D3DXCreateTextureFromFileEx(D3D9Device, filePath.c_str(), 0, 0, D3DX_FROM_FILE, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, 
-					D3DX_DEFAULT, D3DX_DEFAULT, 0, (D3DXIMAGE_INFO *)&effD3D9Texture->m_ImageInfo, NULL, &effD3D9Texture->texture)))
-	{
-		SF_DELETE(effD3D9Texture);
-		return effFALSE;
-	}
-
-	effD3D9Texture->m_ImageInfo.pool = EFF3DPOOL_DEFAULT;
-
-	/*D3DSURFACE_DESC desc;
-	effD3D9Texture->texture->GetLevelDesc(0, &desc);
-	effD3D9Texture->m_ImageInfo.width = desc.Width;
-	effD3D9Texture->m_ImageInfo.height = desc.Height;
-	effD3D9Texture->m_ImageInfo.usage = desc.Usage;
-	effD3D9Texture->m_ImageInfo.format = (EFF3DFORMAT)desc.Format;
-	effD3D9Texture->m_ImageInfo.pool = (EFF3DPOOL)desc.Pool;
-	effD3D9Texture->m_ImageInfo.resourceType = (EFF3DRESOURCETYPE)desc.Type;*/
 
 
-
-
-	effD3D9Texture->AddRef();
-	*texture = effD3D9Texture;
-
-	return effTRUE;	
-}
-
-effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,
-											   effINT level, EFF3DTexture ** texture)
+effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
+                                            EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture)
 {
 	assert(texture != NULL);
 
@@ -494,7 +465,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
 
 	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
-	if ( FAILED(D3D9Device->CreateTexture(width, height, level, usage, (D3DFORMAT)format, (D3DPOOL)EFF3DPOOL_DEFAULT, &effD3D9Texture->texture, NULL)) )
+	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, NULL)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
@@ -521,21 +492,20 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
 	effD3D9Texture->UnlockRect(0);
 
-	effD3D9Texture->m_ImageInfo.width = width;
-	effD3D9Texture->m_ImageInfo.height = height;
-	effD3D9Texture->m_ImageInfo.usage = 0;
-	effD3D9Texture->m_ImageInfo.format = format;
-	effD3D9Texture->m_ImageInfo.pool = EFF3DPOOL_DEFAULT;
-	effD3D9Texture->m_ImageInfo.resourceType = EFF3DRTYPE_TEXTURE;
+	effD3D9Texture->imageInfo.width = width;
+	effD3D9Texture->imageInfo.height = height;
+	//effD3D9Texture->imageInfo.usage = 0;
+	effD3D9Texture->imageInfo.format = format;
+	//effD3D9Texture->imageInfo.pool = EFF3DPOOL_DEFAULT;
+	effD3D9Texture->imageInfo.type = resourceType;
 
 
 	effD3D9Texture->AddRef();
-	*texture = effD3D9Texture;
 
 	return effTRUE;	
 }
 
-effBOOL EFFD3D9Device::CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample, effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface)
+/*effBOOL EFFD3D9Device::CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample, effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface)
 {
 	assert(surface != NULL);
 
@@ -581,7 +551,7 @@ effBOOL EFFD3D9Device::CreateDepthStencilSurface(effUINT width, effUINT height, 
 	*surface = effD3D9Surface;
 
 	return effTRUE;
-}
+}*/
 
 effBOOL EFFD3D9Device::CreateIndexBuffer(effUINT length, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool, EFF3DIndexBuffer ** indexBuffer)
 {
@@ -841,10 +811,21 @@ effBOOL EFFD3D9Device::SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Ty
 	return SUCCEEDED(D3D9Device->SetSamplerState(Sampler, (D3DSAMPLERSTATETYPE)Type, Value)); 
 }
 
-effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget)
+effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTexture * renderTarget)
 {
-	EFFD3D9Surface * effD3D9Surface = (EFFD3D9Surface *)renderTarget;
-    effHRESULT hr = D3D9Device->SetRenderTarget(renderTargetIndex, effD3D9Surface->m_pSurface);
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)renderTarget;
+    CurrentRenderTarget = effD3D9Texture;
+
+    LPDIRECT3DSURFACE9 surface = NULL;
+    effD3D9Texture->texture->GetSurfaceLevel(0, &surface);
+
+	//EFFD3D9Surface * effD3D9Surface = (EFFD3D9Surface *)renderTarget;
+    effHRESULT hr = D3D9Device->SetRenderTarget(renderTargetIndex, surface);
+
+    surface->Release();
+
+
+
 	return SUCCEEDED(hr);
 }
 
@@ -852,7 +833,7 @@ effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DImage * texture)
 {
 	if ( texture != NULL )
 	{
-		if ( texture->GetImageInfo().resourceType  == EFF3DRTYPE_TEXTURE )
+		if ( texture->GetImageInfo().type == EFF3DResourceType_Texture2D )
 		{
 			EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)texture;
 			return SUCCEEDED(D3D9Device->SetTexture(sampler, (IDirect3DTexture9 *)effD3D9Texture->texture));
@@ -865,10 +846,19 @@ effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DImage * texture)
 	}
 }
 
-effBOOL EFFD3D9Device::SetDepthStencilSurface(EFF3DSurface * newZStencil)
+effBOOL EFFD3D9Device::SetDepthStencil(EFF3DTexture * depthStencil)
 {
-	EFFD3D9Surface * effD3D9Surface = (EFFD3D9Surface *)newZStencil;
-	return SUCCEEDED(D3D9Device->SetDepthStencilSurface(effD3D9Surface->m_pSurface));
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)depthStencil;
+
+    LPDIRECT3DSURFACE9 surface = NULL;
+    effD3D9Texture->texture->GetSurfaceLevel(0, &surface);
+
+
+	effHRESULT hr = D3D9Device->SetDepthStencilSurface(surface);
+
+    surface->Release();
+
+    return SUCCEEDED(hr);
 }
 
 effBOOL EFFD3D9Device::SetShader(EFF3DShader * shader)
@@ -897,18 +887,9 @@ effVOID EFFD3D9Device::Release()
 	delete this;
 }
 
-effBOOL EFFD3D9Device::GetRenderTarget(effUINT index, EFF3DSurface ** surface)
+EFF3DTextureHandle EFFD3D9Device::GetRenderTarget(effUINT index)
 {
-	EFFD3D9Surface * renderTarget = EFFNEW EFFD3D9Surface();
-	
-	if (SUCCEEDED(D3D9Device->GetRenderTarget(index, &renderTarget->m_pSurface)))
-	{
-		*surface = renderTarget;
-		return effTRUE;
-	}
-
-	SF_DELETE(renderTarget);
-	return effFALSE;
+    return CurrentRenderTarget->id;
 }
 
 

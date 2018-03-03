@@ -35,6 +35,7 @@ class EFF3DQuery;
 class EFF3D_API EFF3DDevice
 {
 	friend class EFF3DResourceManager;
+    friend class EFF3DTextureManager;
 public:
 	EFF3DDevice();
 	virtual ~EFF3DDevice();
@@ -48,24 +49,28 @@ public:
 	virtual effBOOL				Present(const EFFRect * sourceRect, const EFFRect * destRect) = 0;
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height) = 0;
 	
-	virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DTextureType type,
-                                                    EFF3DTextureHandle * textureHandle) = 0;
 
-	virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format,
+    virtual EFFId               CreateResourceFromFile(const effString & filePath, EFF3DResourceType resourceType);
+
+    virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format,
                                                     EFF3DSharedTexture ** texture);
 
     virtual effBOOL             CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
 
-	virtual effBOOL				CreateTextureFromFile(const effString & filePath, EFF3DTexture ** texture) = 0;
 
-	virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effUINT usage, EFF3DFORMAT format, effINT width, effINT height,
-													effINT level, EFF3DTexture ** texture) = 0;
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+                                                    EFF3DTextureHandle * textureHandle);
 
-	virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
+    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
+                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
+
+
+
+	/*virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL lockable, EFF3DSurface ** surface) = 0;
 
 	virtual effBOOL				CreateDepthStencilSurface(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
-													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface) = 0;
+													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface) = 0;*/
 	
 	virtual effBOOL				CreateIndexBuffer(effUINT length, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
 													EFF3DIndexBuffer ** indexBuffer) = 0;
@@ -99,15 +104,15 @@ public:
 
 	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
 	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value) = 0;
-	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DSurface * renderTarget) = 0;
+	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DTexture * renderTarget) = 0;
 	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture) = 0;
-	virtual effBOOL				SetDepthStencilSurface(EFF3DSurface * newZStencil) = 0;
+	virtual effBOOL				SetDepthStencil(EFF3DTexture * depthStencil) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
 	virtual effBOOL				SetScissorRect(const EFFRect * rect) = 0; 
 
 
-	virtual effBOOL				GetRenderTarget(effUINT index, EFF3DSurface ** surface) = 0;
+	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index) = 0;
 	virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport) = 0;
 	virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool) = 0;
 
@@ -146,7 +151,17 @@ protected:
 
     virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture) = 0;*/
 
-	virtual EFF3DResource *		CreateEmptyResource(EFF3DRESOURCETYPE resourceType) = 0;
+
+
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+                                                    EFF3DTexture * texture) = 0;
+
+    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
+                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture) = 0;
+
+	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType) = 0;
+
+
 	virtual effBOOL				DrawQuad(EFFRect * rect);
 protected:
 	effVOID						Init(effBOOL host);
@@ -200,7 +215,7 @@ struct QuadColoredVertex
 
 
 EFF3D_API EFFINLINE EFF3DDevice * EFF3DGetDevice();
-EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DFORMAT format);
+EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DTextureFormat format);
 
 
 EFF3D_END

@@ -24,14 +24,14 @@ EFF3DIResource *		CreateFromFileImpl(const effString & strFilePath,__REPEAT(N, _
 
 class EFF3D_API EFF3DResourceManager : public EFFIdManager
 {
-	RTTI_DECLARE(EFF3DResourceManager, EFFIdManager)
+	RTTI_DECLARE_PURE(EFF3DResourceManager, EFFIdManager)
 public:
 	EFF3DResourceManager();
 	virtual ~EFF3DResourceManager();
 
 public:
-	//EFF3DIResource *					CreateFromFile(const effString & strFilePath);
-	//virtual EFF3DIResource *		CreateFromFileImpl(const effString & strFilePath) = 0;
+	virtual EFFId CreateFromFile(const effString & strFilePath, EFF3DResourceType resourceType);
+	virtual effBOOL CreateFromFileImpl(const effString & strFilePath, EFF3DResource * resource, EFF3DResourceType resourceType) = 0;
 	//DECLARE_CREATE_FROM_FILE(0)
 	//DECLARE_CREATE_FROM_FILE(1)
 	//DECLARE_CREATE_FROM_FILE(2)
@@ -97,7 +97,7 @@ public:
 	//DECLARE_CREATE_FROM_FILE_IMPL(1)
 	//DECLARE_CREATE_FROM_FILE_IMPL(2)
 public:
-	EFFId					        AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType);
+	EFFId					        AsyncCreateFromFile(const effString & filePath, EFF3DResourceType resourceType);
 
     effVOID                         ForEach(boost::function<effVOID (EFF3DResource *, effVOID *)> visitor, effVOID * userData);
 protected:

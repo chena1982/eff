@@ -48,6 +48,7 @@ static stbtt_bakedchar g_cdata[96]; // ASCII 32..126 is 95 glyphs
 static effUINT g_ftex = 0;
 
 static EFF3DTexture * fontTexture = NULL;
+static EFF3DTextureHandle fontTextureHandle;
 
 inline effUINT RGBA(effBYTE r, effBYTE g, effBYTE b, effBYTE a)
 {
@@ -333,7 +334,12 @@ effBOOL imguiRenderInit(const effTCHAR * fontpath)
 	stbtt_BakeFontBitmap(ttfBuffer, 0, 15.0f, bmap, 512, 512, 32, 96, g_cdata);
 	
 	EFF3DDevice * device = EFF3DGetDevice();
-	device->CreateTextureFromMemory(bmap, 512 * 512, EFF3DUSAGE_DYNAMIC, EFF3DFMT_A8, 512, 512, 1, &fontTexture);
+
+    effUINT flag = EFF3DUSAGE_DYNAMIC;
+
+
+
+	device->CreateTextureFromMemory(bmap, 512 * 512, 512, 512, 1, flag, A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
 	//device->CreateTextureFromMemory(bitmap, width * height, EFF3DFMT_A8, width, height, 1, &fontTexture);
 
 

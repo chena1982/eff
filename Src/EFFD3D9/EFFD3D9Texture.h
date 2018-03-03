@@ -19,7 +19,7 @@ public:
 	virtual ~EFFD3D9Texture();
 public:
 	effHRESULT								GetLevelDesc(effUINT Level, EFF3DSURFACE_DESC * pDesc);
-	effHRESULT								GetSurfaceLevel(effUINT Level, EFF3DSurface ** ppSurfaceLevel);
+	//effHRESULT								GetSurfaceLevel(effUINT Level, EFF3DSurface ** ppSurfaceLevel);
 	effHRESULT								LockRect(effUINT Level, EFF3DLOCKED_RECT * pLockedRect, const EFFRect * pRect, effUINT Flags);
 	effHRESULT								UnlockRect(effUINT Level);
 

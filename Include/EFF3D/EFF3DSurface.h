@@ -17,7 +17,7 @@ class EFF3D_API EFF3DSurface : public EFF3DImage
 public:
 	EFF3DSurface()
 	{
-		imageInfo.Type = EFF3DTextureType_2D;
+		imageInfo.type = EFF3DResourceType_Texture2D;
 	}
 	virtual ~EFF3DSurface() {}
 public:

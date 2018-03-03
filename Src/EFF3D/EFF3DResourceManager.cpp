@@ -18,7 +18,7 @@
 
 EFF3D_BEGIN
 
-RTTI_IMPLEMENT_NO_SAVE(EFF3DResourceManager, 0)
+RTTI_IMPLEMENT_PURE(EFF3DResourceManager, 0)
 
 EFF3DResourceManager::EFF3DResourceManager()
 {
@@ -29,6 +29,26 @@ EFF3DResourceManager::EFF3DResourceManager()
 
 EFF3DResourceManager::~EFF3DResourceManager()
 {
+}
+
+
+EFFId EFF3DResourceManager::CreateFromFile(const effString & filePath, EFF3DResourceType resourceType)
+{
+
+    EFF3DResource * resource = GetResource(filePath);
+
+    if (resource != NULL)
+    {
+        return resource->id;
+    }
+
+    resource = EFF3DGetDevice()->CreateEmptyResource(resourceType);
+    AddResource(resource);
+
+    CreateFromFileImpl(filePath, resource, resourceType);
+
+
+    return resource->id;
 }
 
 /*#define IMPL_CREATE_FROM_FILE(N)\
@@ -55,7 +75,7 @@ IMPL_CREATE_FROM_FILE(2)*/
 
 
 
-EFFId EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType)
+EFFId EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3DResourceType resourceType)
 {
 	
 	//BOOST_ASSERT(Class->IsKindOf(EFF3DResource::GetThisClass()));
@@ -70,11 +90,6 @@ EFFId EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3
     EFF3DDevice * device = EFF3DGetDevice();
 
 	resource = device->CreateEmptyResource(resourceType);
-	if ( resource == NULL )
-	{
-		return EFFId();
-	}
-
 	AddResource(resource);
 
 	effBOOL hr;

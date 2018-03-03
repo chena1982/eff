@@ -32,7 +32,7 @@ effHRESULT EFFD3D9Texture::GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc)
 	return texture->GetLevelDesc(Level, (D3DSURFACE_DESC *)pDesc);
 }
 
-effHRESULT EFFD3D9Texture::GetSurfaceLevel(effUINT level, EFF3DSurface ** surfaceLevel)
+/*effHRESULT EFFD3D9Texture::GetSurfaceLevel(effUINT level, EFF3DSurface ** surfaceLevel)
 {
 	assert(texture != NULL);
 
@@ -46,14 +46,14 @@ effHRESULT EFFD3D9Texture::GetSurfaceLevel(effUINT level, EFF3DSurface ** surfac
 		return hr;
 	}
 
-	effD3D9Surface->m_ImageInfo.surfaceType = GetFromTexture_Surface;
-	effD3D9Surface->m_ImageInfo.textureLevel = level;
+	//effD3D9Surface->imageInfo.surfaceType = GetFromTexture_Surface;
+	effD3D9Surface->imageInfo.textureLevel = level;
 
 	//m_pDevice->m_pImageManager->AddFirstCreateResource(pSurface,std::string(_ucT("Surface")));
 
 	*surfaceLevel = effD3D9Surface;
 	return hr;
-}
+}*/
 
 effHRESULT EFFD3D9Texture::LockRect(effUINT Level,EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags)
 {
@@ -74,10 +74,10 @@ effVOID EFFD3D9Texture::CalculateSize()
 
 effBOOL EFFD3D9Texture::Reload()
 {
-	if ( m_ImageInfo.pool == EFF3DPOOL_DEFAULT )
+	/*if (imageInfo.pool == EFF3DPOOL_DEFAULT )
 	{
 		return effTRUE;
-	}
+	}*/
 
 	return effTRUE;
 }
@@ -132,12 +132,12 @@ effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * pDevice)
 	memset(&desc, 0, sizeof(desc));
 	texture->GetLevelDesc(0, &desc);
 
-	m_ImageInfo.width = desc.Width;
-	m_ImageInfo.height = desc.Height;
-	m_ImageInfo.mipLevels = 0;
-	m_ImageInfo.usage = desc.Usage;
-	m_ImageInfo.format = (EFF3DFORMAT)desc.Format;
-	m_ImageInfo.pool = (EFF3DPOOL)desc.Pool;
+    imageInfo.width = desc.Width;
+    imageInfo.height = desc.Height;
+    imageInfo.mipLevels = 0;
+    //imageInfo.usage = desc.Usage;
+    //imageInfo.format = (EFF3DFORMAT)desc.Format;
+    //imageInfo.pool = (EFF3DPOOL)desc.Pool;
 
 	return effTRUE;
 }
@@ -158,9 +158,9 @@ effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
 {
 	effBYTE * dest = (effBYTE *)lockedRect.pBits;
 	effBYTE * src = data;
-	for ( effUINT i = 0; i < m_ImageInfo.height; i++ )
+	for ( effUINT i = 0; i < imageInfo.height; i++ )
 	{
-		effUINT size = sizeof(effUINT)*m_ImageInfo.width;
+		effUINT size = sizeof(effUINT)*imageInfo.width;
 		memcpy(dest, src, size);
 		dest += lockedRect.Pitch;
 		src += size;

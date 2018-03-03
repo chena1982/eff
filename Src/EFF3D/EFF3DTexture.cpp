@@ -23,7 +23,7 @@ EFF3DSharedTexture::EFF3DSharedTexture()
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
         texture[i] = NULL;
-        sharedHandle[i].idx = EFF_INVALID_HANDLE;
+        sharedHandle[i].id = EFF_INVALID_HANDLE;
     }
 
     currentIndex = 0;
@@ -50,7 +50,7 @@ effVOID EFF3DSharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextu
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        sharedTextureInfo->sharedTextureHandle[i] = sharedHandle[i].idx;
+        sharedTextureInfo->sharedTextureHandle[i] = sharedHandle[i].id;
     }
 }
 
@@ -119,26 +119,25 @@ EFF3DTextureManager::~EFF3DTextureManager()
 }
 
 
-EFFId EFF3DTextureManager::CreateFromFile(const effString & filePath, EFF3DRESOURCETYPE resourceType)
+effBOOL EFF3DTextureManager::CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType)
 {
-	EFF3DResource * resource = GetResource(filePath);
 
-	if ( resource != NULL )
+
+	if ( resourceType == EFF3DResourceType_Texture2D )
 	{
-		return resource->id;
+       /* effINT width, height, level;
+        effVOID * srcData;
+        effUINT srcDataSize;
+        effUINT flag;
+        EFF3DTextureFormat format;
+        EFF3DTextureHandle textureHandle;
+
+        return EFF3DGetDevice()->CreateTextureFromMemory(srcData, srcDataSize, width, height, level, flag, format, resourceType, (EFF3DTexture *)resource);*/
+
+        return effTRUE;
 	}
 
-	if ( resourceType == EFF3DRTYPE_TEXTURE )
-	{
-		EFF3DTexture * texture = NULL;
-		if ( EFF3DGetDevice()->CreateTextureFromFile(filePath, &texture) )
-		{
-			AddResource(texture);
-			return texture->id;
-		}
-	}
-
-	return EFFId();
+	return effFALSE;
 }
 
 EFF3D_END

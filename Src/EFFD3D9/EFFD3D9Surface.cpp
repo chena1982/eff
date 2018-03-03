@@ -57,10 +57,11 @@ effBOOL EFFD3D9Surface::CreateRuntimeResource(EFF3DDevice * pDevice)
 
 effBOOL EFFD3D9Surface::Reload()
 {
-	if ( m_ImageInfo.pool == EFF3DPOOL_DEFAULT )
+	/*if ( imageInfo.pool == EFF3DPOOL_DEFAULT )
 	{
 		return effTRUE;
-	}
+	}*/
+
 	return effTRUE;
 }
 

@@ -140,12 +140,14 @@ public:
     EFFId                           id;
 	effString						name;
 	effString						groupName;
+    effString						originPath;
+
 	effBOOL							isUnloaded;
 	effBOOL							isLoaded;
 	effUINT							memorySize;
 	effUINT							videoMemorySize;
 	effUINT							AGPMeorySize;
-	effString						originPath;
+
 	EFF3DResourceManager *			manager;
 	effBYTE *						data;
 	effUINT							dataSize;
