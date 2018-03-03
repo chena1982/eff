@@ -159,8 +159,8 @@ protected:
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
                                                     EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture) = 0;
 
-	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType) = 0;
-
+	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType);
+    virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType) = 0;
 
 	virtual effBOOL				DrawQuad(EFFRect * rect);
 protected:

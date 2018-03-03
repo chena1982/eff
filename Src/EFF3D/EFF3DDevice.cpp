@@ -161,7 +161,12 @@ effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT 
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, &sharedTexture->sharedHandle[i]);
+        EFF3DResource * resource = CreateEmptyResource(EFF3DResourceType_RenderTarget);
+        EFF3DTexture * texture = (EFF3DTexture *)resource;
+
+        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, texture);
+
+        sharedTexture->sharedHandle[i] = resource->id;
     }
 
     sharedTexture->clientSemaphore.Create(3, 3, _effT("ClientSharedTextureSemaphore"));
@@ -187,7 +192,13 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
     {
         effHANDLE handle = (effHANDLE)sharedTextureInfo->sharedTextureHandle[i];
 
-        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, &sharedTexture->sharedHandle[i]);
+        EFF3DResource * resource = CreateEmptyResource(EFF3DResourceType_RenderTarget);
+        EFF3DTexture * texture = (EFF3DTexture *)resource;
+        texture->userData = handle;
+
+        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, texture);
+
+        sharedTexture->sharedHandle[i] = resource->id;
     }
 
 	//(*texture)->name = _effT("HostSharedTexture");
@@ -204,7 +215,6 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
 effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
     EFF3DResource * resource = CreateEmptyResource(resourceType);
-    textureManager->AddResource(resource);
 
     if (CreateTexture(width, height, levels, flag, format, resourceType, (EFF3DTexture *)resource))
     {
@@ -219,7 +229,6 @@ effBOOL	EFF3DDevice::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataS
                                         EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
     EFF3DResource * resource = CreateEmptyResource(resourceType);
-    textureManager->AddResource(resource);
 
     if (CreateTextureFromMemory(srcData, srcDataSize, width, height, levels, flag, format, resourceType, (EFF3DTexture *)resource))
     {
@@ -422,4 +431,15 @@ effVOID EFF3DDevice::InitSharedTexture(SharedTextureInfo * sharedTextureInfo)
     CreateSharedTexture(sharedTextureInfo, &sharedRenderTarget);
 }
 
+
+EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
+{
+    EFF3DResource * resource = CreateEmptyResourceImpl(resourceType);
+    if (resourceType == EFF3DResourceType_Texture2D || resourceType == EFF3DResourceType_Texture3D || resourceType == EFF3DResourceType_TextureCube)
+    {
+        textureManager->AddResource(resource);
+    }
+
+    return resource;
+}
 EFF3D_END

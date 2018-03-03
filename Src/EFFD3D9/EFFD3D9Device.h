@@ -95,7 +95,7 @@ protected:
                                                     EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture);
 
 
-	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType);
+	virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType);
 protected:
 	LPDIRECT3D9EX				D3D9;       
 	LPDIRECT3DDEVICE9EX			D3D9Device;

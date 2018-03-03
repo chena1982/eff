@@ -336,13 +336,15 @@ effBOOL EFFD3D9Device::Reset(effBOOL window, effINT width, effINT height)
 	return effTRUE;
 }
 
-EFF3DResource * EFFD3D9Device::CreateEmptyResource(EFF3DResourceType resourceType)
+EFF3DResource * EFFD3D9Device::CreateEmptyResourceImpl(EFF3DResourceType resourceType)
 {
 	EFF3DResource * resource = NULL;
 	
 	switch(resourceType)
 	{
-	case EFF3DResourceType_Texture2D:
+    case EFF3DResourceType_Texture2D:
+    case EFF3DResourceType_Texture3D:
+    case EFF3DResourceType_TextureCube:
 		{
 			resource = EFFNEW EFFD3D9Texture();
 		}
@@ -364,13 +366,19 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 
     effUINT usage = 0;
 
-    effHANDLE shareHandle;
+    effHANDLE shareHandle = NULL;
+    if (texture->userData != NULL)
+    {
+        shareHandle = texture->userData;
+    }
 
 	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
+
+    texture->userData = shareHandle;
 
 	effD3D9Texture->imageInfo.width = width;
 	effD3D9Texture->imageInfo.height = height;
@@ -465,11 +473,14 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
 
 	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
-	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, NULL)) )
+    effHANDLE shareHandle = NULL;
+	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
+
+    texture->userData = shareHandle;
 
 	EFF3DLOCKED_RECT rc;
 	if ( FAILED(effD3D9Texture->LockRect(0, &rc, NULL, 0)) )
