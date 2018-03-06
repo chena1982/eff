@@ -240,7 +240,12 @@ struct Range
 	struct name { effUINT idx; };                                                  \
 	inline effBOOL isValid(name handle) { return EFF_INVALID_HANDLE != handle.idx; }
 
+#define EFF_ALIGN_MASK(_value, _mask) ( ( (_value)+(_mask) ) & ( (~0)&(~(_mask) ) ) )
+#define EFF_ALIGN_16(_value) BX_ALIGN_MASK(_value, 0xf)
+#define EFF_ALIGN_256(_value) BX_ALIGN_MASK(_value, 0xff)
+#define EFF_ALIGN_4096(_value) BX_ALIGN_MASK(_value, 0xfff)
 
+#define EFF_ALIGNOF(_type) __alignof(_type)
 
 #ifndef EFFBASE_EXPORTS
 	#ifndef EFFBASE_EXPORT_STATIC

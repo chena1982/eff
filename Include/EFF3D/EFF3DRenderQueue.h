@@ -15,6 +15,7 @@ class EFF3DDevice;
 class EFF3DCamera;
 class EFF3DSceneManager;
 class EFF3DMaterial;
+class EFF3DRenderCommandBuffer;
 
 class EFF3DRenderQueue
 {
@@ -84,6 +85,9 @@ protected:
 protected:
 	VECTOR<RenderQueueElement>		    renderables;
 	EFF3DSceneManager *					sceneManager;
+
+    EFF3DRenderCommandBuffer *          createCommandBuffers;
+    EFF3DRenderCommandBuffer *          destroyCommandBuffers;
 };
 
 EFF3D_END

@@ -15,7 +15,7 @@
 #include "EFF3DSceneManager.h"
 #include  "EFF3DObject.h"
 #include "EFF3DRenderQueue.h"
-
+#include "EFF3DRenderCommandBuffer.h"
 //#define new EFFNEW
 
 EFF3D_BEGIN
@@ -161,5 +161,7 @@ effVOID	EFF3DRenderQueue::Render(EFF3DDevice * device)
 
 	}
 }
+
+
 
 EFF3D_END
