@@ -21,7 +21,7 @@ public:
 public:
 	virtual effBOOL					LoadDataFromFile(const effString & filePath) { return effFALSE; }
 
-	virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc) = 0;
+	//virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc) = 0;
 	virtual effHRESULT				LockBuffer(effUINT OffsetToLock, effUINT SizeToLock, effVOID ** ppbData, effUINT Flags) = 0;
 	virtual effHRESULT				UnlockBuffer() = 0;
 };

@@ -8,17 +8,21 @@
 #ifndef __EFF3DIndexBuffer_2008_12_13__
 #define __EFF3DIndexBuffer_2008_12_13__
 
+
+#include "EFF3DResource.h"
+#include "EFF3DResourceManager.h"
+
 EFF3D_BEGIN
 
-class EFF3DIndexBuffer
+class EFF3DIndexBuffer : public EFF3DResource
 {
 public:
 	EFF3DIndexBuffer() {}
 	virtual ~EFF3DIndexBuffer() {}
 public:
-	virtual effHRESULT				GetDesc(EFF3DINDEXBUFFER_DESC * pDesc) = 0;
-	virtual effHRESULT				Lock(effUINT OffsetToLock, effUINT SizeToLock, effVOID ** ppbData, effUINT Flags) = 0;
-	virtual effHRESULT				Unlock() = 0;
+    virtual effVOID CreateFromMemory(effUINT size, effVOID * data, effUINT flag) = 0;
+    virtual effVOID Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard = effFALSE);
+
 };
 
 

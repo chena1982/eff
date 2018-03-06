@@ -77,26 +77,26 @@ public:
 	EFF3DVertexElement(effWORD stream, effWORD offset, EFF3DVertexElementType theType, EFF3DVertexElementSemantic semantic, effBYTE index = 0, EFF3DVertexElementMethod method = VEM_DEFAULT);
 	EFF3DVertexElement();
 
-	effWORD											GetStream() const { return m_wStream; }
-	effWORD											GetOffset() const { return m_wOffset; }
-	EFF3DVertexElementType					GetType() const { return (EFF3DVertexElementType)m_Type; }
-	EFF3DVertexElementSemantic			GetSemantic() const { return (EFF3DVertexElementSemantic)m_Semantic; }
-	effBYTE												GetSemanticIndex() const { return m_SemanticIndex; }
-	EFF3DVertexElementMethod			GetMethod() const { return (EFF3DVertexElementMethod)m_Method; }
-	effUINT										GetSize() const;
-	static effUINT								GetTypeSize(EFF3DVertexElementType etype);
-	static effWORD									GetTypeCount(EFF3DVertexElementType etype);
-	static EFF3DVertexElementType		MultiplyTypeCount(EFF3DVertexElementType baseType, effWORD count);
-	static EFF3DVertexElementType		GetBaseType(EFF3DVertexElementType multiType);
+	effWORD                             GetStream() const { return stream; }
+	effWORD                             GetOffset() const { return offset; }
+	EFF3DVertexElementType              GetType() const { return (EFF3DVertexElementType)type; }
+	EFF3DVertexElementSemantic			GetSemantic() const { return (EFF3DVertexElementSemantic)semantic; }
+	effBYTE	                            GetSemanticIndex() const { return semanticIndex; }
+	EFF3DVertexElementMethod			GetMethod() const { return (EFF3DVertexElementMethod)method; }
+	effUINT                             GetSize() const;
+	static effUINT                      GetTypeSize(EFF3DVertexElementType etype);
+	static effWORD                      GetTypeCount(EFF3DVertexElementType etype);
+	static EFF3DVertexElementType       MultiplyTypeCount(EFF3DVertexElementType baseType, effWORD count);
+	static EFF3DVertexElementType       GetBaseType(EFF3DVertexElementType multiType);
 
 	inline effBOOL operator == (const EFF3DVertexElement & rhs) const
 	{
-		if ( m_Type != rhs.m_Type || 
-			m_SemanticIndex != rhs.m_SemanticIndex ||
-			m_wOffset != rhs.m_wOffset ||
-			m_Semantic != rhs.m_Semantic ||
-			m_wStream != rhs.m_wStream ||
-			m_Method != rhs.m_Method)
+		if (type != rhs.type ||
+            semanticIndex != rhs.semanticIndex ||
+            offset != rhs.offset ||
+			semantic != rhs.semantic ||
+            stream != rhs.stream ||
+            method != rhs.method)
 		{
 			return effFALSE;
 		}
@@ -109,33 +109,33 @@ public:
 
 	inline effVOID BaseVertexPointerToElement(effBYTE * pBase, effVOID** pElem) const
 	{
-		*pElem = (effVOID *)(pBase + m_wOffset);
+		*pElem = (effVOID *)(pBase + offset);
 	}
 
 	inline effVOID BaseVertexPointerToElement(effBYTE * pBase, effFLOAT** pElem) const
 	{
 
-		*pElem = (effFLOAT *)(pBase + m_wOffset);
+		*pElem = (effFLOAT *)(pBase + offset);
 	}
 
 
 	inline effVOID BaseVertexPointerToElement(effBYTE * pBase, effWORD** pElem) const
 	{
-		*pElem = (effWORD*)(pBase + m_wOffset);
+		*pElem = (effWORD*)(pBase + offset);
 	}
 
 	inline effVOID BaseVertexPointerToElement(effBYTE * pBase, effUINT** pElem) const
 	{
-		*pElem = (effUINT*)(pBase + m_wOffset);
+		*pElem = (effUINT*)(pBase + offset);
 	}
 
 public:
-	effWORD													m_wStream;     // Stream index
-	effWORD													m_wOffset;     // Offset in the stream in bytes
-	effBYTE													m_Type;       // Data type
-	effBYTE													m_Method;     // Processing method
-	effBYTE													m_Semantic;      // Semantics
-	effBYTE													m_SemanticIndex; // Semantic index
+	effWORD													stream;     // Stream index
+	effWORD													offset;     // Offset in the stream in bytes
+	effBYTE													type;       // Data type
+	effBYTE													method;     // Processing method
+	effBYTE													semantic;      // Semantics
+	effBYTE													semanticIndex; // Semantic index
 };
 
 class EFF3D_API EFF3DVertexDeclaration
@@ -149,7 +149,7 @@ public:
 public:
 
 
-	effUINT											GetElementCount() { return (effUINT)m_aryElement.size(); }
+	effUINT											GetElementCount() { return (effUINT)elements.size(); }
 	const VertexElementArray &						GetElements() const;
 	const EFF3DVertexElement *						GetElement(effWORD index);
 	effWORD											GetMaxSource() const;
@@ -165,15 +165,15 @@ public:
 
 	inline effBOOL operator == (const EFF3DVertexDeclaration & rhs) const
 	{
-		if ( m_aryElement.size() != rhs.m_aryElement.size() )
+		if (elements.size() != rhs.elements.size() )
 		{
 			return effFALSE;
 		}
 
 
-		for ( effUINT i = 0; i < m_aryElement.size(); i++ )
+		for ( effUINT i = 0; i < elements.size(); i++ )
 		{
-			if ( !(m_aryElement[i] == rhs.m_aryElement[i]) )
+			if ( !(elements[i] == rhs.elements[i]) )
 			{
 				return effFALSE;
 			}
@@ -187,8 +187,8 @@ public:
 		return !(*this == rhs);
 	}
 protected:
-	VertexElementArray							m_aryElement;
-	effBOOL											m_bNeedRebuild;
+	VertexElementArray							elements;
+	effBOOL										needRebuild;
 };
 
 

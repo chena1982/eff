@@ -150,7 +150,7 @@ static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r,
 
 	EFF3DDevice * device = EFF3DGetDevice();
 
-	device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
+	/*device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
 	device->SetRenderState(EFF3DRS_SRCBLEND, EFF3DBLEND_SRCALPHA);
 	device->SetRenderState(EFF3DRS_DESTBLEND, EFF3DBLEND_INVSRCALPHA);
 
@@ -158,19 +158,19 @@ static effVOID drawPolygon(const effFLOAT* coords, effINT numCoords, effFLOAT r,
 	device->SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_DIFFUSE);
 	device->SetTextureStageState(0, EFF3DTSS_ALPHAOP, EFF3DTOP_SELECTARG1);
 	device->SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_DIFFUSE);
-	device->SetFVF(QuadColoredVertex::fvf);
+	device->SetFVF(QuadColoredVertex::fvf);*/
 
 	//QuadColoredVertex * buffer = temp + 12;
 	//device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, buffer, sizeof(QuadColoredVertex));
 
-	device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, numCoords * 2, temp, sizeof(QuadColoredVertex));
+	device->DrawPrimitiveUP(TriangleList, numCoords * 2, temp, sizeof(QuadColoredVertex));
 
-	device->SetRenderState(EFF3DRS_TEXTUREFACTOR, col);
+	/*device->SetRenderState(EFF3DRS_TEXTUREFACTOR, col);
 	device->SetTextureStageState(0, EFF3DTSS_COLORARG1,	EFF3DTA_TFACTOR);
 	device->SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TFACTOR);
 
-	device->SetFVF(EFF3DFVF_XYZRHW);
-	device->DrawPrimitiveUP(EFF3DPT_TRIANGLEFAN, numCoords - 2, coords, sizeof(effFLOAT) * 4);
+	device->SetFVF(EFF3DFVF_XYZRHW);*/
+	device->DrawPrimitiveUP(TriangleFan, numCoords - 2, coords, sizeof(effFLOAT) * 4);
 
 
 	SFT_DELETE(temp);
@@ -335,11 +335,10 @@ effBOOL imguiRenderInit(const effTCHAR * fontpath)
 	
 	EFF3DDevice * device = EFF3DGetDevice();
 
-    effUINT flag = EFF3DUSAGE_DYNAMIC;
 
 
 
-	device->CreateTextureFromMemory(bmap, 512 * 512, 512, 512, 1, flag, A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
+	device->CreateTextureFromMemory(bmap, 512 * 512, 512, 512, 1, 0, A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
 	//device->CreateTextureFromMemory(bitmap, width * height, EFF3DFMT_A8, width, height, 1, &fontTexture);
 
 
@@ -447,7 +446,7 @@ effVOID imguiRenderDraw()
 	const effFLOAT s = 1.0f/8.0f;
 
 	EFF3DDevice * device = EFF3DGetDevice();
-	device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
+	//device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
 
 	for (effINT i = 0; i < nq; ++i)
 	{
@@ -502,7 +501,7 @@ effVOID imguiRenderDraw()
 		{
 			if (cmd.flags)
 			{
-				device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effTRUE);
+				//device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effTRUE);
 				EFFRect rc;
 				rc.left = cmd.rect.x;
 				rc.top = cmd.rect.y;
@@ -512,13 +511,13 @@ effVOID imguiRenderDraw()
 			}
 			else
 			{
-				device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
+				//device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
 			}
 		}
 	}
 
 
-	device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
+	//device->SetRenderState(EFF3DRS_SCISSORTESTENABLE, effFALSE);
 }
 
 

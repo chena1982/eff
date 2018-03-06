@@ -22,12 +22,6 @@ EFF3DTerrainROAMImproveTileData::EFF3DTerrainROAMImproveTileData(effINT nTileX, 
 {
 	m_nTileX = nTileX;
 	m_nTileZ = nTileZ;
-
-	m_pVB = NULL;
-
-	memset(m_pIB, 0, sizeof(EFF3DIndexBuffer *) * 4);
-
-
 }
 
 EFF3DTerrainROAMImproveTileData::~EFF3DTerrainROAMImproveTileData()
@@ -709,33 +703,26 @@ effVOID EFF3DTerrainROAMImproveTileData::CreateTriTreeChildNode(TriTreeNode * pT
 
 
 
-EFF3DVertexBuffer * EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT nLevel, EFF3DDevice * pDevice)
+EFF3DVertexBufferHandle EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT nLevel, EFF3DDevice * device)
 {
 
-	if ( m_pVB == NULL )
+	if ( !m_pVB.IsValid() )
 	{
-		pDevice->CreateVertexBuffer(m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, EFF3DFVF_XYZ, EFF3DPOOL_DEFAULT, &m_pVB);
+        device->CreateVertexBuffer(NULL, m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, &m_pVB);
 
 		effUINT offset = 0;
 		if ( nLevel > 0 )
 		{
-			offset = m_nVerticesNum[nLevel-1] * sizeof(effFLOAT) * 3;
+			offset = m_nVerticesNum[nLevel - 1] * sizeof(effFLOAT) * 3;
 		}
 
 		effUINT size = m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3;
 		if ( nLevel > 0 )
 		{
-			size -= m_nVerticesNum[nLevel-1] * sizeof(effFLOAT) * 3;
+			size -= m_nVerticesNum[nLevel - 1] * sizeof(effFLOAT) * 3;
 		}
 
-		effHRESULT hr;
-		effVOID * pData = NULL;
-		if ( !FAILED(hr = m_pVB->LockBuffer(offset, size, &pData, 0)) )
-		{
-			memcpy(pData, &m_pVertices[offset], size);
-
-			m_pVB->UnlockBuffer();
-		}
+        device->UpdateVertexBuffer(offset, &m_pVertices[offset], size);
 	}
 
 
@@ -754,20 +741,15 @@ effINT EFF3DTerrainROAMImproveTileData::GetVerticesStride()
 	return sizeof(effFLOAT) * 3;
 }
 
-EFF3DIndexBuffer * EFF3DTerrainROAMImproveTileData::GetIndexBuffer(effINT nLevel, EFF3DDevice * pDevice)
+EFF3DIndexBufferHandle EFF3DTerrainROAMImproveTileData::GetIndexBuffer(effINT nLevel, EFF3DDevice * device)
 {
-	if ( m_pIB[nLevel] == NULL )
+	if ( m_pIB[nLevel].IsValid() )
 	{
-		effINT nSize = sizeof(effUINT16) * m_nIndicesNum[nLevel];
-		pDevice->CreateIndexBuffer(nSize, 0, EFF3DFMT_INDEX16, EFF3DPOOL_DEFAULT, &m_pIB[nLevel]);
+		effUINT size = sizeof(effUINT16) * m_nIndicesNum[nLevel];
+		device->CreateIndexBuffer(NULL, size, EFF3D_BUFFER_INDEX32, &m_pIB[nLevel]);
 
-		effHRESULT hr;
-		effVOID * pData;
-		if ( !FAILED(hr = m_pIB[nLevel]->Lock(0, 0, &pData, 0)) )
-		{
-			memcpy(pData, m_pIndices[nLevel], nSize);
-			m_pIB[nLevel]->Unlock();
-		}
+
+        device->UpdateIndexBuffer(0, m_pIndices[nLevel], size);
 	}
 
 	return m_pIB[nLevel];

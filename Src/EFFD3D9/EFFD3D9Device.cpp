@@ -662,7 +662,7 @@ effBOOL EFFD3D9Device::SetVertexDeclaration(EFF3DVertexDeclaration * decl)
 	return SUCCEEDED(D3D9Device->SetVertexDeclaration(effD3D9Decl->GetD3D9VertexDeclaration(this)));
 }
 
-effBOOL EFFD3D9Device::SetStreamSource(effUINT streamNumber, EFF3DVertexBuffer * streamData, effUINT offsetInBytes, effUINT stride)
+effBOOL EFFD3D9Device::SetStreamSource(effUINT streamNumber, EFF3DVertexBufferHandle vbHandle, effUINT offsetInBytes, effUINT stride)
 {
 	EFFD3D9VertexBuffer * effD3D9VB = (EFFD3D9VertexBuffer *)streamData;
 	return SUCCEEDED(D3D9Device->SetStreamSource(streamNumber, effD3D9VB->m_pBuf, offsetInBytes, stride));

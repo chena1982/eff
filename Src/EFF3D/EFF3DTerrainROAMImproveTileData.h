@@ -118,10 +118,10 @@ public:
 	virtual effBOOL								Unload();
 
 
-	virtual EFF3DVertexBuffer *					GetVertexBuffer(effINT nLevel, EFF3DDevice * pDevice);
+	virtual EFF3DVertexBufferHandle				GetVertexBuffer(effINT nLevel, EFF3DDevice * pDevice);
 	virtual effINT								GetVerticesNum(effINT nLevel);
 	virtual effINT								GetVerticesStride();
-	virtual EFF3DIndexBuffer *					GetIndexBuffer(effINT nLevel, EFF3DDevice * pDevice);
+	virtual EFF3DIndexBufferHandle				GetIndexBuffer(effINT nLevel, EFF3DDevice * pDevice);
 	virtual effINT								GetIndicesNum(effINT nLevel);
 	virtual effINT								GetTileX() { return m_nTileX; }
 	virtual effINT								GetTileZ() { return m_nTileZ; }
@@ -147,8 +147,8 @@ private:
 	effUINT16 *									m_pIndices[4];
 	effINT										m_nIndicesNum[4];
 
-	EFF3DVertexBuffer *							m_pVB;
-	EFF3DIndexBuffer *							m_pIB[4];
+	EFF3DVertexBufferHandle					    m_pVB;
+	EFF3DIndexBufferHandle					    m_pIB[4];
 
 };
 

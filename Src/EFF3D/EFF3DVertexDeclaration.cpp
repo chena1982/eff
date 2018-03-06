@@ -14,8 +14,8 @@
 EFF3D_BEGIN
 
 
-EFF3DVertexElement::EFF3DVertexElement(effWORD stream,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index /* = 0 */,EFF3DVertexElementMethod method /* = VEM_DEFAULT */)
-: m_wStream(stream),m_wOffset(offset),m_Type(theType),m_Semantic(semantic),m_SemanticIndex(index),m_Method(method)
+EFF3DVertexElement::EFF3DVertexElement(effWORD stream, effWORD offset, EFF3DVertexElementType type, EFF3DVertexElementSemantic semantic, effBYTE index /* = 0 */, EFF3DVertexElementMethod method /* = VEM_DEFAULT */)
+: stream(stream), offset(offset), type(type), semantic(semantic), semanticIndex(index), method(method)
 {
 }
 
@@ -25,7 +25,7 @@ EFF3DVertexElement::EFF3DVertexElement()
 
 effUINT EFF3DVertexElement::GetSize() const
 {
-	return GetTypeSize((EFF3DVertexElementType)m_Type);
+	return GetTypeSize((EFF3DVertexElementType)type);
 }
 
 effUINT EFF3DVertexElement::GetTypeSize(EFF3DVertexElementType etype)
@@ -175,12 +175,13 @@ EFF3DVertexElementType EFF3DVertexElement::GetBaseType(EFF3DVertexElementType mu
 
 EFF3DVertexDeclaration::EFF3DVertexDeclaration()
 {
-	m_bNeedRebuild = effTRUE;
+    needRebuild = effTRUE;
 }
 
 EFF3DVertexDeclaration::EFF3DVertexDeclaration(const EFF3DVertexDeclaration & rhs)
 {
-	m_aryElement = rhs.m_aryElement;
+    elements = rhs.elements;
+    needRebuild = rhs.needRebuild;
 }
 
 EFF3DVertexDeclaration::~EFF3DVertexDeclaration()
@@ -189,48 +190,48 @@ EFF3DVertexDeclaration::~EFF3DVertexDeclaration()
 
 const EFF3DVertexDeclaration::VertexElementArray & EFF3DVertexDeclaration::GetElements() const
 {
-	return m_aryElement;
+	return elements;
 }
 
 
 const EFF3DVertexElement & EFF3DVertexDeclaration::AddElement(effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index /* = 0 */,EFF3DVertexElementMethod method /* = VEM_DEFAULT */)
 {
-	m_bNeedRebuild = effTRUE;
+    needRebuild = effTRUE;
 
-	m_aryElement.push_back(EFF3DVertexElement(source,offset,theType,semantic,index,method));
-	return m_aryElement[m_aryElement.size()-1];
+    elements.push_back(EFF3DVertexElement(source,offset,theType,semantic,index,method));
+	return elements[elements.size() - 1];
 }
 
 const EFF3DVertexElement & EFF3DVertexDeclaration::InsertElement(effWORD atPosition,effWORD source,effWORD offset,EFF3DVertexElementType theType,EFF3DVertexElementSemantic semantic,effBYTE index /* = 0*/)
 {
-	m_bNeedRebuild = effTRUE;
+	needRebuild = effTRUE;
 
-	if ( atPosition >= (effWORD)m_aryElement.size() )
+	if ( atPosition >= (effWORD)elements.size() )
 	{
 		return AddElement(source,offset,theType,semantic,index);
 	}
 
-	VertexElementArray::iterator it = m_aryElement.begin();
+	VertexElementArray::iterator it = elements.begin();
 	it += atPosition;
-	m_aryElement.insert(it,EFF3DVertexElement(source,offset,theType,semantic,index));
-	return m_aryElement[atPosition+1];
+    elements.insert(it,EFF3DVertexElement(source,offset,theType,semantic,index));
+	return elements[atPosition+1];
 
 }
 
 const EFF3DVertexElement * EFF3DVertexDeclaration::GetElement(effWORD index)
 {
-	assert(index < (effWORD)m_aryElement.size());
-	return &m_aryElement[index];
+	assert(index < (effWORD)elements.size());
+	return &elements[index];
 }
 
 effVOID EFF3DVertexDeclaration::RemoveElement(effWORD elemIndex)
 {
-	assert(elemIndex < (effWORD)m_aryElement.size());
-	m_bNeedRebuild = effTRUE;
+	assert(elemIndex < (effWORD)elements.size());
+    needRebuild = effTRUE;
 
-	VertexElementArray::iterator it  = m_aryElement.begin();
+	VertexElementArray::iterator it  = elements.begin();
 	it += elemIndex;
-	m_aryElement.erase(it);
+    elements.erase(it);
 }
 
 /*effVOID EFF3DVertexDeclaration::RemoveElement(EFF3DVertexElementSemantic semantic,effWORD index)
@@ -250,9 +251,9 @@ effVOID EFF3DVertexDeclaration::ModifyElement(effWORD elemIndex,
 											effWORD source, effWORD offset, EFF3DVertexElementType theType,
 											EFF3DVertexElementSemantic semantic, effBYTE index /* = 0*/)
 {
-	assert(elemIndex < (effWORD)m_aryElement.size());
-	m_bNeedRebuild = effTRUE;
-	m_aryElement[elemIndex] = EFF3DVertexElement(source, offset, theType, semantic, index);
+	assert(elemIndex < (effWORD)elements.size());
+    needRebuild = effTRUE;
+    elements[elemIndex] = EFF3DVertexElement(source, offset, theType, semantic, index);
 }
 
 
@@ -261,7 +262,7 @@ effVOID EFF3DVertexDeclaration::ModifyElement(effWORD elemIndex,
 
 effUINT EFF3DVertexDeclaration::GetVertexSize(effWORD stream)
 {
-	return CalculateVertexSize(m_aryElement,stream);
+	return CalculateVertexSize(elements, stream);
 }
 
 effUINT CalculateVertexSize(VECTOR<EFF3DVertexElement> & aryElement,effWORD stream)
@@ -287,11 +288,11 @@ effUINT EFF3DVertexDeclaration::GetFVF()
 effWORD EFF3DVertexDeclaration::GetMaxSource(effVOID) const
 {
 	effWORD ret = 0;
-	for ( effUINT i = 0; i < m_aryElement.size(); i++ )
+	for ( effUINT i = 0; i < elements.size(); i++ )
 	{
-		if ( m_aryElement[i].GetStream() > ret )
+		if (elements[i].GetStream() > ret )
 		{
-			ret = m_aryElement[i].GetStream();
+			ret = elements[i].GetStream();
 		}
 	}
 	return ret;

@@ -30,6 +30,8 @@ class EFF3DSceneManager;
 class EFF3DFontManager;
 class EFF3DInputManager;
 class EFF3DQuery;
+class EFF3DVertexElement;
+
 
 
 class EFF3D_API EFF3DDevice
@@ -72,49 +74,50 @@ public:
 	virtual effBOOL				CreateDepthStencilSurface(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface) = 0;*/
 	
-	virtual effBOOL				CreateIndexBuffer(effUINT length, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool,
-													EFF3DIndexBuffer ** indexBuffer) = 0;
+	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effBOOL flag, EFF3DIndexBufferHandle * ibHandle) = 0;
+    virtual effBOOL             UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
 
-	virtual effBOOL				CreateVertexBuffer(effUINT length, effUINT usage, effUINT FVF, EFF3DPOOL pool, EFF3DVertexBuffer ** vertexBuffer) = 0;
+	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vbHandle) = 0;
+    virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
 
-	virtual effBOOL				CreateVertexDeclaration(const EFF3DVERTEXELEMENT * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
+	virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
 
-    virtual effBOOL             CreateQuery(EFF3DQUERYTYPE type, effUINT flag, EFF3DQuery ** query) = 0;
+    virtual effBOOL             CreateQuery(EFF3DQueryType type, effUINT flag, EFF3DQuery ** query) = 0;
 
-	virtual effBOOL				DrawIndexedPrimitive(EFF3DPRIMITIVETYPE type, effINT baseVertexIndex, effUINT minIndex,effUINT numVertices,
+	virtual effBOOL				DrawIndexedPrimitive(EFF3DPrimitiveType type, effINT baseVertexIndex, effUINT minIndex,effUINT numVertices,
 													effUINT startIndex, effUINT primitiveCount) = 0;
 
-	virtual effBOOL				DrawIndexedPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT minVertexIndex, effUINT numVertices, effUINT primitiveCount,
-													const effVOID * indexData, EFF3DFORMAT indexDataFormat,
+	virtual effBOOL				DrawIndexedPrimitiveUP(EFF3DPrimitiveType primitiveType, effUINT minVertexIndex, effUINT numVertices, effUINT primitiveCount,
+													const effVOID * indexData, effBOOL index16,
 													const effVOID * vertexStreamZeroData, effUINT vertexStreamZeroStride) = 0;
 
-	virtual effBOOL				DrawPrimitive(EFF3DPRIMITIVETYPE primitiveType, effUINT startVertex, effUINT primitiveCount) = 0;
+	virtual effBOOL				DrawPrimitive(EFF3DPrimitiveType primitiveType, effUINT startVertex, effUINT primitiveCount) = 0;
 
-	virtual effBOOL				DrawPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData,
+	virtual effBOOL				DrawPrimitiveUP(EFF3DPrimitiveType primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData,
 								                    effUINT vertexStreamZeroStride) = 0;
 
-	virtual effBOOL				SetTransform(EFF3DTRANSFORMSTATETYPE state, const EFFMatrix4 * matrix) = 0;
-	virtual effBOOL				SetFVF(effUINT FVF) = 0;
+	//virtual effBOOL				SetTransform(EFF3DTRANSFORMSTATETYPE state, const EFFMatrix4 * matrix) = 0;
+	//virtual effBOOL				SetFVF(effUINT FVF) = 0;
 	virtual effBOOL				SetVertexDeclaration(EFF3DVertexDeclaration * decl) = 0;
-	virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBuffer * streamData, effUINT offsetInBytes, effUINT stride) = 0;
-	virtual effBOOL				SetIndices(EFF3DIndexBuffer * indexData) = 0;
+	virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBufferHandle vbHandle, effUINT offsetInBytes, effUINT stride) = 0;
+	virtual effBOOL				SetIndices(EFF3DIndexBufferHandle ibHandle) = 0;
 	//virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
 
     virtual effVOID             SetRenderState(effUINT64 State, effUINT32 Color = 0) = 0;
 
-	virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
-	virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value) = 0;
-	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DTexture * renderTarget) = 0;
+	//virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
+	//virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value) = 0;
+	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHandle renderTarget) = 0;
 	virtual effBOOL				SetTexture(effUINT sampler, EFF3DImage * texture) = 0;
-	virtual effBOOL				SetDepthStencil(EFF3DTexture * depthStencil) = 0;
+	virtual effBOOL				SetDepthStencil(EFF3DTextureHandle depthStencil) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
 	virtual effBOOL				SetScissorRect(const EFFRect * rect) = 0; 
 
 
 	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index) = 0;
-	virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport) = 0;
-	virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool) = 0;
+	//virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport) = 0;
+	virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DTextureFormat format) = 0;
 
 	//下面是一些经过包装的方便使用的接口，这样使用引擎的人既可以快速方便的渲染一些东西，也可以使用上面的接口，以便于更细粒度的控制
 	//不至于像某些引擎全部包装好了，你必须按照它的模式写代码，想增加一些功能时想要更细粒度的控制却发现不可能
@@ -202,7 +205,7 @@ struct QuadVertex
 {
 	effFLOAT			x,y,z,rhw;
 	effFLOAT			u,v;
-	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_TEX1;
+	//const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_TEX1;
 };
 
 struct QuadColoredVertex
@@ -210,7 +213,7 @@ struct QuadColoredVertex
 	effFLOAT			x,y,z,rhw;
 	effUINT				color;
 
-	const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_DIFFUSE;
+	//const static effUINT fvf = EFF3DFVF_XYZRHW | EFF3DFVF_DIFFUSE;
 };
 
 

@@ -55,7 +55,7 @@ effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y, effU
 
 	EFF3DDevice * device = EFF3DGetDevice();
 	device->SetTexture(0, fontTexture);
-	device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
+	/*device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
 	device->SetRenderState(EFF3DRS_TEXTUREFACTOR, color);
 
 	device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
@@ -70,12 +70,12 @@ effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y, effU
 
 
 	device->SetSamplerState(0, EFF3DSAMP_MINFILTER, EFF3DTEXF_POINT);
-	device->SetSamplerState(0, EFF3DSAMP_MAGFILTER, EFF3DTEXF_POINT);
+	device->SetSamplerState(0, EFF3DSAMP_MAGFILTER, EFF3DTEXF_POINT);*/
 
 	//don't worry about redundant state change, EFF3DDevice will process it
 
-	effUINT fvf = QuadVertex::fvf;
-	device->SetFVF(fvf);
+	//effUINT fvf = QuadVertex::fvf;
+	//device->SetFVF(fvf);
 
 	for ( effUINT i = 0; i < text.size(); i++ )
 	{
@@ -135,7 +135,7 @@ effBOOL EFF3DFont::DrawText(const effString & text, effINT & x, effINT & y, effU
 
 
 
-		device->DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, buff, sizeof(QuadVertex));
+		device->DrawPrimitiveUP(TriangleList, 2, buff, sizeof(QuadVertex));
 	}
 
 	return effTRUE;
@@ -174,8 +174,8 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 	effBYTE * currentGlyphBuffer = glyphBuffer;
 
-	EFF3DLOCKED_RECT rc;
-	memset(&rc, 0, sizeof(EFF3DLOCKED_RECT));
+    EFF3DLockedRect rc;
+	memset(&rc, 0, sizeof(EFF3DLockedRect));
 
 	for ( effUINT i = 0; i < unloadedCodePoints.size(); i++ )
 	{
@@ -228,7 +228,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 
 		for ( effUINT j = 0; j < fontSize; j++ )
 		{
-			memcpy(((effBYTE *)rc.pBits) + currentX + rc.Pitch * (currentY + j), currentGlyphBuffer + j * maxWidth, fontWidth);
+			//memcpy(((effBYTE *)rc.pBits) + currentX + rc.Pitch * (currentY + j), currentGlyphBuffer + j * maxWidth, fontWidth);
 		}
 
 		currentGlyphBuffer += maxWidth * fontSize;
@@ -247,7 +247,7 @@ effBOOL EFF3DFont::AddCodePointsToTexture(const effString & text)
 }
 
 
-effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLOCKED_RECT & rc)
+effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLockedRect & rc)
 {
 
 
@@ -255,9 +255,9 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
 	{
 		EFF3DDevice * device = EFF3DGetDevice();
 
-        effUINT flag = EFF3DUSAGE_DYNAMIC;
+        //effUINT flag = EFF3DUSAGE_DYNAMIC;
 
-		device->CreateTexture(textureWidth, textureHeight, 1, flag, A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
+		device->CreateTexture(textureWidth, textureHeight, 1, 0, A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
 
 		if ( FAILED(fontTexture->LockRect(0, &rc, NULL, 0)) )
 		{
@@ -294,13 +294,13 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
         EFF3DTextureHandle newFontTextureHandle;
 		EFF3DDevice * device = EFF3DGetDevice();
 
-        effUINT flag = EFF3DUSAGE_DYNAMIC;
+        //effUINT flag = EFF3DUSAGE_DYNAMIC;
 
-		device->CreateTexture(newTextureWidth, newTextureHeight, 1, flag, A8, EFF3DResourceType_Texture2D, &newFontTextureHandle);
+		device->CreateTexture(newTextureWidth, newTextureHeight, 1, 0, A8, EFF3DResourceType_Texture2D, &newFontTextureHandle);
 
 
 
-		EFF3DLOCKED_RECT newRc;
+        EFF3DLockedRect newRc;
 		if ( FAILED(newFontTexture->LockRect(0, &newRc, NULL, 0)) )
 		{
 			return effFALSE;
@@ -308,7 +308,7 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
 
 		if ( fontTexture != NULL )
 		{
-			if ( rc.pBits == NULL )
+			if ( rc.data == NULL )
 			{
 				if ( FAILED(fontTexture->LockRect(0, &rc, NULL, 0)) )
 				{
@@ -320,7 +320,7 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
 
 			for ( effINT i = 0; i < textureHeight; i++ )
 			{
-				memcpy((effBYTE *)newRc.pBits + i * newRc.Pitch, (effBYTE *)rc.pBits + i * rc.Pitch, textureWidth);
+				memcpy((effBYTE *)newRc.data + i * newRc.pitch, (effBYTE *)rc.data + i * rc.pitch, textureWidth);
 			}
 		}
 
@@ -334,7 +334,7 @@ effBOOL EFF3DFont::CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints,
 	}
 	else
 	{
-		if ( rc.pBits == NULL )
+		if ( rc.data == NULL )
 		{
 			if ( FAILED(fontTexture->LockRect(0, &rc, NULL, 0)) )
 			{

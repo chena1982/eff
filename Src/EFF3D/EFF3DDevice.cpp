@@ -245,7 +245,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
 	InitProperty();
 
-	SetRenderState(EFF3DRS_LIGHTING, effFALSE);
+	//SetRenderState(EFF3DRS_LIGHTING, effFALSE);
 
 
 	fontManager = EFFNEW EFF3DFontManager();
@@ -340,17 +340,17 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	vertices[5].u = 0.0f;
 	vertices[5].v = 1.0f;
 
-	SetFVF(QuadVertex::fvf);
-	return DrawPrimitiveUP(EFF3DPT_TRIANGLELIST, 2, vertices, sizeof(QuadVertex));
+	//SetFVF(QuadVertex::fvf);
+	return DrawPrimitiveUP(TriangleList, 2, vertices, sizeof(QuadVertex));
 }
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 {
-	SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
+	/*SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
 	SetRenderState(EFF3DRS_TEXTUREFACTOR, color);
 
 	SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
-	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);
+	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);*/
 
 	return DrawQuad(rect);
 }
@@ -359,7 +359,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL bl
 {
 	if ( blend )
 	{
-		SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
+		/*SetRenderState(EFF3DRS_ALPHABLENDENABLE, effTRUE);
 		SetRenderState(EFF3DRS_SRCBLEND, EFF3DBLEND_SRCALPHA);
 		SetRenderState(EFF3DRS_DESTBLEND, EFF3DBLEND_INVSRCALPHA);
 
@@ -367,11 +367,11 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL bl
 		SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TEXTURE);
 
 		SetTextureStageState(0, EFF3DTSS_ALPHAOP, EFF3DTOP_SELECTARG1);
-		SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TEXTURE);
+		SetTextureStageState(0, EFF3DTSS_ALPHAARG1, EFF3DTA_TEXTURE);*/
 	}
 	else
 	{
-		SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
+		//SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
 	}
 
 	SetTexture(0, texture);
@@ -432,6 +432,7 @@ EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
     EFF3DResource * resource = CreateEmptyResourceImpl(resourceType);
     if (resourceType == EFF3DResourceType_Texture2D || resourceType == EFF3DResourceType_Texture3D || resourceType == EFF3DResourceType_TextureCube)
     {
+        resource->id = textureManager->Create();
         textureManager->AddResource(resource);
     }
 

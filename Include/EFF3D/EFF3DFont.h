@@ -56,7 +56,7 @@ public:
 
 protected:
 	effBOOL AddCodePointsToTexture(const effString & text);
-	effBOOL	CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLOCKED_RECT & rc);
+	effBOOL	CheckTextureSize(const VECTOR<effWCHAR> & unloadedCodePoints, effINT index, EFF3DLockedRect & rc);
 protected:
 	effString			fontName;
 	effString			fontFilePath;

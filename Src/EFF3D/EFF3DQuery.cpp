@@ -43,17 +43,17 @@ effVOID EFF3DGPUProfiler::StartProfile(const effString & name)
     if (profileData.DisjointQuery[currFrame] == NULL)
     {
         // Create the queries
-        device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMPDISJOINT, 0, &profileData.DisjointQuery[currFrame]);
+        //device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMPDISJOINT, 0, &profileData.DisjointQuery[currFrame]);
 
-        device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMP, 0, &profileData.TimestampStartQuery[currFrame]);
-        device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMP, 0, &profileData.TimestampEndQuery[currFrame]);
+        //device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMP, 0, &profileData.TimestampStartQuery[currFrame]);
+        //device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMP, 0, &profileData.TimestampEndQuery[currFrame]);
     }
 
     // Start a disjoint query first
-    profileData.DisjointQuery[currFrame]->Issue(EFF3DISSUE_BEGIN);
+    //profileData.DisjointQuery[currFrame]->Issue(EFF3DISSUE_BEGIN);
 
     // Insert the start timestamp    
-    profileData.TimestampStartQuery[currFrame]->Issue(EFF3DISSUE_END);
+    //profileData.TimestampStartQuery[currFrame]->Issue(EFF3DISSUE_END);
 
     profileData.QueryStarted = effTRUE;
 }
@@ -67,10 +67,10 @@ effVOID EFF3DGPUProfiler::EndProfile(const effString & name)
     _ASSERT(profileData.QueryFinished == effFALSE);
 
     // Insert the end timestamp    
-    profileData.TimestampEndQuery[currFrame]->Issue(EFF3DISSUE_END);
+    //profileData.TimestampEndQuery[currFrame]->Issue(EFF3DISSUE_END);
 
     // End the disjoint query
-    profileData.DisjointQuery[currFrame]->Issue(EFF3DISSUE_END);
+    //profileData.DisjointQuery[currFrame]->Issue(EFF3DISSUE_END);
 
     profileData.QueryStarted = effFALSE;
     profileData.QueryFinished = effTRUE;

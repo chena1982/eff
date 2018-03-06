@@ -82,7 +82,7 @@ protected:
 protected:
 	effVOID								CalculateRenderOrder(RenderQueueElement & renderQueueElement);
 protected:
-	VECTOR<RenderQueueElement>		renderables;
+	VECTOR<RenderQueueElement>		    renderables;
 	EFF3DSceneManager *					sceneManager;
 };
 
