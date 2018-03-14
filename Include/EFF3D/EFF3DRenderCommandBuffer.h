@@ -59,74 +59,74 @@ public:
         CommandRequestScreenShot,
     };
 
-    effVOID write(const effVOID * _data, effUINT _size)
+    effVOID Write(const effVOID * _data, effUINT _size)
     {
         //BX_CHECK(m_size == EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE, "Called write outside start/finish?");
         //BX_CHECK(m_pos < m_size, "CommandBuffer::write error (pos: %d, size: %d).", m_pos, m_size);
-        memcpy(&m_buffer[m_pos], _data, _size);
-        m_pos += _size;
+        memcpy(&buffer[pos], _data, _size);
+        pos += _size;
     }
 
     template<typename Type>
-    effVOID write(const Type& _in)
+    effVOID Write(const Type& _in)
     {
-        align(EFF_ALIGNOF(Type));
-        write(reinterpret_cast<const uint8_t*>(&_in), sizeof(Type));
+        Align(EFF_ALIGNOF(Type));
+        Write(reinterpret_cast<const effBYTE *>(&_in), sizeof(Type));
     }
 
-    effVOID read(effVOID * _data, effUINT _size)
+    effVOID Read(effVOID * _data, effUINT _size)
     {
         //BX_CHECK(m_pos < m_size, "CommandBuffer::read error (pos: %d, size: %d).", m_pos, m_size);
-        memcpy(_data, &m_buffer[m_pos], _size);
-        m_pos += _size;
+        memcpy(_data, &buffer[pos], _size);
+        pos += _size;
     }
 
     template<typename Type>
-    effVOID read(Type& _in)
+    effVOID Read(Type& _in)
     {
-        align(EFF_ALIGNOF(Type));
-        read(reinterpret_cast<effBYTE *>(&_in), sizeof(Type));
+        Align(EFF_ALIGNOF(Type));
+        Read(reinterpret_cast<effBYTE *>(&_in), sizeof(Type));
     }
 
-    const effBYTE * skip(effUINT _size)
+    const effBYTE * Skip(effUINT _size)
     {
         //BX_CHECK(m_pos < m_size, "CommandBuffer::skip error (pos: %d, size: %d).", m_pos, m_size);
-        const uint8_t* result = &m_buffer[m_pos];
-        m_pos += _size;
+        const effBYTE * result = &buffer[pos];
+        pos += _size;
         return result;
     }
 
     template<typename Type>
-    effVOID skip()
+    effVOID Skip()
     {
-        align(EFF_ALIGNOF(Type));
-        skip(sizeof(Type));
+        Align(EFF_ALIGNOF(Type));
+        Skip(sizeof(Type));
     }
 
-    effVOID align(effUINT _alignment)
+    effVOID Align(effUINT _alignment)
     {
         const effUINT mask = _alignment - 1;
-        const effUINT pos = (m_pos + mask) & (~mask);
-        m_pos = pos;
+        const effUINT newPos = (pos + mask) & (~mask);
+        pos = newPos;
     }
 
-    effVOID reset()
+    effVOID Reset()
     {
-        m_pos = 0;
+        pos = 0;
     }
 
-    effVOID start()
+    effVOID Start()
     {
-        m_pos = 0;
-        m_size = EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE;
+        pos = 0;
+        size = EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE;
     }
 
-    effVOID finish()
+    effVOID Finish()
     {
         effBYTE cmd = CommandEnd;
-        write(cmd);
-        m_size = m_pos;
-        m_pos = 0;
+        Write(cmd);
+        size = pos;
+        pos = 0;
     }
 
 public:
@@ -145,12 +145,16 @@ public:
 
     EFF3DVertexDeclHandle       CreateVertexDeclaration(const EFF3DVertexElement * vertexElements);
 protected:
-    effUINT m_pos;
-    effUINT m_size;
-    effBYTE m_buffer[EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE];
+    effUINT pos;
+    effUINT size;
+    effBYTE buffer[EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE];
 
     EFF3DDevice * device;
 };
+
+
+
+
 
 
 EFF3D_END

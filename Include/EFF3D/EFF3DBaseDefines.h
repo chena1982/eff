@@ -200,6 +200,7 @@ typedef EFFId EFF3DTextureHandle;
 typedef EFFId EFF3DIndexBufferHandle;
 typedef EFFId EFF3DVertexBufferHandle;
 typedef EFFId EFF3DVertexDeclHandle;
+typedef EFFId EFF3DConstantBufferHandle;
 
 
 
