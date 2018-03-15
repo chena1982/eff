@@ -8,6 +8,8 @@
 #ifndef __EFF3DRenderQueue_2008_12_15__
 #define __EFF3DRenderQueue_2008_12_15__
 
+#include "EFF3DRenderCommand.h"
+
 EFF3D_BEGIN
 
 class EFF3DRenderable;
@@ -88,6 +90,9 @@ protected:
 
     EFF3DRenderCommandBuffer *          createCommandBuffers;
     EFF3DRenderCommandBuffer *          destroyCommandBuffers;
+
+
+    CommandBucket<effUINT64>            commandBuffer;
 };
 
 EFF3D_END

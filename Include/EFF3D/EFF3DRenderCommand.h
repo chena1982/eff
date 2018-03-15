@@ -8,7 +8,7 @@ purpose:
 #ifndef __EFF3DRenderCommand_2018_03_15__
 #define __EFF3DRenderCommand_2018_03_15__
 
-
+//https://blog.molecular-matters.com/2014/11/06/stateless-layered-multi-threaded-rendering-part-1/
 
 EFF3D_BEGIN
 
@@ -156,12 +156,30 @@ class EFF3DCommandPacketUtilities
     }
 };
 
+
+//TODO: tls封装成跨平台的
+
 template <typename T>
 class CommandBucket
 {
 public:
     typedef T Key;
 
+
+    CommandBucket()
+    {
+        keys = NULL;
+        datas = NULL;
+
+        offsetTlsIndex = TlsAlloc();
+        remainingTlsIndex = TlsAlloc();
+    }
+
+    ~CommandBucket()
+    {
+        TlsFree(offsetTlsIndex);
+        TlsFree(remainingTlsIndex);
+    }
 
     template <typename U>
     U * AddCommand(Key key, effUINT64 auxMemorySize)
@@ -173,26 +191,31 @@ public:
             effINT id = tlsThreadId;
 
             // fetch number of remaining packets in this layer for the thread with this id
-            effINT remaining = m_tlsRemaining[id];
-            effINT offset = m_tlsOffset[id];
+            //effINT remaining = m_tlsRemaining[id];
+            //effINT offset = m_tlsOffset[id];
+            effINT remaining = (effINT)TlsGetValue(remainingTlsIndex);
+            effINT offset = (effINT)TlsGetValue(offsetTlsIndex);
 
             if (remaining == 0)
             {
                 // no more storage in this block remaining, get new one
-                offset = core::atomic::Add(&current, 32);
+                //offset = core::atomic::Add(&current, 32);
+                offset = eastl::Internal::atomic_compare_and_swap(&current, current + 32, current);
                 remaining = 32;
 
                 // write back
-                m_tlsOffset[id] = offset;
+                //m_tlsOffset[id] = offset;
+                TlsSetValue(offsetTlsIndex, &offset);
             }
 
-            effINT current = offset + (32 - remaining);
-            keys[current] = key;
-            packets[current] = packet;
+            effINT index = offset + (32 - remaining);
+            keys[index] = key;
+            packets[index] = packet;
             --remaining;
 
             // write back
-            m_tlsRemaining[id] = remaining;
+            //m_tlsRemaining[id] = remaining;
+            TlsSetValue(remainingTlsIndex, &offset);
         }
 
         EFF3DCommandPacketUtilities::StoreNextCommandPacket(packet, nullptr);
@@ -217,6 +240,8 @@ public:
 private:
     Key * keys;
     effVOID ** datas;
+    effUINT offsetTlsIndex;
+    effUINT remainingTlsIndex;
 };
 
 

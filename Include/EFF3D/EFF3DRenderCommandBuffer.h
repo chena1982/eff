@@ -15,6 +15,7 @@ class EFF3DVertexElement;
 class EFF3DVertexDeclare;
 class EFF3DDevice;
 
+
 class EFF3DRenderCommandBuffer
 {
 public:
@@ -148,6 +149,7 @@ protected:
     effUINT pos;
     effUINT size;
     effBYTE buffer[EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE];
+
 
     EFF3DDevice * device;
 };
