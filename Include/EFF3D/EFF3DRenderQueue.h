@@ -66,7 +66,7 @@ public:
 		effINT				renderLayer;
 	};
 public:
-	EFF3DRenderQueue() {}
+    EFF3DRenderQueue();
 	virtual ~EFF3DRenderQueue() {}
 public:
 	virtual effVOID						AddRenderable(EFF3DRenderable * renderable);
@@ -77,6 +77,8 @@ public:
 
 public:
 	effVOID								SetSceneManager(EFF3DSceneManager * sceneManager) { this->sceneManager = sceneManager; }
+
+
 protected:
 	effVOID								Sort();
 	EFF3DMaterial *						GetMaterial(RenderQueueElement & renderQueueElement);
@@ -92,7 +94,9 @@ protected:
     EFF3DRenderCommandBuffer *          destroyCommandBuffers;
 
 
-    CommandBucket<effUINT64>            commandBuffer;
+    EFF3DCommandBucket<effUINT64> *     commandBuffer;
+
+    EFFLinearAllocator *                allocator;
 };
 
 EFF3D_END

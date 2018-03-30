@@ -20,6 +20,12 @@
 
 EFF3D_BEGIN
 
+
+EFF3DRenderQueue::EFF3DRenderQueue()
+{
+    commandBuffer = EFFNEW EFF3DCommandBucket<effUINT64>(2048);
+}
+
 effVOID EFF3DRenderQueue::AddRenderable(EFF3DRenderable * renderable)
 {
 
@@ -31,14 +37,16 @@ effVOID EFF3DRenderQueue::AddRenderable(EFF3DRenderable * renderable)
 		{
             EFF3DObject * object = NULL;
 			//EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
-			if ( camera->GetLayerMask() && object->GetRenderLayer(j) )
+			/*if ( camera->GetLayerMask() && object->GetRenderLayer(j) )
 			{
 				RenderQueueElement rqe;
 				rqe.renderable = renderable;
 				rqe.camera = camera;
 				rqe.renderLayer = object->GetRenderLayer(j);
 				renderables.push_back(rqe);
-			}
+			}*/
+            commandBuffer->AddCommand<EFF3DDrawIndexedCommand>(0, sizeof(EFF3DDrawIndexedCommand), *allocator);
+
 
 		}
 	}
@@ -161,6 +169,7 @@ effVOID	EFF3DRenderQueue::Render(EFF3DDevice * device)
 
 	}
 }
+
 
 
 

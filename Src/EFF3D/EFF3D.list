@@ -2,6 +2,7 @@ set (HEADER_FILES
   ../../Include/EFF3D.h
   ../../Include/EFF3D/EFF3DAsyncLoader.h
   ../../Include/EFF3D/EFF3DBaseDefines.h
+  ../../Include/EFF3D/EFF3DRenderBaseDefines.h  
   ../../Include/EFF3D/EFF3DCamera.h
   ../../Include/EFF3D/EFF3DDevice.h
   ../../Include/EFF3D/EFF3DFont.h
@@ -18,15 +19,17 @@ set (HEADER_FILES
   ../../Include/EFF3D/EFF3DResourceManager.h
   ../../Include/EFF3D/EFF3DSceneManager.h
   ../../Include/EFF3D/EFF3DShader.h
-  ../../Include/EFF3D/EFF3DSurface.h
   ../../Include/EFF3D/EFF3DTerrain.h
   ../../Include/EFF3D/EFF3DTexture.h
   ../../Include/EFF3D/EFF3DVertexBuffer.h
   ../../Include/EFF3D/EFF3DVertexDeclaration.h
   ../../Include/EFF3D/EFF3DQuery.h
+  ../../Include/EFF3D/EFF3DRenderCommand.h
+  ../../Include/EFF3D/EFF3DRenderCommandBuffer.h
 )
 
 set (SOURCE_FILES
+  EFF3DRenderBaseDefines.cpp
   EFF3DAsyncLoader.cpp
   EFF3DAutoParamDataSource.cpp
   EFF3DAutoParamDataSource.h
@@ -53,7 +56,6 @@ set (SOURCE_FILES
   EFF3DResourceManager.cpp
   EFF3DSceneManager.cpp
   EFF3DShader.cpp
-  EFF3DSurface.cpp
   EFF3DTerrain.cpp
   EFF3DTerrainDataPreprocess.cpp
   EFF3DTerrainDataPreprocess.h
@@ -66,6 +68,8 @@ set (SOURCE_FILES
   EFF3DVertexBuffer.cpp
   EFF3DVertexDeclaration.cpp
   EFF3DQuery.cpp
+  EFF3DRenderCommand.cpp
+  EFF3DRenderCommandBuffer.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -104,11 +108,14 @@ SOURCE_GROUP("GUI" FILES
 )
 
 SOURCE_GROUP("Render\\Common" FILES
+  ../../Include/EFF3D/EFF3DRenderBaseDefines.h
   ../../Include/EFF3D/EFF3DFont.h
   ../../Include/EFF3D/EFF3DCamera.h
   ../../Include/EFF3D/EFF3DFrustum.h
   ../../Include/EFF3D/EFF3DMaterial.h
   ../../Include/EFF3D/EFF3DSceneManager.h
+
+  EFF3DRenderBaseDefines.cpp
   EFF3DCamera.cpp
   EFF3DFont.cpp
   EFF3DFrustum.cpp
@@ -120,13 +127,18 @@ SOURCE_GROUP("Render\\Pipeline" FILES
   ../../Include/EFF3D/EFF3DRenderable.h
   ../../Include/EFF3D/EFF3DRenderQueue.h
   ../../Include/EFF3D/EFF3DRenderQueueManager.h
+  ../../Include/EFF3D/EFF3DRenderCommand.h
+  ../../Include/EFF3D/EFF3DRenderCommandBuffer.h  
+
   EFF3DRenderable.cpp
   EFF3DRenderQueue.cpp
   EFF3DRenderQueueManager.cpp
   EFF3DRenderQueueSolid.cpp
   EFF3DRenderQueueSolid.h
   EFF3DAutoParamDataSource.cpp
-  EFF3DAutoParamDataSource.h    
+  EFF3DAutoParamDataSource.h
+  EFF3DRenderCommand.cpp
+  EFF3DRenderCommandBuffer.cpp
 )
 
 SOURCE_GROUP("Render\\Terrain" FILES

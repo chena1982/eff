@@ -149,7 +149,7 @@ protected:
     effUINT pos;
     effUINT size;
     effBYTE buffer[EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE];
-
+    //EFF3DCommandBucket
 
     EFF3DDevice * device;
 };

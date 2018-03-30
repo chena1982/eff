@@ -12,6 +12,7 @@
 
 
 
+
 #ifndef _NOEFFNEW
 
 	#ifdef _DEBUG
@@ -127,6 +128,28 @@
 	#define EFFNEW new
 #endif //end of _NOEFFNEW
 
+
+EFFBASE_BEGIN
+
+class EFFBASE_API EFFLinearAllocator
+{
+public:
+    explicit EFFLinearAllocator(effSIZE size);
+    //EFFLinearAllocator(effVOID * start, effVOID * end);
+
+    effVOID * Allocate(effSIZE size, effSIZE alignment, effSIZE offset);
+
+    inline effVOID Free(effVOID * ptr) {}
+
+    inline effVOID Reset(effVOID) { current = start; }
+
+private:
+    effBYTE * start;
+    effBYTE * end;
+    effBYTE * current;
+};
+
+EFFBASE_END
 
 
 #endif

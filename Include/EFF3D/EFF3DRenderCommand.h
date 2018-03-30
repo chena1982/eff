@@ -16,7 +16,7 @@ EFF3D_BEGIN
 typedef effVOID(*BackendDispatchFunction)(const effVOID *);
 
 
-struct DrawCommand
+struct EFF3DDrawCommand
 {
     static const BackendDispatchFunction DISPATCH_FUNCTION;
 
@@ -28,7 +28,7 @@ struct DrawCommand
     EFF3DIndexBufferHandle indexBuffer;
 };
 
-struct DrawIndexedCommand
+struct EFF3DDrawIndexedCommand
 {
     static const BackendDispatchFunction DISPATCH_FUNCTION;
 
@@ -41,7 +41,7 @@ struct DrawIndexedCommand
     EFF3DIndexBufferHandle indexBuffer;
 };
 
-struct CopyConstantBufferDataCommand
+struct EFF3DCopyConstantBufferDataCommand
 {
     static const BackendDispatchFunction DISPATCH_FUNCTION;
 
@@ -57,19 +57,19 @@ class EFF3DBackendDispatch
 public:
     static effVOID Draw(const effVOID * data)
     {
-        const DrawCommand * realData = (DrawCommand *)(data);
+        const EFF3DDrawCommand * realData = (EFF3DDrawCommand *)(data);
         //backend::Draw(realData->vertexCount, realData->startVertex);
     }
 
     static effVOID DrawIndexed(const effVOID * data)
     {
-        const DrawIndexedCommand* realData = (DrawIndexedCommand *)(data);
+        const EFF3DDrawIndexedCommand* realData = (EFF3DDrawIndexedCommand *)(data);
         //backend::DrawIndexed(realData->indexCount, realData->startIndex, realData->baseVertex);
     }
 
     static effVOID CopyConstantBufferData(const effVOID * data)
     {
-        const CopyConstantBufferDataCommand * realData = (CopyConstantBufferDataCommand *)(data);
+        const EFF3DCopyConstantBufferDataCommand * realData = (EFF3DCopyConstantBufferDataCommand *)(data);
         //backend::CopyConstantBufferData(realData->constantBuffer, realData->data, realData->size);
     }
 };
@@ -80,14 +80,17 @@ typedef effVOID * EFF3DCommandPacket;
 
 class EFF3DCommandPacketUtilities
 {
+public:
     static const effUINT64 OFFSET_NEXT_COMMAND_PACKET = 0u;
     static const effUINT64 OFFSET_BACKEND_DISPATCH_FUNCTION = OFFSET_NEXT_COMMAND_PACKET + sizeof(EFF3DCommandPacket);
     static const effUINT64 OFFSET_COMMAND = OFFSET_BACKEND_DISPATCH_FUNCTION + sizeof(BackendDispatchFunction);
 
     template <typename T>
-    static EFF3DCommandPacket Create(effUINT64 auxMemorySize)
+    static EFF3DCommandPacket Create(effUINT64 auxMemorySize, EFFLinearAllocator & allocator)
     {
-        return ::operator new(GetSize<T>(auxMemorySize));
+        //return ::operator new(GetSize<T>(auxMemorySize));
+
+        return allocator.Allocate(GetSize<T>(auxMemorySize), 1, 0);
     }
 
     template <typename T>
@@ -159,66 +162,68 @@ class EFF3DCommandPacketUtilities
 
 //TODO: tls封装成跨平台的
 
+#define COMMAND_BUCKET_CHUNK_COUNT 32
+
 template <typename T>
-class CommandBucket
+class EFF3DCommandBucket
 {
 public:
     typedef T Key;
 
 
-    CommandBucket()
+    EFF3DCommandBucket(effUINT commandCount)
     {
-        keys = NULL;
-        datas = NULL;
+        keys = EFFNEW Key[commandCount];
+        packets = EFFNEW effVOID * [commandCount];
+        memset(packets, 0, sizeof(packets));
 
         offsetTlsIndex = TlsAlloc();
         remainingTlsIndex = TlsAlloc();
+
+        current = 0;
+
+        effUINT value = 0;
+        TlsSetValue(offsetTlsIndex, &value);
+        TlsSetValue(remainingTlsIndex, &value);
     }
 
-    ~CommandBucket()
+    ~EFF3DCommandBucket()
     {
         TlsFree(offsetTlsIndex);
         TlsFree(remainingTlsIndex);
     }
 
     template <typename U>
-    U * AddCommand(Key key, effUINT64 auxMemorySize)
+    U * AddCommand(Key key, effUINT64 auxMemorySize, EFFLinearAllocator & allocator)
     {
-        EFF3DCommandPacket packet = EFF3DCommandPacketUtilities::Create<U>(auxMemorySize);
+        EFF3DCommandPacket packet = EFF3DCommandPacketUtilities::Create<U>(auxMemorySize, allocator);
 
         // store key and pointer to the data
         {
-            effINT id = tlsThreadId;
-
             // fetch number of remaining packets in this layer for the thread with this id
-            //effINT remaining = m_tlsRemaining[id];
-            //effINT offset = m_tlsOffset[id];
-            effINT remaining = (effINT)TlsGetValue(remainingTlsIndex);
-            effINT offset = (effINT)TlsGetValue(offsetTlsIndex);
+            effINT remaining = (effINT)(effUINT64)TlsGetValue(remainingTlsIndex);
+            effINT offset = (effINT)(effUINT64)TlsGetValue(offsetTlsIndex);
 
             if (remaining == 0)
             {
                 // no more storage in this block remaining, get new one
-                //offset = core::atomic::Add(&current, 32);
-                offset = eastl::Internal::atomic_compare_and_swap(&current, current + 32, current);
+                offset = InterlockedExchangeAdd(&current, COMMAND_BUCKET_CHUNK_COUNT);
                 remaining = 32;
 
                 // write back
-                //m_tlsOffset[id] = offset;
                 TlsSetValue(offsetTlsIndex, &offset);
             }
 
-            effINT index = offset + (32 - remaining);
+            effINT index = offset + (COMMAND_BUCKET_CHUNK_COUNT - remaining);
             keys[index] = key;
             packets[index] = packet;
-            --remaining;
+            remaining--;
 
             // write back
-            //m_tlsRemaining[id] = remaining;
-            TlsSetValue(remainingTlsIndex, &offset);
+            TlsSetValue(remainingTlsIndex, &remaining);
         }
 
-        EFF3DCommandPacketUtilities::StoreNextCommandPacket(packet, nullptr);
+        EFF3DCommandPacketUtilities::StoreNextCommandPacket(packet, NULL);
         EFF3DCommandPacketUtilities::StoreBackendDispatchFunction(packet, U::DISPATCH_FUNCTION);
 
         return EFF3DCommandPacketUtilities::GetCommand<U>(packet);
@@ -237,11 +242,33 @@ public:
 
         return EFF3DCommandPacketUtilities::GetCommand<U>(packet);
     }
+
+    effVOID Submit()
+    {
+        for (effUINT i = 0; i < current; i++)
+        {
+            EFF3DCommandPacket packet = packets[i];
+            while (packet != NULL)
+            {
+                SubmitPacket(packet);
+                packet = EFF3DCommandPacketUtilities::LoadNextCommandPacket(packet);
+            }
+        }
+    }
+
+    effVOID SubmitPacket(const EFF3DCommandPacket packet)
+    {
+        const BackendDispatchFunction function = EFF3DCommandPacketUtilities::LoadBackendDispatchFunction(packet);
+        const effVOID * command = EFF3DCommandPacketUtilities::LoadCommand(packet);
+        function(command);
+    }
 private:
     Key * keys;
-    effVOID ** datas;
+    effVOID ** packets;
     effUINT offsetTlsIndex;
     effUINT remainingTlsIndex;
+
+    effUINT current;
 };
 
 

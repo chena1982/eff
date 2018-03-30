@@ -105,3 +105,40 @@
 #endif
 
 
+EFFBASE_BEGIN
+
+
+effBYTE * AlignTop(effBYTE * current, effSIZE alignment)
+{
+    return (effBYTE *)((((((effSIZE)current) - 1) / alignment) + 1) * alignment);
+}
+
+EFFLinearAllocator::EFFLinearAllocator(effSIZE size)
+{
+    start = new effBYTE[size];
+    end = start + size;
+    current = start;
+}
+
+
+
+
+effVOID * EFFLinearAllocator::Allocate(effSIZE size, effSIZE alignment, effSIZE offset)
+{
+    // offset pointer first, align it, and offset it back
+    current = AlignTop(current + offset, alignment) - offset;
+
+    effVOID * userPtr = current;
+    current += size;
+
+    if (current >= end)
+    {
+        // out of memory
+        return NULL;
+    }
+
+    return userPtr;
+}
+
+
+EFFBASE_END
