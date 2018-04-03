@@ -145,41 +145,68 @@ enum EFF3DQueryType
     Query_TimeStamp
 };
 
-
-enum EFF3DVertexAttrib
+struct EFF3DRendererType
 {
-    Position,
-    Normal,
-    Tangent,
-    Bitangent,
-    Color0,
-    Color1,
-    Color2,
-    Color3,
-    Indices,
-    Weight,
-    TexCoord0,
-    TexCoord1,
-    TexCoord2,
-    TexCoord3,
-    TexCoord4,
-    TexCoord5,
-    TexCoord6,
-    TexCoord7,
+    /// Renderer types:
+    enum Enum
+    {
+        Noop,         //!< No rendering.
+        Direct3D9,    //!< Direct3D 9.0
+        Direct3D11,   //!< Direct3D 11.0
+        Direct3D12,   //!< Direct3D 12.0
+        Gnm,          //!< GNM
+        Metal,        //!< Metal
+        OpenGLES,     //!< OpenGL ES 2.0+
+        OpenGL,       //!< OpenGL 2.1+
+        Vulkan,       //!< Vulkan
 
-    EFF3DVertexAttribCount
+        Count
+    };
 };
 
-enum EFF3DVertexAttribType
+struct EFF3DVertexAttrib
 {
+    enum Enum
+    {
+        Position,  //!< a_position
+        Normal,    //!< a_normal
+        Tangent,   //!< a_tangent
+        Bitangent, //!< a_bitangent
+        Color0,    //!< a_color0
+        Color1,    //!< a_color1
+        Color2,    //!< a_color2
+        Color3,    //!< a_color3
+        Indices,   //!< a_indices
+        Weight,    //!< a_weight
+        TexCoord0, //!< a_texcoord0
+        TexCoord1, //!< a_texcoord1
+        TexCoord2, //!< a_texcoord2
+        TexCoord3, //!< a_texcoord3
+        TexCoord4, //!< a_texcoord4
+        TexCoord5, //!< a_texcoord5
+        TexCoord6, //!< a_texcoord6
+        TexCoord7, //!< a_texcoord7
 
-    EFF3DVAT_Uint8,
-    EFF3DVAT_Uint10,
-    EFF3DVAT_Int16,
-    EFF3DVAT_Half,
-    EFF3DVAT_Float,
+        Count
+    };
+};
 
-    EFF3DVertexAttribTypeCount
+
+
+
+
+struct EFF3DVertexType
+{
+    enum Enum
+    {
+        Uint8,  //!< Uint8
+        Uint10, //!< Uint10, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_UINT10`.
+        Int16,  //!< Int16
+        Half,   //!< Half, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_HALF`.
+        Float,  //!< Float
+
+        Count
+    };
 };
 
 

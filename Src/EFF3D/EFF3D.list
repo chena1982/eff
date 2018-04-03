@@ -26,6 +26,10 @@ set (HEADER_FILES
   ../../Include/EFF3D/EFF3DQuery.h
   ../../Include/EFF3D/EFF3DRenderCommand.h
   ../../Include/EFF3D/EFF3DRenderCommandBuffer.h
+  ../../Include/EFF3D/EFF3DMeshRendererComponent.h
+
+  ../../Include/EFF3D/EFF3DMesh.h 
+  ../../Include/EFF3D/EFF3DSubmesh.h 
 )
 
 set (SOURCE_FILES
@@ -70,6 +74,10 @@ set (SOURCE_FILES
   EFF3DQuery.cpp
   EFF3DRenderCommand.cpp
   EFF3DRenderCommandBuffer.cpp
+  EFF3DMeshRendererComponent.cpp
+
+  EFF3DMesh.cpp
+  EFF3DSubmesh.cpp  
 )
 
 SOURCE_GROUP("" FILES
@@ -114,6 +122,7 @@ SOURCE_GROUP("Render\\Common" FILES
   ../../Include/EFF3D/EFF3DFrustum.h
   ../../Include/EFF3D/EFF3DMaterial.h
   ../../Include/EFF3D/EFF3DSceneManager.h
+  ../../Include/EFF3D/EFF3DMeshRendererComponent.h  
 
   EFF3DRenderBaseDefines.cpp
   EFF3DCamera.cpp
@@ -121,6 +130,7 @@ SOURCE_GROUP("Render\\Common" FILES
   EFF3DFrustum.cpp
   EFF3DMaterial.cpp
   EFF3DSceneManager.cpp
+  EFF3DMeshRendererComponent.cpp  
 )
 
 SOURCE_GROUP("Render\\Pipeline" FILES
@@ -155,6 +165,13 @@ SOURCE_GROUP("Render\\Terrain" FILES
   EFF3DMyTerrain.h
   EFF3DMyTerrainTile.cpp
   EFF3DMyTerrainTile.h  
+)
+
+SOURCE_GROUP("Scene" FILES
+  ../../Include/EFF3D/EFF3DMesh.h 
+  ../../Include/EFF3D/EFF3DSubmesh.h
+  EFF3DMesh.cpp
+  EFF3DSubmesh.cpp
 )
 
 SOURCE_GROUP("Device" FILES

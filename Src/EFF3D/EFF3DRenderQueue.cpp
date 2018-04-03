@@ -24,32 +24,40 @@ EFF3D_BEGIN
 EFF3DRenderQueue::EFF3DRenderQueue()
 {
     commandBuffer = EFFNEW EFF3DCommandBucket<effUINT64>(2048);
+
+    allocator = EFFNEW EFFLinearAllocator(EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE);
+}
+
+EFF3DRenderQueue::~EFF3DRenderQueue()
+{
+    SF_DELETE(commandBuffer);
+    SF_DELETE(allocator);
 }
 
 effVOID EFF3DRenderQueue::AddRenderable(EFF3DRenderable * renderable)
 {
 
 	
-	for ( effUINT i = 0; i < sceneManager->GetCameras().size(); i++ )
+	/*for ( effUINT i = 0; i < sceneManager->GetCameras().size(); i++ )
 	{
 		EFF3DCamera * camera = sceneManager->GetCameras()[i];
 		for ( effUINT j = 0; j < OBJECT_MAX_RENDER_LAYER; j++ )
 		{
-            EFF3DObject * object = NULL;
-			//EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
-			/*if ( camera->GetLayerMask() && object->GetRenderLayer(j) )
+            //EFF3DObject * object = NULL;
+			EFF3DObject * object = (EFF3DObject *)renderable->GetObject();
+			if ( camera->GetLayerMask() && object->GetRenderLayer(j) )
 			{
 				RenderQueueElement rqe;
 				rqe.renderable = renderable;
 				rqe.camera = camera;
 				rqe.renderLayer = object->GetRenderLayer(j);
 				renderables.push_back(rqe);
-			}*/
-            commandBuffer->AddCommand<EFF3DDrawIndexedCommand>(0, sizeof(EFF3DDrawIndexedCommand), *allocator);
-
-
+			}
 		}
-	}
+	}*/
+
+    EFF3DDrawIndexedCommand * command = commandBuffer->AddCommand<EFF3DDrawIndexedCommand>(0, sizeof(EFF3DDrawIndexedCommand), *allocator);
+
 }
 
 //删除的时候需要遍历，比较慢，所以在排序遍历的时候删除，这样就变成免费的了

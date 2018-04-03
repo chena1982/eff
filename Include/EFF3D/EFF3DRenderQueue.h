@@ -67,7 +67,7 @@ public:
 	};
 public:
     EFF3DRenderQueue();
-	virtual ~EFF3DRenderQueue() {}
+    virtual ~EFF3DRenderQueue();
 public:
 	virtual effVOID						AddRenderable(EFF3DRenderable * renderable);
 	virtual effVOID						RemoveRenderable(EFF3DRenderable * renderable);
