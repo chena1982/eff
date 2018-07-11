@@ -133,18 +133,18 @@ public:
 public:
 
 
-    EFFId                       CreateResourceFromMemory(effVOID * data, effUINT size, EFF3DResourceType resourceType);
+    EFFId                           CreateResourceFromMemory(effVOID * data, effUINT size, EFF3DResourceType resourceType);
 
-    EFF3DTextureHandle			CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, 
+    EFF3DTextureHandle			    CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, 
                                             EFF3DTextureFormat format, EFF3DResourceType resourceType);
 
-    EFF3DIndexBufferHandle      CreateIndexBuffer(effVOID * data, effUINT size, effBOOL flag);
-    effVOID                     UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size);
+    EFF3DIndexBufferHandle          CreateIndexBuffer(effVOID * data, effUINT size, effBOOL flag);
+    effVOID                         UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size);
 
-    EFF3DVertexBufferHandle     CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vbHandle);
-    effVOID                     UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size);
+    EFF3DVertexBufferHandle         CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vbHandle);
+    effVOID                         UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size);
 
-    EFF3DVertexDeclHandle       CreateVertexDeclaration(const EFF3DVertexElement * vertexElements);
+    EFF3DVertexDeclarationHandle    CreateVertexDeclaration(const EFF3DVertexElement * vertexElements);
 protected:
     effUINT pos;
     effUINT size;

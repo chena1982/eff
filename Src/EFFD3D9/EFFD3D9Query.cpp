@@ -26,7 +26,7 @@ effHRESULT EFFD3D9Query::Issue(effUINT flag)
 {
     if (query == NULL)
     {
-        return EFF3DERR_INVALIDCALL;
+        return D3DERR_INVALIDCALL;
     }
 
     return query->Issue(flag);
@@ -36,7 +36,7 @@ effHRESULT EFFD3D9Query::GetData(effVOID * data, effUINT size, effUINT flag)
 {
     if (query == NULL)
     {
-        return EFF3DERR_INVALIDCALL;
+        return D3DERR_INVALIDCALL;
     }
 
     return query->GetData(data, size, flag);

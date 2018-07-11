@@ -14,28 +14,20 @@
 
 EFFD3D9VertexBuffer::EFFD3D9VertexBuffer()
 {
-	m_pBuf = NULL;
+    d3d9VertexBuffer = NULL;
 }
 
 EFFD3D9VertexBuffer::~EFFD3D9VertexBuffer()
 {
-	SF_RELEASE(m_pBuf);
+	SF_RELEASE(d3d9VertexBuffer);
 }
 
-effHRESULT EFFD3D9VertexBuffer::GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc)
+effVOID EFFD3D9VertexBuffer::CreateFromMemory(effUINT size, effVOID * data, effUINT flag)
 {
-	assert(m_pBuf != NULL);
-	return m_pBuf->GetDesc((D3DVERTEXBUFFER_DESC *)pDesc);
+
 }
 
-effHRESULT EFFD3D9VertexBuffer::LockBuffer(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags)
+effVOID EFFD3D9VertexBuffer::Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard/* = effFALSE*/)
 {
-	assert(m_pBuf != NULL);
-	return m_pBuf->Lock(OffsetToLock,SizeToLock,ppbData,Flags);
-}
 
-effHRESULT EFFD3D9VertexBuffer::UnlockBuffer()
-{
-	assert(m_pBuf != NULL);
-	return m_pBuf->Unlock();
 }

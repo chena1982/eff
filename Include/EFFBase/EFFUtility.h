@@ -298,6 +298,58 @@ public:
 };
 
 
+inline effUINT effUINT_cntbits_ref(effUINT value)
+{
+    effUINT count = 0;
+    for (effUINT i = 0; i < 32; i++)
+    {
+        effUINT tmp = value & 0x1;
+        if (tmp == 1)
+        {
+            count++;
+        }
+        value = value >> 1;
+    }
+
+    return count;
+}
+
+/// Count number of bits set.
+inline effUINT effUINT_cntbits(effUINT _val)
+{
+#if EFF_COMPILER_GCC || EFF_COMPILER_CLANG
+    return __builtin_popcount(_val);
+#elif EFF_COMPILER_MSVC && EFF_PLATFORM_WINDOWS
+    return __popcnt(_val);
+#else
+    return uint32_cntbits_ref(_val);
+#endif // BX_COMPILER_
+}
+
+
+inline effUINT effUINT_cnttz_ref(effUINT value)
+{
+    const effUINT tmp0 = ~value;
+    const effUINT tmp1 = value - 1;
+    const effUINT tmp2 = tmp0 & tmp1;
+    const effUINT result = effUINT_cntbits(tmp2);
+
+    return result;
+}
+
+inline effUINT effUINT_cnttz(effUINT value)
+{
+#if EFF_COMPILER_GCC || EFF_COMPILER_CLANG
+    return __builtin_ctz(_val);
+#elif EFF_COMPILER_MSVC && EFF_PLATFORM_WINDOWS
+    effDWORD index;
+    _BitScanForward(&index, value);
+    return index;
+#else
+    return uint32_cnttz_ref(_val);
+#endif // BX_COMPILER_
+}
+
 EFFBASE_END
 
 #endif

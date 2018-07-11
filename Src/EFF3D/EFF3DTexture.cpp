@@ -22,8 +22,7 @@ EFF3DSharedTexture::EFF3DSharedTexture()
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        texture[i] = NULL;
-        sharedHandle[i].id = EFF_INVALID_HANDLE;
+        sharedHandle[i] = 0;
     }
 
     currentIndex = 0;
@@ -33,8 +32,7 @@ EFF3DSharedTexture::~EFF3DSharedTexture()
 {
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        //EFF3DGetDevice()->GetImageManager()-
-        //SF_DELETE(texture[i]);
+        EFF3DTexMgr->Release(textureHandle[i]);
     }
 }
 
@@ -44,29 +42,31 @@ effVOID EFF3DSharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTextu
 
     //EFF3DSharedTexture::GetSharedTextureInfo(sharedTextureInfo);
 
-    sharedTextureInfo->width = texture[0]->GetImageInfo().width;
-    sharedTextureInfo->height = texture[0]->GetImageInfo().height;
-    sharedTextureInfo->format = (effUINT)texture[0]->GetImageInfo().format;
+    const EFF3DImageInfo & imageInfo = EFF3DTexMgr->GetImageInfo(textureHandle[0]);
+    sharedTextureInfo->width = imageInfo.width;
+    sharedTextureInfo->height = imageInfo.height;
+    sharedTextureInfo->format = imageInfo.format;
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        sharedTextureInfo->sharedTextureHandle[i] = (effSIZE)texture[i]->userData;
+        const EFF3DImageInfo & imageInfo = EFF3DTexMgr->GetImageInfo(textureHandle[i]);
+        sharedTextureInfo->sharedTextureHandle[i] = imageInfo.sharedHandle;
     }
 }
 
-EFF3DTexture * EFF3DSharedTexture::GetClientTexture()
+EFF3DTextureHandle EFF3DSharedTexture::GetClientTexture()
 {
     effINT result = currentIndex;
 
     currentIndex = (currentIndex + 1) % SHAREDTEXTURE_BUFFER_COUNT;
 
-    return texture[result];
+    return textureHandle[result];
 }
 
 
-EFF3DTexture * EFF3DSharedTexture::GetHostTexture(effINT index)
+EFF3DTextureHandle EFF3DSharedTexture::GetHostTexture(effINT index)
 {
-    return texture[index];
+    return textureHandle[index];
 }
 
 effVOID EFF3DSharedTexture::ClientWaitToStartRendering()
@@ -118,6 +118,25 @@ EFF3DTextureManager::~EFF3DTextureManager()
 {
 }
 
+const EFF3DImageInfo &  EFF3DTextureManager::GetImageInfo(EFF3DTextureHandle textureHandle)
+{
+    EFF3DImage * image = (EFF3DImage *)indices[textureHandle.Index()];
+    return image->GetImageInfo();
+}
+
+effBOOL EFF3DTextureManager::LockRect(EFF3DTextureHandle textureHandle, effUINT level, EFF3DLockedRect * lockedRect, const EFFRect * rect, effUINT flag)
+{
+    EFF3DTexture * texture = (EFF3DTexture *)indices[textureHandle.Index()];
+    effHRESULT hr = texture->LockRect(level, lockedRect, rect, flag);
+    return SUCCEEDED(hr);
+}
+
+effBOOL EFF3DTextureManager::UnlockRect(EFF3DTextureHandle textureHandle, effUINT level)
+{
+    EFF3DTexture * texture = (EFF3DTexture *)indices[textureHandle.Index()];
+    effHRESULT hr = texture->UnlockRect(level);
+    return SUCCEEDED(hr);
+}
 
 effBOOL EFF3DTextureManager::CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType)
 {

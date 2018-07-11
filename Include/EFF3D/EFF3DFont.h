@@ -65,7 +65,7 @@ protected:
 
 	EFF3DFontGlyphInfo	glyphsInfo[0x10000];
 	EFF3DFontManager *	fontManager;
-	EFF3DTexture *		fontTexture;
+	//EFF3DTexture *		fontTexture;
     EFF3DTextureHandle  fontTextureHandle;
 
 	effINT				fontCount;

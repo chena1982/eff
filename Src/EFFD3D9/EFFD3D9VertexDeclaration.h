@@ -21,8 +21,8 @@ public:
 
 	LPDIRECT3DVERTEXDECLARATION9				GetD3D9VertexDeclaration(EFFD3D9Device * pDevice);
 protected:
-	LPDIRECT3DVERTEXDECLARATION9				m_pVertexDeclaration;
-	effBOOL														m_bNeedRebuild;
+	LPDIRECT3DVERTEXDECLARATION9				vertexDeclaration;
+	effBOOL										needRebuild;
 };
 
 #endif

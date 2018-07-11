@@ -22,6 +22,24 @@
 #	define EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE (64<<10)
 #endif // EFF3D_CONFIG_MAX_COMMAND_BUFFER_SIZE
 
+#ifndef EFF3D_CONFIG_MAX_INSTANCE_DATA_COUNT
+#	define EFF3D_CONFIG_MAX_INSTANCE_DATA_COUNT 5
+#endif // EFF3D_CONFIG_MAX_INSTANCE_DATA_COUNT
+
+#ifndef EFF3D_CONFIG_MAX_VERTEX_STREAMS
+#	define EFF3D_CONFIG_MAX_VERTEX_STREAMS 4
+#endif // EFF3D_CONFIG_MAX_VERTEX_STREAMS
+
+
+#ifndef EFF3D_CONFIG_MAX_VERTEX_DECLS
+#	define EFF3D_CONFIG_MAX_VERTEX_DECLS 64
+#endif // EFF3D_CONFIG_MAX_VERTEX_DECLS
+
+#ifndef EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS
+#	define EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS 16
+#endif // EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS
+
+
 typedef struct _EFF3DCOLORVALUE
 {
 	effFLOAT r;
@@ -145,6 +163,8 @@ enum EFF3DQueryType
     Query_TimeStamp
 };
 
+#define EFF3D_TEXTURE_INTERNAL_DEFAULT_SAMPLER  UINT32_C(0x10000000)
+
 struct EFF3DRendererType
 {
     /// Renderer types:
@@ -195,14 +215,14 @@ struct EFF3DVertexAttrib
 
 
 
-struct EFF3DVertexType
+struct EFF3DVertexAttribType
 {
     enum Enum
     {
         Uint8,  //!< Uint8
-        Uint10, //!< Uint10, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_UINT10`.
+        Uint10, //!< Uint10, availability depends on: `EFF3D_CAPS_VERTEX_ATTRIB_UINT10`.
         Int16,  //!< Int16
-        Half,   //!< Half, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_HALF`.
+        Half,   //!< Half, availability depends on: `EFF3D_CAPS_VERTEX_ATTRIB_HALF`.
         Float,  //!< Float
 
         Count
@@ -226,10 +246,10 @@ struct EFF3DVertexType
 typedef EFFId EFF3DTextureHandle;
 typedef EFFId EFF3DIndexBufferHandle;
 typedef EFFId EFF3DVertexBufferHandle;
-typedef EFFId EFF3DVertexDeclHandle;
+typedef effUINT EFF3DVertexDeclarationHandle;
 typedef EFFId EFF3DConstantBufferHandle;
-
-
+typedef EFFId EFF3DOcclusionQueryHandle;
+typedef EFFId EFF3DIndirectBufferHandle;
 
 #define EFF3D_TEXTURE_NONE                UINT32_C(0x00000000) //!<
 #define EFF3D_TEXTURE_U_MIRROR            UINT32_C(0x00000001) //!< Wrap U mode: Mirror
@@ -411,8 +431,12 @@ struct EFF3DImageInfo
     EFF3DMULTISAMPLE_TYPE multiSample;
     effUINT multisampleQuality;
  
-    effULONG textureHandle;
+    //effUINT textureHandle;
     effUINT textureLevel;
+
+    effSIZE sharedHandle;
+
+    effUINT flags;
 
     EFF3DImageInfo()
     {
@@ -428,8 +452,11 @@ struct EFF3DImageInfo
 
         multiSample = EFF3DMULTISAMPLE_NONE;
         multisampleQuality = 0;
-        textureHandle = EFF_INVALID_HANDLE;
+        //textureHandle = EFF_INVALID_HANDLE;
         textureLevel = 0;
+
+        sharedHandle = 0;
+        flags = 0;
     }
 };
 
@@ -934,13 +961,12 @@ struct EFF3DImageInfo
 #define EFF3D_CUBE_MAP_NEGATIVE_Z UINT8_C(0x05) //!< Cubemap -z.
 
 
-struct EFF3DStream
-{
-    effUINT startVertex;
-    EFF3DVertexBufferHandle vertexBufferHandle;
-    EFF3DVertexDeclHandle vertexDeclHandle;
-};
 
+
+
+#define EFF_ALIGN_DECL_16(_decl) EFF_ALIGN_DECL(16, _decl)
+#define EFF_ALIGN_DECL_256(_decl) EFF_ALIGN_DECL(256, _decl)
+#define EFF_ALIGN_DECL_CACHE_LINE(_decl) EFF_ALIGN_DECL(EFF_CACHE_LINE_SIZE, _decl)
 
 enum EFF3DPrimitiveType
 {
@@ -952,6 +978,16 @@ enum EFF3DPrimitiveType
     TriangleFan,
     EFF3DPrimitiveTypeCount
 };
+
+inline effUINT64 PackStencil(effUINT frontStencil, effUINT backStencil)
+{
+    return (effUINT64(backStencil) << 32) | effUINT64(frontStencil);
+}
+
+inline effUINT UnpackStencil(effBYTE zeroOrOne, effUINT64 stencil)
+{
+    return effUINT((stencil >> (32 * zeroOrOne)));
+}
 
 #if defined(_DEBUG) || defined(DEBUG)
 

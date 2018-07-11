@@ -15,4 +15,30 @@ EFF3D_BEGIN
 
 RTTI_IMPLEMENT_PURE(EFF3DVertexBuffer, 0)
 
+
+effBOOL	EFF3DVertexBuffer::LoadDataFromFile(const effString & filePath)
+{
+    return effTRUE;
+}
+
+
+EFF3DVertexBufferManager::EFF3DVertexBufferManager()
+{
+
+}
+
+EFF3DVertexBufferManager::~EFF3DVertexBufferManager()
+{
+
+}
+
+effBOOL EFF3DVertexBufferManager::CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType)
+{
+
+
+
+    return effFALSE;
+}
+
+
 EFF3D_END

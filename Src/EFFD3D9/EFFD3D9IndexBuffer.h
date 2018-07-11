@@ -16,11 +16,10 @@ public:
 	EFFD3D9IndexBuffer();
 	virtual ~EFFD3D9IndexBuffer();
 public:
-	virtual effHRESULT				GetDesc(EFF3DINDEXBUFFER_DESC * pDesc);
-	virtual effHRESULT				Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags);
-	virtual effHRESULT				Unlock();
+    virtual effVOID             CreateFromMemory(effUINT size, effVOID * data, effUINT flag);
+    virtual effVOID             Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard = effFALSE);
 protected:
-	LPDIRECT3DINDEXBUFFER9		m_pBuf;
+	LPDIRECT3DINDEXBUFFER9		d3d9IndexBuffer;
 };
 
 #endif

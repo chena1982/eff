@@ -16,6 +16,8 @@
 #include "EFF3DDevice.h"
 #include "EFF3DObject.h"
 #include "EFF3DFont.h"
+#include "EFF3DVertexBuffer.h"
+#include "EFF3DVertexDeclaration.h"
 //#include "EFF3DWebGui.h"
 
 
@@ -96,6 +98,8 @@ effINT EFF3DGetPixelSizeFromFormat(EFF3DTextureFormat format)
 	return 0;
 }
 
+
+
 EFF3DDevice::EFF3DDevice()
 {
 	//Py_Initialize();//使用python之前，要调用Py_Initialize();这个函数进行初始化
@@ -127,13 +131,13 @@ EFF3DDevice::~EFF3DDevice()
 	//wkeShutdown();
 
     SF_DELETE(sharedRenderTarget);
-
 	SF_DELETE(textureManager);
-	SF_DELETE(sceneManager);
+    SF_DELETE(vertexBufferManager);
+    SF_DELETE(vertexDeclManager);
 
+	SF_DELETE(sceneManager);
 	SF_DELETE(fontManager);
 	SF_DELETE(inputManager);
-
     SF_DELETE(entityManager);
     SF_DELETE(staticStringManager);
 }
@@ -161,7 +165,7 @@ effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT 
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, &sharedTexture->sharedHandle[i]);
+        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, &sharedTexture->textureHandle[i]);
     }
 
     sharedTexture->clientSemaphore.Create(3, 3, _effT("ClientSharedTextureSemaphore"));
@@ -187,13 +191,12 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
     {
         effHANDLE handle = (effHANDLE)sharedTextureInfo->sharedTextureHandle[i];
 
-        EFF3DResource * resource = CreateEmptyResource(EFF3DResourceType_RenderTarget);
-        EFF3DTexture * texture = (EFF3DTexture *)resource;
-        texture->userData = handle;
+        //EFF3DResource * resource = CreateEmptyResource(EFF3DResourceType_RenderTarget);
+        //EFF3DTexture * texture = (EFF3DTexture *)resource;
+        //texture->userData = handle;
 
-        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, texture);
-
-        sharedTexture->sharedHandle[i] = resource->id;
+        CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, 
+            (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, &sharedTexture->textureHandle[i]);
     }
 
 	//(*texture)->name = _effT("HostSharedTexture");
@@ -209,11 +212,8 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
 
 effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
-    EFF3DResource * resource = CreateEmptyResource(resourceType);
-
-    if (CreateTexture(width, height, levels, flag, format, resourceType, (EFF3DTexture *)resource))
+    if (CreateTexture(width, height, levels, flag, format, resourceType, textureHandle))
     {
-        *textureHandle = resource->id;
         return effTRUE;
     }
 
@@ -223,11 +223,8 @@ effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels
 effBOOL	EFF3DDevice::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT levels, effUINT flag,
                                         EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
-    EFF3DResource * resource = CreateEmptyResource(resourceType);
-
-    if (CreateTextureFromMemory(srcData, srcDataSize, width, height, levels, flag, format, resourceType, (EFF3DTexture *)resource))
+    if (CreateTextureFromMemory(srcData, srcDataSize, width, height, levels, flag, format, resourceType, textureHandle))
     {
-        *textureHandle = resource->id;
         return effTRUE;
     }
 
@@ -238,9 +235,16 @@ effVOID EFF3DDevice::Init(effBOOL host)
 {
 	ilInit();
 
+
+    QuadVertex::InitVertexDecl();
+
 	textureManager = EFFNEW EFF3DTextureManager();
 	//EFFRegisterObjectManager(EFF3DImage::GetThisClass(), imageManager);
 	
+
+    vertexBufferManager = EFFNEW EFF3DVertexBufferManager;
+    vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager;
+
 	sceneManager = EFFNEW EFF3DSceneManager();
 
 	InitProperty();
@@ -355,7 +359,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 	return DrawQuad(rect);
 }
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL blend)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, effBOOL blend)
 {
 	if ( blend )
 	{
@@ -374,12 +378,12 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTexture * texture, effBOOL bl
 		//SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
 	}
 
-	SetTexture(0, texture);
+	SetTexture(0, textureHandle);
 	return DrawQuad(rect);
 
 }
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTexture * texture)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTextureHandle textureHandle)
 {
 	if ( material == NULL )
 	{
@@ -394,7 +398,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTex
 	}
 
 
-	SetTexture(0, texture);
+	SetTexture(0, textureHandle);
 	//shader->UpdateAutoParametersPerShader(this, autoParamDataSource);
 	return DrawQuad(rect);
 }
@@ -438,4 +442,7 @@ EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
 
     return resource;
 }
+
+
+
 EFF3D_END

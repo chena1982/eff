@@ -13,9 +13,9 @@
 
 EFF3D_BEGIN
 
+EFF3DVertexDeclaration QuadVertex::vertexDecl;
 
-
-static const effBYTE s_attribTypeSizeD3D9[EFF3DVertexType::Count][4] =
+static const effBYTE s_attribTypeSizeD3D9[EFF3DVertexAttribType::Count][4] =
 {
     { 4,  4,  4,  4 }, // Uint8
     { 4,  4,  4,  4 }, // Uint10
@@ -24,7 +24,7 @@ static const effBYTE s_attribTypeSizeD3D9[EFF3DVertexType::Count][4] =
     { 4,  8, 12, 16 }, // Float
 };
 
-static const effBYTE s_attribTypeSizeD3D1x[EFF3DVertexType::Count][4] =
+static const effBYTE s_attribTypeSizeD3D1x[EFF3DVertexAttribType::Count][4] =
 {
     { 1,  2,  4,  4 }, // Uint8
     { 4,  4,  4,  4 }, // Uint10
@@ -33,7 +33,7 @@ static const effBYTE s_attribTypeSizeD3D1x[EFF3DVertexType::Count][4] =
     { 4,  8, 12, 16 }, // Float
 };
 
-static const effBYTE s_attribTypeSizeGl[EFF3DVertexType::Count][4] =
+static const effBYTE s_attribTypeSizeGl[EFF3DVertexAttribType::Count][4] =
 {
     { 1,  2,  4,  4 }, // Uint8
     { 4,  4,  4,  4 }, // Uint10
@@ -42,7 +42,7 @@ static const effBYTE s_attribTypeSizeGl[EFF3DVertexType::Count][4] =
     { 4,  8, 12, 16 }, // Float
 };
 
-static const effBYTE (*s_attribTypeSize[])[EFF3DVertexType::Count][4] =
+static const effBYTE (*s_attribTypeSize[])[EFF3DVertexAttribType::Count][4] =
 {
     &s_attribTypeSizeD3D9,  // Noop
     &s_attribTypeSizeD3D9,  // Direct3D9
@@ -61,9 +61,21 @@ EFF3DVertexDeclaration::EFF3DVertexDeclaration()
 {
     stride = 0;
 
-    s_attribTypeSize[0] = s_attribTypeSize[1];
+    //s_attribTypeSize[0] = s_attribTypeSize[1];
 }
 
+EFF3DVertexDeclaration::EFF3DVertexDeclaration(const EFF3DVertexDeclaration & rhs)
+{
+    hash = rhs.hash;
+    stride = rhs.stride;
+
+    for (effUINT i = 0; i < EFF3DVertexAttrib::Count; i++)
+    {
+        offset[i] = rhs.offset[i];
+        attributes[i].valueUINT16 = rhs.attributes[i].valueUINT16;
+    }
+
+}
 
 EFF3DVertexDeclaration::~EFF3DVertexDeclaration()
 {
@@ -89,7 +101,7 @@ effVOID EFF3DVertexDeclaration::End()
     //hash = murmur.end();
 }
 
-EFF3DVertexDeclaration & EFF3DVertexDeclaration::AddElement(EFF3DVertexAttrib::Enum attrib, effBYTE num, EFF3DVertexType::Enum type, effBOOL normalized, effBOOL asInt)
+EFF3DVertexDeclaration & EFF3DVertexDeclaration::AddElement(EFF3DVertexAttrib::Enum attrib, effBYTE num, EFF3DVertexAttribType::Enum type, effBOOL normalized, effBOOL asInt)
 {
 
     const effUINT16 encodeAsInt = (asInt & (!!"\x1\x1\x1\x0\x0"[type])) << 8;
@@ -108,12 +120,12 @@ EFF3DVertexDeclaration & EFF3DVertexDeclaration::AddElement(EFF3DVertexAttrib::E
     return *this;
 }
 
-effVOID EFF3DVertexDeclaration::Decode(EFF3DVertexAttrib::Enum attrib, effBYTE & num, EFF3DVertexType::Enum & type, effBOOL & normalized, effBOOL & asInt) const
+effVOID EFF3DVertexDeclaration::Decode(EFF3DVertexAttrib::Enum attrib, effBYTE & num, EFF3DVertexAttribType::Enum & type, effBOOL & normalized, effBOOL & asInt) const
 {
     const EFF3DVertexAttributeValue & val = attributes[attrib];
 
     num = val.valueBits.num;
-    type = (EFF3DVertexType::Enum)val.valueBits.type;
+    type = (EFF3DVertexAttribType::Enum)val.valueBits.type;
     normalized = val.valueBits.normalized;
     asInt = val.valueBits.asInt;
 }
@@ -123,6 +135,46 @@ EFF3DVertexDeclaration & EFF3DVertexDeclaration::Skip(effUINT16 size)
     stride += size;
 
     return *this;
+}
+
+
+EFF3DVertexDeclarationManager::EFF3DVertexDeclarationManager()
+{
+
+}
+
+EFF3DVertexDeclarationManager::~EFF3DVertexDeclarationManager()
+{
+
+}
+
+EFF3DVertexDeclarationHandle EFF3DVertexDeclarationManager::AddVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl)
+{
+    effUINT hash = 0;
+    MurmurHash3_x86_32(&vertexDecl.stride, sizeof(EFF3DVertexDeclaration) - sizeof(effUINT), 9582, &hash);
+
+    auto it = vertexDecls.find(hash);
+    if (it != vertexDecls.end())
+    {
+        return it->first;
+    }
+
+    vertexDecls[hash] = vertexDecl;
+    effUINT id = hashes.Add(&hash);
+
+    return id;
+}
+
+
+EFF3DVertexDeclaration * EFF3DVertexDeclarationManager::GetVertexDeclaration(EFF3DVertexDeclarationHandle vertexDecalHandle)
+{
+    auto it = vertexDecls.find(*(hashes[vertexDecalHandle]));
+    if (it != vertexDecls.end())
+    {
+        return &it->second;
+    }
+
+    return NULL;
 }
 
 EFF3D_END

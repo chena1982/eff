@@ -9,7 +9,6 @@
 #include "EFFD3D9PCH.h"
 #include "EFFD3D9Device.h"
 #include "EFFD3D9Texture.h"
-#include "EFFD3D9Surface.h"
 #include "EFFD3D9IndexBuffer.h"
 #include "EFFD3D9VertexBuffer.h"
 #include "EFFD3D9VertexDeclaration.h"
@@ -63,7 +62,7 @@ effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dp
 
 	d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-	d3dpp->AutoDepthStencilFormat = (D3DFORMAT)EFF3DFMT_D24S8;
+	d3dpp->AutoDepthStencilFormat = (D3DFORMAT)D24S8;
 	d3dpp->EnableAutoDepthStencil = TRUE;
 }
 
@@ -130,12 +129,12 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 		InitFullScreen(width, height, &d3dpp, hWnd);
 
 
-		if ( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
+		if (FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())))
 		{
 			d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 
 			//如果创建D3DFMT_X8R8G8B8缓冲模式失败，试试D3DFMT_X1R5G5B5模式
-			if( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
+			if (FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())))
 			{
 				SF_RELEASE(D3DDevice);
 				return effFALSE;
@@ -144,7 +143,7 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 	}
 	else
 	{
-		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)EFF3DFMT_D24S8);
+		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)D24S8);
 
 		if( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
 		{
@@ -219,7 +218,7 @@ effVOID UnloadTexture(EFF3DResource * resource, effVOID * userData)
 {
 
     EFF3DImage * image = (EFF3DImage *)resource;
-    EFF3DImageInfo & imageInfo = image->GetImageInfo();
+    const EFF3DImageInfo & imageInfo = image->GetImageInfo();
 
     /*if (imageInfo.pool == EFF3DPOOL_DEFAULT)
     {
@@ -395,6 +394,8 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 	return effTRUE;	
 }
 
+
+
 /*effBOOL EFFD3D9Device::_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format, EFF3DSharedTexture** texture)
 {
     assert(texture != NULL);
@@ -485,14 +486,14 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
     texture->userData = shareHandle;
 
-	EFF3DLOCKED_RECT rc;
+    EFF3DLockedRect rc;
 	if ( FAILED(effD3D9Texture->LockRect(0, &rc, NULL, 0)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
 
-	if ( rc.Pitch < pixelSize * width )
+	if ( rc.pitch < pixelSize * width )
 	{
 		SF_DELETE(effD3D9Texture);
 		effD3D9Texture->UnlockRect(0);
@@ -501,7 +502,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
 	for ( effINT i = 0; i < height; i++ )
 	{
-		memcpy(((effBYTE *)rc.pBits) + rc.Pitch * i, ((effBYTE *)srcData) + i * width * pixelSize, width * pixelSize);
+		memcpy(((effBYTE *)rc.data) + rc.pitch * i, ((effBYTE *)srcData) + i * width * pixelSize, width * pixelSize);
 	}
 
 	effD3D9Texture->UnlockRect(0);
@@ -567,52 +568,305 @@ effBOOL EFFD3D9Device::CreateDepthStencilSurface(effUINT width, effUINT height, 
 	return effTRUE;
 }*/
 
-effBOOL EFFD3D9Device::CreateIndexBuffer(effUINT length, effUINT usage, EFF3DFORMAT format, EFF3DPOOL pool, EFF3DIndexBuffer ** indexBuffer)
+effBOOL EFFD3D9Device::CreateIndexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DIndexBufferHandle * ibHandle)
 {
-	assert(indexBuffer != NULL);
+	assert(ibHandle != NULL);
 	
-	EFFD3D9IndexBuffer * effD3D9IndexBuffer = EFFNEW EFFD3D9IndexBuffer();
+    EFFD3D9IndexBuffer * effD3D9IndexBuffer = (EFFD3D9IndexBuffer *)CreateEmptyResource(EFF3DResourceType_IndexBuffer);
 	effHRESULT hr;
-	if ( FAILED(hr = D3D9Device->CreateIndexBuffer(length, usage, (D3DFORMAT)format, (D3DPOOL)pool, &effD3D9IndexBuffer->m_pBuf, NULL)) )
+
+    D3DFORMAT format = D3DFMT_INDEX16;
+    if (flag & EFF3D_BUFFER_INDEX32)
+    {
+        format = D3DFMT_INDEX32;
+    }
+
+	if ( FAILED(hr = D3D9Device->CreateIndexBuffer(size, 0, format, D3DPOOL_MANAGED, &effD3D9IndexBuffer->d3d9IndexBuffer, NULL)) )
 	{
-		SF_DELETE(effD3D9IndexBuffer);
+        SF_RELEASE(effD3D9IndexBuffer);
 		return effFALSE;
 	}
 
-	*indexBuffer = effD3D9IndexBuffer;
+    if (data != NULL)
+    {
+        effD3D9IndexBuffer->Update(0, size, data);
+    }
+
+	*ibHandle = effD3D9IndexBuffer->id;
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Device::CreateVertexBuffer(effUINT length, effUINT usage, effUINT FVF, EFF3DPOOL pool, EFF3DVertexBuffer ** vertexBuffer)
+effBOOL EFFD3D9Device::UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size)
 {
-	assert(vertexBuffer != NULL);
+    return effTRUE;
+}
 
-	EFFD3D9VertexBuffer * effD3D9VertexBuffer = EFFNEW EFFD3D9VertexBuffer();
+effBOOL EFFD3D9Device::CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vbHandle)
+{
+	EFFD3D9VertexBuffer * effD3D9VertexBuffer = (EFFD3D9VertexBuffer *)CreateEmptyResource(EFF3DResourceType_VertexBuffer);
 	effHRESULT hr;
-	if ( FAILED(hr = D3D9Device->CreateVertexBuffer(length, usage, FVF, (D3DPOOL)pool, &effD3D9VertexBuffer->m_pBuf, NULL)) )
+
+    effUINT usage = D3DUSAGE_WRITEONLY;
+    D3DPOOL pool = D3DPOOL_MANAGED;
+
+    if (data == NULL)
+    {
+        usage |= D3DUSAGE_DYNAMIC;
+        pool = D3DPOOL_DEFAULT;
+    }
+
+	if ( FAILED(hr = D3D9Device->CreateVertexBuffer(size, usage, 0, pool, &effD3D9VertexBuffer->d3d9VertexBuffer, NULL)) )
 	{
-		SF_DELETE(effD3D9VertexBuffer);
+		SF_RELEASE(effD3D9VertexBuffer);
 		return effFALSE;
 	}
 
-	*vertexBuffer = effD3D9VertexBuffer;
+    if (data != NULL)
+    {
+        effD3D9VertexBuffer->Update(0, size, data);
+    }
+
+	*vbHandle = effD3D9VertexBuffer->id;
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Device::CreateVertexDeclaration(const EFF3DVERTEXELEMENT * vertexElements, EFF3DVertexDeclaration ** decl)
+effBOOL EFFD3D9Device::UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size)
 {
-	assert(decl != NULL);
-
-	EFFD3D9VertexDeclaration * effD3D9Decl = EFFNEW EFFD3D9VertexDeclaration();
-
-	*decl = effD3D9Decl;
-	return effTRUE;
+    return effTRUE;
 }
 
-effBOOL EFFD3D9Device::CreateQuery(EFF3DQUERYTYPE type, effUINT flag, EFF3DQuery ** query)
+static D3DVERTEXELEMENT9 * fillVertexDecl(effBYTE stream, D3DVERTEXELEMENT9 * out, const EFF3DVertexDeclaration & vertexDecl)
+{
+    D3DVERTEXELEMENT9 * elem = out;
+
+    for (effUINT attr = 0; attr < EFF3DVertexAttrib::Count; ++attr)
+    {
+        if (UINT16_MAX != vertexDecl.attributes[attr].valueUINT16)
+        {
+            effBYTE num;
+            EFF3DVertexAttribType::Enum type;
+            effBOOL normalized;
+            effBOOL asInt;
+            vertexDecl.Decode(EFF3DVertexAttrib::Enum(attr), num, type, normalized, asInt);
+
+            memcpy(elem, &s_attrib[attr], sizeof(D3DVERTEXELEMENT9));
+
+            elem->Stream = stream;
+            elem->Type = s_attribType[type][num - 1][normalized];
+            elem->Offset = vertexDecl.offset[attr];
+            ++elem;
+        }
+    }
+
+    return elem;
+}
+
+
+effVOID EFFD3D9Device::SetVertexDeclaration()
+{
+    //effBOOL vertexStreamChanged = hasVertexStreamChanged(currentState, draw);
+    effBOOL vertexStreamChanged = effFALSE;
+    effBOOL programChanged = effTRUE;
+
+    EFF3DDrawCommand draw;
+
+    if (programChanged
+        || vertexStreamChanged)
+    {
+        currentDrawCommand.streamMask = draw.streamMask;
+        currentDrawCommand.instanceDataBufferHandle = draw.instanceDataBufferHandle;
+        currentDrawCommand.instanceDataOffset = draw.instanceDataOffset;
+        currentDrawCommand.instanceDataStride = draw.instanceDataStride;
+
+        const EFF3DVertexDeclaration * decls[EFF3D_CONFIG_MAX_VERTEX_STREAMS];
+
+        const effBOOL instanced = effTRUE && draw.instanceDataBufferHandle.IsValid();
+
+        const effUINT freq = instanced ? D3DSTREAMSOURCE_INDEXEDDATA | draw.numInstances : 1;
+
+        effUINT numVertices = draw.numVertices;
+        effBYTE numStreams = 0;
+        for (effUINT idx = 0, streamMask = draw.streamMask, ntz = effUINT_cnttz(streamMask)
+            ; 0 != streamMask
+            ; streamMask >>= 1, idx += 1, ntz = effUINT_cnttz(streamMask), ++numStreams
+            )
+        {
+            streamMask >>= ntz;
+            idx += ntz;
+
+            currentDrawCommand.stream[idx].vertexDeclHandle = draw.stream[idx].vertexDeclHandle;
+            currentDrawCommand.stream[idx].vertexBufferHandle = draw.stream[idx].vertexBufferHandle;
+            currentDrawCommand.stream[idx].startVertex = draw.stream[idx].startVertex;
+
+            const EFF3DVertexBufferHandle vertexBufferHandle = draw.stream[idx].vertexBufferHandle;
+            const EFFD3D9VertexBuffer & vb = *(EFFD3D9VertexBuffer *)GetVertexBufferManager()->GetResource(vertexBufferHandle);
+            const EFF3DVertexDeclarationHandle vertexDeclHandle = vb.vertexDeclHandle == 0xFFFFFFFF ? draw.stream[idx].vertexDeclHandle : vb.vertexDeclHandle;
+            const EFF3DVertexDeclaration & vertexDecl = vertexDecls[vertexDeclHandle];
+            const effUINT stride = vertexDecl.stride;
+
+            decls[numStreams] = &vertexDecl;
+
+            numVertices = std::min(UINT32_MAX == draw.numVertices ? vb.size / stride : draw.numVertices, numVertices);
+
+            DX_CHECK(D3D9Device->SetStreamSourceFreq(0, freq));
+            DX_CHECK(D3D9Device->SetStreamSource(numStreams, vb.d3d9VertexBuffer, 0, stride));
+        }
+
+        currentDrawCommand.numVertices = numVertices;
+
+        if (0 < numStreams)
+        {
+            if (instanced)
+            {
+                const EFFD3D9VertexBuffer & inst = *(EFFD3D9VertexBuffer *)GetVertexBufferManager()->GetResource(draw.instanceDataBufferHandle);
+                DX_CHECK(D3D9Device->SetStreamSourceFreq(numStreams, UINT(D3DSTREAMSOURCE_INSTANCEDATA | 1)));
+                DX_CHECK(D3D9Device->SetStreamSource(numStreams, inst.d3d9VertexBuffer, draw.instanceDataOffset, draw.instanceDataStride));
+                SetInputLayout(numStreams, decls, draw.instanceDataStride / 16);
+            }
+            else
+            {
+                //DX_CHECK(D3D9Device->SetStreamSource(numStreams, NULL, 0, 0));
+                SetInputLayout(numStreams, decls, 0);
+            }
+        }
+        else
+        {
+            DX_CHECK(D3D9Device->SetStreamSource(0, NULL, 0, 0));
+            DX_CHECK(D3D9Device->SetStreamSource(1, NULL, 0, 0));
+        }
+    }
+
+}
+
+effVOID EFFD3D9Device::SetInputLayout(effBYTE numStreams, const EFF3DVertexDeclaration ** vertexDecls, effUINT16 numInstanceData)
+{
+    effBYTE key[2 + 4 * EFF3D_CONFIG_MAX_VERTEX_STREAMS];
+    effUINT size = 0;
+    memset(key, 0, sizeof(key));
+
+    memcpy(key, &numInstanceData, sizeof(effUINT16));
+    size += 2;
+
+    for (effBYTE stream = 0; stream < numStreams; ++stream)
+    {
+        memcpy(key + 2 + stream * 4, &vertexDecls[stream]->hash, sizeof(effUINT));
+        size += 4;
+    }
+
+    effUINT layoutHash;
+    MurmurHash3_x86_32(key, size, 9582, &layoutHash);
+
+    LPDIRECT3DVERTEXDECLARATION9 layout = NULL;
+    auto it = inputLayoutCache.find(layoutHash);
+    if (it == inputLayoutCache.end())
+    {
+        D3DVERTEXELEMENT9 vertexElements[EFF3DVertexAttrib::Count + 1 + EFF3D_CONFIG_MAX_INSTANCE_DATA_COUNT];
+        D3DVERTEXELEMENT9* elem = vertexElements;
+
+        for (effBYTE stream = 0; stream < numStreams; ++stream)
+        {
+            elem = fillVertexDecl(stream, elem, *vertexDecls[stream]);
+        }
+
+        const D3DVERTEXELEMENT9 inst = { numStreams, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 };
+
+        for (effBYTE ii = 0; ii < numInstanceData; ++ii)
+        {
+            memcpy(elem, &inst, sizeof(D3DVERTEXELEMENT9));
+            elem->UsageIndex = effBYTE(7 - ii); // TEXCOORD7 = i_data0, TEXCOORD6 = i_data1, etc.
+            elem->Offset = ii * 16;
+            ++elem;
+        }
+
+        memcpy(elem, &s_attrib[EFF3DVertexAttrib::Count], sizeof(D3DVERTEXELEMENT9));
+
+        DX_CHECK(D3D9Device->CreateVertexDeclaration(vertexElements, &layout));
+
+        inputLayoutCache[layoutHash] = layout;
+    }
+
+    DX_CHECK(D3D9Device->SetVertexDeclaration(layout));
+}
+
+effVOID EFFD3D9Device::Draw(EFF3DDrawCommand & drawCommand)
 {
 
-    EFFD3D9Query * effD3D9Query = EFFNEW EFFD3D9Query();
+    effBYTE primitiveIndex = 0;
+    const effUINT64 primitiveType = renderDebugFlags & EFF3D_DEBUG_WIREFRAME ? EFF3D_STATE_PT_LINES : 0;
+    primitiveIndex = effBYTE(primitiveType >> EFF3D_STATE_PT_SHIFT);
+
+    PrimInfo primitiveInfo = s_primInfo[primitiveIndex];
+
+    if (0 != currentDrawCommand.streamMask)
+    {
+        effUINT numVertices = drawCommand.numVertices;
+        effUINT numIndices = 0;
+        effUINT numPrimsSubmitted = 0;
+        effUINT numInstances = 0;
+        effUINT numPrimsRendered = 0;
+
+
+
+        if (drawCommand.indexBufferHandle.IsValid())
+        {
+            if (UINT32_MAX == drawCommand.numIndices)
+            {
+                //const IndexBufferD3D9& ib = m_indexBuffers[draw.m_indexBuffer.idx];
+                EFFD3D9IndexBuffer ib;
+                const uint32_t indexSize = 0 == (ib.flags & EFF3D_BUFFER_INDEX32) ? 2 : 4;
+                numIndices = ib.size / indexSize;
+                numPrimsSubmitted = numIndices / primitiveInfo.div - primitiveInfo.sub;
+                numInstances = drawCommand.numInstances;
+                numPrimsRendered = numPrimsSubmitted * drawCommand.numInstances;
+
+                DX_CHECK(D3D9Device->DrawIndexedPrimitive(primitiveInfo.type
+                    , drawCommand.stream[0].startVertex
+                    , 0
+                    , numVertices
+                    , 0
+                    , numPrimsSubmitted
+                ));
+            }
+            else if (primitiveInfo.min <= drawCommand.numIndices)
+            {
+                numIndices = drawCommand.numIndices;
+                numPrimsSubmitted = numIndices / primitiveInfo.div - primitiveInfo.sub;
+                numInstances = drawCommand.numInstances;
+                numPrimsRendered = numPrimsSubmitted * drawCommand.numInstances;
+
+                DX_CHECK(D3D9Device->DrawIndexedPrimitive(primitiveInfo.type
+                    , drawCommand.stream[0].startVertex
+                    , 0
+                    , numVertices
+                    , drawCommand.startIndex
+                    , numPrimsSubmitted
+                ));
+            }
+        }
+        else
+        {
+            numPrimsSubmitted = numVertices / primitiveInfo.div - primitiveInfo.sub;
+            numInstances = drawCommand.numInstances;
+            numPrimsRendered = numPrimsSubmitted * drawCommand.numInstances;
+
+            DX_CHECK(D3D9Device->DrawPrimitive(primitiveInfo.type
+                , drawCommand.stream[0].startVertex
+                , numPrimsSubmitted
+            ));
+        }
+
+
+        //statsNumPrimsSubmitted[primIndex] += numPrimsSubmitted;
+        //statsNumPrimsRendered[primIndex] += numPrimsRendered;
+        //statsNumInstances[primIndex] += numInstances;
+        //statsNumIndices += numIndices;
+    }
+}
+
+effBOOL EFFD3D9Device::CreateQuery(EFF3DQueryType type, effUINT flag, EFF3DQuery ** query)
+{
+
+    /*EFFD3D9Query * effD3D9Query = EFFNEW EFFD3D9Query();
 
     effHRESULT hr;
     if (FAILED(hr = D3D9Device->CreateQuery((D3DQUERYTYPE)type, &effD3D9Query->query)))
@@ -621,57 +875,51 @@ effBOOL EFFD3D9Device::CreateQuery(EFF3DQUERYTYPE type, effUINT flag, EFF3DQuery
         return effFALSE;
     }
 
-    *query = effD3D9Query;
+    *query = effD3D9Query;*/
     return effTRUE;
 }
 
-effBOOL EFFD3D9Device::DrawIndexedPrimitive(EFF3DPRIMITIVETYPE type, effINT baseVertexIndex, effUINT minIndex, effUINT numVertices, effUINT startIndex, effUINT primitiveCount)
+effBOOL EFFD3D9Device::DrawIndexedPrimitive(EFF3DPrimitiveType type, effINT baseVertexIndex, effUINT minIndex, effUINT numVertices,
+    effUINT startIndex, effUINT primitiveCount)
 {
-	return SUCCEEDED(D3D9Device->DrawIndexedPrimitive((D3DPRIMITIVETYPE)type, baseVertexIndex, minIndex, numVertices, startIndex, primitiveCount));
+    return effTRUE;
+	//return SUCCEEDED(D3D9Device->DrawIndexedPrimitive((D3DPRIMITIVETYPE)type, baseVertexIndex, minIndex, numVertices, startIndex, primitiveCount));
 }
 
-effBOOL EFFD3D9Device::DrawIndexedPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT minVertexIndex, effUINT numVertices, effUINT primitiveCount, const effVOID * indexData, EFF3DFORMAT indexDataFormat, const effVOID * vertexStreamZeroData, effUINT vertexStreamZeroStride)
+effBOOL EFFD3D9Device::DrawIndexedPrimitiveUP(EFF3DPrimitiveType primitiveType, effUINT minVertexIndex, effUINT numVertices, effUINT primitiveCount,
+    const effVOID * indexData, effBOOL index16,
+    const effVOID * vertexStreamZeroData, effUINT vertexStreamZeroStride)
 {
-	return SUCCEEDED(D3D9Device->DrawIndexedPrimitiveUP((D3DPRIMITIVETYPE)primitiveType, minVertexIndex, numVertices, primitiveCount, indexData, (D3DFORMAT)indexDataFormat, vertexStreamZeroData, vertexStreamZeroStride));
+    return effTRUE;
+	//return SUCCEEDED(D3D9Device->DrawIndexedPrimitiveUP((D3DPRIMITIVETYPE)primitiveType, minVertexIndex, numVertices, primitiveCount, indexData, (D3DFORMAT)indexDataFormat, vertexStreamZeroData, vertexStreamZeroStride));
 }
 
-effBOOL EFFD3D9Device::DrawPrimitive(EFF3DPRIMITIVETYPE primitiveType, effUINT startVertex, effUINT primitiveCount)
+effBOOL EFFD3D9Device::DrawPrimitive(EFF3DPrimitiveType primitiveType, effUINT startVertex, effUINT primitiveCount)
 {
-	HRESULT hr = D3D9Device->DrawPrimitive((D3DPRIMITIVETYPE)primitiveType, startVertex, primitiveCount);
-	return SUCCEEDED(hr);
+	//HRESULT hr = D3D9Device->DrawPrimitive((D3DPRIMITIVETYPE)primitiveType, startVertex, primitiveCount);
+	//return SUCCEEDED(hr);
+    return effTRUE;
 }
 
-effBOOL EFFD3D9Device::DrawPrimitiveUP(EFF3DPRIMITIVETYPE primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData, effUINT vertexStreamZeroStride)
+effBOOL EFFD3D9Device::DrawPrimitiveUP(EFF3DPrimitiveType primitiveType, effUINT primitiveCount, const effVOID * vertexStreamZeroData,
+    effUINT vertexStreamZeroStride)
 {
-	return SUCCEEDED(D3D9Device->DrawPrimitiveUP((D3DPRIMITIVETYPE)primitiveType, primitiveCount, vertexStreamZeroData, vertexStreamZeroStride));
+    return effTRUE;
+	//return SUCCEEDED(D3D9Device->DrawPrimitiveUP((D3DPRIMITIVETYPE)primitiveType, primitiveCount, vertexStreamZeroData, vertexStreamZeroStride));
 }
 
-effBOOL EFFD3D9Device::SetTransform(EFF3DTRANSFORMSTATETYPE state, const EFFMatrix4 * matrix)
+/*effBOOL EFFD3D9Device::SetTransform(EFF3DPrimitiveType state, const EFFMatrix4 * matrix)
 {
 	return SUCCEEDED(D3D9Device->SetTransform((D3DTRANSFORMSTATETYPE)state, (const D3DMATRIX *)matrix));
-}
+}*/
 
-effBOOL EFFD3D9Device::SetFVF(effUINT FVF)
-{
-	return SUCCEEDED(D3D9Device->SetFVF(FVF));
-}
 
-effBOOL EFFD3D9Device::SetVertexDeclaration(EFF3DVertexDeclaration * decl)
-{
-	EFFD3D9VertexDeclaration * effD3D9Decl = (EFFD3D9VertexDeclaration *)decl;
-	return SUCCEEDED(D3D9Device->SetVertexDeclaration(effD3D9Decl->GetD3D9VertexDeclaration(this)));
-}
 
-effBOOL EFFD3D9Device::SetStreamSource(effUINT streamNumber, EFF3DVertexBufferHandle vbHandle, effUINT offsetInBytes, effUINT stride)
+effBOOL EFFD3D9Device::SetIndices(EFF3DIndexBufferHandle ibHandle)
 {
-	EFFD3D9VertexBuffer * effD3D9VB = (EFFD3D9VertexBuffer *)streamData;
-	return SUCCEEDED(D3D9Device->SetStreamSource(streamNumber, effD3D9VB->m_pBuf, offsetInBytes, stride));
-}
-
-effBOOL EFFD3D9Device::SetIndices(EFF3DIndexBuffer * indexData)
-{
-	EFFD3D9IndexBuffer * effD3D9IB = (EFFD3D9IndexBuffer *)indexData;
-	return SUCCEEDED(D3D9Device->SetIndices(effD3D9IB->m_pBuf));
+	//EFFD3D9IndexBuffer * effD3D9IB = (EFFD3D9IndexBuffer *)indexData;
+    EFFD3D9IndexBuffer * effD3D9IB = NULL;
+	return SUCCEEDED(D3D9Device->SetIndices(effD3D9IB->d3d9IndexBuffer));
 }
 
 //effBOOL EFFD3D9Device::SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value)
@@ -679,15 +927,11 @@ effBOOL EFFD3D9Device::SetIndices(EFF3DIndexBuffer * indexData)
 //	return SUCCEEDED(D3D9Device->SetRenderState((D3DRENDERSTATETYPE)state, value));
 //}
 
-effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
+effVOID EFFD3D9Device::SetRenderState(EFF3DDrawCommand & drawCommand)
 {
-
-    if (CurrentState == State)
-    {
-        return;
-    }
-
-    effUINT64 changedFlags = CurrentState ^ State;
+    const effUINT64 newFlags = drawCommand.stateFlags;
+    effUINT64 changedFlags = currentDrawCommand.stateFlags ^ drawCommand.stateFlags;
+    currentDrawCommand.stateFlags = newFlags;
 
     if ((EFF3D_STATE_CULL_MASK
         | EFF3D_STATE_WRITE_Z
@@ -703,18 +947,18 @@ effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
     {
         if (EFF3D_STATE_CULL_MASK & changedFlags)
         {
-            effUINT32 cull = (State & EFF3D_STATE_CULL_MASK) >> EFF3D_STATE_CULL_SHIFT;
+            effUINT32 cull = (newFlags & EFF3D_STATE_CULL_MASK) >> EFF3D_STATE_CULL_SHIFT;
             DX_CHECK(D3D9Device->SetRenderState(D3DRS_CULLMODE, s_cullMode[cull]));
         }
 
         if (EFF3D_STATE_WRITE_Z & changedFlags)
         {
-            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ZWRITEENABLE, !!(EFF3D_STATE_WRITE_Z & State)));
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ZWRITEENABLE, !!(EFF3D_STATE_WRITE_Z & newFlags)));
         }
 
         if (EFF3D_STATE_DEPTH_TEST_MASK & changedFlags)
         {
-            effUINT32 func = (State & EFF3D_STATE_DEPTH_TEST_MASK) >> EFF3D_STATE_DEPTH_TEST_SHIFT;
+            effUINT32 func = (newFlags & EFF3D_STATE_DEPTH_TEST_MASK) >> EFF3D_STATE_DEPTH_TEST_SHIFT;
             DX_CHECK(D3D9Device->SetRenderState(D3DRS_ZENABLE, 0 != func));
 
             if (0 != func)
@@ -725,32 +969,32 @@ effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
 
         if (EFF3D_STATE_ALPHA_REF_MASK & changedFlags)
         {
-            effUINT32 ref = (State & EFF3D_STATE_ALPHA_REF_MASK) >> EFF3D_STATE_ALPHA_REF_SHIFT;
+            effUINT32 ref = (newFlags & EFF3D_STATE_ALPHA_REF_MASK) >> EFF3D_STATE_ALPHA_REF_SHIFT;
             //viewState.m_alphaRef = ref / 255.0f;
         }
 
         if ((EFF3D_STATE_PT_POINTS | EFF3D_STATE_POINT_SIZE_MASK) & changedFlags)
         {
-            DX_CHECK(D3D9Device->SetRenderState(D3DRS_POINTSIZE, (effUINT32)((State & EFF3D_STATE_POINT_SIZE_MASK) >> EFF3D_STATE_POINT_SIZE_SHIFT)));
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_POINTSIZE, (effUINT32)((newFlags & EFF3D_STATE_POINT_SIZE_MASK) >> EFF3D_STATE_POINT_SIZE_SHIFT)));
         }
 
         if (EFF3D_STATE_MSAA & changedFlags)
         {
-            DX_CHECK(D3D9Device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, (State & EFF3D_STATE_MSAA) == EFF3D_STATE_MSAA));
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, (newFlags & EFF3D_STATE_MSAA) == EFF3D_STATE_MSAA));
         }
 
         if (EFF3D_STATE_LINEAA & changedFlags)
         {
-            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, !!(State & EFF3D_STATE_LINEAA)));
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, !!(newFlags & EFF3D_STATE_LINEAA)));
         }
 
         if ((EFF3D_STATE_WRITE_A | EFF3D_STATE_WRITE_RGB) & changedFlags)
         {
             effUINT32 writeEnable = 0;
-            writeEnable |= (State & EFF3D_STATE_WRITE_R) ? D3DCOLORWRITEENABLE_RED : 0;
-            writeEnable |= (State & EFF3D_STATE_WRITE_G) ? D3DCOLORWRITEENABLE_GREEN : 0;
-            writeEnable |= (State & EFF3D_STATE_WRITE_B) ? D3DCOLORWRITEENABLE_BLUE : 0;
-            writeEnable |= (State & EFF3D_STATE_WRITE_A) ? D3DCOLORWRITEENABLE_ALPHA : 0;
+            writeEnable |= (newFlags & EFF3D_STATE_WRITE_R) ? D3DCOLORWRITEENABLE_RED : 0;
+            writeEnable |= (newFlags & EFF3D_STATE_WRITE_G) ? D3DCOLORWRITEENABLE_GREEN : 0;
+            writeEnable |= (newFlags & EFF3D_STATE_WRITE_B) ? D3DCOLORWRITEENABLE_BLUE : 0;
+            writeEnable |= (newFlags & EFF3D_STATE_WRITE_A) ? D3DCOLORWRITEENABLE_ALPHA : 0;
             DX_CHECK(D3D9Device->SetRenderState(D3DRS_COLORWRITEENABLE, writeEnable));
         }
 
@@ -758,20 +1002,20 @@ effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
             | EFF3D_STATE_BLEND_EQUATION_MASK
             | EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE
             ) & changedFlags)
-            || BlendFactor != Color)
+            || BlendFactor != drawCommand.rgba)
         {
-            effBOOL enabled = !!(EFF3D_STATE_BLEND_MASK & State);
+            effBOOL enabled = !!(EFF3D_STATE_BLEND_MASK & newFlags);
             DX_CHECK(D3D9Device->SetRenderState(D3DRS_ALPHABLENDENABLE, enabled));
 
             if (AtocSupport && EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE & changedFlags)
             {
-                DX_CHECK(D3D9Device->SetRenderState(D3DRS_ADAPTIVETESS_Y, !!(State & EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE) ? D3DFMT_ATOC : 0));
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_ADAPTIVETESS_Y, !!(newFlags & EFF3D_STATE_BLEND_ALPHA_TO_COVERAGE) ? D3DFMT_ATOC : 0));
             }
 
             if (enabled)
             {
-                const effUINT32 blend = uint32_t((State & EFF3D_STATE_BLEND_MASK) >> EFF3D_STATE_BLEND_SHIFT);
-                const effUINT32 equation = uint32_t((State & EFF3D_STATE_BLEND_EQUATION_MASK) >> EFF3D_STATE_BLEND_EQUATION_SHIFT);
+                const effUINT32 blend = uint32_t((newFlags & EFF3D_STATE_BLEND_MASK) >> EFF3D_STATE_BLEND_SHIFT);
+                const effUINT32 equation = uint32_t((newFlags & EFF3D_STATE_BLEND_EQUATION_MASK) >> EFF3D_STATE_BLEND_EQUATION_SHIFT);
 
                 const effUINT32 srcRGB = (blend) & 0xf;
                 const effUINT32 dstRGB = (blend >> 4) & 0xf;
@@ -796,9 +1040,9 @@ effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
                 }
 
                 if ((s_blendFactor[srcRGB].m_factor || s_blendFactor[dstRGB].m_factor)
-                    && BlendFactor != Color)
+                    && BlendFactor != drawCommand.rgba)
                 {
-                    const effUINT32 rgba = Color;
+                    const effUINT rgba = drawCommand.rgba;
                     D3DCOLOR color = D3DCOLOR_RGBA(rgba >> 24
                         , (rgba >> 16) & 0xff
                         , (rgba >> 8) & 0xff
@@ -808,14 +1052,145 @@ effVOID EFFD3D9Device::SetRenderState(effUINT64 State, effUINT32 Color)
                 }
             }
 
-            BlendFactor = Color;
+            BlendFactor = drawCommand.rgba;
         }
     }
-
-    CurrentState = State;
 }
 
-effBOOL EFFD3D9Device::SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value)
+effVOID EFFD3D9Device::SetDepthStencilState(EFF3DDrawCommand & drawCommand)
+{
+    const effUINT64 newStencil = drawCommand.stencil;
+    effUINT64 changedStencil = currentDrawCommand.stencil ^ drawCommand.stencil;
+    currentDrawCommand.stencil = newStencil;
+
+    if (0 != changedStencil)
+    {
+        effBOOL enable = 0 != newStencil;
+        DX_CHECK(D3D9Device->SetRenderState(D3DRS_STENCILENABLE, enable));
+
+        if (0 != newStencil)
+        {
+            effUINT fstencil = UnpackStencil(0, newStencil);
+            effUINT bstencil = UnpackStencil(1, newStencil);
+            effBYTE frontAndBack = bstencil != EFF3D_STENCIL_NONE && bstencil != fstencil;
+            DX_CHECK(D3D9Device->SetRenderState(D3DRS_TWOSIDEDSTENCILMODE, 0 != frontAndBack));
+
+            effUINT fchanged = UnpackStencil(0, changedStencil);
+            if ((EFF3D_STENCIL_FUNC_REF_MASK | EFF3D_STENCIL_FUNC_RMASK_MASK) & fchanged)
+            {
+                effUINT ref = (fstencil & EFF3D_STENCIL_FUNC_REF_MASK) >> EFF3D_STENCIL_FUNC_REF_SHIFT;
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_STENCILREF, ref));
+
+                effUINT rmask = (fstencil & EFF3D_STENCIL_FUNC_RMASK_MASK) >> EFF3D_STENCIL_FUNC_RMASK_SHIFT;
+                DX_CHECK(D3D9Device->SetRenderState(D3DRS_STENCILMASK, rmask));
+            }
+
+            // 						uint32_t bchanged = unpackStencil(1, changedStencil);
+            // 						if (EFF3D_STENCIL_FUNC_RMASK_MASK & bchanged)
+            // 						{
+            // 							uint32_t wmask = (bstencil&EFF3D_STENCIL_FUNC_RMASK_MASK)>>EFF3D_STENCIL_FUNC_RMASK_SHIFT;
+            // 							DX_CHECK(device->SetRenderState(D3DRS_STENCILWRITEMASK, wmask) );
+            // 						}
+
+            for (effBYTE ii = 0, num = frontAndBack + 1; ii < num; ++ii)
+            {
+                effUINT stencil = UnpackStencil(ii, newStencil);
+                effUINT changed = UnpackStencil(ii, changedStencil);
+
+                if ((EFF3D_STENCIL_TEST_MASK | EFF3D_STENCIL_FUNC_REF_MASK | EFF3D_STENCIL_FUNC_RMASK_MASK) & changed)
+                {
+                    effUINT func = (stencil & EFF3D_STENCIL_TEST_MASK) >> EFF3D_STENCIL_TEST_SHIFT;
+                    DX_CHECK(D3D9Device->SetRenderState(s_stencilFuncRs[ii], s_cmpFunc[func]));
+                }
+
+                if ((EFF3D_STENCIL_OP_FAIL_S_MASK | EFF3D_STENCIL_OP_FAIL_Z_MASK | EFF3D_STENCIL_OP_PASS_Z_MASK) & changed)
+                {
+                    effUINT sfail = (stencil & EFF3D_STENCIL_OP_FAIL_S_MASK) >> EFF3D_STENCIL_OP_FAIL_S_SHIFT;
+                    DX_CHECK(D3D9Device->SetRenderState(s_stencilFailRs[ii], s_stencilOp[sfail]));
+
+                    effUINT zfail = (stencil & EFF3D_STENCIL_OP_FAIL_Z_MASK) >> EFF3D_STENCIL_OP_FAIL_Z_SHIFT;
+                    DX_CHECK(D3D9Device->SetRenderState(s_stencilZFailRs[ii], s_stencilOp[zfail]));
+
+                    effUINT zpass = (stencil & EFF3D_STENCIL_OP_PASS_Z_MASK) >> EFF3D_STENCIL_OP_PASS_Z_SHIFT;
+                    DX_CHECK(D3D9Device->SetRenderState(s_stencilZPassRs[ii], s_stencilOp[zpass]));
+                }
+            }
+        }
+    }
+}
+
+static effVOID SetSamplerStateReal(LPDIRECT3DDEVICE9EX device, DWORD stage, D3DSAMPLERSTATETYPE type, DWORD value)
+{
+    DX_CHECK(device->SetSamplerState(stage, type, value));
+    if (4 > stage)
+    {
+        DX_CHECK(device->SetSamplerState(D3DVERTEXTEXTURESAMPLER0 + stage, type, value));
+    }
+}
+
+inline effBOOL NeedBorderColor(effUINT flags)
+{
+    return EFF3D_TEXTURE_U_BORDER == (flags & EFF3D_TEXTURE_U_BORDER)
+        || EFF3D_TEXTURE_V_BORDER == (flags & EFF3D_TEXTURE_V_BORDER)
+        || EFF3D_TEXTURE_W_BORDER == (flags & EFF3D_TEXTURE_W_BORDER);
+}
+
+effVOID EFFD3D9Device::SetSamplerState(effUINT stage, effUINT flags)
+{
+    const effUINT newFlags = flags & ((~EFF3D_TEXTURE_RESERVED_MASK) | EFF3D_TEXTURE_SAMPLER_BITS_MASK | EFF3D_TEXTURE_SRGB);
+
+    if (samplerFlags[stage] != newFlags)
+    {
+        samplerFlags[stage] = newFlags;
+
+        D3DTEXTUREADDRESS tau = s_textureAddress[(flags & EFF3D_TEXTURE_U_MASK) >> EFF3D_TEXTURE_U_SHIFT];
+        D3DTEXTUREADDRESS tav = s_textureAddress[(flags & EFF3D_TEXTURE_V_MASK) >> EFF3D_TEXTURE_V_SHIFT];
+        D3DTEXTUREADDRESS taw = s_textureAddress[(flags & EFF3D_TEXTURE_W_MASK) >> EFF3D_TEXTURE_W_SHIFT];
+        D3DTEXTUREFILTERTYPE minFilter = s_textureFilter[(flags & EFF3D_TEXTURE_MIN_MASK) >> EFF3D_TEXTURE_MIN_SHIFT];
+        D3DTEXTUREFILTERTYPE magFilter = s_textureFilter[(flags & EFF3D_TEXTURE_MAG_MASK) >> EFF3D_TEXTURE_MAG_SHIFT];
+        D3DTEXTUREFILTERTYPE mipFilter = s_textureFilter[(flags & EFF3D_TEXTURE_MIP_MASK) >> EFF3D_TEXTURE_MIP_SHIFT];
+
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_ADDRESSU, tau);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_ADDRESSV, tav);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_ADDRESSW, taw);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_MINFILTER, minFilter);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_MAGFILTER, magFilter);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_MIPFILTER, mipFilter);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_MAXANISOTROPY, maxAnisotropy);
+        SetSamplerStateReal(D3D9Device, stage, D3DSAMP_SRGBTEXTURE, 0 != (newFlags & EFF3D_TEXTURE_SRGB));
+    }
+}
+
+effVOID EFFD3D9Device::SetTextures(EFF3DDrawCommand & drawCommand)
+{
+    EFF3DRenderBind drawBind;
+
+    for (effINT stage = 0; stage < EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS; ++stage)
+    {
+        const EFF3DBinding & bind = drawBind.binds[stage];
+        EFF3DBinding & currentBind = currentDrawBind.binds[stage];
+
+        if (currentBind.handle != bind.handle
+            || currentBind.data.draw.textureFlags != bind.data.draw.textureFlags
+            || programChanged)
+        {
+
+            EFFD3D9Texture * texture = (EFFD3D9Texture *)textureManager->GetResource(bind.handle);
+            if (texture != NULL)
+            {
+                texture->Commit(stage, bind.data.draw.textureFlags);
+            }
+            else
+            {
+                DX_CHECK(D3D9Device->SetTexture(stage, NULL));
+            }
+        }
+
+        currentBind = bind;
+    }
+}
+
+/*effBOOL EFFD3D9Device::SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value)
 {
 	return SUCCEEDED(D3D9Device->SetTextureStageState(stage, (D3DTEXTURESTAGESTATETYPE)type, value));
 }
@@ -823,12 +1198,13 @@ effBOOL EFFD3D9Device::SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTAT
 effBOOL EFFD3D9Device::SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value)
 {
 	return SUCCEEDED(D3D9Device->SetSamplerState(Sampler, (D3DSAMPLERSTATETYPE)Type, Value)); 
-}
+}*/
 
-effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTexture * renderTarget)
+effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHandle renderTarget)
 {
-    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)renderTarget;
-    CurrentRenderTarget = effD3D9Texture;
+    //EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)renderTarget;
+    EFFD3D9Texture * effD3D9Texture = NULL;
+    currentRenderTarget = effD3D9Texture;
 
     LPDIRECT3DSURFACE9 surface = NULL;
     effD3D9Texture->texture->GetSurfaceLevel(0, &surface);
@@ -843,8 +1219,10 @@ effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTexture *
 	return SUCCEEDED(hr);
 }
 
-effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DImage * texture)
+effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DTextureHandle textureHandle)
 {
+    EFFD3D9Texture * texture = NULL;
+
 	if ( texture != NULL )
 	{
 		if ( texture->GetImageInfo().type == EFF3DResourceType_Texture2D )
@@ -860,9 +1238,11 @@ effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DImage * texture)
 	}
 }
 
-effBOOL EFFD3D9Device::SetDepthStencil(EFF3DTexture * depthStencil)
+effBOOL EFFD3D9Device::SetDepthStencil(EFF3DTextureHandle depthStencilHandle)
 {
-    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)depthStencil;
+    //EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)depthStencil;
+    EFFD3D9Texture * effD3D9Texture = NULL;
+
 
     LPDIRECT3DSURFACE9 surface = NULL;
     effD3D9Texture->texture->GetSurfaceLevel(0, &surface);
@@ -903,17 +1283,21 @@ effVOID EFFD3D9Device::Release()
 
 EFF3DTextureHandle EFFD3D9Device::GetRenderTarget(effUINT index)
 {
-    return CurrentRenderTarget->id;
+    return currentRenderTarget->id;
 }
 
 
-effBOOL EFFD3D9Device::GetViewport(EFF3DVIEWPORT9 * viewport)
+/*effBOOL EFFD3D9Device::GetViewport(EFF3DVIEWPORT9 * viewport)
 {
 	return SUCCEEDED(D3D9Device->GetViewport((D3DVIEWPORT9 *)viewport));
-}
+}*/
 
 
-effBOOL	EFFD3D9Device::CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool)
+/*effBOOL	EFFD3D9Device::CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFORMAT * format, EFF3DPOOL pool)
 {
 	return SUCCEEDED(D3DXCheckTextureRequirements(D3D9Device, width, height, numMipLevels, usage, (D3DFORMAT *)format, (D3DPOOL)pool));
-}
+}*/
+
+
+
+

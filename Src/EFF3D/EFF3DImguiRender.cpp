@@ -12,6 +12,7 @@
 #include "EFF3DDevice.h"
 #include "EFF3DTexture.h"
 #include "EFF3DFont.h"
+#include "EFF3DVertexDeclaration.h"
 
 EFF3D_BEGIN
 

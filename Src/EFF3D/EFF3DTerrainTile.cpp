@@ -32,7 +32,7 @@ effVOID EFF3DTerrainTile::Render(EFF3DDevice * device)
 	if ( tileData != NULL )
 	{
 		//device->SetFVF(EFF3DFVF_XYZ);
-		device->SetStreamSource(0, tileData->GetVertexBuffer(currentLevel, device), 0, sizeof(effFLOAT) * 3);
+		//device->SetStreamSource(0, tileData->GetVertexBuffer(currentLevel, device), 0, sizeof(effFLOAT) * 3);
 		device->SetIndices(tileData->GetIndexBuffer(currentLevel, device));
 
 		device->DrawIndexedPrimitive(TriangleStrip, 0, 0, tileData->GetVerticesNum(currentLevel), 0, tileData->GetIndicesNum(currentLevel) - 2);

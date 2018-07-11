@@ -27,7 +27,7 @@
 using namespace ursine;
 using namespace meta;
 
-
+#include "murmur3/murmur3.h"
 
 #include "EFFBase\EFFBaseDefines.h"
 #include "EFFBase\EFFMemory.h"

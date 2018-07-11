@@ -13,29 +13,21 @@
 
 EFFD3D9IndexBuffer::EFFD3D9IndexBuffer()
 {
-	m_pBuf = NULL;
+    d3d9IndexBuffer = NULL;
 }
 
 EFFD3D9IndexBuffer::~EFFD3D9IndexBuffer()
 {
-	SF_RELEASE(m_pBuf);
+	SF_RELEASE(d3d9IndexBuffer);
 }
 
 
-effHRESULT EFFD3D9IndexBuffer::GetDesc(EFF3DINDEXBUFFER_DESC * pDesc)
+effVOID EFFD3D9IndexBuffer::CreateFromMemory(effUINT size, effVOID * data, effUINT flag)
 {
-	assert(m_pBuf != NULL);
-	return m_pBuf->GetDesc((D3DINDEXBUFFER_DESC *)pDesc);
+
 }
 
-effHRESULT EFFD3D9IndexBuffer::Lock(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags)
+effVOID EFFD3D9IndexBuffer::Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard/* = effFALSE*/)
 {
-	assert(m_pBuf != NULL);
-	return m_pBuf->Lock(OffsetToLock,SizeToLock,ppbData,Flags);
-}
 
-effHRESULT EFFD3D9IndexBuffer::Unlock()
-{
-	assert(m_pBuf != NULL);
-	return m_pBuf->Unlock();
 }

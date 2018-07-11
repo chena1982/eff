@@ -27,7 +27,7 @@ public:
 		nextId = -1;
 	}
 
-	effINT Add(T * value)
+	effUINT Add(T * value)
 	{
 		CalculateNextId();
         effUINT index = nextId;

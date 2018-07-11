@@ -21,7 +21,7 @@ public:
 	EFF3DImage() {}
 	virtual ~EFF3DImage() {}
 public:
-	EFF3DImageInfo & GetImageInfo() { return imageInfo; }
+	const EFF3DImageInfo & GetImageInfo() { return imageInfo; }
 protected:
     EFF3DImageInfo imageInfo;
 };
@@ -62,8 +62,8 @@ public:
 	//virtual effHRESULT			GetSurfaceLevel(effUINT Level, EFF3DSurface ** ppSurfaceLevel) = 0;
     virtual effVOID				GetSharedTextureInfo(SharedTextureInfo * sharedTextureInfo);
 
-    EFF3DTexture *              GetClientTexture();
-    EFF3DTexture *              GetHostTexture(effINT index);
+    EFF3DTextureHandle          GetClientTexture();
+    EFF3DTextureHandle          GetHostTexture(effINT index);
 
 
 	effVOID						ClientWaitToStartRendering();
@@ -78,8 +78,8 @@ protected:
     EFFSemaphore hostSemaphore;
 	effBOOL host;
 
-    EFF3DTexture *						    texture[SHAREDTEXTURE_BUFFER_COUNT];
-    EFF3DTextureHandle                      sharedHandle[SHAREDTEXTURE_BUFFER_COUNT];
+    EFF3DTextureHandle						textureHandle[SHAREDTEXTURE_BUFFER_COUNT];
+    effSIZE                                 sharedHandle[SHAREDTEXTURE_BUFFER_COUNT];                          
     EFF3DDevice *							device;
     effINT                                  currentIndex;
 };
@@ -91,6 +91,11 @@ protected:
     EFF3DTextureManager();
 	virtual ~EFF3DTextureManager();
 public:
+
+    const EFF3DImageInfo & GetImageInfo(EFF3DTextureHandle textureHandle);
+
+    effBOOL LockRect(EFF3DTextureHandle textureHandle, effUINT level, EFF3DLockedRect * lockedRect, const EFFRect * rect, effUINT flag);
+    effBOOL UnlockRect(EFF3DTextureHandle textureHandle, effUINT level);
 
 	virtual effBOOL CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType);
 protected:

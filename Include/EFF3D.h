@@ -26,7 +26,7 @@ USE_EFFMATH
 #include "EFF3D\EFF3DObject.h"
 #include "EFF3D\EFF3DDevice.h"
 #include "EFF3D\EFF3DTexture.h"
-#include "EFF3D\EFF3DSurface.h"
+//#include "EFF3D\EFF3DSurface.h"
 #include "EFF3D\EFF3DIndexBuffer.h"
 #include "EFF3D\EFF3DVertexBuffer.h"
 #include "EFF3D\EFF3DVertexDeclaration.h"
@@ -44,6 +44,7 @@ USE_EFFMATH
 //#include "EFF3D\EFF3DWebGui.h"
 //#include "EFF3D\EFF3DHtmlWindow.h"
 #include "EFF3D\EFF3DQuery.h"
+#include "EFF3D\EFF3DRenderCommand.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 

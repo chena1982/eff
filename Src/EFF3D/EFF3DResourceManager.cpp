@@ -107,6 +107,16 @@ effVOID EFF3DResourceManager::ForEach(boost::function<effVOID(EFF3DResource *, e
     }
 }
 
+effVOID EFF3DResourceManager::Release(EFFId resourceHandle)
+{
+    EFF3DResource * resource = indices[resourceHandle.Index()];
+    effUINT ref = resource->GetRef();
+    SF_RELEASE(resource);
+    if (ref == 1)
+    {
+        indices.Remove(resourceHandle.Index());
+    }
+}
 
 effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
 {

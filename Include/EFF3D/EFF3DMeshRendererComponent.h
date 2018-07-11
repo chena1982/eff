@@ -19,9 +19,9 @@ protected:
     virtual ~EFF3DMeshRendererComponent();
 private:
 
-    EFF3DVertexDeclHandle       vertexDecl;
-    EFF3DVertexBufferHandle     vertexBuffer;
-    EFF3DIndexBufferHandle      indexBuffer;
+    EFF3DVertexDeclarationHandle    vertexDecl;
+    EFF3DVertexBufferHandle         vertexBuffer;
+    EFF3DIndexBufferHandle          indexBuffer;
 };
 
 EFF3D_END

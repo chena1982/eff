@@ -130,6 +130,7 @@ public:
 	virtual effVOID					LoadResourceEnd() { isLoaded = effTRUE; }
 
 	virtual effVOID					CalculateSize() {}
+
 public:
 	EFFEvent						OnBeforeCreate;
 	EFFEvent						OnAfterCreate;

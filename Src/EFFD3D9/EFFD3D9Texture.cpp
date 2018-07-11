@@ -8,7 +8,7 @@
 
 #include "EFFD3D9PCH.h"
 
-#include "EFFD3D9Surface.h"
+
 #include "EFFD3D9Device.h"
 #include "EFFD3D9Texture.h"
 
@@ -26,11 +26,11 @@ EFFD3D9Texture::~EFFD3D9Texture()
 	SF_RELEASE(texture);
 }
 
-effHRESULT EFFD3D9Texture::GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc)
+/*effHRESULT EFFD3D9Texture::GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc)
 {
 	assert(texture != NULL);
 	return texture->GetLevelDesc(Level, (D3DSURFACE_DESC *)pDesc);
-}
+}*/
 
 /*effHRESULT EFFD3D9Texture::GetSurfaceLevel(effUINT level, EFF3DSurface ** surfaceLevel)
 {
@@ -55,16 +55,16 @@ effHRESULT EFFD3D9Texture::GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc)
 	return hr;
 }*/
 
-effHRESULT EFFD3D9Texture::LockRect(effUINT Level,EFF3DLOCKED_RECT * pLockedRect,const EFFRect * pRect,effUINT Flags)
+effHRESULT EFFD3D9Texture::LockRect(effUINT level, EFF3DLockedRect * lockedRect, const EFFRect * rect, effUINT flags)
 {
 	assert(texture != NULL);
-	return texture->LockRect(Level,(D3DLOCKED_RECT *)pLockedRect,(const RECT *)pRect,Flags);
+	return texture->LockRect(level, (D3DLOCKED_RECT *)lockedRect, (const RECT *)rect, flags);
 }
 
-effHRESULT EFFD3D9Texture::UnlockRect(effUINT Level)
+effHRESULT EFFD3D9Texture::UnlockRect(effUINT level)
 {
 	assert(texture != NULL);
-	return texture->UnlockRect(Level);
+	return texture->UnlockRect(level);
 }
 
 effVOID EFFD3D9Texture::CalculateSize()
@@ -89,14 +89,14 @@ effBOOL EFFD3D9Texture::Unload()
 }
 
 
-effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & strFilePath)
+effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & filePath)
 {
 	//SetOrigin(strFilePath);
 
-    originPath = strFilePath;
+    originPath = filePath;
 
 	effTCHAR szDir[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH,szDir);
+	GetCurrentDirectory(MAX_PATH, szDir);
 
 	EFFSTLFile file;
 	if ( !file.Open(_effT("../EditorRes/popup.png"), _effT("rb")) )
@@ -116,11 +116,11 @@ effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & strFilePath)
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * pDevice)
+effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * device)
 {
 	HRESULT hr;
 
-	EFFD3D9Device * pD3D9Device = (EFFD3D9Device *)pDevice;
+	EFFD3D9Device * pD3D9Device = (EFFD3D9Device *)device;
 	
 	if ( FAILED(hr = D3DXCreateTextureFromFileInMemory(pD3D9Device->GetD3D9Device(), data, dataSize, &texture)) )
 	{
@@ -228,3 +228,20 @@ effVOID EFFD3D9SharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTex
         sharedTextureInfo->sharedTextureHandle[i] = (effDWORD)sharedHandle[i];
     }
 }*/
+
+
+effVOID EFFD3D9Texture::Commit(effUINT stage, effUINT textureFlags)
+{
+    effUINT flags = 0 == (EFF3D_TEXTURE_INTERNAL_DEFAULT_SAMPLER & textureFlags)
+        ? textureFlags : imageInfo.flags;
+
+    effUINT index = (flags & EFF3D_TEXTURE_BORDER_COLOR_MASK) >> EFF3D_TEXTURE_BORDER_COLOR_SHIFT;
+    device->SetSamplerState(stage, flags);
+
+
+    DX_CHECK(device->GetD3D9Device()->SetTexture(stage, texture));
+    if (4 > stage)
+    {
+        DX_CHECK(device->GetD3D9Device()->SetTexture(D3DVERTEXTEXTURESAMPLER0 + stage, texture));
+    }
+}

@@ -24,82 +24,85 @@ EFF3DIResource *		CreateFromFileImpl(const effString & strFilePath,__REPEAT(N, _
 
 class EFF3D_API EFF3DResourceManager : public EFFIdManager
 {
-	RTTI_DECLARE_PURE(EFF3DResourceManager, EFFIdManager)
+    RTTI_DECLARE_PURE(EFF3DResourceManager, EFFIdManager)
 public:
-	EFF3DResourceManager();
-	virtual ~EFF3DResourceManager();
+    EFF3DResourceManager();
+    virtual ~EFF3DResourceManager();
 
 public:
-	virtual EFFId CreateFromFile(const effString & strFilePath, EFF3DResourceType resourceType);
-	virtual effBOOL CreateFromFileImpl(const effString & strFilePath, EFF3DResource * resource, EFF3DResourceType resourceType) = 0;
-	//DECLARE_CREATE_FROM_FILE(0)
-	//DECLARE_CREATE_FROM_FILE(1)
-	//DECLARE_CREATE_FROM_FILE(2)
+    virtual EFFId CreateFromFile(const effString & strFilePath, EFF3DResourceType resourceType);
+    virtual effBOOL CreateFromFileImpl(const effString & strFilePath, EFF3DResource * resource, EFF3DResourceType resourceType) = 0;
+    //DECLARE_CREATE_FROM_FILE(0)
+    //DECLARE_CREATE_FROM_FILE(1)
+    //DECLARE_CREATE_FROM_FILE(2)
 
-	//为了便于调试，这里不用宏来生成代码，手动把宏展开
+    //为了便于调试，这里不用宏来生成代码，手动把宏展开
 
-	/*template<typename T0>
-	EFF3DResource * CreateFromFile(const effString & filePath, T0 t0)
-	{
-		effString name;
-		effINT pos = filePath.rfind('\\');
-		if ( pos != -1 )
-		{
-			name = filePath.substr(pos, filePath.length() - pos);
-		}
+    /*template<typename T0>
+    EFF3DResource * CreateFromFile(const effString & filePath, T0 t0)
+    {
+        effString name;
+        effINT pos = filePath.rfind('\\');
+        if ( pos != -1 )
+        {
+            name = filePath.substr(pos, filePath.length() - pos);
+        }
 
-		ResourceMap::iterator it = resources.find(name);
-		if ( it != resources.end() )
-		{
-			it->second->AddRef();
-			return it->second;
-		}
+        ResourceMap::iterator it = resources.find(name);
+        if ( it != resources.end() )
+        {
+            it->second->AddRef();
+            return it->second;
+        }
 
-		EFF3DResource * ret = NULL;
-		OnCreateFromFile(&filePath, t0, &ret);
+        EFF3DResource * ret = NULL;
+        OnCreateFromFile(&filePath, t0, &ret);
 
-		if ( ret != NULL )
-		{
-			AddFirstCreateResource(ret);
-		}
+        if ( ret != NULL )
+        {
+            AddFirstCreateResource(ret);
+        }
 
-		return ret;
-	}
+        return ret;
+    }
 
-	template<typename T0, typename T1>
-	EFF3DResource * CreateFromFile(const effString & filePath, T0 t0, T1 t1)
-	{
-		effString name;
-		effINT pos = filePath.rfind('\\');
-		if ( pos != -1 )
-		{
-			name = filePath.substr(pos, filePath.length() - pos);
-		}
+    template<typename T0, typename T1>
+    EFF3DResource * CreateFromFile(const effString & filePath, T0 t0, T1 t1)
+    {
+        effString name;
+        effINT pos = filePath.rfind('\\');
+        if ( pos != -1 )
+        {
+            name = filePath.substr(pos, filePath.length() - pos);
+        }
 
-		ResourceMap::iterator it = m_mapResources.find(name);
-		if ( it != m_mapResources.end() )
-		{
-			it->second->AddRef();
-			return it->second;
-		}
+        ResourceMap::iterator it = m_mapResources.find(name);
+        if ( it != m_mapResources.end() )
+        {
+            it->second->AddRef();
+            return it->second;
+        }
 
-		EFF3DResource * ret = NULL;
-		OnCreateFromFile(strFilePath, t0, t1, &ret);
-		if ( ret != NULL )
-		{
-			AddFirstCreateResource(ret);
-		}
+        EFF3DResource * ret = NULL;
+        OnCreateFromFile(strFilePath, t0, t1, &ret);
+        if ( ret != NULL )
+        {
+            AddFirstCreateResource(ret);
+        }
 
-		return ret;
-	}*/
+        return ret;
+    }*/
 
-	//DECLARE_CREATE_FROM_FILE_IMPL(0)
-	//DECLARE_CREATE_FROM_FILE_IMPL(1)
-	//DECLARE_CREATE_FROM_FILE_IMPL(2)
+    //DECLARE_CREATE_FROM_FILE_IMPL(0)
+    //DECLARE_CREATE_FROM_FILE_IMPL(1)
+    //DECLARE_CREATE_FROM_FILE_IMPL(2)
 public:
-	EFFId					        AsyncCreateFromFile(const effString & filePath, EFF3DResourceType resourceType);
+    EFFId					        AsyncCreateFromFile(const effString & filePath, EFF3DResourceType resourceType);
 
-    effVOID                         ForEach(boost::function<effVOID (EFF3DResource *, effVOID *)> visitor, effVOID * userData);
+    effVOID                         ForEach(boost::function<effVOID(EFF3DResource *, effVOID *)> visitor, effVOID * userData);
+
+    EFF3DResource *                 GetResource(EFFId resourceHandle) { return indices[resourceHandle.Index()]; }
+    effVOID                         Release(EFFId resourceHandle);
 protected:
 	effVOID							AddResource(EFF3DResource * res);
 	//effVOID							AddResource(EFF3DResource * res);

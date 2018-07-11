@@ -17,11 +17,14 @@ public:
 	EFFD3D9VertexBuffer();
 	virtual ~EFFD3D9VertexBuffer();
 public:
-	virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc);
-	virtual effHRESULT				LockBuffer(effUINT OffsetToLock,effUINT SizeToLock,VOID ** ppbData,effUINT Flags);
-	virtual effHRESULT				UnlockBuffer();
+    virtual effVOID                 CreateFromMemory(effUINT size, effVOID * data, effUINT flag) = 0;
+    virtual effVOID                 Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard = effFALSE) = 0;
 protected:
-	LPDIRECT3DVERTEXBUFFER9		m_pBuf;
+	LPDIRECT3DVERTEXBUFFER9		    d3d9VertexBuffer;
+
+    effBYTE * data;
+    effUINT size;
+    EFF3DVertexDeclarationHandle vertexDeclHandle;
 };
 
 #endif

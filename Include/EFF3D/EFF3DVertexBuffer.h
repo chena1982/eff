@@ -9,6 +9,7 @@
 #define __EFF3DVertexBuffer_2008_12_13__
 
 #include "EFF3DResource.h"
+#include "EFF3DResourceManager.h"
 
 EFF3D_BEGIN
 
@@ -19,11 +20,24 @@ public:
 	EFF3DVertexBuffer() {}
 	virtual ~EFF3DVertexBuffer() {}
 public:
-	virtual effBOOL					LoadDataFromFile(const effString & filePath) { return effFALSE; }
+    virtual effBOOL					LoadDataFromFile(const effString & filePath);
 
-	//virtual effHRESULT				GetDesc(EFF3DVERTEXBUFFER_DESC * pDesc) = 0;
-	virtual effHRESULT				LockBuffer(effUINT OffsetToLock, effUINT SizeToLock, effVOID ** ppbData, effUINT Flags) = 0;
-	virtual effHRESULT				UnlockBuffer() = 0;
+    virtual effVOID                 CreateFromMemory(effUINT size, effVOID * data, effUINT flag) = 0;
+    virtual effVOID                 Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard = effFALSE) = 0;
+
+
+
+};
+
+class EFF3D_API EFF3DVertexBufferManager : public EFF3DResourceManager
+{
+    friend class EFF3DDevice;
+protected:
+    EFF3DVertexBufferManager();
+    virtual ~EFF3DVertexBufferManager();
+
+public:
+    virtual effBOOL CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType);
 };
 
 EFF3D_END

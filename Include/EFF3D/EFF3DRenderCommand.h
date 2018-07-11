@@ -13,19 +13,140 @@ purpose:
 EFF3D_BEGIN
 
 
+struct EFF3DBinding
+{
+    enum Enum
+    {
+        Image,
+        IndexBuffer,
+        VertexBuffer,
+        Texture,
+
+        Count
+    };
+
+    EFFId handle;
+    effBYTE type;
+
+    union
+    {
+        struct
+        {
+            effUINT textureFlags;
+        } draw;
+
+        struct
+        {
+            effBYTE  format;
+            effBYTE  access;
+            effBYTE  mip;
+        } compute;
+
+    } data;
+};
+
+struct EFF3DStream
+{
+    EFF3DStream()
+    {
+        startVertex = 0;
+        vertexDeclHandle = 0;
+    }
+
+    effUINT startVertex;
+    EFF3DVertexBufferHandle vertexBufferHandle;
+    EFF3DVertexDeclarationHandle vertexDeclHandle;
+};
+
+
+
 typedef effVOID(*BackendDispatchFunction)(const effVOID *);
 
 
-struct EFF3DDrawCommand
+
+EFF_ALIGN_DECL_CACHE_LINE(struct) EFF3D_API EFF3DRenderBind
+{
+    effVOID clear()
+    {
+        for (effUINT ii = 0; ii < EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS; ++ii)
+        {
+            EFF3DBinding & bind = binds[ii];
+            bind.type = 0;
+            bind.data.draw.textureFlags = 0;
+        }
+    };
+
+    EFF3DBinding binds[EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS];
+};
+
+EFF_ALIGN_DECL_CACHE_LINE(struct) EFF3D_API EFF3DDrawCommand
 {
     static const BackendDispatchFunction DISPATCH_FUNCTION;
 
     effUINT vertexCount;
     effUINT startVertex;
 
-    EFF3DVertexDeclHandle vertexDecl;
-    EFF3DVertexBufferHandle vertexBuffer;
-    EFF3DIndexBufferHandle indexBuffer;
+
+    EFF3DDrawCommand()
+    {
+        uniformBegin = 0;
+        uniformEnd = 0;
+        stateFlags = EFF3D_STATE_DEFAULT;
+        stencil = PackStencil(EFF3D_STENCIL_DEFAULT, EFF3D_STENCIL_DEFAULT);
+        rgba = 0;
+        startMatrix = 0;
+        startIndex = 0;
+        numIndices = UINT32_MAX;
+        numVertices = UINT32_MAX;
+        instanceDataOffset = 0;
+        instanceDataStride = 0;
+        numInstances = 1;
+        startIndirect = 0;
+        numIndirect = UINT16_MAX;
+        numMatrices = 1;
+        submitFlags = EFF3D_SUBMIT_EYE_FIRST;
+        scissor = UINT16_MAX;
+        streamMask = 0;
+        uniformIdx = UINT8_MAX;
+    }
+
+    effBOOL SetStreamBit(effBYTE streamIndex, EFF3DVertexBufferHandle handle)
+    {
+        const effBYTE bit = 1 << streamIndex;
+        const effBYTE mask = streamMask & ~bit;
+        const effBYTE tmp = handle.IsValid() ? bit : 0;
+        streamMask = mask | tmp;
+        return 0 != tmp;
+    }
+
+    EFF3DStream stream[EFF3D_CONFIG_MAX_VERTEX_STREAMS];
+    effUINT64 stateFlags;
+    effUINT64 stencil;
+    effUINT rgba;
+    effUINT uniformBegin;
+    effUINT uniformEnd;
+    effUINT startMatrix;
+    effUINT startIndex;
+    effUINT numIndices;
+    effUINT numVertices;
+    effUINT instanceDataOffset;
+    effUINT numInstances;
+    effUINT16 instanceDataStride;
+    effUINT16 startIndirect;
+    effUINT16 numIndirect;
+    effUINT16 numMatrices;
+    effUINT16 scissor;
+    effBYTE  submitFlags;
+    effBYTE  streamMask;
+    effBYTE  uniformIdx;
+
+
+  
+
+    EFF3DIndexBufferHandle indexBufferHandle;
+    EFF3DVertexBufferHandle instanceDataBufferHandle;
+    EFF3DIndirectBufferHandle indirectBufferHandle;
+    EFF3DOcclusionQueryHandle occlusionQueryHandle;
 };
 
 struct EFF3DDrawIndexedCommand
@@ -36,7 +157,7 @@ struct EFF3DDrawIndexedCommand
     effUINT startIndex;
     effUINT baseVertex;
 
-    EFF3DVertexDeclHandle vertexDecl;
+    EFF3DVertexDeclarationHandle vertexDecl;
     EFF3DVertexBufferHandle vertexBuffer;
     EFF3DIndexBufferHandle indexBuffer;
 };
