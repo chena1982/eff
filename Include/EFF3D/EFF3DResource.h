@@ -131,6 +131,7 @@ public:
 
 	virtual effVOID					CalculateSize() {}
 
+    virtual effVOID                 UpdateContentToGPU() {};
 public:
 	EFFEvent						OnBeforeCreate;
 	EFFEvent						OnAfterCreate;

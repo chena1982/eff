@@ -9,10 +9,20 @@
 #define __EFF3DAutoParamDataSource_2008_12_15__
 
 
+#include "EFF3DUniformBuffer.h"
+
 EFF3D_BEGIN
 
 class EFF3DRenderable;
 class EFF3DCamera;
+
+struct UniformBufferCamera
+{
+    EFFVector4      cameraPos;
+    EFFMatrix4      viewMatrix;
+    EFFMatrix4      projectionMatrix;
+    EFFMatrix4      viewProjectionMatrix;
+};
 
 class EFF3DAutoParamDataSource
 {
@@ -54,6 +64,7 @@ public:
 	effFLOAT				GetInverseViewportHeight();
 
 
+    effVOID                 UpdatePerFrameData();
 protected:
 
 
@@ -89,7 +100,11 @@ protected:
 	EFF3DRenderable *		currentRenderable;
 	//UC3DSkeleton *		m_pLastSkeleton;
 	EFF3DRenderable *		lastUseBoneRenderable;
+
+    EFF3DTUniformBuffer<UniformBufferCamera> uniformBufferCamera;
 };
+
+
 
 EFF3D_END
 

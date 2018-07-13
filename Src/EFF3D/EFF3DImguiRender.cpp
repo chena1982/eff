@@ -339,7 +339,7 @@ effBOOL imguiRenderInit(const effTCHAR * fontpath)
 
 
 
-	device->CreateTextureFromMemory(bmap, 512 * 512, 512, 512, 1, 0, A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
+	device->CreateTextureFromMemory(bmap, 512 * 512, 512, 512, 1, 0, EFF3D_TEXTURE_FORMAT_A8, EFF3DResourceType_Texture2D, &fontTextureHandle);
 	//device->CreateTextureFromMemory(bitmap, width * height, EFF3DFMT_A8, width, height, 1, &fontTexture);
 
 

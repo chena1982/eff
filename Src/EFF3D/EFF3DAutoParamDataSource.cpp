@@ -8,7 +8,7 @@
 
 #include "EFF3DPCH.h"
 #include "EFF3DAutoParamDataSource.h"
-
+#include "EFF3DCamera.h"
 ////#define new EFFNEW
 
 EFF3D_BEGIN
@@ -95,5 +95,11 @@ EFFVector4 &  EFF3DAutoParamDataSource::GetCameraPositionObjectSpace()
 	return cameraPositionObjectSpace;
 }
 
+effVOID EFF3DAutoParamDataSource::UpdatePerFrameData()
+{
+    uniformBufferCamera.uniformBuffer.cameraPos = currentCamera->GetPostion();
+
+
+}
 
 EFF3D_END

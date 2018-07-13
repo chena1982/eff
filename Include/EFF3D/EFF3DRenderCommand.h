@@ -15,24 +15,13 @@ EFF3D_BEGIN
 
 struct EFF3DBinding
 {
-    enum Enum
-    {
-        Image,
-        IndexBuffer,
-        VertexBuffer,
-        Texture,
-
-        Count
-    };
-
     EFFId handle;
-    effBYTE type;
 
     union
     {
         struct
         {
-            effUINT textureFlags;
+            effUINT flags;
         } draw;
 
         struct
@@ -64,27 +53,39 @@ typedef effVOID(*BackendDispatchFunction)(const effVOID *);
 
 
 
-EFF_ALIGN_DECL_CACHE_LINE(struct) EFF3D_API EFF3DRenderBind
+struct EFF3D_API EFF3DTextureBind
 {
-    effVOID clear()
+    EFF3DTextureBind()
     {
-        for (effUINT ii = 0; ii < EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS; ++ii)
+        for (effUINT i = 0; i < EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS; ++i)
         {
-            EFF3DBinding & bind = binds[ii];
-            bind.type = 0;
-            bind.data.draw.textureFlags = 0;
+            EFF3DBinding & bind = binds[i];
+            bind.data.draw.flags = 0;
         }
     };
 
     EFF3DBinding binds[EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS];
 };
 
-EFF_ALIGN_DECL_CACHE_LINE(struct) EFF3D_API EFF3DDrawCommand
+struct EFF3D_API EFF3DUniformBufferBindCommand
+{
+    EFF3DUniformBufferBindCommand()
+    {
+        for (effUINT i = 0; i < EFF3D_CONFIG_MAX_UNIFORM_BUFFERS; ++i)
+        {
+            EFF3DBinding & bind = binds[i];
+            bind.data.draw.flags = 0;
+        }
+    };
+
+    EFF3DBinding binds[EFF3D_CONFIG_MAX_UNIFORM_BUFFERS];
+};
+
+struct EFF3D_API EFF3DDrawCommand
 {
     static const BackendDispatchFunction DISPATCH_FUNCTION;
 
-    effUINT vertexCount;
-    effUINT startVertex;
+
 
 
     EFF3DDrawCommand()
@@ -119,13 +120,16 @@ EFF_ALIGN_DECL_CACHE_LINE(struct) EFF3D_API EFF3DDrawCommand
         return 0 != tmp;
     }
 
+    effUINT64 key;
     EFF3DStream stream[EFF3D_CONFIG_MAX_VERTEX_STREAMS];
+    EFF3DTextureBind textureBind;
     effUINT64 stateFlags;
     effUINT64 stencil;
     effUINT rgba;
     effUINT uniformBegin;
     effUINT uniformEnd;
     effUINT startMatrix;
+    effUINT startVertex;
     effUINT startIndex;
     effUINT numIndices;
     effUINT numVertices;

@@ -18,6 +18,7 @@
 #include "EFF3DFont.h"
 #include "EFF3DVertexBuffer.h"
 #include "EFF3DVertexDeclaration.h"
+#include "EFF3DUniformBuffer.h"
 //#include "EFF3DWebGui.h"
 
 
@@ -74,14 +75,14 @@ struct EFF3DFormatInfo
 
 EFF3DFormatInfo formatInfo[] =
 {
-	{ 1, 0xFF, 0, 0, 0, A8 },
-	{ 2, 0xf800, 0x07e0, 0x001f, 0x0000, R5G6B5 },
-	{ 2, 0x7c00, 0x03e0, 0x001f, 0x8000, RGB5A1 },
-	{ 2, 0x0f00, 0x00f0, 0x000f, 0xf000, RGBA4 },
-	{ 3, 0xff0000, 0x00ff00, 0x0000ff, 0x000000, RGB8 },
-	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, RGBA8 },
-	{ 4, 0x000003ff, 0x000ffc00, 0x3ff00000, 0xc0000000, RGB10A2 },
-	{ 4, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, RG16 },
+	{ 1, 0xFF, 0, 0, 0, EFF3D_TEXTURE_FORMAT_A8 },
+	{ 2, 0xf800, 0x07e0, 0x001f, 0x0000, EFF3D_TEXTURE_FORMAT_R5G6B5 },
+	{ 2, 0x7c00, 0x03e0, 0x001f, 0x8000, EFF3D_TEXTURE_FORMAT_RGB5A1 },
+	{ 2, 0x0f00, 0x00f0, 0x000f, 0xf000, EFF3D_TEXTURE_FORMAT_RGBA4 },
+	{ 3, 0xff0000, 0x00ff00, 0x0000ff, 0x000000, EFF3D_TEXTURE_FORMAT_RGB8 },
+	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, EFF3D_TEXTURE_FORMAT_RGBA8 },
+	{ 4, 0x000003ff, 0x000ffc00, 0x3ff00000, 0xc0000000, EFF3D_TEXTURE_FORMAT_RGB10A2 },
+	{ 4, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, EFF3D_TEXTURE_FORMAT_RG16 },
 };
 
 effINT EFF3DGetPixelSizeFromFormat(EFF3DTextureFormat format)	
@@ -244,6 +245,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
     vertexBufferManager = EFFNEW EFF3DVertexBufferManager;
     vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager;
+    uniformBufferManager = EFFNEW EFF3DUniformBufferManager;
 
 	sceneManager = EFFNEW EFF3DSceneManager();
 
@@ -280,7 +282,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
     if (!host)
     {
-        if (!CreateSharedTexture(width, height, 1, 0, RGBA8, &sharedRenderTarget))
+        if (!CreateSharedTexture(width, height, 1, 0, EFF3D_TEXTURE_FORMAT_RGBA8, &sharedRenderTarget))
         {
             //create shared texture failed;
         }

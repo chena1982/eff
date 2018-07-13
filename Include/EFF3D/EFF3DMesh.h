@@ -11,6 +11,8 @@ purpose:
 
 EFF3D_BEGIN
 
+class EFF3DSubmesh;
+
 class EFF3DMesh
 {
 protected:
@@ -18,6 +20,8 @@ protected:
     virtual ~EFF3DMesh();
 private:
 
+
+    VECTOR<EFF3DSubmesh *>   submeshes;
 };
 
 EFF3D_END

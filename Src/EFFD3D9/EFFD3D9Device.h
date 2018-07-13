@@ -118,7 +118,6 @@ protected:
     EFFD3D9Texture *            currentRenderTarget;
 
     EFF3DDrawCommand            currentDrawCommand;
-    EFF3DRenderBind             currentDrawBind;
     effBOOL                     programChanged;
 
     EFF3DVertexDeclaration      vertexDecls[EFF3D_CONFIG_MAX_VERTEX_DECLS];

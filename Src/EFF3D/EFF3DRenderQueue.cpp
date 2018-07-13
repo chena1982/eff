@@ -56,8 +56,11 @@ effVOID EFF3DRenderQueue::AddRenderable(EFF3DRenderable * renderable)
 		}
 	}*/
 
-    EFF3DDrawIndexedCommand * command = commandBuffer->AddCommand<EFF3DDrawIndexedCommand>(0, sizeof(EFF3DDrawIndexedCommand), *allocator);
 
+
+    EFF3DDrawCommand * command = commandBuffer->AddCommand<EFF3DDrawCommand>(0, sizeof(EFF3DDrawCommand), *allocator);
+
+    memcpy(command, &renderable->drawCommand, sizeof(EFF3DDrawCommand));
 }
 
 //删除的时候需要遍历，比较慢，所以在排序遍历的时候删除，这样就变成免费的了

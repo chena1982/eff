@@ -12,11 +12,29 @@
 EFF3D_BEGIN
 
 class EFF3DCamera;
+class EFF3DFrustum;
 class EFF3DRenderQueue;
 class EFF3DAsyncLoader;
 class EFF3DMaterial;
 class EFF3DTerrain;
+class EFF3DRenderable;
 
+class EFF3DSceneFilter
+{
+public:
+    virtual effBOOL IsVisible(EFFAabb & aabb) { return effTRUE; }
+};
+
+class EFF3DSceneFrustumFilter : public EFF3DSceneFilter
+{
+public:
+    EFF3DSceneFrustumFilter(EFF3DFrustum * frustum);
+    virtual ~EFF3DSceneFrustumFilter();
+public:
+    virtual effBOOL IsVisible(EFFAabb & aabb);
+protected:
+    EFF3DFrustum * frustum;
+};
 
 class EFF3DSceneManager
 {
@@ -36,6 +54,11 @@ public:
 	inline VECTOR<EFF3DCamera *>		GetCameras() { return cameras; }
 	inline EFF3DAsyncLoader *			GetAsyncLoader() { return asyncLoader; }
 	inline EFF3DMaterial *				GetRenderLayerMaterial(effINT renderLayer) { return renderLayerMaterial[renderLayer]; }
+
+
+    effVOID                             GetVisibleRenderable(EFF3DCamera * camera, VECTOR<EFF3DSceneFilter *> & filters, 
+                                            VECTOR<EFF3DRenderable *> & result);
+
 
 
 protected:

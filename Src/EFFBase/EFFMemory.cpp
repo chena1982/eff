@@ -115,7 +115,7 @@ effBYTE * AlignTop(effBYTE * current, effSIZE alignment)
 
 EFFLinearAllocator::EFFLinearAllocator(effSIZE size)
 {
-    start = new effBYTE[size];
+    start = EFFNEW effBYTE[size];
     end = start + size;
     current = start;
 }

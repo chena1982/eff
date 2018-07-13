@@ -230,7 +230,7 @@ static const D3DTEXTUREFILTERTYPE s_textureFilter[] =
 
 struct TextureFormatInfo
 {
-    D3DFORMAT m_fmt;
+    D3DFORMAT d3d9Format;
 };
 
 static TextureFormatInfo s_textureFormat[] =

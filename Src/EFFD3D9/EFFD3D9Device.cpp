@@ -62,7 +62,7 @@ effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dp
 
 	d3dpp->SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-	d3dpp->AutoDepthStencilFormat = (D3DFORMAT)D24S8;
+	d3dpp->AutoDepthStencilFormat = D3DFMT_D24S8;
 	d3dpp->EnableAutoDepthStencil = TRUE;
 }
 
@@ -143,7 +143,7 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 	}
 	else
 	{
-		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)D24S8);
+		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)EFF3D_TEXTURE_FORMAT_D24S8);
 
 		if( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
 		{
@@ -371,7 +371,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
         shareHandle = texture->userData;
     }
 
-	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
+	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].d3d9Format, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
@@ -478,7 +478,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 
 	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
     effHANDLE shareHandle = NULL;
-	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].m_fmt, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
+	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].d3d9Format, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
@@ -1163,22 +1163,21 @@ effVOID EFFD3D9Device::SetSamplerState(effUINT stage, effUINT flags)
 
 effVOID EFFD3D9Device::SetTextures(EFF3DDrawCommand & drawCommand)
 {
-    EFF3DRenderBind drawBind;
 
     for (effINT stage = 0; stage < EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS; ++stage)
     {
-        const EFF3DBinding & bind = drawBind.binds[stage];
-        EFF3DBinding & currentBind = currentDrawBind.binds[stage];
+        const EFF3DBinding & textureBind = drawCommand.textureBind.binds[stage];
+        EFF3DBinding & currentTextureBind = currentDrawCommand.textureBind.binds[stage];
 
-        if (currentBind.handle != bind.handle
-            || currentBind.data.draw.textureFlags != bind.data.draw.textureFlags
+        if (currentTextureBind.handle != textureBind.handle
+            || currentTextureBind.data.draw.flags != textureBind.data.draw.flags
             || programChanged)
         {
 
-            EFFD3D9Texture * texture = (EFFD3D9Texture *)textureManager->GetResource(bind.handle);
+            EFFD3D9Texture * texture = (EFFD3D9Texture *)textureManager->GetResource(textureBind.handle);
             if (texture != NULL)
             {
-                texture->Commit(stage, bind.data.draw.textureFlags);
+                texture->Commit(stage, textureBind.data.draw.flags);
             }
             else
             {
@@ -1186,7 +1185,7 @@ effVOID EFFD3D9Device::SetTextures(EFF3DDrawCommand & drawCommand)
             }
         }
 
-        currentBind = bind;
+        currentTextureBind = textureBind;
     }
 }
 

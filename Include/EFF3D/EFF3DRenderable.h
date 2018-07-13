@@ -9,6 +9,8 @@
 #define __EFFIRenderable_2008_12_15__
 
 
+#include "EFF3DRenderCommand.h"
+
 EFF3D_BEGIN
 
 class EFF3DMaterial;
@@ -88,6 +90,9 @@ protected:
 	TransparencyType				transparencyType;
 
 	effBOOL							needRecalculateRenderOrder;
+
+public:
+    EFF3DDrawCommand                drawCommand;
 };
 
 EFF3D_END

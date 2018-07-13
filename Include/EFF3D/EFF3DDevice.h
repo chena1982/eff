@@ -27,6 +27,7 @@ class EFF3DSurface;
 class EFF3DTextureManager;
 class EFF3DVertexBufferManager;
 class EFF3DVertexDeclarationManager;
+class EFF3DUniformBufferManager;
 class EFF3DResource;
 class EFF3DMaterial;
 class EFF3DShader;
@@ -193,6 +194,7 @@ protected:
     EFF3DTextureManager *		textureManager;
     EFF3DVertexBufferManager *  vertexBufferManager;
     EFF3DVertexDeclarationManager * vertexDeclManager;
+    EFF3DUniformBufferManager * uniformBufferManager;
 
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;

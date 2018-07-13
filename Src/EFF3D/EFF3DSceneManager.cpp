@@ -14,8 +14,25 @@
 #include "EFF3DSceneManager.h"
 #include "EFF3DTerrain.h"
 #include "EFF3DTerrainDataPreprocess.h"
+#include "EFF3DCamera.h"
+#include "EFF3DFrustum.h"
 
 EFF3D_BEGIN
+
+EFF3DSceneFrustumFilter::EFF3DSceneFrustumFilter(EFF3DFrustum * frustum)
+{
+    this->frustum = frustum;
+}
+
+EFF3DSceneFrustumFilter::~EFF3DSceneFrustumFilter()
+{
+
+}
+
+effBOOL EFF3DSceneFrustumFilter::IsVisible(EFFAabb & aabb)
+{
+    return frustum->AABBInFrustum(aabb);
+}
 
 EFF3DSceneManager::EFF3DSceneManager()
 {
@@ -39,6 +56,12 @@ effBOOL EFF3DSceneManager::LoadTerrain(const effString & filePath)
 	TerrainDataPreprocess(filePath, terrain);
 
 	return effTRUE;
+}
+
+effVOID EFF3DSceneManager::GetVisibleRenderable(EFF3DCamera * camera, VECTOR<EFF3DSceneFilter *> & filters, 
+    VECTOR<EFF3DRenderable *> & result)
+{
+    return;
 }
 
 

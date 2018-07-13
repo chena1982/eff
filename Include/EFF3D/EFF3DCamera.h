@@ -33,6 +33,8 @@ public:
 
 	const EFFMatrix4 &					GetViewMatirx() { return view; }
 	const EFFMatrix4 &					GetProjMatrix() { return proj; }
+
+    EFFVector3                          GetPostion() { return eye; }
 protected:
 	effINT								depth;
 	EFF3DAutoParamDataSource *			autoParamDataSource;

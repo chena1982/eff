@@ -8,11 +8,12 @@ purpose:
 #ifndef __EFF3DSubmesh_2018_04_03__
 #define __EFF3DSubmesh_2018_04_03__
 
-
+#include "EFF3DRenderable.h"
 
 EFF3D_BEGIN
 
-class EFF3DSubmesh
+
+class EFF3DSubmesh : public EFF3DRenderable
 {
 protected:
     EFF3DSubmesh();
