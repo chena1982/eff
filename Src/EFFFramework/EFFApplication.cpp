@@ -533,7 +533,7 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 {
     EFF3DGPUProfileBlock profileBlock(_effT("Render"));
 
-	device->Clear(0, NULL, EFF3DCLEAR_TARGET | EFF3DCLEAR_ZBUFFER, backGroundColor, 1.0f, 0);
+	device->Clear(0, NULL, EFF3D_CLEAR_COLOR | EFF3D_CLEAR_DEPTH, backGroundColor, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
 
@@ -542,25 +542,19 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
             EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
 
             sharedTexture->ClientWaitToStartRendering();
-
-            EFF3DSurface * sharedRenderTarget = NULL;
             
-            EFF3DTexture * shared3DTexture = sharedTexture->GetClientTexture();
-            if (SUCCEEDED(shared3DTexture->GetSurfaceLevel(0, &sharedRenderTarget)))
-            {
-                device->SetRenderTarget(0, sharedRenderTarget);
-                SF_RELEASE(sharedRenderTarget);
-            }
+            EFF3DTextureHandle shared3DTexture = sharedTexture->GetClientTexture();
+            device->SetRenderTarget(0, shared3DTexture);
 		}
 
 		EFFMatrix4 rotate;
 		rotate.RotationMatrixX(PI);
 		rotate.Identity();
-		device->SetTransform(EFF3DTS_WORLD, &rotate);
-		device->SetTransform(EFF3DTS_VIEW, &camera->GetViewMatirx());
-		device->SetTransform(EFF3DTS_PROJECTION, &camera->GetProjMatrix());
-		device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
-		device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
+		//device->SetTransform(EFF3DTS_WORLD, &rotate);
+		//device->SetTransform(EFF3DTS_VIEW, &camera->GetViewMatirx());
+		//device->SetTransform(EFF3DTS_PROJECTION, &camera->GetProjMatrix());
+		//device->SetRenderState(EFF3DRS_CULLMODE, EFF3DCULL_NONE);
+		//device->SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
 
 		EFFVector4 v(0.0f, 442.770f, 32, 1);
 		v *= camera->GetViewMatirx();
@@ -581,7 +575,7 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
                 effUINT index = ReadSharedTextureIndexFromMemFile();
                 if (index != -1)
                 {
-                    EFF3DTexture * shared3DTexture = sharedTexture->GetHostTexture(index);
+                    EFF3DTextureHandle shared3DTexture = sharedTexture->GetHostTexture(index);
                     device->DrawQuad(NULL, shared3DTexture, effFALSE);
                 }
             }

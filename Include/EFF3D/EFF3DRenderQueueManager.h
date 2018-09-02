@@ -16,6 +16,7 @@ class EFF3DDevice;
 
 class EFF3DRenderQueueManager
 {
+public:
 	enum RENDER_QUEUE_TYPE
 	{
 		Solid,
@@ -30,7 +31,6 @@ public:
 	//effVOID							RemoveRenderable(EFF3DRenderable * renderable);
 	effVOID						Render(EFF3DDevice * device);
 	EFF3DRenderQueue *			GetRenderQueue(effUINT renderQueueOrder);
-protected:
 	EFF3DRenderQueue *			CreateRenderQueue(effUINT renderQueueOrder, RENDER_QUEUE_TYPE renderQueueType, const effString & renderQueueName = _effT(""));
 protected:
 	MAP<effUINT, EFF3DRenderQueue *>		renderQueues;

@@ -964,7 +964,21 @@ struct EFF3DImageInfo
 #define EFF3D_CUBE_MAP_NEGATIVE_Z UINT8_C(0x05) //!< Cubemap -z.
 
 
-
+///
+#define EFF3D_CLEAR_NONE                  UINT16_C(0x0000) //!< No clear flags.
+#define EFF3D_CLEAR_COLOR                 UINT16_C(0x0001) //!< Clear color.
+#define EFF3D_CLEAR_DEPTH                 UINT16_C(0x0002) //!< Clear depth.
+#define EFF3D_CLEAR_STENCIL               UINT16_C(0x0004) //!< Clear stencil.
+#define EFF3D_CLEAR_DISCARD_COLOR_0       UINT16_C(0x0008) //!< Discard frame buffer attachment 0.
+#define EFF3D_CLEAR_DISCARD_COLOR_1       UINT16_C(0x0010) //!< Discard frame buffer attachment 1.
+#define EFF3D_CLEAR_DISCARD_COLOR_2       UINT16_C(0x0020) //!< Discard frame buffer attachment 2.
+#define EFF3D_CLEAR_DISCARD_COLOR_3       UINT16_C(0x0040) //!< Discard frame buffer attachment 3.
+#define EFF3D_CLEAR_DISCARD_COLOR_4       UINT16_C(0x0080) //!< Discard frame buffer attachment 4.
+#define EFF3D_CLEAR_DISCARD_COLOR_5       UINT16_C(0x0100) //!< Discard frame buffer attachment 5.
+#define EFF3D_CLEAR_DISCARD_COLOR_6       UINT16_C(0x0200) //!< Discard frame buffer attachment 6.
+#define EFF3D_CLEAR_DISCARD_COLOR_7       UINT16_C(0x0400) //!< Discard frame buffer attachment 7.
+#define EFF3D_CLEAR_DISCARD_DEPTH         UINT16_C(0x0800) //!< Discard frame buffer depth attachment.
+#define EFF3D_CLEAR_DISCARD_STENCIL       UINT16_C(0x1000) //!< Discard frame buffer stencil attachment.
 
 
 #define EFF_ALIGN_DECL_16(_decl) EFF_ALIGN_DECL(16, _decl)

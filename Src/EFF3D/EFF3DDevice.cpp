@@ -19,6 +19,8 @@
 #include "EFF3DVertexBuffer.h"
 #include "EFF3DVertexDeclaration.h"
 #include "EFF3DUniformBuffer.h"
+#include "EFF3DRenderQueue.h"
+#include "EFF3DRenderQueueManager.h"
 //#include "EFF3DWebGui.h"
 
 
@@ -135,6 +137,7 @@ EFF3DDevice::~EFF3DDevice()
 	SF_DELETE(textureManager);
     SF_DELETE(vertexBufferManager);
     SF_DELETE(vertexDeclManager);
+    SF_DELETE(renderQueueManager);
 
 	SF_DELETE(sceneManager);
 	SF_DELETE(fontManager);
@@ -247,6 +250,8 @@ effVOID EFF3DDevice::Init(effBOOL host)
     vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager;
     uniformBufferManager = EFFNEW EFF3DUniformBufferManager;
 
+    renderQueueManager = EFFNEW EFF3DRenderQueueManager;
+
 	sceneManager = EFFNEW EFF3DSceneManager();
 
 	InitProperty();
@@ -296,7 +301,7 @@ effVOID EFF3DDevice::InitProperty()
 }
 
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DDrawCommand & drawCommand)
 {
 
 	static QuadVertex vertices[6];
@@ -346,6 +351,8 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect)
 	vertices[5].u = 0.0f;
 	vertices[5].v = 1.0f;
 
+
+
 	//SetFVF(QuadVertex::fvf);
 	return DrawPrimitiveUP(TriangleList, 2, vertices, sizeof(QuadVertex));
 }
@@ -358,7 +365,12 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 	SetTextureStageState(0, EFF3DTSS_COLOROP, EFF3DTOP_SELECTARG1);
 	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);*/
 
-	return DrawQuad(rect);
+    EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
+    EFF3DDrawCommand * command = rendererQueue->GetCommand<EFF3DDrawCommand>();
+
+    DrawQuad(rect, *command);
+
+    return effTRUE;
 }
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, effBOOL blend)
@@ -380,9 +392,14 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, 
 		//SetRenderState(EFF3DRS_ALPHABLENDENABLE, effFALSE);
 	}
 
-	SetTexture(0, textureHandle);
-	return DrawQuad(rect);
 
+
+    EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
+    EFF3DDrawCommand * command = rendererQueue->GetCommand<EFF3DDrawCommand>();
+
+    DrawQuad(rect, *command);
+
+	return effTRUE;
 }
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTextureHandle textureHandle)
@@ -400,9 +417,12 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTex
 	}
 
 
-	SetTexture(0, textureHandle);
-	//shader->UpdateAutoParametersPerShader(this, autoParamDataSource);
-	return DrawQuad(rect);
+    EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
+    EFF3DDrawCommand * command = rendererQueue->GetCommand<EFF3DDrawCommand>();
+
+    DrawQuad(rect, *command);
+
+    return effTRUE;
 }
 
 effVOID EFF3DDevice::SetBackBufferSize(effINT width, effINT height)

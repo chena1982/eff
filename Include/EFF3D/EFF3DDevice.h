@@ -36,7 +36,7 @@ class EFF3DFontManager;
 class EFF3DInputManager;
 class EFF3DQuery;
 class EFF3DVertexElement;
-
+class EFF3DRenderQueueManager;
 
 
 class EFF3D_API EFF3DDevice
@@ -141,6 +141,7 @@ public:
 	inline EFF3DFontManager *	        GetFontManager() { return fontManager; }
 	inline EFFInputManager *	        GetInputManager() { return inputManager; }
     inline EFF3DSharedTexture *         GetSharedRenderTarget() { return sharedRenderTarget; }
+    inline EFF3DRenderQueueManager *    GetRenderQueueManager() { return renderQueueManager; }
 	//inline Awesomium::WebCore * GetWebCore() { return webCore; }
     inline EFFBase::EFFEntityManager *          GetEntityManager() { return entityManager; }
     inline EFFBase::EFFStaticStringManager *    GetStaticStringManager() { return staticStringManager; }
@@ -171,7 +172,7 @@ protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType);
     virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType) = 0;
 
-	virtual effBOOL				DrawQuad(EFFRect * rect);
+	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DDrawCommand & drawCommand);
 protected:
 	effVOID						Init(effBOOL host);
 	effVOID						InitProperty();
@@ -201,6 +202,7 @@ protected:
 	EFFInputManager *			inputManager;
     EFFEntityManager *          entityManager;
     EFFStaticStringManager *    staticStringManager;
+    EFF3DRenderQueueManager *   renderQueueManager;
 	//Awesomium::WebCore *		webCore;
 
 	effINT						width;

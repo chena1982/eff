@@ -49,7 +49,7 @@ effVOID EFFGUIRenderer::GenerateImageRenderCmd(effVOID * manager, effUINT index,
     EFFGUIDrawCmd * currentCmd = NULL;
 
     const effWCHAR * textureName = EFF3DGetDevice()->GetStaticStringManager()->GetString(image->textureNameId);
-    EFFId textureId = EFF3DGetDevice()->GetTextureManager()->AsyncCreateFromFile(textureName, EFF3DRTYPE_TEXTURE);
+    EFFId textureId = EFF3DGetDevice()->GetTextureManager()->AsyncCreateFromFile(textureName, EFF3DResourceType_Texture2D);
 
     if (drawList->CmdBuffer.size() == 0)
     {

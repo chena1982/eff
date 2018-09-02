@@ -70,6 +70,10 @@ effVOID EFF3DRenderQueue::RemoveRenderable(EFF3DRenderable * renderable)
 	//renderables.erase(order);
 }
 
+
+
+
+
 bool sortByOrder(const EFF3DRenderQueue::RenderQueueElement & s1, const EFF3DRenderQueue::RenderQueueElement & s2)
 {
 	return s1.renderOrder < s2.renderOrder;

@@ -175,6 +175,13 @@ struct EFF3DCopyConstantBufferDataCommand
     effUINT size;
 };
 
+struct EFF3DCreateVertexBufferCommand
+{
+    EFF3DVertexBufferHandle vbHandle;
+    EFF3DVertexDeclarationHandle vbDeclHandle;
+    effVOID * data;
+    effUINT size;
+};
 
 
 class EFF3DBackendDispatch
