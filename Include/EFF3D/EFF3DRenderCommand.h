@@ -8,6 +8,8 @@ purpose:
 #ifndef __EFF3DRenderCommand_2018_03_15__
 #define __EFF3DRenderCommand_2018_03_15__
 
+#include "EFF3DVertexDeclaration.h"
+
 //https://blog.molecular-matters.com/2014/11/06/stateless-layered-multi-threaded-rendering-part-1/
 
 EFF3D_BEGIN
@@ -177,12 +179,32 @@ struct EFF3DCopyConstantBufferDataCommand
 
 struct EFF3DCreateVertexBufferCommand
 {
+    static const BackendDispatchFunction DISPATCH_FUNCTION;
+
     EFF3DVertexBufferHandle vbHandle;
     EFF3DVertexDeclarationHandle vbDeclHandle;
     effVOID * data;
     effUINT size;
 };
 
+
+struct EFF3DCreateVertexDeclarationCommand
+{
+    static const BackendDispatchFunction DISPATCH_FUNCTION;
+
+    EFF3DVertexDeclarationHandle vbDeclHandle;
+    EFF3DVertexDeclaration vbDecl;
+};
+
+struct EFF3DCreateIndexBufferCommand
+{
+    static const BackendDispatchFunction DISPATCH_FUNCTION;
+
+    EFF3DIndexBufferHandle ibHandle;
+    effVOID * data;
+    effUINT size;
+    effUINT flags;
+};
 
 class EFF3DBackendDispatch
 {

@@ -89,4 +89,6 @@ effString GetPODTypeClassName(const effCHAR * propertyTypeName)
 	return effString(_effT("unkown pod type"));
 }
 
+
+
 EFFBASE_END

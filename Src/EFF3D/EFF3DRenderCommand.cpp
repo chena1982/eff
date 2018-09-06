@@ -17,7 +17,8 @@ EFF3D_BEGIN
 const BackendDispatchFunction EFF3DDrawCommand::DISPATCH_FUNCTION = &EFF3DBackendDispatch::Draw;
 const BackendDispatchFunction EFF3DDrawIndexedCommand::DISPATCH_FUNCTION = &EFF3DBackendDispatch::DrawIndexed;
 
-
-
+const BackendDispatchFunction EFF3DCreateVertexBufferCommand::DISPATCH_FUNCTION = &EFF3DBackendDispatch::Draw;
+const BackendDispatchFunction EFF3DCreateVertexDeclarationCommand::DISPATCH_FUNCTION = &EFF3DBackendDispatch::DrawIndexed;
+const BackendDispatchFunction EFF3DCreateIndexBufferCommand::DISPATCH_FUNCTION = &EFF3DBackendDispatch::Draw;
 
 EFF3D_END

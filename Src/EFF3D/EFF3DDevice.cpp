@@ -255,6 +255,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 	sceneManager = EFFNEW EFF3DSceneManager();
 
 	InitProperty();
+    InitVertexDeclaration();
 
 	//SetRenderState(EFF3DRS_LIGHTING, effFALSE);
 
@@ -268,6 +269,8 @@ effVOID EFF3DDevice::Init(effBOOL host)
     entityManager = EFFNEW EFFEntityManager();
 
     staticStringManager = EFFNEW EFFStaticStringManager();
+
+
 
 	//wkeInit();
 	//jsBindFunction("sendMessageToCpp", js_SendMessageToCpp, 1);
@@ -301,10 +304,10 @@ effVOID EFF3DDevice::InitProperty()
 }
 
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DDrawCommand & drawCommand)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue)
 {
 
-	static QuadVertex vertices[6];
+	static QuadVertex vertices[4];
 
 	EFFRect quadRect;
 	if ( rect == NULL )
@@ -340,21 +343,52 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DDrawCommand & drawCommand)
 	vertices[2].u = 1.0f;
 	vertices[2].v = 1.0f;
 
-	vertices[3] = vertices[0];
-	vertices[4] = vertices[2];
+
+	vertices[3].x = (effFLOAT)quadRect.left - 0.5f;
+	vertices[3].y = (effFLOAT)quadRect.bottom - 0.5f;
+	vertices[3].z = 0.0f;
+	vertices[3].rhw = 1.0f;
+	vertices[3].u = 0.0f;
+	vertices[3].v = 1.0f;
+
+    EFF3DCreateVertexDeclarationCommand * createVBDeclarationCommand = rendererQueue->GetCommand<EFF3DCreateVertexDeclarationCommand>();
+    createVBDeclarationCommand->vbDeclHandle = vertexDeclManager->AddVertexDeclaration(QuadVertex::vertexDecl);
+    createVBDeclarationCommand->vbDecl = QuadVertex::vertexDecl;
 
 
-	vertices[5].x = (effFLOAT)quadRect.left - 0.5f;
-	vertices[5].y = (effFLOAT)quadRect.bottom - 0.5f;
-	vertices[5].z = 0.0f;
-	vertices[5].rhw = 1.0f;
-	vertices[5].u = 0.0f;
-	vertices[5].v = 1.0f;
+    EFF3DCreateVertexBufferCommand * createVBCommand = rendererQueue->GetCommand<EFF3DCreateVertexBufferCommand>();
+    createVBCommand->data = vertices;
+    createVBCommand->size = sizeof(vertices);
+    createVBCommand->vbHandle = EFF3DVertexBufferHandle();
+    createVBCommand->vbDeclHandle = createVBDeclarationCommand->vbDeclHandle;
+
+    static effUINT16 indices[6] = { 0, 1, 2, 0, 2, 3 };
+
+    static EFF3DIndexBufferHandle quadIB;
+    RUN_ONCE([&] {
+        EFF3DCreateIndexBufferCommand * createIBCommand = rendererQueue->GetCommand<EFF3DCreateIndexBufferCommand>();
+        createIBCommand->data = indices;
+        createIBCommand->size = sizeof(indices);
+        createIBCommand->ibHandle = EFF3DIndexBufferHandle();
+        createIBCommand->flags = 0;
+    })
+
+
+
+
+    EFF3DDrawCommand * drawCommand = rendererQueue->GetCommand<EFF3DDrawCommand>();
+    drawCommand->numVertices = 4;
+    drawCommand->numIndices = 6;
+    drawCommand->indexBufferHandle = quadIB;
+    drawCommand->stream[0].vertexBufferHandle = createVBCommand->vbHandle;
+    drawCommand->stream[0].vertexDeclHandle = createVBDeclarationCommand->vbDeclHandle;
 
 
 
 	//SetFVF(QuadVertex::fvf);
-	return DrawPrimitiveUP(TriangleList, 2, vertices, sizeof(QuadVertex));
+	//return DrawPrimitiveUP(TriangleList, 2, vertices, sizeof(QuadVertex));
+
+    return effTRUE;
 }
 
 effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
@@ -366,9 +400,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);*/
 
     EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
-    EFF3DDrawCommand * command = rendererQueue->GetCommand<EFF3DDrawCommand>();
-
-    DrawQuad(rect, *command);
+    DrawQuad(rect, rendererQueue);
 
     return effTRUE;
 }
@@ -395,9 +427,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, 
 
 
     EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
-    EFF3DDrawCommand * command = rendererQueue->GetCommand<EFF3DDrawCommand>();
-
-    DrawQuad(rect, *command);
+    DrawQuad(rect, rendererQueue);
 
 	return effTRUE;
 }
@@ -418,9 +448,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTex
 
 
     EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
-    EFF3DDrawCommand * command = rendererQueue->GetCommand<EFF3DDrawCommand>();
-
-    DrawQuad(rect, *command);
+    DrawQuad(rect, rendererQueue);
 
     return effTRUE;
 }
@@ -466,5 +494,9 @@ EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
 }
 
 
+effVOID EFF3DDevice::InitVertexDeclaration()
+{
+    QuadVertex::InitVertexDecl();
+}
 
 EFF3D_END

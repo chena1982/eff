@@ -350,6 +350,18 @@ inline effUINT effUINT_cnttz(effUINT value)
 #endif // BX_COMPILER_
 }
 
+
+
+
+#define RUN_ONCE(callback) {\
+    static effBOOL runOnce = effTRUE;\
+    if (runOnce)\
+    {\
+        callback();\
+        runOnce = effFALSE;\
+    }\
+}
+
 EFFBASE_END
 
 #endif

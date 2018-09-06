@@ -36,6 +36,7 @@ class EFF3DFontManager;
 class EFF3DInputManager;
 class EFF3DQuery;
 class EFF3DVertexElement;
+class EFF3DRenderQueue;
 class EFF3DRenderQueueManager;
 
 
@@ -155,6 +156,8 @@ public:
     effVOID                         InitSharedTexture(SharedTextureInfo * sharedTextureInfo);
     effBOOL                         IsHost() { return host; }
 
+
+
 protected:
     /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
                                                     EFF3DSharedTexture ** texture) = 0;
@@ -172,7 +175,9 @@ protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType);
     virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType) = 0;
 
-	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DDrawCommand & drawCommand);
+	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue);
+
+    effVOID                     InitVertexDeclaration();
 protected:
 	effVOID						Init(effBOOL host);
 	effVOID						InitProperty();
