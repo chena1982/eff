@@ -26,6 +26,7 @@ class EFF3DIndexBuffer;
 class EFF3DSurface;
 class EFF3DTextureManager;
 class EFF3DVertexBufferManager;
+class EFF3DIndexBufferManager;
 class EFF3DVertexDeclarationManager;
 class EFF3DUniformBufferManager;
 class EFF3DResource;
@@ -67,10 +68,10 @@ public:
 
 
     virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
-                                                    EFF3DTextureHandle * textureHandle);
+                                                    EFF3DTextureHandle * textureHandle) = 0;
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
+                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle) = 0;
 
 
 
@@ -113,9 +114,9 @@ public:
 
 	//virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value) = 0;
 	//virtual effBOOL				SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Type, effUINT Value) = 0;
-	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHandle renderTarget) = 0;
-	virtual effBOOL				SetTexture(effUINT sampler, EFF3DTextureHandle texture) = 0;
-	virtual effBOOL				SetDepthStencil(EFF3DTextureHandle depthStencil) = 0;
+	virtual effBOOL				SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHandle renderTargetHandle) = 0;
+	virtual effBOOL				SetTexture(effUINT sampler, EFF3DTextureHandle textureHandle) = 0;
+	virtual effBOOL				SetDepthStencil(EFF3DTextureHandle depthStencilHandle) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
 	virtual effBOOL				SetScissorRect(const EFFRect * rect) = 0; 
@@ -137,6 +138,7 @@ public:
 public:
 	inline EFF3DTextureManager *	    GetTextureManager() { return textureManager; }
     inline EFF3DVertexBufferManager *   GetVertexBufferManager() { return vertexBufferManager; }
+    inline EFF3DIndexBufferManager *    GetIndexBufferManager() { return indexBufferManager; }
     inline EFF3DVertexDeclarationManager *  GetVertexDeclarationManager() { return vertexDeclManager; }
 	inline EFF3DSceneManager *	        GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	        GetFontManager() { return fontManager; }
@@ -200,6 +202,7 @@ protected:
     EFF3DTextureManager *		textureManager;
     EFF3DVertexBufferManager *  vertexBufferManager;
     EFF3DVertexDeclarationManager * vertexDeclManager;
+    EFF3DIndexBufferManager *   indexBufferManager;
     EFF3DUniformBufferManager * uniformBufferManager;
 
 	EFF3DSceneManager *			sceneManager;

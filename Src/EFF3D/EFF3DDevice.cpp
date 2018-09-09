@@ -17,6 +17,7 @@
 #include "EFF3DObject.h"
 #include "EFF3DFont.h"
 #include "EFF3DVertexBuffer.h"
+#include "EFF3DIndexBuffer.h"
 #include "EFF3DVertexDeclaration.h"
 #include "EFF3DUniformBuffer.h"
 #include "EFF3DRenderQueue.h"
@@ -136,6 +137,7 @@ EFF3DDevice::~EFF3DDevice()
     SF_DELETE(sharedRenderTarget);
 	SF_DELETE(textureManager);
     SF_DELETE(vertexBufferManager);
+    SF_DELETE(indexBufferManager);
     SF_DELETE(vertexDeclManager);
     SF_DELETE(renderQueueManager);
 
@@ -214,7 +216,7 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
     return effTRUE;
 }
 
-effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
+/*effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
     if (CreateTexture(width, height, levels, flag, format, resourceType, textureHandle))
     {
@@ -233,7 +235,7 @@ effBOOL	EFF3DDevice::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataS
     }
 
     return effFALSE;
-}
+}*/
 
 effVOID EFF3DDevice::Init(effBOOL host)
 {
@@ -247,6 +249,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 	
 
     vertexBufferManager = EFFNEW EFF3DVertexBufferManager;
+    indexBufferManager = EFFNEW EFF3DIndexBufferManager;
     vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager;
     uniformBufferManager = EFFNEW EFF3DUniformBufferManager;
 
@@ -290,7 +293,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
     if (!host)
     {
-        if (!CreateSharedTexture(width, height, 1, 0, EFF3D_TEXTURE_FORMAT_RGBA8, &sharedRenderTarget))
+        if (!CreateSharedTexture(width, height, 1, 0, EFF3D_TEXTURE_FORMAT_BGRA8, &sharedRenderTarget))
         {
             //create shared texture failed;
         }
@@ -359,7 +362,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue)
     EFF3DCreateVertexBufferCommand * createVBCommand = rendererQueue->GetCommand<EFF3DCreateVertexBufferCommand>();
     createVBCommand->data = vertices;
     createVBCommand->size = sizeof(vertices);
-    createVBCommand->vbHandle = EFF3DVertexBufferHandle();
+    createVBCommand->vbHandle = vertexBufferManager->Create();
     createVBCommand->vbDeclHandle = createVBDeclarationCommand->vbDeclHandle;
 
     static effUINT16 indices[6] = { 0, 1, 2, 0, 2, 3 };
@@ -369,7 +372,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue)
         EFF3DCreateIndexBufferCommand * createIBCommand = rendererQueue->GetCommand<EFF3DCreateIndexBufferCommand>();
         createIBCommand->data = indices;
         createIBCommand->size = sizeof(indices);
-        createIBCommand->ibHandle = EFF3DIndexBufferHandle();
+        createIBCommand->ibHandle = indexBufferManager->Create();
         createIBCommand->flags = 0;
     })
 
@@ -484,7 +487,7 @@ effVOID EFF3DDevice::InitSharedTexture(SharedTextureInfo * sharedTextureInfo)
 EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
 {
     EFF3DResource * resource = CreateEmptyResourceImpl(resourceType);
-    if (resourceType == EFF3DResourceType_Texture2D || resourceType == EFF3DResourceType_Texture3D || resourceType == EFF3DResourceType_TextureCube)
+    if (resourceType == EFF3DResourceType_Texture2D || resourceType == EFF3DResourceType_Texture3D || resourceType == EFF3DResourceType_TextureCube || resourceType == EFF3DResourceType_RenderTarget)
     {
         resource->id = textureManager->Create();
         textureManager->AddResource(resource);

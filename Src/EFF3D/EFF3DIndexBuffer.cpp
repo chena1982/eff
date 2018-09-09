@@ -20,4 +20,23 @@ effBOOL	EFF3DIndexBuffer::LoadDataFromFile(const effString & filePath)
     return effTRUE;
 }
 
+
+EFF3DIndexBufferManager::EFF3DIndexBufferManager()
+{
+
+}
+
+EFF3DIndexBufferManager::~EFF3DIndexBufferManager()
+{
+
+}
+
+effBOOL EFF3DIndexBufferManager::CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType)
+{
+
+
+
+    return effFALSE;
+}
+
 EFF3D_END

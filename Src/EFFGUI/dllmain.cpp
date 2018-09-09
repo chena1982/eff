@@ -10,7 +10,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
     {
-        MetaInitialize(UsingModule(EFFReflection));
+        //MetaInitialize(UsingModule(EFFReflection));
     }
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:

@@ -39,7 +39,7 @@ EFFId EFFIdManager::Create()
     }
 
     EFFId id;
-    id.id = (idx << INDEX_BITS) + generation[idx];
+    id.id = (generation[idx] << INDEX_BITS) + idx;
 
     return id;
 }

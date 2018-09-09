@@ -45,7 +45,7 @@ struct SharedTextureInfo
     effUINT width;
     effUINT height;
     effUINT format;
-    effSIZE sharedTextureHandle[3];
+    effHANDLE sharedTextureHandle[3];
     effTCHAR name[32];
 };
 

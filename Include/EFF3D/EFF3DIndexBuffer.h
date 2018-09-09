@@ -31,6 +31,17 @@ protected:
 
 };
 
+class EFF3D_API EFF3DIndexBufferManager : public EFF3DResourceManager
+{
+    friend class EFF3DDevice;
+protected:
+    EFF3DIndexBufferManager();
+    virtual ~EFF3DIndexBufferManager();
+
+public:
+    virtual effBOOL CreateFromFileImpl(const effString & filePath, EFF3DResource * resource, EFF3DResourceType resourceType);
+};
+
 
 EFF3D_END
 

@@ -437,7 +437,7 @@ struct EFF3DImageInfo
     //effUINT textureHandle;
     effUINT textureLevel;
 
-    effSIZE sharedHandle;
+    effHANDLE sharedHandle;
 
     effUINT flags;
 

@@ -135,6 +135,8 @@ effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
     memoryUsed += res->memorySize;
 
     resources[res->name] = res;
+
+    indices.Add(res);
 }
 
 EFF3DResource * EFF3DResourceManager::GetResource(const effString & filePath)

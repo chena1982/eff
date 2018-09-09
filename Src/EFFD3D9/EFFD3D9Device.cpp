@@ -37,7 +37,7 @@ effVOID InitWindow(effINT width, effINT height, D3DPRESENT_PARAMETERS *d3dpp, ef
 	d3dpp->BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp->BackBufferWidth = width;
 	d3dpp->BackBufferHeight = height;
-	d3dpp->AutoDepthStencilFormat = (D3DFORMAT)depthStencilFormat;
+	d3dpp->AutoDepthStencilFormat = s_textureFormat[depthStencilFormat].d3d9Format;
 
 
 
@@ -341,35 +341,41 @@ EFF3DResource * EFFD3D9Device::CreateEmptyResourceImpl(EFF3DResourceType resourc
 	
 	switch(resourceType)
 	{
-    case EFF3DResourceType_Texture2D:
-    case EFF3DResourceType_Texture3D:
-    case EFF3DResourceType_TextureCube:
-		{
-			resource = EFFNEW EFFD3D9Texture();
-		}
-		break;
-	default:
-		break;
+        case EFF3DResourceType_Texture2D:
+        case EFF3DResourceType_Texture3D:
+        case EFF3DResourceType_TextureCube:
+        case EFF3DResourceType_RenderTarget:
+	        {
+		        resource = EFFNEW EFFD3D9Texture();
+	        }
+	        break;
+        case EFF3DResourceType_IndexBuffer:
+            {
+                resource = EFFNEW EFFD3D9IndexBuffer();
+            }
+            break;
+        case EFF3DResourceType_VertexBuffer:
+            {
+                resource = EFFNEW EFFD3D9VertexBuffer();
+            }
+            break;
+	    default:
+		    break;
 	}
 
 	return resource;
 }
 
-effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture)
+effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
-	assert(texture != NULL);
+	//assert(texture != NULL);
 
-    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)texture;
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)CreateEmptyResource(resourceType);
 
-	effHRESULT hr;
-
+    effHRESULT hr;
     effUINT usage = 0;
 
     effHANDLE shareHandle = NULL;
-    if (texture->userData != NULL)
-    {
-        shareHandle = texture->userData;
-    }
 
 	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].d3d9Format, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
 	{
@@ -377,19 +383,15 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 		return effFALSE;
 	}
 
-    if (texture->userData == NULL)
-    {
-        texture->userData = shareHandle;
-    }
 
 	effD3D9Texture->imageInfo.width = width;
 	effD3D9Texture->imageInfo.height = height;
 	effD3D9Texture->imageInfo.mipLevels = levels;
 	effD3D9Texture->imageInfo.format = format;
 	effD3D9Texture->imageInfo.type = resourceType;
+    effD3D9Texture->imageInfo.sharedHandle = shareHandle;
 
-	effD3D9Texture->AddRef();
-
+    *textureHandle = effD3D9Texture->id;
 
 	return effTRUE;	
 }
@@ -465,42 +467,44 @@ effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInf
 
 
 effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                            EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture)
+                                            EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
-	assert(texture != NULL);
+	//assert(texture != NULL);
 
 	effINT pixelSize = EFF3DGetPixelSizeFromFormat(format);
-	if ( width * height * pixelSize > (effINT)srcDataSize )
+	if (width * height * pixelSize > (effINT)srcDataSize)
 	{
 		return effFALSE;
 	}
 
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)CreateEmptyResource(resourceType);
+    effHRESULT hr;
 
-	EFFD3D9Texture * effD3D9Texture = EFFNEW EFFD3D9Texture();
+
     effHANDLE shareHandle = NULL;
-	if ( FAILED(D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].d3d9Format, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
+	if (FAILED(hr = D3D9Device->CreateTexture(width, height, level, 0, s_textureFormat[format].d3d9Format, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)))
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
 
-    texture->userData = shareHandle;
+    effD3D9Texture->userData = shareHandle;
 
     EFF3DLockedRect rc;
-	if ( FAILED(effD3D9Texture->LockRect(0, &rc, NULL, 0)) )
+	if (FAILED(effD3D9Texture->LockRect(0, &rc, NULL, 0)))
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
 	}
 
-	if ( rc.pitch < pixelSize * width )
+	if (rc.pitch < pixelSize * width)
 	{
 		SF_DELETE(effD3D9Texture);
 		effD3D9Texture->UnlockRect(0);
 		return effFALSE;
 	}
 
-	for ( effINT i = 0; i < height; i++ )
+	for (effINT i = 0; i < height; i++)
 	{
 		memcpy(((effBYTE *)rc.data) + rc.pitch * i, ((effBYTE *)srcData) + i * width * pixelSize, width * pixelSize);
 	}
@@ -515,7 +519,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 	effD3D9Texture->imageInfo.type = resourceType;
 
 
-	effD3D9Texture->AddRef();
+    *textureHandle = effD3D9Texture->id;
 
 	return effTRUE;	
 }
@@ -1199,10 +1203,10 @@ effBOOL EFFD3D9Device::SetSamplerState(effUINT Sampler, EFF3DSAMPLERSTATETYPE Ty
 	return SUCCEEDED(D3D9Device->SetSamplerState(Sampler, (D3DSAMPLERSTATETYPE)Type, Value)); 
 }*/
 
-effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHandle renderTarget)
+effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHandle renderTargetHandle)
 {
     //EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)renderTarget;
-    EFFD3D9Texture * effD3D9Texture = NULL;
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)textureManager->GetResource(renderTargetHandle);
     currentRenderTarget = effD3D9Texture;
 
     LPDIRECT3DSURFACE9 surface = NULL;

@@ -17,8 +17,8 @@ public:
 	EFFD3D9VertexBuffer();
 	virtual ~EFFD3D9VertexBuffer();
 public:
-    virtual effVOID                 CreateFromMemory(effUINT size, effVOID * data, effUINT flag) = 0;
-    virtual effVOID                 Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard = effFALSE) = 0;
+    virtual effVOID                 CreateFromMemory(effUINT size, effVOID * data, effUINT flag);
+    virtual effVOID                 Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard = effFALSE);
 protected:
 	LPDIRECT3DVERTEXBUFFER9		    d3d9VertexBuffer;
 
