@@ -70,6 +70,7 @@ protected:
 	MuiltiProcessWndHandles		mpwh;
 	effUINT						backGroundColor;
 	effBOOL						host;
+    effBOOL                     connectedToHost;
 	effBOOL						window;
 
 	HWND						hWnd;

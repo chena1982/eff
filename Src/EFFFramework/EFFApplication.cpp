@@ -194,6 +194,7 @@ EFFApplication::EFFApplication()
 	//backGroundColor = 0xFF4c4c52;
 	backGroundColor = 0x80000000;
 	host = effFALSE;
+    connectedToHost = effFALSE;
 	window = effFALSE;
 	hWnd = NULL;
 
@@ -537,7 +538,7 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 	if ( device->BeginScene() )
 	{
 
-		if (!host)
+		if (!host && connectedToHost)
 		{
             EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
 
@@ -560,7 +561,7 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 		v *= camera->GetViewMatirx();
 		v *= camera->GetProjMatrix();
 
-		if ( !host )
+		if (!host && connectedToHost)
 		{
 			//terrain->Render(device);
 		}
