@@ -13,6 +13,7 @@ add_subdirectory(Src/EFFReflection)
 
 add_subdirectory(Tools/EFFMyGUIEditor)
 add_subdirectory(Tools/EFFRender)
+add_subdirectory(Tools/EFFShaderCompiler)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(TARGET EFFBase PROPERTY FOLDER "EFFEngine")
@@ -25,3 +26,4 @@ set_property(TARGET EFFReflection PROPERTY FOLDER "EFFEngine")
 
 set_property(TARGET EFFMyGUIEditor PROPERTY FOLDER "Tools")
 set_property(TARGET EFFRender PROPERTY FOLDER "Tools")  
+set_property(TARGET EFFShaderCompiler PROPERTY FOLDER "Tools")  

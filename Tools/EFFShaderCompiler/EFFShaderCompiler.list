@@ -1,0 +1,15 @@
+set (HEADER_FILES
+  EFFShaderParse.h
+  EFFShaderCompilerPCH.h
+)
+
+set (SOURCE_FILES
+  EFFShaderParse.cpp
+  EFFShaderCompiler.cpp
+  EFFShaderCompilerPCH.cpp
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFShaderCompilerPCH.cpp
+  EFFShaderCompilerPCH.h
+)
