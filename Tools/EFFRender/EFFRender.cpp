@@ -4,70 +4,6 @@
 
 
 EFFApplication * application = NULL;
-EFFNetClient * client = NULL;
-EFFNetServer * server = NULL;
-
-void InitServer()
-{
-	server = new EFFNetServer();
-	server->Init();
-	server->Bind(_effT("tcp://127.0.0.1:5555"));
-}
-
-EFFNetServer * GetServer()
-{
-	if (server == NULL)
-	{
-		InitServer();
-	}
-
-	return server;
-}
-
-void InitClient()
-{
-	client = EFFNEW EFFNetClient();
-	client->Init();
-	client->Connect(_effT("tcp://127.0.0.1:5555"));
-}
-
-
-
-effBYTE buffer[256];
-
-effVOID ReceiveMsg()
-{
-	if ( client->ReceiveMsg(buffer, 256) )
-	{
-		effINT id = *((effINT *)buffer);
-		if ( id == SendGameWindowPosAndSize )
-		{
-			ReceiveWindowPosAndSize();
-		}
-		else if (id == RequestApp)
-		{
-			ApplicationInfo info;
-			info.id = SendApp;
-			info.app = application;
-
-			//server->SendMsg(info.id, &info, sizeof(ApplicationInfo));
-		}
-        else if (id == QuitApp)
-        {
-            application->Quit();
-        }
-		else
-		{
-			int z = 0;
-		}
-	}
-}
-
-effVOID ReceiveWindowPosAndSize()
-{
-	GameWindowPosAndSize * gwpas = (GameWindowPosAndSize *)buffer;
-	application->MoveWindow(gwpas->x, gwpas->y, gwpas->width, gwpas->height);
-}
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -77,8 +13,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	//InitServer();
-	InitClient();
+
 
     //MetaInitialize(UsingModule(EFFReflection));
 
@@ -99,7 +34,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	app.SetBackGroundColor(0x00FF0000);
 	//app.OnRenderGUI += EFFEventCall(&ReceiveMsg);
 
-    app.OnUpdate += EFFEventCall(&ReceiveMsg);
+	app.OnUpdate += EFFEventCall(&app, &EFFApplication::ReceiveMsg);
+
+	app.SendCmd(RequestGameWindowPosAndSize);
 
     EFF3DSharedTexture * sharedRenderTarget = EFF3DGetDevice()->GetSharedRenderTarget();
     if (sharedRenderTarget != NULL)
@@ -109,7 +46,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
         sharedRenderTarget->GetSharedTextureInfo(&sharedTextureInfo);
 
-        client->SendMsg(SendSharedTexture, &sharedTextureInfo, sizeof(SharedTextureInfo));
+		app.SendMsg(SendSharedTexture, &sharedTextureInfo, sizeof(SharedTextureInfo));
     }
 
 	//LoadLibrary(_effT("EFFMyGUIEditor_d.dll"));

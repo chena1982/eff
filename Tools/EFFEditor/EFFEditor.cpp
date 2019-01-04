@@ -1,10 +1,9 @@
-// EFFIMGUIDEditor.cpp : 定义应用程序的入口点。
-//
 
-#include "stdafx.h"
+#include "EFFEditorPCH.h"
 #include "EFFEditor.h"
-#include "MainFrame.h"
-
+#include "EFFEditorMainFrame.h"
+#include "EFFEditorMessageCenter.h"
+#include <Shellapi.h>
 
 EFF3DObject * CreateObject()
 {
@@ -24,17 +23,10 @@ EFF3DObject * CreateObject()
 	return gameObject;
 }
 
-EFFNetServer * server = NULL;
 
-void InitServer()
-{
-	server = new EFFNetServer();
-	server->Init();
-	server->Bind(_effT("tcp://*:5555"));
-}
 
 //EFF3DWebGUIWindow * mainWindow = NULL;
-EFF3DHtmlWindow * mainWindow = NULL;
+//EFF3DHtmlWindow * mainWindow = NULL;
 
 
 EFF3DObject * rootObject;
@@ -43,22 +35,65 @@ EFF3DObject * rootObject;
 effVOID Init()
 {
 	//mainWindow = new EFF3DWebGUIWindow();
-	mainWindow = new EFF3DHtmlWindow(1024, 768);
-	mainWindow->Initialise();
-	mainWindow->Resize(1024, 768);
+	//mainWindow = new EFF3DHtmlWindow(1024, 768);
+	//mainWindow->Initialise();
+	//mainWindow->Resize(1024, 768);
 	//mainWindow->LoadHTML(_effT("EditorUI\\ui.html?game"));
 	//mainWindow->LoadHTML(_effT("EditorUI\\webix.html"));
-	mainWindow->LoadHTML(_effT("file:///D:/EFF/Build/Bin/EditorUI/webix.html"));
+	//mainWindow->LoadHTML(_effT("file:///D:/EFF/Build/Bin/EditorUI/webix.html"));
 	//mainWindow->LoadHTML(_effT("http://news.163.com"));
 	//mainWindow->LoadHTML(_effT("html\\mac-osx-lion.html"));
 
-	mainWindow->SetTransparent(effTRUE);
+	//mainWindow->SetTransparent(effTRUE);
 
 	/*effString buffer;
 	rootObject->GetPropertyJason(_effT("name"), buffer);
 	mainWindow->SendMessageToJS(buffer);*/
 
 
+}
+
+
+EFFApplication * application = NULL;
+EFFEditor * editor = NULL;
+
+
+EFFEditor::EFFEditor()
+{
+}
+
+EFFEditor::~EFFEditor()
+{
+}
+
+void EFFEditor::CreateScene()
+{
+}
+
+
+void EFFEditor::DestroyScene()
+{
+}
+
+void EFFEditor::SetupResources()
+{
+
+}
+
+
+
+
+
+
+
+void EFFEditor::ReceiveMsg()
+{
+	//effBYTE buffer[256];
+}
+
+void StartRender()
+{
+	ShellExecute(NULL, NULL, _effT("EFFRender_d.exe"), NULL, NULL, SW_HIDE);
 }
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
@@ -69,21 +104,32 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	rootObject = CreateObject();
 
-	MMOApplication app;
+
+
+	EFFApplication app;
+	application = &app;
 	app.Init(effTRUE, 1024, 768, effTRUE, effTRUE);
 	app.SetBackGroundColor(0x00000000);
 
-	Init();
-	InitServer();
+	//StartRender();
 
+	InitEditor();
+
+	app.OnUpdate += EFFEventCall(&app, &EFFApplication::ReceiveMsg);
 	app.OnRenderGUI += EFFEventCall(&RenderGUI);
-	app.OnRenderGUI += EFFEventCall(&ReceiveMsg);
 
 	app.Run();
 
+	app.SendCmd(QuitApp);
+
  	return 0;
+}
+
+VOID InitEditor()
+{
+	editor = new EFFEditor();
+	//application->OnRenderGUI += EFFEventCall((base::BaseManager *)editor, &base::BaseManager::drawOneFrame);
 }
 
 
