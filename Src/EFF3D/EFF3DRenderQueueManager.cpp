@@ -42,7 +42,7 @@ EFF3DRenderQueue * EFF3DRenderQueueManager::CreateRenderQueue(effUINT renderQueu
 
 	if ( it != renderQueues.end() )
 	{
-		return NULL;
+		return it->second;
 	}
 	
 	//RQG还没有创建，创建一个并加到m_mapRQG里
@@ -51,6 +51,7 @@ EFF3DRenderQueue * EFF3DRenderQueueManager::CreateRenderQueue(effUINT renderQueu
 	{
 	case Solid:
 		renderQueue = EFFNEW EFF3DRenderQueueSolid();
+		break;
 	default:
 		return NULL;
 	}

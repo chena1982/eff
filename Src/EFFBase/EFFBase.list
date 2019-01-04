@@ -13,7 +13,7 @@ set (HEADER_FILES
   ../../Include/EFFBase/EFFIProxy.h
   ../../Include/EFFBase/EFFIUnknown.h
   ../../Include/EFFBase/EFFLog.h
-  ../../Include/EFFBase/EFFMemberFunction.h
+  ../../Include/EFFBase/EFFFunction.h
   ../../Include/EFFBase/EFFMemory.h
   ../../Include/EFFBase/EFFMessageCenter.h
   ../../Include/EFFBase/EFFMessageDefines.h
@@ -53,7 +53,7 @@ set (SOURCE_FILES
   EFFGlobal.cpp
   EFFInputManager.cpp
   EFFLog.cpp
-  EFFMemberFunction.cpp
+  EFFFunction.cpp
   EFFMemory.cpp
   EFFMessageCenter.cpp
   EFFNetClient.cpp
@@ -140,7 +140,7 @@ SOURCE_GROUP("Common" FILES
 
 SOURCE_GROUP("Reflection" FILES
   ../../Include/EFFBase/EFFClass.h
-  ../../Include/EFFBase/EFFMemberFunction.h
+  ../../Include/EFFBase/EFFFunction.h
   ../../Include/EFFBase/EFFProperty.h
   ../../Include/EFFBase/EFFReflection.h
   ../../Include/EFFBase/EFFRtti.h
@@ -149,7 +149,7 @@ SOURCE_GROUP("Reflection" FILES
   ../../Include/EFFBase/Reflection4CppEnum.h
   ../../Include/EFFBase/EFFValue.h
   ../../Include/EFFBase/YAMLWrap.h
-  EFFMemberFunction.cpp
+  EFFFunction.cpp
   EFFProperty.cpp
   EFFReflection.cpp
   EFFRtti.cpp

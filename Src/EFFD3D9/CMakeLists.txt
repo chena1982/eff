@@ -5,11 +5,11 @@ set(LIB_NAME EFFD3D9)
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
 include_directories($ENV{DXSDK_DIR}Include)
-include_directories($ENV{BOOST_ROOT})
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/boost_1_68_0)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
 #include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cg/include)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/test/packages/EABase/include/Common)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
 if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
@@ -50,7 +50,7 @@ set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFD3D9PCH.cpp P
 
 #设置生产dll的Debug后缀
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
-set_target_properties(${LIB_NAME} PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/Src/EFFD3D9/Exports.def\" /NODEFAULTLIB:\"dxerr9.lib\"")
+set_target_properties(${LIB_NAME} PROPERTIES LINK_FLAGS "/DEF:\"${CMAKE_SOURCE_DIR}/Src/EFFD3D9/Exports.def\"")
 
-target_link_libraries(${LIB_NAME} EASTL.lib d3d9.lib)
+target_link_libraries(${LIB_NAME} EASTL.lib)
 

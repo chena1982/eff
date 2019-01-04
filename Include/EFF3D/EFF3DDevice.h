@@ -29,6 +29,7 @@ class EFF3DVertexBufferManager;
 class EFF3DIndexBufferManager;
 class EFF3DVertexDeclarationManager;
 class EFF3DUniformBufferManager;
+class EFF3DTimeQueryManager;
 class EFF3DResource;
 class EFF3DMaterial;
 class EFF3DShader;
@@ -39,6 +40,7 @@ class EFF3DQuery;
 class EFF3DVertexElement;
 class EFF3DRenderQueue;
 class EFF3DRenderQueueManager;
+
 
 
 class EFF3D_API EFF3DDevice
@@ -68,7 +70,7 @@ public:
 
 
     virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
-                                                    EFF3DTextureHandle * textureHandle) = 0;
+                                                    EFF3DTextureHandle * textureHandle, effSIZE sharedHandle) = 0;
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
                                                     EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle) = 0;
@@ -89,7 +91,7 @@ public:
 
 	//virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
 
-    virtual effBOOL             CreateQuery(EFF3DQueryType type, effUINT flag, EFF3DQuery ** query) = 0;
+    virtual effBOOL             CreateTimeQuery(effUINT flag, EFF3DTimeQueryHandle * query) = 0;
 
 	virtual effBOOL				DrawIndexedPrimitive(EFF3DPrimitiveType type, effINT baseVertexIndex, effUINT minIndex,effUINT numVertices,
 													effUINT startIndex, effUINT primitiveCount) = 0;
@@ -140,6 +142,7 @@ public:
     inline EFF3DVertexBufferManager *   GetVertexBufferManager() { return vertexBufferManager; }
     inline EFF3DIndexBufferManager *    GetIndexBufferManager() { return indexBufferManager; }
     inline EFF3DVertexDeclarationManager *  GetVertexDeclarationManager() { return vertexDeclManager; }
+	inline EFF3DTimeQueryManager *		GetTimeQueryManager() { return timeQueryManager; }
 	inline EFF3DSceneManager *	        GetSceneManager() { return sceneManager; }
 	inline EFF3DFontManager *	        GetFontManager() { return fontManager; }
 	inline EFFInputManager *	        GetInputManager() { return inputManager; }
@@ -204,6 +207,7 @@ protected:
     EFF3DVertexDeclarationManager * vertexDeclManager;
     EFF3DIndexBufferManager *   indexBufferManager;
     EFF3DUniformBufferManager * uniformBufferManager;
+	EFF3DTimeQueryManager *		timeQueryManager;
 
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;

@@ -10,7 +10,7 @@ set (HEADER_FILES
   ../../Include/EFFGUI/EFFGUIBorderLayout.h
   ../../Include/EFFGUI/EFFGUIRendering.h
   ../../Include/EFFGUI/EFFGUIText.h
-  ../../Include/EFFGUI/EFFGUIImage.h  
+  ../../Include/EFFGUI/EFFGUIImage.h
   EFFGUIPCH.h
 )
 

@@ -11,7 +11,7 @@
 #include "EFFVector3.h"
 #include "EFFVector4.h"
 #include "EFFMatrix4.h"
-#include "D3dx9math.h"
+//#include "D3dx9math.h"
 //#define new EFFNEW
 
 EFFMATH_BEGIN

@@ -8,16 +8,18 @@ purpose:
 
 #include "EFFBasePCH.h"
 #include "EFFEntity.h"
+#include "EFFEntity.generated.h"
+
+
+
+
 
 EFFBASE_BEGIN
 
 
-RTTI_IMPLEMENT_BASE(EFFIdManager, 0)
-
 EFFIdManager::EFFIdManager()
 {
 }
-
 
 EFFIdManager::~EFFIdManager()
 {

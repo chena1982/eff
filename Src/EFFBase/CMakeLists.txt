@@ -1,12 +1,14 @@
 project(EFFBase)
 
+cmake_minimum_required(VERSION 3.13)
+
 set(LIB_NAME EFFBase)
 
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
-include_directories($ENV{BOOST_ROOT})
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/boost_1_68_0)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/test/packages/EABase/include/Common)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
 #include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common)
@@ -38,10 +40,41 @@ foreach (OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_SOURCE_DIR}/Temp/Lib)
 endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
-
-
 include(${LIB_NAME}.list)
-add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+
+
+
+
+foreach (HEADER_FILE ${HEADER_FILES})
+    string(FIND ${HEADER_FILE} ../../Include/${LIB_NAME}/ POS)
+    if (${POS} EQUAL 0)
+        string(REGEX REPLACE ".+/(.+)\\..*" "\\1" FILE_NAME ${HEADER_FILE})
+
+        if (EXISTS ${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/${FILE_NAME}.cpp)
+            
+            set(GENERATED_HEADER ${CMAKE_SOURCE_DIR}/Include/${LIB_NAME}/${FILE_NAME}.generated.h)
+
+            if (NOT EXISTS GENERATED_HEADER)
+                file(TOUCH ${GENERATED_HEADER})
+            endif()
+
+            list(APPEND GENERATED_HEADERS ${GENERATED_HEADER})
+
+            add_custom_command(OUTPUT ${GENERATED_HEADER}
+                COMMAND ${CMAKE_SOURCE_DIR}/Bin/EFFReflect ARGS ${FILE_NAME}.cpp
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}
+                DEPENDS ${CMAKE_SOURCE_DIR}/Include/${LIB_NAME}/${FILE_NAME}.h
+            )
+            
+        endif()
+    endif()
+endforeach(HEADER_FILE)
+
+
+source_group("GeneratedHeaders" FILES ${GENERATED_HEADERS})
+add_library(${LIB_NAME} SHARED ${GENERATED_HEADERS} ${HEADER_FILES} ${SOURCE_FILES})
+
+
 
 #启用最小生成
 target_compile_options(${LIB_NAME} PUBLIC "/Gm")
@@ -56,3 +89,8 @@ set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
 
 
 target_link_libraries(${LIB_NAME} EASTL.lib jsoncpp.lib libzmq.lib yaml.lib Dbghelp.lib)
+
+
+
+
+

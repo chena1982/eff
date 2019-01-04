@@ -27,6 +27,8 @@ public:
     virtual effSIZE Write(effVOID * buffer, effSIZE size);
 	virtual effVOID Close();
 	virtual effUINT Length();
+
+	FILE * GetFile() { return file; }
 protected:
 private:
 	FILE *		file;

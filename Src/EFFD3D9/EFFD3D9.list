@@ -13,8 +13,6 @@ set (SOURCE_FILES
   EFFD3D9PCH.cpp
   EFFD3D9PCH.h
   EFFD3D9Shader.cpp
-  EFFD3D9Surface.cpp
-  EFFD3D9Surface.h
   EFFD3D9Texture.cpp
   EFFD3D9Texture.h
   EFFD3D9VertexBuffer.cpp

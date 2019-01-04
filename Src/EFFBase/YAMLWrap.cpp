@@ -7,6 +7,7 @@
 ******************************************************************************/
 
 #include "EFFBasePCH.h"
+#include "YAMLWrap.h"
 #include "EFFScopeGuard.h"
 #include "EFFObject.h"
 #include "EFFComponent.h"
@@ -15,6 +16,11 @@
 
 EFFBASE_BEGIN
 
+
+yaml_document_t document;
+yaml_emitter_t emitter;
+yaml_event_t yamlEvent;
+FILE * outputFile;
 
 int write_handler(void * ext, unsigned char * buffer, size_t size)
 {
@@ -26,24 +32,14 @@ int write_handler(void * ext, unsigned char * buffer, size_t size)
 	return 1;
 }
 
-yaml_document_t document;
-yaml_emitter_t emitter;
-yaml_event_t yamlEvent;
-FILE * outputFile = NULL;
 
-effBOOL StartSaveToYAMLFile(const effString & filePath)
+
+effBOOL StartSaveToYAMLFile(EFFSTLFile & outputFile)
 {
 
 
 
 
-	/* Set a file output. */
-	outputFile = NULL;
-	errno_t error = fopen_s(&outputFile, EFFSTRING2ANSI(filePath), "wb");
-	if (outputFile == NULL)
-	{
-		return effFALSE;
-	}
 
 
 
@@ -53,7 +49,7 @@ effBOOL StartSaveToYAMLFile(const effString & filePath)
 	/* Create the Emitter object. */
 	yaml_emitter_initialize(&emitter);
 
-	yaml_emitter_set_output_file(&emitter, outputFile);
+	yaml_emitter_set_output_file(&emitter, outputFile.GetFile());
 
 	/* Set a generic writer. */
 	effVOID * ext = NULL;
@@ -160,30 +156,9 @@ effVOID	EndSaveObjectBaseToYAMLFile(EFFObjectBase * objectBase)
 	yaml_emitter_emit(&emitter, &yamlEvent);
 }
 
-effVOID SaveStringPropertyToYAMLFile(const effString & propertyName, const effString & value)
-{
-	const effCHAR * scalarValue = EFFSTRING2UTF8(propertyName);
-	yaml_scalar_event_initialize(&yamlEvent, NULL, NULL, (yaml_char_t *)scalarValue, -1, 1, 1, YAML_PLAIN_SCALAR_STYLE);
-	yaml_emitter_emit(&emitter, &yamlEvent);
 
-	scalarValue = EFFSTRING2UTF8(value);
-	yaml_scalar_event_initialize(&yamlEvent, NULL, NULL, (yaml_char_t *)scalarValue, -1, 1, 1, YAML_PLAIN_SCALAR_STYLE);
-	yaml_emitter_emit(&emitter, &yamlEvent);
-}
 
-effVOID SaveStringVectorPropertyToYAMLFile(const effString & propertyName, const VECTOR<effString> & values)
-{
-	BeginSaveSequenceToYAMLFile(propertyName);
 
-	for (effSIZE i = 0; i < values.size(); i++)
-	{
-		const effCHAR * scalarValue = EFFSTRING2UTF8(values[i]);
-		yaml_scalar_event_initialize(&yamlEvent, NULL, NULL, (yaml_char_t *)scalarValue, -1, 1, 1, YAML_PLAIN_SCALAR_STYLE);
-		yaml_emitter_emit(&emitter, &yamlEvent);
-	}
-
-	EndSaveSequenceToYAMLFile();
-}
 
 effVOID SaveIntPropertyToYAMLFile(const effString & propertyName, effINT value)
 {

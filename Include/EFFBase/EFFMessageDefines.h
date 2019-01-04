@@ -41,6 +41,16 @@ struct ApplicationInfo
 
 struct SharedTextureInfo
 {
+	SharedTextureInfo()
+	{
+		for (effUINT i = 0; i < 3; i++)
+		{
+			sharedTextureHandle[i] = NULL;
+		}
+
+		memset(name, 0, sizeof(name));
+	}
+
     effINT id;
     effUINT width;
     effUINT height;

@@ -26,7 +26,7 @@ public:
 	
 
     virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
-                                        EFF3DTextureHandle * textureHandle);
+                                        EFF3DTextureHandle * textureHandle, effSIZE sharedHandle);
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
                                         EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
@@ -46,7 +46,7 @@ public:
 
 	//virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl);
 
-    virtual effBOOL             CreateQuery(EFF3DQueryType type, effUINT flag, EFF3DQuery ** query);
+    virtual effBOOL             CreateTimeQuery(effUINT flag, EFF3DTimeQueryHandle * query);
 
     virtual effBOOL				DrawIndexedPrimitive(EFF3DPrimitiveType type, effINT baseVertexIndex, effUINT minIndex, effUINT numVertices,
                                         effUINT startIndex, effUINT primitiveCount);

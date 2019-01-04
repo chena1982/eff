@@ -244,7 +244,7 @@ public:
     {
         //return ::operator new(GetSize<T>(auxMemorySize));
 
-        return allocator.Allocate(GetSize<T>(auxMemorySize), 1, 0);
+        return allocator.Allocate(GetSize<T>(auxMemorySize), 8, 0);
     }
 
     template <typename T>

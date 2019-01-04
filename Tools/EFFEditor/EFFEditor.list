@@ -1,0 +1,16 @@
+set (HEADER_FILES
+  EFFEditor.h
+  EFFEditorMainFrame.h
+  EFFEditorPCH.h
+)
+
+set (SOURCE_FILES
+  EFFEditor.cpp
+  EFFEditorMainFrame.cpp
+  EFFEditorPCH.cpp
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFEditorPCH.cpp
+  EFFEditorPCH.h
+)

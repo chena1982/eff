@@ -2,14 +2,15 @@ set (HEADER_FILES
   ../../Include/EFFFramework.h
   ../../Include/EFFFramework/EFFApplication.h
   ../../Include/EFFFramework/EFFFrameworkBaseDefines.h
+  ../../Include/EFFFramework/EFFFrameworkMessageManager.h  
 )
 
 set (SOURCE_FILES
-  dllmain.cpp
   EFFApplication.cpp
   EFFFramework.cpp
   EFFFrameworkPCH.cpp
   EFFFrameworkPCH.h
+  EFFFrameworkMessageManager.cpp
 )
 
 SOURCE_GROUP("" FILES

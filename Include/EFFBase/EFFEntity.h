@@ -8,6 +8,7 @@ purpose:
 #ifndef __EFFEntity_2017_07_07__
 #define __EFFEntity_2017_07_07__
 
+#include "metareflect.hxx"
 
 EFFBASE_BEGIN
 
@@ -55,13 +56,14 @@ public:
     ~EFFEntity() {};
 };
 
-class EFFBASE_API EFFIdManager
+CLASS() EFFBASE_API EFFIdManager
 {
-    RTTI_DECLARE_BASE(EFFIdManager)
+	META_OBJECT()
 public:
     EFFIdManager();
     virtual ~EFFIdManager();
 public:
+	FUNCTION()
     EFFId Create();
     
     inline effBOOL Alive(EFFId id) const
@@ -69,12 +71,20 @@ public:
         return generation[id.Index()] == id.Generation();
     }
 
+	FUNCTION()
     effVOID Destroy(EFFId e);
 
 
 private:
+	PROPERTY()
     VECTOR<effBYTE> generation;
     DEQUE<effUINT> freeIndices;
+
+	PROPERTY(Min=0)
+	effUINT test;
+
+	PROPERTY()
+	effString name;
 };
 
 

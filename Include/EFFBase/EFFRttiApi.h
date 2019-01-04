@@ -8,10 +8,14 @@
 #ifndef __EFFMethod_2012_12_26__
 #define __EFFMethod_2012_12_26__
 
+
+
 EFFBASE_BEGIN
 
 class EFFClass;
 class EFFProperty;
+class EFFProperty2;
+class EFFFunction;
 
 struct EFFBASE_API ClassID
 {
@@ -287,6 +291,11 @@ public:
 	}
 
 
+	EFFProperty2 * AddProperty2();
+
+	EFFFunction * AddFunction();
+
+
 	template<typename ClassType, typename PropertyType>
 	effVOID AddProperty(VECTOR<PropertyType> ClassType::*member, const effString & name)
 	{
@@ -317,7 +326,9 @@ protected:
 	effString									className;
 	EFFStringHash								classNameHash;
 	EFFClass *									baseClass;
-	VECTOR<EFFProperty *>					properties;
+	VECTOR<EFFProperty *>						properties;
+	VECTOR<EFFProperty2 *>						properties2;
+	VECTOR<EFFFunction *>						functions;
 };
 
 
@@ -328,7 +339,19 @@ class EFFClassImpl : public EFFClass
 public:
 	virtual effVOID * CreateObject() { return new T; }
 
-	EFFClassImpl(effUINT version, effBOOL isPOD, const effString & name, EFFClass * pBaseClas) : EFFClass(version, isPOD, name, pBaseClas) { }
+
+
+	EFFClassImpl(effUINT version, effBOOL isPOD, const effString & name, EFFClass * pBaseClas)
+		: EFFClass(version, isPOD, name, pBaseClas)
+	{
+	}
+
+	template<class Lambda>
+	EFFClassImpl(effUINT version, effBOOL isPOD, const effString & name, EFFClass * pBaseClas, Lambda &&ctor)
+		: EFFClass(version, isPOD, name, pBaseClas)
+	{
+		ctor(this);
+	}
 	
 	//EFFClassImpl() : EFFClass(0,0,0,NULL) { }
 

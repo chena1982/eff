@@ -23,11 +23,6 @@
 #include <yaml/yaml.h>
 #include <yaml-cpp/yaml.h>
 
-#include <Cpp-Reflection/Runtime/Meta.h>
-using namespace ursine;
-using namespace meta;
-
-#include "murmur3/murmur3.h"
 
 #include "EFFBase/EFFBaseDefines.h"
 #include "EFFBase/EFFMemory.h"

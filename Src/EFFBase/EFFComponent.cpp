@@ -32,10 +32,10 @@ effVOID EFFComponent::SaveToFile(EFFFile * file, effBOOL isBinary)
 
 effVOID EFFComponent::SaveToFile(const effString & filePath, effBOOL isBinary)
 {
-	if ( isBinary )
+	/*if ( isBinary )
 	{
 		EFFSTLFile file;
-		if ( !file.Open(filePath, _effT("wb")) )
+		if (!file.Open(filePath, _effT("wb")))
 		{
 			return;
 		}
@@ -43,14 +43,20 @@ effVOID EFFComponent::SaveToFile(const effString & filePath, effBOOL isBinary)
 	}
 	else
 	{
-		if ( StartSaveToYAMLFile(filePath) )
+		EFFSTLFile file;
+		if (!file.Open(filePath, _effT("wt")))
+		{
+			return;
+		}
+
+		if (StartSaveToYAMLFile(file))
 		{
 			//BeginSaveObjectBaseToYAMLFile(this, 1);
 			SaveToFile(NULL, isBinary);
 			//EndSaveObjectBaseToYAMLFile(this);
 			EndSaveToYAMLFile();
 		}
-	}
+	}*/
 }
 
 /*EFFProperty * EFFComponent::GetProperty(const effString & name)

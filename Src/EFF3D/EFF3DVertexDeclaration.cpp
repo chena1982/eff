@@ -8,6 +8,7 @@
 
 #include "EFF3DPCH.h"
 #include "EFF3DVertexDeclaration.h"
+#include "murmur3/murmur3.h"
 
 //#define new EFFNEW
 

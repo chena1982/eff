@@ -10,7 +10,7 @@
 #include "EFF3DCamera.h"
 #include "EFF3DAutoParamDataSource.h"
 
-#include "D3dx9math.h"
+//#include "D3dx9math.h"
 
 EFF3D_BEGIN
 
@@ -38,16 +38,16 @@ effVOID EFF3DCamera::SetViewParams(const EFFVector3 & eye, const EFFVector3 & lo
 	EFFVector3 up(0.0f, 1.0f, 0.0f);
 	EFFMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
-	EFFMatrix4 result;
-	D3DXMatrixLookAtLH((D3DXMATRIX *)&result, (const D3DXVECTOR3 *)&eye, (const D3DXVECTOR3 *)&lookAt, (const D3DXVECTOR3 *)&up);
+	//EFFMatrix4 result;
+	//D3DXMatrixLookAtLH((D3DXMATRIX *)&result, (const D3DXVECTOR3 *)&eye, (const D3DXVECTOR3 *)&lookAt, (const D3DXVECTOR3 *)&up);
 }
 
 effVOID EFF3DCamera::SetProjParams(effFLOAT fov, effFLOAT aspect, effFLOAT nearPlane, effFLOAT farPlane)
 {
 	EFFMatrix4PerspectiveFovLH(&proj, fov, aspect, nearPlane, farPlane);
 
-	EFFMatrix4 result;
-	D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)&result, fov, aspect, nearPlane, farPlane);
+	//EFFMatrix4 result;
+	//D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)&result, fov, aspect, nearPlane, farPlane);
 }
 
 EFF3D_END

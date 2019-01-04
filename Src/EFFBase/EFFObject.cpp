@@ -173,10 +173,10 @@ effVOID EFFObject::SaveToFile(EFFFile * file, effBOOL isBinary)
 
 effVOID EFFObject::SaveToFile(const effString & filePath, effBOOL isBinary)
 {
-	if ( isBinary )
+	/*if ( isBinary )
 	{
 		EFFSTLFile file;
-		if ( !file.Open(filePath, _effT("wb")) )
+		if (!file.Open(filePath, _effT("wb")))
 		{
 			return;
 		}
@@ -184,7 +184,13 @@ effVOID EFFObject::SaveToFile(const effString & filePath, effBOOL isBinary)
 	}
 	else
 	{
-		if ( StartSaveToYAMLFile(filePath) )
+		EFFSTLFile file;
+		if (!file.Open(filePath, _effT("wt")))
+		{
+			return;
+		}
+
+		if ( StartSaveToYAMLFile(file) )
 		{
 			VECTOR<EFFObject *> objects;
 			VECTOR<EFFComponent *> properties;
@@ -226,12 +232,12 @@ effVOID EFFObject::SaveToFile(const effString & filePath, effBOOL isBinary)
 
 			EndSaveToYAMLFile();
 		}
-	}
+	}*/
 }
 
 effVOID	EFFObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary)
 {
-	if ( isBinary )
+	/*if ( isBinary )
 	{
 	}
 	else
@@ -245,7 +251,7 @@ effVOID	EFFObject::SaveComponentsToFile(EFFFile * file, effBOOL isBinary)
 		}
 
 		EndSaveSequenceToYAMLFile();
-	}
+	}*/
 }
 
 effBOOL	EFFObject::AddChild(EFFObject * object)

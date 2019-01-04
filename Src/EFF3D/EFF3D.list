@@ -27,9 +27,10 @@ set (HEADER_FILES
   ../../Include/EFF3D/EFF3DRenderCommand.h
   ../../Include/EFF3D/EFF3DRenderCommandBuffer.h
   ../../Include/EFF3D/EFF3DMeshRendererComponent.h
-
   ../../Include/EFF3D/EFF3DMesh.h 
-  ../../Include/EFF3D/EFF3DSubmesh.h 
+  ../../Include/EFF3D/EFF3DSubmesh.h
+  ../../Include/EFF3D/EFF3DUniformBuffer.h
+  ../../Include/EFF3D/EFF3DIndexBuffer.h
 )
 
 set (SOURCE_FILES
@@ -75,9 +76,10 @@ set (SOURCE_FILES
   EFF3DRenderCommand.cpp
   EFF3DRenderCommandBuffer.cpp
   EFF3DMeshRendererComponent.cpp
-
   EFF3DMesh.cpp
-  EFF3DSubmesh.cpp  
+  EFF3DSubmesh.cpp
+  EFF3DUniformBuffer.cpp
+  EFF3DIndexBuffer.cpp
 )
 
 SOURCE_GROUP("" FILES
@@ -183,6 +185,7 @@ SOURCE_GROUP("Device" FILES
   ../../Include/EFF3D/EFF3DVertexBuffer.h
   ../../Include/EFF3D/EFF3DVertexDeclaration.h
   ../../Include/EFF3D/EFF3DQuery.h
+  ../../Include/EFF3D/EFF3DUniformBuffer.h
   
   EFF3DDevice.cpp
   EFF3DShader.cpp
@@ -191,4 +194,6 @@ SOURCE_GROUP("Device" FILES
   EFF3DVertexBuffer.cpp
   EFF3DVertexDeclaration.cpp
   EFF3DQuery.cpp
+  EFF3DUniformBuffer.cpp
+  EFF3DIndexBuffer.cpp
 )

@@ -253,6 +253,7 @@ typedef effUINT EFF3DVertexDeclarationHandle;
 typedef EFFId EFF3DConstantBufferHandle;
 typedef EFFId EFF3DOcclusionQueryHandle;
 typedef EFFId EFF3DIndirectBufferHandle;
+typedef EFFId EFF3DTimeQueryHandle;
 
 #define EFF3D_TEXTURE_NONE                UINT32_C(0x00000000) //!<
 #define EFF3D_TEXTURE_U_MIRROR            UINT32_C(0x00000001) //!< Wrap U mode: Mirror
@@ -416,6 +417,7 @@ enum EFF3DResourceType
     EFF3DResourceType_TextureReadBack,
     EFF3DResourceType_IndexBuffer,
     EFF3DResourceType_VertexBuffer,
+	EFF3DResourceType_TimeQuery,
 };
 
 struct EFF3DImageInfo

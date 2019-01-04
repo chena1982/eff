@@ -10,6 +10,7 @@
 
 #include "EFFFramework/EFFFrameworkBaseDefines.h"
 #include "EFFFramework/EFFApplication.h"
+#include "EFFFramework/EFFFrameworkMessageManager.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 

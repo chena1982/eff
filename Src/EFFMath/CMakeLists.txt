@@ -5,10 +5,10 @@ set(LIB_NAME EFFMath)
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 include_directories(${CMAKE_SOURCE_DIR}/Include/${LIB_NAME})
 include_directories($ENV{DXSDK_DIR}Include)
-include_directories($ENV{BOOST_ROOT})
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/boost_1_68_0)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/include)
-include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.05.07/test/packages/EABase/include/Common)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/include)
+include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/test/packages/EABase/include/Common)
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
 link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
@@ -44,4 +44,4 @@ set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFFMathPCH.cpp P
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
 
 
-target_link_libraries(${LIB_NAME} d3dx9.lib)
+target_link_libraries(${LIB_NAME})

@@ -95,8 +95,8 @@ protected:
 	//遍历object tree找到所有需要保存的objects和property中不是pod类型的properties，property如果不是pod需要从EFFComponent派生
 	effVOID				TraverseObjectTree(VECTOR<EFFObject *> & objects, VECTOR<EFFComponent *> & properties);
 protected:
-	VECTOR<EFFObject *>		children;
-	EFFObject *						parent;
+	VECTOR<EFFObject *>			children;
+	EFFObject *					parent;
 	VECTOR<EFFComponent *>		components;
 };
 

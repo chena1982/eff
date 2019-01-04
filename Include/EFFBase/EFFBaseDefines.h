@@ -16,6 +16,19 @@
 EFFBASE_BEGIN
 
 
+#if defined(__has_feature)
+#	define EFF_CLANG_HAS_FEATURE(_x) __has_feature(_x)
+#else
+#	define EFF_CLANG_HAS_FEATURE(_x) 0
+#endif // defined(__has_feature)
+
+// Compiler
+#define EFF_COMPILER_CLANG           0
+#define EFF_COMPILER_CLANG_ANALYZER  0
+#define EFF_COMPILER_GCC             0
+#define EFF_COMPILER_MSVC            0
+
+
 // http://sourceforge.net/apps/mediawiki/predef/index.php?title=Compilers
 #if defined(__clang__)
 // clang defines __GNUC__ or _MSC_VER

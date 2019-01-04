@@ -20,9 +20,40 @@ EFF3D_BEGIN
 
 EFF3DGPUProfiler EFF3DGPUProfiler::GlobalProfiler;
 
+
+EFF3DTimeQuery::EFF3DTimeQuery()
+{
+	startTime = 0;
+	endTime = 0;
+	disjoint = effFALSE;
+
+	currentFrame = 0;
+}
+
+effBOOL EFF3DTimeQuery::LoadDataFromFile(const effString & filePath)
+{
+	return effTRUE;
+}
+
+
+EFF3DTimeQueryManager::EFF3DTimeQueryManager() : EFF3DResourceManager()
+{
+
+}
+
+EFF3DTimeQueryManager::~EFF3DTimeQueryManager()
+{
+
+}
+
+effBOOL EFF3DTimeQueryManager::CreateFromFileImpl(const effString & strFilePath, EFF3DResource * resource, EFF3DResourceType resourceType)
+{
+	return effTRUE;
+}
+
 EFF3DGPUProfiler::EFF3DGPUProfiler()
 {
-    currFrame = 0;
+
 }
 
 EFF3DGPUProfiler::~EFF3DGPUProfiler()
@@ -33,96 +64,56 @@ EFF3DGPUProfiler::~EFF3DGPUProfiler()
 
 effVOID EFF3DGPUProfiler::StartProfile(const effString & name)
 {
+    EFF3DTimeQuery * timeQuery = profiles[name];
+	if (timeQuery == NULL)
+	{
+		EFF3DTimeQueryHandle timeQueryHandle;
+		EFF3DGetDevice()->CreateTimeQuery(0, &timeQueryHandle);
+		timeQuery = (EFF3DTimeQuery *)EFF3DGetDevice()->GetTimeQueryManager()->GetResource(timeQueryHandle);
+		profiles[name] = timeQuery;
+	}
 
-    ProfileData & profileData = profiles[name];
-    _ASSERT(profileData.QueryStarted == effFALSE);
-    _ASSERT(profileData.QueryFinished == effFALSE);
-
-    EFF3DDevice * device = EFF3DGetDevice();
-
-    if (profileData.DisjointQuery[currFrame] == NULL)
-    {
-        // Create the queries
-        //device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMPDISJOINT, 0, &profileData.DisjointQuery[currFrame]);
-
-        //device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMP, 0, &profileData.TimestampStartQuery[currFrame]);
-        //device->CreateQuery(EFF3DQUERYTYPE_TIMESTAMP, 0, &profileData.TimestampEndQuery[currFrame]);
-    }
-
-    // Start a disjoint query first
-    //profileData.DisjointQuery[currFrame]->Issue(EFF3DISSUE_BEGIN);
-
-    // Insert the start timestamp    
-    //profileData.TimestampStartQuery[currFrame]->Issue(EFF3DISSUE_END);
-
-    profileData.QueryStarted = effTRUE;
+	timeQuery->StartQuery();
 }
 
 effVOID EFF3DGPUProfiler::EndProfile(const effString & name)
 {
 
+	EFF3DTimeQuery * timeQuery = profiles[name];
 
-    ProfileData& profileData = profiles[name];
-    _ASSERT(profileData.QueryStarted == effTRUE);
-    _ASSERT(profileData.QueryFinished == effFALSE);
+	timeQuery->EndQuery();
 
-    // Insert the end timestamp    
-    //profileData.TimestampEndQuery[currFrame]->Issue(EFF3DISSUE_END);
-
-    // End the disjoint query
-    //profileData.DisjointQuery[currFrame]->Issue(EFF3DISSUE_END);
-
-    profileData.QueryStarted = effFALSE;
-    profileData.QueryFinished = effTRUE;
 }
 
-effVOID EFF3DGPUProfiler::EndFrame()
+EFF3DTimeQuery * EFF3DGPUProfiler::EndFrame()
 {
-
-
-    currFrame = (currFrame + 1) % QueryLatency;
-
-
     float queryTime = 0.0f;
 
     // Iterate over all of the profiles
     ProfileMap::iterator iter;
     for (iter = profiles.begin(); iter != profiles.end(); iter++)
     {
-        ProfileData& profile = (*iter).second;
-        if (profile.QueryFinished == FALSE)
-            continue;
+		EFF3DTimeQuery * timeQuery = (*iter).second;
 
-        profile.QueryFinished = FALSE;
+		if (!timeQuery->EndFrame())
+		{
+			continue;
+		}
 
-        if (profile.DisjointQuery[currFrame] == NULL)
-            continue;
+		if (!timeQuery->disjoint)
+		{
+			if ((*iter).first == _effT("Render"))
+			{
+				return timeQuery;
+			}
 
-
-        // Get the query data
-        effUINT64 startTime = 0;
-        while (profile.TimestampStartQuery[currFrame]->GetData(&startTime, sizeof(startTime), 0) != S_OK);
-
-        effUINT64 endTime = 0;
-        while (profile.TimestampEndQuery[currFrame]->GetData(&endTime, sizeof(endTime), 0) != S_OK);
-
-        effBOOL disjoint;
-        while (profile.DisjointQuery[currFrame]->GetData(&disjoint, sizeof(disjoint), 0) != S_OK);
-
-
-        if (!disjoint)
-        {
-            EFF3DDevice * device = EFF3DGetDevice();
-            if ((*iter).first == _effT("Render") && !device->IsHost())
-            {
-                device->GetSharedRenderTarget()->NotifyHostStartRendering(currFrame);
-            }
-
-            UINT64 delta = endTime - startTime;
-            //float frequency = static_cast<float>(disjointData.Frequency);
-            //time = (delta / frequency) * 1000.0f;
-        }
+			//UINT64 delta = timeQuery->endTime - timeQuery->startTime;
+			//float frequency = static_cast<float>(disjointData.Frequency);
+			//time = (delta / frequency) * 1000.0f;
+		}
     }
+
+	return NULL;
 }
 
 // == ProfileBlock ================================================================================

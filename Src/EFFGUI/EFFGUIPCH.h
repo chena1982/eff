@@ -22,8 +22,6 @@ USE_EFF3D
 #include "EFFMath.h"
 USE_EFFMATH
 
-#include <EFFReflection.h>
-
 #include <pugixml-1.8/src/pugixml.hpp>
 
 

@@ -8,6 +8,9 @@
 
 #include "EFFFrameworkPCH.h"
 #include "EFFApplication.h"
+#include "EFFFrameworkMessageManager.h"
+
+EFFFRAMEWORK_BEGIN
 
 #define MAX_LOADSTRING 100
 #define MEMFILE_SIZE 256
@@ -195,6 +198,7 @@ EFFApplication::EFFApplication()
 	backGroundColor = 0x80000000;
 	host = effFALSE;
     connectedToHost = effFALSE;
+	connectedToClient = effFALSE;
 	window = effFALSE;
 	hWnd = NULL;
 
@@ -202,13 +206,18 @@ EFFApplication::EFFApplication()
 	height = 0;
 	minimized = effFALSE;
 
+	server = NULL;
+	client = NULL;
+
 	application = this;
 }
 
 EFFApplication::~EFFApplication()
 {
 	SF_RELEASE(device);
-    CloseHandle(memFile); 
+    CloseHandle(memFile);
+
+	ShutdownServerAndClient();
 }
 
 
@@ -255,6 +264,8 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 
     device->OnNotifyHostStartRendering += EFFEventCall(this, &EFFApplication::OnNotifyHostStartRendering);
 
+	InitServer();
+	InitClient();
 
 	return effTRUE;
 }
@@ -298,6 +309,39 @@ effVOID EFFApplication::Run()
 
         interpolation = effFLOAT(GetTickCount() + SKIP_TICKS - nextGameTick) / effFLOAT(SKIP_TICKS);
 
+
+		if (host && connectedToClient)
+		{
+			EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
+			if (sharedTexture != NULL)
+			{
+				sharedTexture->NotifyClientStartRendering();
+			}
+		}
+
+		if (!host && connectedToHost)
+		{
+			EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
+
+			sharedTexture->ClientWaitToStartRendering();
+
+			EFF3DTextureHandle shared3DTexture = sharedTexture->GetClientTexture();
+			device->SetRenderTarget(0, shared3DTexture);
+		}
+
+		if (!minimized && !appExit)
+		{
+			Render(interpolation);
+			EFF3DTimeQuery * timeQuery = EFF3DGPUProfiler::GlobalProfiler.EndFrame();
+
+			if (timeQuery != NULL && connectedToHost)
+			{
+				device->GetSharedRenderTarget()->NotifyHostStartRendering(timeQuery->currentFrame);
+			}
+		}
+
+
+
         //让client渲染最后一帧，否则有可能client正在wait，这样的话client无法退出
         if (host && appExit)
         {
@@ -307,12 +351,6 @@ effVOID EFFApplication::Run()
                 sharedTexture->NotifyClientStartRendering();
             }
         }
-
-		if (!minimized && !appExit)
-		{
-			Render(interpolation);
-            EFF3DGPUProfiler::GlobalProfiler.EndFrame();
-		}
     }
 
 	return;
@@ -365,8 +403,14 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 		}
 	}
 	else*/
+
+	if (host)
 	{
 		style = WS_OVERLAPPEDWINDOW;
+	}
+	else
+	{
+		style = WS_POPUP;
 	}
 
 	AdjustWindowRect(&windowRect, style, FALSE);
@@ -418,9 +462,11 @@ effBOOL EFFApplication::CreateAppWindow(effBOOL window, effINT width, effINT hei
 		}
 	}*/
 
-
-	ShowWindow(hWnd, SW_SHOW);
-	UpdateWindow(hWnd);
+	if (host)
+	{
+		ShowWindow(hWnd, SW_SHOW);
+		UpdateWindow(hWnd);
+	}
 
 
 	OnWindowResize += EFFEventCall(this, &EFFApplication::WindowResized);
@@ -436,10 +482,12 @@ effVOID EFFApplication::MoveWindow(effINT x, effINT y, effINT width, effINT heig
 	{
 		//::MoveWindow(hWnd, x, y, width, height, effFALSE);
 		::SetWindowPos(hWnd, HWND_TOPMOST, x, y, width, height, SWP_NOSIZE);
+		SendWindowPosAndSize();
 	}
 	else
 	{
 		::MoveWindow(hWnd, x, y, width, height, effFALSE);
+		SendWindowPosAndSize();
 		device->Reset(window, width, height);
 	}
 }
@@ -448,6 +496,8 @@ effVOID EFFApplication::WindowResized(effINT width, effINT height)
 {
 	this->width = width;
 	this->height = height;
+
+	SendWindowPosAndSize();
 
 	device->Reset(window, width, height);
 }
@@ -537,17 +587,6 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 	device->Clear(0, NULL, EFF3D_CLEAR_COLOR | EFF3D_CLEAR_DEPTH, backGroundColor, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
-
-		if (!host && connectedToHost)
-		{
-            EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
-
-            sharedTexture->ClientWaitToStartRendering();
-            
-            EFF3DTextureHandle shared3DTexture = sharedTexture->GetClientTexture();
-            device->SetRenderTarget(0, shared3DTexture);
-		}
-
 		EFFMatrix4 rotate;
 		rotate.RotationMatrixX(PI);
 		rotate.Identity();
@@ -566,18 +605,17 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 			//terrain->Render(device);
 		}
 
-        if (host)
+        if (host && connectedToClient)
         {
             EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
             if (sharedTexture != NULL)
             {
                 sharedTexture->HostWaitToStartRendering();
 
-                effUINT index = ReadSharedTextureIndexFromMemFile();
-                if (index != -1)
-                {
-                    EFF3DTextureHandle shared3DTexture = sharedTexture->GetHostTexture(index);
-                    device->DrawQuad(NULL, shared3DTexture, effFALSE);
+				EFF3DTextureHandle clientTexture = sharedTexture->GetClientTexture();
+				if (sharedTexture != NULL)
+				{
+					device->DrawQuad(NULL, clientTexture, effFALSE);
                 }
             }
         }
@@ -589,15 +627,6 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 
 
         device->Present(NULL, NULL);
-
-        if (host)
-        {
-            EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
-            if (sharedTexture != NULL)
-            {
-                sharedTexture->NotifyClientStartRendering();
-            }
-        }
 	}
 }
 
@@ -607,7 +636,78 @@ effVOID EFFApplication::InitGui()
 
 }
 
+
+effVOID EFFApplication::InitServer()
+{
+	if (host)
+	{
+		server = new EFFNetServer();
+		server->Init();
+		server->Bind(_effT("tcp://127.0.0.1:5555"));
+	}
+}
+
+effVOID EFFApplication::InitClient()
+{
+	if (!host)
+	{
+		client = EFFNEW EFFNetClient();
+		client->Init();
+		client->Connect(_effT("tcp://127.0.0.1:5555"));
+	}
+}
+
+effVOID EFFApplication::ShutdownServerAndClient()
+{
+	if (server != NULL)
+	{
+		server->Shutdown();
+	}
+
+	SF_DELETE(server);
+
+	if (client != NULL)
+	{
+		client->Shutdown();
+	}
+
+	SF_DELETE(client);
+}
+
+effVOID EFFApplication::ReceiveMsg()
+{
+	EFFFramework::ReceiveMsg(server, client);
+}
+
+effVOID EFFApplication::SendMsg(effINT id, effVOID * buffer, effINT size)
+{
+	if (server != NULL)
+	{
+		server->SendMsg(id, buffer, size);
+	}
+
+	if (client != NULL)
+	{
+		client->SendMsg(id, buffer, size);
+	}
+}
+
+effVOID EFFApplication::SendCmd(effINT id)
+{
+	if (server != NULL)
+	{
+		server->SendCmd(id);
+	}
+
+	if (client != NULL)
+	{
+		client->SendCmd(id);
+	}
+}
+
 EFFApplication * EFFGetApplication()
 {
 	return application;
 }
+
+EFFFRAMEWORK_END

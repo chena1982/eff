@@ -13,7 +13,9 @@
 #include "EFFStringHash.h"
 #include "EFFRttiApi.h"
 #include "EFFFile.h"
-#include "YAMLWrap.h"
+
+
+#include "metareflect.hxx"
 
 /*namespace YAML
 {
@@ -48,6 +50,94 @@ class EFFFile;
 
 
 //typedef effVOID (* SavePropertyFP)(EFFFile * file, effVOID * baseAddress, EFFProperty * property, effBOOL isBinary, YAML::Emitter * textOut);
+
+class EFFBASE_API EFFProperty2
+{
+	friend class EFFClass;
+public:
+	enum STLContainerType
+	{
+		ContainerType_None,
+		ContainerType_Vector,
+		ContainerType_Map,
+		ContainerType_List,
+	};
+
+public:
+	EFFProperty2()
+	{
+		offset = 0;
+		size = 0;
+		defaultValue = NULL;
+		minValue = NULL;
+		maxValue = NULL;
+		type = NULL;
+
+		isPointer = effFALSE;
+		isArray = effFALSE;
+		stlContainerType = ContainerType_None;
+		//savePropertyFP = NULL;
+	}
+public:
+	virtual ~EFFProperty2() {}
+
+
+public:
+
+
+public:
+	template<typename PropertyType>
+	effBOOL GetValue(effVOID * baseAddress, PropertyType & result)
+	{
+		result = *((PropertyType *)((effBYTE *)baseAddress + offset));
+		return effTRUE;
+	}
+
+	template<typename PropertyType>
+	effBOOL GetElement(effVOID * baseAddress, effUINT index, PropertyType & result)
+	{
+		if (stlContainerType == EFFProperty::ContainerType_Vector)
+		{
+			VECTOR<PropertyType> & propertyVector = *((VECTOR<PropertyType> *)((effBYTE *)baseAddress + offset));
+			result = propertyVector[index];
+			return effTRUE;
+		}
+
+
+		return effFALSE;
+	}
+
+	effSIZE GetElementCount(effVOID * baseAddress);
+
+	template<typename PropertyType, typename Visitor>
+	effVOID ForEach(effVOID * baseAddress, Visitor visitor)
+	{
+		if (stlContainerType == EFFProperty::ContainerType_Vector)
+		{
+			//PropertyForEachString(baseAddress, visitor);
+			VECTOR<PropertyType> & propertyVector = *((VECTOR<PropertyType> *)((effBYTE *)baseAddress + offset));
+			FOR_EACH(propertyVector.begin(), propertyVector.end(), visitor);
+		}
+	}
+
+public:
+	effUINT					offset;
+	effUINT					size;
+
+
+	effString				name;
+	EFFStringHash			nameHash;
+	effVOID *				defaultValue;
+	effVOID *				minValue;
+	effVOID *				maxValue;
+	EFFClass *				type;
+	effBOOL					isPointer;
+	effBOOL					isArray;
+	STLContainerType		stlContainerType;
+	//SavePropertyFP			savePropertyFP;
+
+	metareflect::Qualifier		qualifier;
+};
 
 
 class EFFBASE_API EFFProperty
@@ -186,26 +276,26 @@ public:
 		if ( Class->GetNameHash() == EFFStringHash(_effT("effString")) )
 		{
 			effString & data = *((effString *)((effBYTE *)baseAddress + offset));
-			SaveStringProperty(file, name, data, isBinary);
+			SaveProperty(file, data);
 		}
 		else if ( Class->GetNameHash() == EFFStringHash(_effT("effINT")) )
 		{
 			effINT & data = *((effINT *)((effBYTE *)baseAddress + offset));
-			SaveIntProperty(file, name, data, isBinary);
+			SaveProperty(file, data);
 		}
 		else if ( Class->GetNameHash() == EFFStringHash(_effT("effUINT")) )
 		{
 			effUINT & data = *((effUINT *)((effBYTE *)baseAddress + offset));
-			SaveUintProperty(file, name, data, isBinary);
+			SaveProperty(file, data);
 		}
 		else if ( Class->GetNameHash() == EFFStringHash(_effT("effFloat")) )
 		{
 			effFLOAT & data = *((effFLOAT *)((effBYTE *)baseAddress + offset));
-			SaveFloatProperty(file, name, data, isBinary);
+			SaveProperty(file, data);
 		}
 		else
 		{
-			SaveCustomSaveProperty<PropertyType>(file, baseAddress, this, isBinary);
+			SaveCustomSaveProperty<PropertyType>(file, baseAddress, this);
 		}
 	}
 };

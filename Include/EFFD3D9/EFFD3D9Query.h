@@ -8,19 +8,29 @@ purpose:
 #ifndef __EFFD3D9Query_2017_06_24__
 #define __EFFD3D9Query_2017_06_24__
 
+// Constants
+static const effUINT QueryLatency = 3;
 
-
-class EFFD3D9Query : public EFF3DQuery
+class EFFD3D9TimeQuery : public EFF3DTimeQuery
 {
     friend class EFFD3D9Device;
 public:
-    EFFD3D9Query();
-    virtual ~EFFD3D9Query();
+	EFFD3D9TimeQuery();
+    virtual ~EFFD3D9TimeQuery();
 public:
-    virtual effHRESULT Issue(effUINT flag);
-    virtual effHRESULT GetData(effVOID * data, effUINT size, effUINT flag);
+	virtual effVOID StartQuery();
+	virtual effVOID EndQuery();
+	virtual effBOOL EndFrame();
 protected:
-    IDirect3DQuery9 * query;
+	effVOID Release();
+	effVOID Init(LPDIRECT3DDEVICE9EX device);
+protected:
+	IDirect3DQuery9 * disjointQuery[QueryLatency];
+	IDirect3DQuery9 * timestampStartQuery[QueryLatency];
+	IDirect3DQuery9 * timestampEndQuery[QueryLatency];
+
+	effBOOL queryStarted[QueryLatency];
+	effBOOL queryFinished[QueryLatency];
 };
 
 #endif

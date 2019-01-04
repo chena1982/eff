@@ -118,11 +118,11 @@ effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & filePath)
 
 effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * device)
 {
-	HRESULT hr;
+	//HRESULT hr;
 
 	EFFD3D9Device * pD3D9Device = (EFFD3D9Device *)device;
 	
-	if ( FAILED(hr = D3DXCreateTextureFromFileInMemory(pD3D9Device->GetD3D9Device(), data, dataSize, &texture)) )
+	//if ( FAILED(hr = D3DXCreateTextureFromFileInMemory(pD3D9Device->GetD3D9Device(), data, dataSize, &texture)) )
 	{
 		return effFALSE;
 	}

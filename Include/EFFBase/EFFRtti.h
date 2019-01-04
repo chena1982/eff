@@ -12,9 +12,10 @@
 
 #include "EFFReflection.h"
 #include "EFFProperty.h"
+#include "EFFFunction.h"
 #include "EFFSTLFile.h"
 #include "EFFUtility.h"
-#include "YAMLWrap.h"
+
 
 #include <iostream>
 
@@ -89,11 +90,11 @@ public:\
 
 #define RTTI_IMPLEMENT_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
 	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
-	EFFClass * CLASS##::GetThisClass()\
+	EFFClass * CLASS::GetThisClass()\
 	{\
 		return RTTI_CLASS(CLASS);\
 	}\
-	EFFClass * CLASS##::GetRuntimeClass() const\
+	EFFClass * CLASS::GetRuntimeClass() const\
 	{\
 		return GetThisClass();\
 	}\
@@ -101,11 +102,11 @@ public:\
 
 #define RTTI_IMPLEMENT_CUSTOM_SAVE_INTERNAL(CLASS, VERSION, NAME, BASECLASS)\
 	EFFClassImpl<CLASS> CLASS::runtimeInfoClass##CLASS(VERSION, effFALSE, NAME, BASECLASS);\
-	EFFClass * CLASS##::GetThisClass()\
+	EFFClass * CLASS::GetThisClass()\
 	{\
 		return RTTI_CLASS(CLASS);\
 	}\
-	EFFClass * CLASS##::GetRuntimeClass() const\
+	EFFClass * CLASS::GetRuntimeClass() const\
 	{\
 		return GetThisClass();\
 	}\

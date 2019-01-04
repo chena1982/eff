@@ -45,6 +45,7 @@
 #include "EFFUtility.h"
 #include "EFFRtti.h"
 #include "EFFFastIdMap.h"
+#include "YAMLWrap.h"
 
 
 

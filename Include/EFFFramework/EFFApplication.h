@@ -9,6 +9,8 @@
 #define __EFFApplication_2012_10_22__
 
 
+EFFFRAMEWORK_BEGIN
+
 struct MuiltiProcessWndHandles
 {
 	MuiltiProcessWndHandles()
@@ -22,7 +24,7 @@ struct MuiltiProcessWndHandles
 };
 
 
-class EFFF_API EFFApplication
+class EFFFRAMEWORK_API EFFApplication
 {
 public:
 	EFFApplication();
@@ -37,11 +39,18 @@ public:
 
 	effVOID MoveWindow(effINT x, effINT y, effINT width, effINT height);
 
-	HWND GetHWND() { return hWnd; }
-
 	effBOOL IsWindowSizeChanged(effINT width, effINT height);
 
 	effVOID SetWindowMinimized(effBOOL minimized);
+
+	effVOID ReceiveMsg();
+	effVOID SendMsg(effINT id, effVOID * buffer, effINT size);
+	effVOID SendCmd(effINT id);
+public:
+	EFFNetServer * GetServer() { return server; }
+	EFFNetClient * GetClient() { return client; }
+	HWND GetHWND() { return hWnd; }
+
 protected:
 	effBOOL	CreateAppWindow(effBOOL window, effINT width, effINT height, effBOOL multiProcess, effBOOL host);
 
@@ -55,6 +64,10 @@ protected:
 	effVOID InitGui();
 	effVOID CreateGui();
 
+	effVOID InitServer();
+	effVOID InitClient();
+	effVOID ShutdownServerAndClient();
+
 	effVOID WindowResized(effINT width, effINT height);
 
 public:
@@ -64,13 +77,16 @@ public:
 	EFFEvent					OnWindowResize;
 
     EFFEvent                    OnQuit();
+
+	effBOOL                     connectedToHost;
+	effBOOL						connectedToClient;
 protected:
 	EFF3DDevice *				device;
 	HANDLE						memFile;
 	MuiltiProcessWndHandles		mpwh;
 	effUINT						backGroundColor;
 	effBOOL						host;
-    effBOOL                     connectedToHost;
+
 	effBOOL						window;
 
 	HWND						hWnd;
@@ -79,7 +95,14 @@ protected:
 	effINT						height;
 
 	effBOOL						minimized;
+
+	EFFNetClient *				client;
+	EFFNetServer *				server;
 };
 
-EFFF_API EFFApplication * EFFGetApplication();
+EFFFRAMEWORK_API EFFApplication * EFFGetApplication();
+
+
+EFFFRAMEWORK_END
+
 #endif

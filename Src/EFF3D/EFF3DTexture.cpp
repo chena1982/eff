@@ -102,7 +102,7 @@ effVOID EFF3DSharedTexture::InitSemaphore()
 
 
 
-EFF3DTextureManager::EFF3DTextureManager()
+EFF3DTextureManager::EFF3DTextureManager() : EFF3DResourceManager()
 {
 	//OnCreateFromFile += EFFEventCall(this, &EFF3DImageManager::CreateFromFileImpl);
 

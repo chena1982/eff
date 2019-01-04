@@ -10,11 +10,17 @@
 
 #pragma comment (lib, "dwmapi.lib")
 
+
+#define EFFFRAMEWORK_BEGIN		namespace EFFFramework {
+#define EFFFRAMEWORK_END		}
+#define USE_EFFFRAMEWORK		using namespace EFFFramework;
+
 #ifndef EFFFRAMEWORK_EXPORTS
-	#define EFFF_API		__declspec(dllimport)
+	#define EFFFRAMEWORK_API	__declspec(dllimport)
 #else
-	#define EFFF_API		__declspec(dllexport)
+	#define EFFFRAMEWORK_API	__declspec(dllexport)
 #endif
+
 
 
 #endif

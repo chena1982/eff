@@ -9,11 +9,11 @@
 #define __EFFD3D9BaseDefines_2008_12_2__
 
 #pragma comment (lib, "dxguid.lib")
-#pragma comment (lib, "dxerr9.lib")
-#pragma comment (lib, "DxErr.lib")
+//#pragma comment (lib, "dxerr9.lib")
+//#pragma comment (lib, "DxErr.lib")
 #pragma comment (lib, "d3d9.lib")
-#pragma comment (lib, "d3dx9.lib")
-#pragma comment (lib, "d3dxof.lib")
+//#pragma comment (lib, "d3dx9.lib")
+//#pragma comment (lib, "d3dxof.lib")
 
 #ifndef EFFD3D9_EXPORTS
     #define EFFD3D9_API		__declspec(dllimport)

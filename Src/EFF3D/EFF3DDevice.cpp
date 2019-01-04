@@ -22,6 +22,7 @@
 #include "EFF3DUniformBuffer.h"
 #include "EFF3DRenderQueue.h"
 #include "EFF3DRenderQueueManager.h"
+#include "EFF3DQuery.h"
 //#include "EFF3DWebGui.h"
 
 
@@ -140,6 +141,7 @@ EFF3DDevice::~EFF3DDevice()
     SF_DELETE(indexBufferManager);
     SF_DELETE(vertexDeclManager);
     SF_DELETE(renderQueueManager);
+	SF_DELETE(timeQueryManager);
 
 	SF_DELETE(sceneManager);
 	SF_DELETE(fontManager);
@@ -171,7 +173,8 @@ effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT 
 
     for (effINT i = 0; i < SHAREDTEXTURE_BUFFER_COUNT; i++)
     {
-        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, &sharedTexture->textureHandle[i]);
+        CreateTexture(width, height, levels, flag, format, EFF3DResourceType_RenderTarget, 
+			&sharedTexture->textureHandle[i], sharedTexture->sharedHandle[i]);
     }
 
     sharedTexture->clientSemaphore.Create(3, 3, _effT("ClientSharedTextureSemaphore"));
@@ -202,7 +205,8 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
         //texture->userData = handle;
 
         CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, 
-            (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, &sharedTexture->textureHandle[i]);
+            (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, 
+			&sharedTexture->textureHandle[i], sharedTexture->sharedHandle[i]);
     }
 
 	//(*texture)->name = _effT("HostSharedTexture");
@@ -252,6 +256,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
     indexBufferManager = EFFNEW EFF3DIndexBufferManager;
     vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager;
     uniformBufferManager = EFFNEW EFF3DUniformBufferManager;
+	timeQueryManager = EFFNEW EFF3DTimeQueryManager;
 
     renderQueueManager = EFFNEW EFF3DRenderQueueManager;
 
@@ -492,6 +497,12 @@ EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
         resource->id = textureManager->Create();
         textureManager->AddResource(resource);
     }
+
+	if (resourceType == EFF3DResourceType_TimeQuery)
+	{
+		resource->id = timeQueryManager->Create();
+		timeQueryManager->AddResource(resource);
+	}
 
     return resource;
 }

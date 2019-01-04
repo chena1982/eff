@@ -149,6 +149,21 @@ EFFProperty * EFFClass::GetProperty(const effString & name)
 	return NULL;
 }
 
+
+EFFProperty2 * EFFClass::AddProperty2()
+{
+	EFFProperty2 * addedProperty = EFFNEW EFFProperty2();
+	properties2.push_back(addedProperty);
+	return addedProperty;
+}
+
+EFFFunction * EFFClass::AddFunction()
+{
+	EFFFunction * function = EFFNEW EFFFunction();
+	functions.push_back(function);
+	return function;
+}
+
 effVOID SetProperty(EFFProperty * addedProperty, effLONG offset, effLONG size, const effString & name)
 {
 	addedProperty->SetOffset(offset);

@@ -14,7 +14,7 @@
 #include <boost\type_traits.hpp>
 #include <boost\static_assert.hpp>
 
-#include "YAMLWrap.h"
+
 //EFFBASE_BEGIN
 
 
@@ -45,7 +45,7 @@ struct ArgReadBin
 }*/
 
 template<typename PropertyType>
-inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property, effBOOL isBinary)
+inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFFProperty * Property)
 {
 	PropertyType * data = NULL;
 	if (!Property->GetIsPointer())
@@ -57,103 +57,66 @@ inline effVOID SaveCustomSaveProperty(EFFFile * file, effVOID * baseAddress, EFF
 		data = *(PropertyType **)((effBYTE *)baseAddress + Property->GetOffset());
 	}
 
-	if (isBinary)
+
+	file->Write(data, sizeof(PropertyType));
+
+	//node[EFFSTRING2ANSI(Property->GetName())] = *data;
+	
+}
+
+template<typename Type>
+effVOID SaveProperty(EFFFile * file, const Type & data)
+{
+
+}
+
+template<>
+inline effVOID SaveProperty(EFFFile * file, const effString & data)
+{
+    effSIZE length = data.length();
+	file->Write(&length, sizeof(effSIZE));
+	file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
+}
+
+template<>
+inline effVOID SaveProperty(EFFFile * file, const VECTOR<effString> & datas)
+{
+	effSIZE length = datas.size();
+	file->Write(&length, sizeof(effSIZE));
+	for (effSIZE i = 0; i < datas.size(); i++)
 	{
-		file->Write(data, sizeof(PropertyType));
-	}
-	else
-	{
-		//node[EFFSTRING2ANSI(Property->GetName())] = *data;
+		SaveProperty(file, datas[i]);
 	}
 }
 
-
-inline effVOID SaveStringProperty(EFFFile * file, const effString & propertyName, const effString & data, effBOOL isBinary)
+template<>
+inline effVOID SaveProperty(EFFFile * file, const effINT & data)
 {
-	if (isBinary)
+	file->Write((effVOID *)&data, 4);
+	//SaveIntPropertyToYAMLFile(propertyName, data);
+}
+
+template<typename Type>
+inline effVOID SaveIntVectorProperty(EFFFile * file, const VECTOR<Type> & datas)
+{
+	effSIZE length = datas.size();
+	file->Write(&length, sizeof(effSIZE));
+	if (length > 0)
 	{
-        effSIZE length = data.length();
-		file->Write(&length, sizeof(effSIZE));
-		file->Write((effVOID *)data.c_str(), length * sizeof(effTCHAR));
-	}
-	else
-	{
-		//node[EFFSTRING2ANSI(Property->GetName())] = EFFSTRING2ANSI(data);
-		SaveStringPropertyToYAMLFile(propertyName, data);
+		file->Write((effVOID *)&datas[0], sizeof(Type) * length);
 	}
 }
 
-inline effVOID SaveStringVectorProperty(EFFFile * file, const effString & propertyName, const VECTOR<effString> & datas, effBOOL isBinary)
+template<>
+inline effVOID SaveProperty(EFFFile * file, const effUINT & data)
 {
-	if (isBinary)
-	{
-		effSIZE length = datas.size();
-		file->Write(&length, sizeof(effSIZE));
-		for (effSIZE i = 0; i < datas.size(); i++)
-		{
-			SaveStringProperty(file, propertyName, datas[i], isBinary);
-		}
-	}
-	else
-	{
-        for (effSIZE i = 0; i < datas.size(); i++)
-		{
-			SaveStringPropertyToYAMLFile(propertyName, datas[i]);
-		}
-	}
+	file->Write((effVOID *)&data, 4);
 }
 
-inline effVOID SaveIntProperty(EFFFile * file, const effString & propertyName, effINT data, effBOOL isBinary)
+template<>
+inline effVOID SaveProperty(EFFFile * file, const effFLOAT & data)
 {
-	if (isBinary)
-	{
-		file->Write(&data, 4);
-	}
-	else
-	{
-		SaveIntPropertyToYAMLFile(propertyName, data);
-	}
-}
-
-inline effVOID SaveIntVectorProperty(EFFFile * file, const effString & propertyName, const VECTOR<effINT> & datas, effBOOL isBinary)
-{
-	if (isBinary)
-	{
-		effSIZE length = datas.size();
-		file->Write(&length, sizeof(effSIZE));
-		if (length > 0)
-		{
-			file->Write((effVOID *)&datas[0], 4 * length);
-		}
-	}
-	else
-	{
-		SaveIntVectorPropertyToYAMLFile(propertyName, datas);
-	}
-}
-
-inline effVOID SaveUintProperty(EFFFile * file, const effString & propertyName, effUINT data, effBOOL isBinary)
-{
-	if (isBinary)
-	{
-		file->Write(&data, 4);
-	}
-	else
-	{
-		SaveUintPropertyToYAMLFile(propertyName, data);
-	}
-}
-
-inline effVOID SaveFloatProperty(EFFFile * file, const effString & propertyName, effFLOAT data, effBOOL isBinary)
-{
-	if (isBinary)
-	{
-		file->Write(&data, 4);
-	}
-	else
-	{
-		SaveFloatPropertyToYAMLFile(propertyName, data);
-	}
+	file->Write((effVOID *)&data, 4);
 }
 
 

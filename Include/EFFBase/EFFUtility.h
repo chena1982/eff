@@ -337,17 +337,17 @@ inline effUINT effUINT_cnttz_ref(effUINT value)
     return result;
 }
 
-inline effUINT effUINT_cnttz(effUINT value)
+inline effUINT effUINT_cnttz(effUINT _val)
 {
 #if EFF_COMPILER_GCC || EFF_COMPILER_CLANG
     return __builtin_ctz(_val);
 #elif EFF_COMPILER_MSVC && EFF_PLATFORM_WINDOWS
     effDWORD index;
-    _BitScanForward(&index, value);
+    _BitScanForward(&index, _val);
     return index;
 #else
     return uint32_cnttz_ref(_val);
-#endif // BX_COMPILER_
+#endif // EFF_COMPILER_
 }
 
 

@@ -15,6 +15,7 @@
 #include "EFFD3D9Shader.h"
 #include "EFFD3D9Query.h"
 
+#include "murmur3/murmur3.h"
 //#define new EFFNEW
 
 
@@ -359,6 +360,11 @@ EFF3DResource * EFFD3D9Device::CreateEmptyResourceImpl(EFF3DResourceType resourc
                 resource = EFFNEW EFFD3D9VertexBuffer();
             }
             break;
+		case EFF3DResourceType_TimeQuery:
+			{
+				resource = EFFNEW EFFD3D9TimeQuery();
+			}
+			break;
 	    default:
 		    break;
 	}
@@ -366,7 +372,8 @@ EFF3DResource * EFFD3D9Device::CreateEmptyResourceImpl(EFF3DResourceType resourc
 	return resource;
 }
 
-effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
+effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, 
+	EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle, effSIZE sharedHandle)
 {
 	//assert(texture != NULL);
 
@@ -375,9 +382,8 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
     effHRESULT hr;
     effUINT usage = 0;
 
-    effHANDLE shareHandle = NULL;
-
-	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].d3d9Format, D3DPOOL_DEFAULT, &effD3D9Texture->texture, &shareHandle)) )
+	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].d3d9Format, 
+		D3DPOOL_DEFAULT, &effD3D9Texture->texture, (HANDLE *)&sharedHandle)) )
 	{
 		SF_DELETE(effD3D9Texture);
 		return effFALSE;
@@ -389,7 +395,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 	effD3D9Texture->imageInfo.mipLevels = levels;
 	effD3D9Texture->imageInfo.format = format;
 	effD3D9Texture->imageInfo.type = resourceType;
-    effD3D9Texture->imageInfo.sharedHandle = shareHandle;
+    effD3D9Texture->imageInfo.sharedHandle = (effHANDLE)sharedHandle;
 
     *textureHandle = effD3D9Texture->id;
 
@@ -867,20 +873,13 @@ effVOID EFFD3D9Device::Draw(EFF3DDrawCommand & drawCommand)
     }
 }
 
-effBOOL EFFD3D9Device::CreateQuery(EFF3DQueryType type, effUINT flag, EFF3DQuery ** query)
+effBOOL EFFD3D9Device::CreateTimeQuery(effUINT flag, EFF3DTimeQueryHandle * queryHandle)
 {
+	EFFD3D9TimeQuery * effD3D9TimeQuery = (EFFD3D9TimeQuery *)CreateEmptyResource(EFF3DResourceType_TimeQuery);
+	effD3D9TimeQuery->Init(D3D9Device);
 
-    /*EFFD3D9Query * effD3D9Query = EFFNEW EFFD3D9Query();
-
-    effHRESULT hr;
-    if (FAILED(hr = D3D9Device->CreateQuery((D3DQUERYTYPE)type, &effD3D9Query->query)))
-    {
-        SF_DELETE(effD3D9Query);
-        return effFALSE;
-    }
-
-    *query = effD3D9Query;*/
-    return effTRUE;
+	*queryHandle = effD3D9TimeQuery->id;
+	return effTRUE;
 }
 
 effBOOL EFFD3D9Device::DrawIndexedPrimitive(EFF3DPrimitiveType type, effINT baseVertexIndex, effUINT minIndex, effUINT numVertices,
