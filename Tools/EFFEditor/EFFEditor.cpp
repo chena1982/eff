@@ -112,9 +112,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	app.Init(effTRUE, 1024, 768, effTRUE, effTRUE);
 	app.SetBackGroundColor(0x00000000);
 
-	//StartRender();
+	StartRender();
 
-	InitEditor();
+	//InitEditor();
 
 	app.OnUpdate += EFFEventCall(&app, &EFFApplication::ReceiveMsg);
 	app.OnRenderGUI += EFFEventCall(&RenderGUI);

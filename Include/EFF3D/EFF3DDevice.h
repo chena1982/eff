@@ -161,7 +161,8 @@ public:
     effVOID                         InitSharedTexture(SharedTextureInfo * sharedTextureInfo);
     effBOOL                         IsHost() { return host; }
 
-
+	effVOID							ResetCommandBuffer();
+	effVOID							SubmitCommandBuffer();
 
 protected:
     /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,

@@ -78,14 +78,14 @@ public:
     template<typename CommandType>
     CommandType *                       GetCommand()
     {
-        CommandType * command = commandBuffer->AddCommand<CommandType>(0, sizeof(CommandType), *allocator);
+        CommandType * command = commandBuffer->AddCommand<CommandType>(0, 0, *allocator);
         return command;
     }
 
 public:
 	effVOID								SetSceneManager(EFF3DSceneManager * sceneManager) { this->sceneManager = sceneManager; }
-
-
+	effVOID								ResetCommandBuffer();
+	effVOID								SubmitCommandBuffer();
 protected:
 	effVOID								Sort();
 	EFF3DMaterial *						GetMaterial(RenderQueueElement & renderQueueElement);
@@ -97,8 +97,8 @@ protected:
 	VECTOR<RenderQueueElement>		    renderables;
 	EFF3DSceneManager *					sceneManager;
 
-    EFF3DRenderCommandBuffer *          createCommandBuffers;
-    EFF3DRenderCommandBuffer *          destroyCommandBuffers;
+    //EFF3DRenderCommandBuffer *          createCommandBuffers;
+    //EFF3DRenderCommandBuffer *          destroyCommandBuffers;
 
 
     EFF3DCommandBucket<effUINT64> *     commandBuffer;

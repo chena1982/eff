@@ -209,6 +209,25 @@ struct EFF3DCreateIndexBufferCommand
 class EFF3DBackendDispatch
 {
 public:
+
+	static effVOID CreateVertexDeclaration(const effVOID * data)
+	{
+		const EFF3DCreateVertexDeclarationCommand * realData = (EFF3DCreateVertexDeclarationCommand *)(data);
+		//backend::Draw(realData->vertexCount, realData->startVertex);
+	}
+
+	static effVOID CreateVertexBuffer(const effVOID * data)
+	{
+		const EFF3DCreateVertexBufferCommand * realData = (EFF3DCreateVertexBufferCommand *)(data);
+		//backend::Draw(realData->vertexCount, realData->startVertex);
+	}
+
+	static effVOID CreateIndexBuffer(const effVOID * data)
+	{
+		const EFF3DCreateIndexBufferCommand * realData = (EFF3DCreateIndexBufferCommand *)(data);
+		//backend::Draw(realData->vertexCount, realData->startVertex);
+	}
+
     static effVOID Draw(const effVOID * data)
     {
         const EFF3DDrawCommand * realData = (EFF3DDrawCommand *)(data);
@@ -329,16 +348,16 @@ public:
     {
         keys = EFFNEW Key[commandCount];
         packets = EFFNEW effVOID * [commandCount];
-        memset(packets, 0, sizeof(packets));
+        memset(packets, 0, sizeof(effVOID *) * commandCount);
 
         offsetTlsIndex = TlsAlloc();
         remainingTlsIndex = TlsAlloc();
 
         current = 0;
 
-        effUINT value = 0;
-        TlsSetValue(offsetTlsIndex, &value);
-        TlsSetValue(remainingTlsIndex, &value);
+		effINT64 value = 0;
+        TlsSetValue(offsetTlsIndex, (LPVOID)value);
+        TlsSetValue(remainingTlsIndex, (LPVOID)value);
     }
 
     ~EFF3DCommandBucket()
@@ -352,29 +371,34 @@ public:
     {
         EFF3DCommandPacket packet = EFF3DCommandPacketUtilities::Create<U>(auxMemorySize, allocator);
 
+		if (packet == NULL)
+		{
+			return NULL;
+		}
+
         // store key and pointer to the data
         {
             // fetch number of remaining packets in this layer for the thread with this id
-            effINT remaining = (effINT)(effUINT64)TlsGetValue(remainingTlsIndex);
-            effINT offset = (effINT)(effUINT64)TlsGetValue(offsetTlsIndex);
+			effINT64 remaining = (effINT64)TlsGetValue(remainingTlsIndex);
+			effINT64 offset = (effINT64)TlsGetValue(offsetTlsIndex);
 
             if (remaining == 0)
             {
                 // no more storage in this block remaining, get new one
-                offset = InterlockedExchangeAdd(&current, COMMAND_BUCKET_CHUNK_COUNT);
+                offset = InterlockedExchangeAdd64(&current, COMMAND_BUCKET_CHUNK_COUNT);
                 remaining = 32;
 
                 // write back
-                TlsSetValue(offsetTlsIndex, &offset);
+                TlsSetValue(offsetTlsIndex, (LPVOID)offset);
             }
 
-            effINT index = offset + (COMMAND_BUCKET_CHUNK_COUNT - remaining);
+			effINT64 index = offset + (COMMAND_BUCKET_CHUNK_COUNT - remaining);
             keys[index] = key;
             packets[index] = packet;
             remaining--;
 
             // write back
-            TlsSetValue(remainingTlsIndex, &remaining);
+            TlsSetValue(remainingTlsIndex, (LPVOID)remaining);
         }
 
         EFF3DCommandPacketUtilities::StoreNextCommandPacket(packet, NULL);
@@ -391,12 +415,13 @@ public:
         // append this command to the given one
         EFF3DCommandPacketUtilities::StoreNextCommandPacket<V>(command, packet);
 
-        EFF3DCommandPacketUtilities::StoreNextCommandPacket(packet, nullptr);
+        EFF3DCommandPacketUtilities::StoreNextCommandPacket(packet, NULL);
         EFF3DCommandPacketUtilities::StoreBackendDispatchFunction(packet, U::DISPATCH_FUNCTION);
 
         return EFF3DCommandPacketUtilities::GetCommand<U>(packet);
     }
 
+	//在渲染线程提交
     effVOID Submit()
     {
         for (effUINT i = 0; i < current; i++)
@@ -416,13 +441,23 @@ public:
         const effVOID * command = EFF3DCommandPacketUtilities::LoadCommand(packet);
         function(command);
     }
+
+	effVOID Reset()
+	{
+		current = 0;
+
+		//todo 需要每个线程调用一次
+		effINT64 value = 0;
+		TlsSetValue(offsetTlsIndex, (LPVOID)value);
+		TlsSetValue(remainingTlsIndex, (LPVOID)value);
+	}
 private:
     Key * keys;
     effVOID ** packets;
     effUINT offsetTlsIndex;
     effUINT remainingTlsIndex;
 
-    effUINT current;
+	effINT64 current;
 };
 
 

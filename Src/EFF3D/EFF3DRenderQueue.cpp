@@ -186,6 +186,23 @@ effVOID	EFF3DRenderQueue::Render(EFF3DDevice * device)
 }
 
 
+effVOID	EFF3DRenderQueue::ResetCommandBuffer()
+{
+	if (allocator != NULL)
+	{
+		allocator->Reset();
+	}
+}
+
+effVOID	EFF3DRenderQueue::SubmitCommandBuffer()
+{
+	if (commandBuffer != NULL)
+	{
+		commandBuffer->Submit();
+		commandBuffer->Reset();
+	}
+}
+
 
 
 EFF3D_END

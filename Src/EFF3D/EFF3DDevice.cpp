@@ -513,4 +513,16 @@ effVOID EFF3DDevice::InitVertexDeclaration()
     QuadVertex::InitVertexDecl();
 }
 
+effVOID	EFF3DDevice::ResetCommandBuffer()
+{
+	EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
+	rendererQueue->ResetCommandBuffer();
+}
+
+effVOID EFF3DDevice::SubmitCommandBuffer()
+{
+	EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
+	rendererQueue->SubmitCommandBuffer();
+}
+
 EFF3D_END

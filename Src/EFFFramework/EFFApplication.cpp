@@ -334,7 +334,7 @@ effVOID EFFApplication::Run()
 			Render(interpolation);
 			EFF3DTimeQuery * timeQuery = EFF3DGPUProfiler::GlobalProfiler.EndFrame();
 
-			if (timeQuery != NULL && connectedToHost)
+			if (timeQuery != NULL && !host && connectedToHost)
 			{
 				device->GetSharedRenderTarget()->NotifyHostStartRendering(timeQuery->currentFrame);
 			}
@@ -343,7 +343,7 @@ effVOID EFFApplication::Run()
 
 
         //让client渲染最后一帧，否则有可能client正在wait，这样的话client无法退出
-        if (host && appExit)
+        if (host && connectedToClient && appExit)
         {
             EFF3DSharedTexture * sharedTexture = device->GetSharedRenderTarget();
             if (sharedTexture != NULL)
@@ -584,6 +584,8 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 {
     EFF3DGPUProfileBlock profileBlock(_effT("Render"));
 
+	device->ResetCommandBuffer();
+
 	device->Clear(0, NULL, EFF3D_CLEAR_COLOR | EFF3D_CLEAR_DEPTH, backGroundColor, 1.0f, 0);
 	if ( device->BeginScene() )
 	{
@@ -622,6 +624,9 @@ effVOID EFFApplication::Render(effFLOAT elapsedTime)
 
 		//wkeUpdate();
 		OnRenderGUI(elapsedTime);
+
+
+		device->SubmitCommandBuffer();
 
 		device->EndScene();
 
