@@ -8,6 +8,7 @@
 Build
 /ThirdPartyLib/jsoncpp-src-0.5.0/build
 /ThirdPartyLib/Synergy
+/ThirdPartyLib/boost_1_68_0
 /Tools/EFFEditor/Debug
 /Tools/EFFEditor/GeneratedFiles
 /Bin/*.ilk
@@ -32,3 +33,4 @@ ipch
 obj
 objs
 /ThirdPartyLib/zeromq-4.2.2/bin
+/Include/*/*.generated.h

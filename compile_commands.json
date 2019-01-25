@@ -1,0 +1,870 @@
+[
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\dllmain.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\dllmain.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/dllmain.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFBaseDefines.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFBaseDefines.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFBaseDefines.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFBasePCH.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFBasePCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFBasePCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFComponent.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFComponent.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFComponent.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFEvent.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFEvent.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFEvent.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFGameObject.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFGameObject.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFGameObject.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFGlobal.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFGlobal.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFGlobal.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFInputManager.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFInputManager.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFInputManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFLog.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFLog.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFLog.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFMemberFunction.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFMemberFunction.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFMemberFunction.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFMemory.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFMemory.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFMemory.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFMessageCenter.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFMessageCenter.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFMessageCenter.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFNetClient.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFNetClient.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFNetClient.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFNetServer.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFNetServer.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFNetServer.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFObject.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFObject.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFObject.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFObjectManager.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFObjectManager.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFObjectManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFOSVersion.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFOSVersion.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFOSVersion.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFProperty.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFProperty.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFProperty.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFReflection.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFReflection.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFReflection.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFRtti.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFRtti.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFRtti.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFRttiApi.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFRttiApi.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFRttiApi.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFScopeGuard.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFScopeGuard.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFScopeGuard.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFSTLFile.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFSTLFile.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFSTLFile.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFSTLRttiWrap.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFSTLRttiWrap.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFSTLRttiWrap.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFStringHash.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFStringHash.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFStringHash.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFThread.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFThread.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFThread.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFUtility.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFUtility.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFUtility.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\GetDllExportFunctionsName.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\GetDllExportFunctionsName.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/GetDllExportFunctionsName.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\md5.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\md5.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/md5.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\YAMLWrap.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\YAMLWrap.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/YAMLWrap.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFSemaphore.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFSemaphore.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFSemaphore.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFEntity.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFEntity.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFEntity.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFBase",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFBASE_EXPORTS -DEFFBase_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include\\EFFBase -IC:\\EFF\\ThirdPartyLib\\boost_1_68_0 -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.12.04\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFBasePCH.h /FoCMakeFiles\\EFFBase.dir\\EFFString.cpp.obj /FdCMakeFiles\\EFFBase.dir\\ /FS -c C:\\EFF\\Src\\EFFBase\\EFFString.cpp
+<<",
+  "file": "C:/EFF/Src/EFFBase/EFFString.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIPCH.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIPCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIWidget.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIWidget.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIWidget.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUILayoutManager.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUILayoutManager.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUILayoutManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUILayoutInfo.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUILayoutInfo.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUILayoutInfo.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIGridLayout.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIGridLayout.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIGridLayout.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIFlowLayout.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIFlowLayout.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIFlowLayout.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIBorderLayout.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIBorderLayout.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIBorderLayout.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIRendering.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIRendering.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIRendering.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIText.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIText.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIText.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\EFFGUIImage.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\EFFGUIImage.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/EFFGUIImage.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFGUI",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_EXPORTS -DEFFGUI_NOT_IMPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFGUI -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include -IC:\\EFF\\Src\\EFFReflection  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFGUIPCH.h /FoCMakeFiles\\EFFGUI.dir\\dllmain.cpp.obj /FdCMakeFiles\\EFFGUI.dir\\ /FS -c C:\\EFF\\Src\\EFFGUI\\dllmain.cpp
+<<",
+  "file": "C:/EFF/Src/EFFGUI/dllmain.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFAabb.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFAabb.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFAabb.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFMathFunction.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFMathFunction.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFMathFunction.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFMathPCH.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFMathPCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFMathPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFMatrix4.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFMatrix4.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFMatrix4.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFPlane3.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFPlane3.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFPlane3.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFPolygon3.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFPolygon3.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFPolygon3.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFRect.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFRect.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFRect.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFSegment3.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFSegment3.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFSegment3.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFVector2.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFVector2.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFVector2.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFVector3.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFVector3.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFVector3.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFMath",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMATH_EXPORTS -DEFFMath_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMath -IC:\\EFF\\Src\\EFFMath\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMathPCH.h /FoCMakeFiles\\EFFMath.dir\\EFFVector4.cpp.obj /FdCMakeFiles\\EFFMath.dir\\ /FS -c C:\\EFF\\Src\\EFFMath\\EFFVector4.cpp
+<<",
+  "file": "C:/EFF/Src/EFFMath/EFFVector4.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderBaseDefines.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderBaseDefines.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderBaseDefines.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DAsyncLoader.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DAsyncLoader.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DAsyncLoader.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DAutoParamDataSource.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DAutoParamDataSource.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DAutoParamDataSource.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DCamera.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DCamera.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DCamera.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DDevice.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DDevice.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DDevice.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DFont.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DFont.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DFont.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DFrustum.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DFrustum.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DFrustum.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DImgui.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DImgui.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DImgui.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DImguiRender.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DImguiRender.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DImguiRender.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DMaterial.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DMaterial.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DMaterial.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DMyTerrain.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DMyTerrain.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DMyTerrain.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DMyTerrainTile.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DMyTerrainTile.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DMyTerrainTile.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DObject.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DObject.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DObject.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DPCH.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DPCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderable.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderable.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderable.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderQueue.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderQueue.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderQueue.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderQueueManager.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderQueueManager.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderQueueManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderQueueSolid.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderQueueSolid.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderQueueSolid.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DResource.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DResource.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DResource.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DResourceManager.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DResourceManager.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DResourceManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DSceneManager.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DSceneManager.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DSceneManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DShader.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DShader.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DShader.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DTerrain.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DTerrain.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DTerrain.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DTerrainDataPreprocess.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DTerrainDataPreprocess.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DTerrainDataPreprocess.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DTerrainROAMImproveTileData.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DTerrainROAMImproveTileData.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DTerrainROAMImproveTileData.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DTerrainTile.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DTerrainTile.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DTerrainTile.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DTexture.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DTexture.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DTexture.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DVertexBuffer.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DVertexBuffer.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DVertexBuffer.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DVertexDeclaration.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DVertexDeclaration.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DVertexDeclaration.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DQuery.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DQuery.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DQuery.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderCommand.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderCommand.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderCommand.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DRenderCommandBuffer.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DRenderCommandBuffer.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DRenderCommandBuffer.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DMeshRendererComponent.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DMeshRendererComponent.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DMeshRendererComponent.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DMesh.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DMesh.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DMesh.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFF3D",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFF3D_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFF3D -IC:\\EFF\\Src\\EFF3D\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\freetype-2.8\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFF3DPCH.h /FoCMakeFiles\\EFF3D.dir\\EFF3DSubmesh.cpp.obj /FdCMakeFiles\\EFF3D.dir\\ /FS -c C:\\EFF\\Src\\EFF3D\\EFF3DSubmesh.cpp
+<<",
+  "file": "C:/EFF/Src/EFF3D/EFF3DSubmesh.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9Device.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9Device.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9Device.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9IndexBuffer.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9IndexBuffer.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9IndexBuffer.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9PCH.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9PCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9PCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9Shader.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9Shader.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9Shader.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9Surface.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9Surface.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9Surface.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9Texture.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9Texture.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9Texture.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9VertexBuffer.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9VertexBuffer.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9VertexBuffer.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9VertexDeclaration.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9VertexDeclaration.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9VertexDeclaration.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFD3D9",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFD3D9_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFD3D9 -IC:\\EFF\\Src\\EFFD3D9\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFD3D9PCH.h /FoCMakeFiles\\EFFD3D9.dir\\EFFD3D9Query.cpp.obj /FdCMakeFiles\\EFFD3D9.dir\\ /FS -c C:\\EFF\\Src\\EFFD3D9\\EFFD3D9Query.cpp
+<<",
+  "file": "C:/EFF/Src/EFFD3D9/EFFD3D9Query.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFFramework",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFFRAMEWORK_EXPORTS -DEFFFramework_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFFramework -IC:\\EFF\\Src\\EFFFramework\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\DirectX\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFFrameworkPCH.h /FoCMakeFiles\\EFFFramework.dir\\dllmain.cpp.obj /FdCMakeFiles\\EFFFramework.dir\\ /FS -c C:\\EFF\\Src\\EFFFramework\\dllmain.cpp
+<<",
+  "file": "C:/EFF/Src/EFFFramework/dllmain.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFFramework",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFFRAMEWORK_EXPORTS -DEFFFramework_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFFramework -IC:\\EFF\\Src\\EFFFramework\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\DirectX\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFFrameworkPCH.h /FoCMakeFiles\\EFFFramework.dir\\EFFApplication.cpp.obj /FdCMakeFiles\\EFFFramework.dir\\ /FS -c C:\\EFF\\Src\\EFFFramework\\EFFApplication.cpp
+<<",
+  "file": "C:/EFF/Src/EFFFramework/EFFApplication.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFFramework",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFFRAMEWORK_EXPORTS -DEFFFramework_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFFramework -IC:\\EFF\\Src\\EFFFramework\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\DirectX\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFFrameworkPCH.h /FoCMakeFiles\\EFFFramework.dir\\EFFFramework.cpp.obj /FdCMakeFiles\\EFFFramework.dir\\ /FS -c C:\\EFF\\Src\\EFFFramework\\EFFFramework.cpp
+<<",
+  "file": "C:/EFF/Src/EFFFramework/EFFFramework.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFFramework",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFFRAMEWORK_EXPORTS -DEFFFramework_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFFramework -IC:\\EFF\\Src\\EFFFramework\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\DirectX\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFFrameworkPCH.h /FoCMakeFiles\\EFFFramework.dir\\EFFFrameworkPCH.cpp.obj /FdCMakeFiles\\EFFFramework.dir\\ /FS -c C:\\EFF\\Src\\EFFFramework\\EFFFrameworkPCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFFFramework/EFFFrameworkPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Src/EFFReflection",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFGUI_NOT_IMPORTS -DEFFReflection_EXPORTS -DMODULE_EXPORTS -DNO_MALLINFO -DUNICODE -DUSE_DL_PREFIX -DYAML_DECLARE_STATIC -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Src\\EFFReflection -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFReflectionPCH.h /FoCMakeFiles\\EFFReflection.dir\\EFFReflectionPCH.cpp.obj /FdCMakeFiles\\EFFReflection.dir\\ /FS -c C:\\EFF\\Src\\EFFReflection\\EFFReflectionPCH.cpp
+<<",
+  "file": "C:/EFF/Src/EFFReflection/EFFReflectionPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\BackwardCompatibilityManager.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\BackwardCompatibilityManager.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/BackwardCompatibilityManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\EditorWidgets.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\EditorWidgets.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/EditorWidgets.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\EFFEditorMessageCenter.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\EFFEditorMessageCenter.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/EFFEditorMessageCenter.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\EFFMyGUIEditorPCH.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\EFFMyGUIEditorPCH.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/EFFMyGUIEditorPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\GroupMessage.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\GroupMessage.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/GroupMessage.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\Main.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\Main.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/Main.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\MainMenuControl.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\MainMenuControl.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/MainMenuControl.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\MainPanelControl.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\MainPanelControl.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/MainPanelControl.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\MainWorkspaceControl.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\MainWorkspaceControl.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/MainWorkspaceControl.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\ScenePanelControl.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\ScenePanelControl.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/ScenePanelControl.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\ToolsControl.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\ToolsControl.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/ToolsControl.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\WidgetContainer.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\WidgetContainer.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/WidgetContainer.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\WidgetSelectorManager.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\WidgetSelectorManager.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/WidgetSelectorManager.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\WidgetTypes.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\WidgetTypes.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/WidgetTypes.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFMyGUIEditor",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DEFFMYGUIEDITOR_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFMyGUIEditor -IC:\\EFF\\Tools\\EFFMyGUIEditor\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\mygui\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Platforms\\EFF\\include -IC:\\EFF\\ThirdPartyLib\\mygui\\Common -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Base\\EFF -IC:\\EFF\\ThirdPartyLib\\mygui\\Common\\Input\\Win32 -IC:\\EFF\\ThirdPartyLib\\mygui\\Tools\\EditorFramework -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFMyGUIEditorPCH.h /FoCMakeFiles\\EFFMyGUIEditor.dir\\WorkspaceControl.cpp.obj /FdCMakeFiles\\EFFMyGUIEditor.dir\\ /FS -c C:\\EFF\\Tools\\EFFMyGUIEditor\\WorkspaceControl.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFMyGUIEditor/WorkspaceControl.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFRender",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DGAME_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common\\Lib -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFRender -IC:\\EFF\\Tools\\EFFRender\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\Src\\EFFReflection -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFRenderPCH.h /FoCMakeFiles\\EFFRender.dir\\EFFRender.cpp.obj /FdCMakeFiles\\EFFRender.dir\\ /FS -c C:\\EFF\\Tools\\EFFRender\\EFFRender.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFRender/EFFRender.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFRender",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DGAME_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common\\Lib -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFRender -IC:\\EFF\\Tools\\EFFRender\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\Src\\EFFReflection -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFRenderPCH.h /FoCMakeFiles\\EFFRender.dir\\EFFRenderPCH.cpp.obj /FdCMakeFiles\\EFFRender.dir\\ /FS -c C:\\EFF\\Tools\\EFFRender\\EFFRenderPCH.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFRender/EFFRenderPCH.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFShaderCompiler",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DGAME_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common\\Lib -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFShaderCompiler -IC:\\EFF\\Tools\\EFFShaderCompiler\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\Src\\EFFReflection -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFShaderCompilerPCH.h /FoCMakeFiles\\EFFShaderCompiler.dir\\EFFShaderParse.cpp.obj /FdCMakeFiles\\EFFShaderCompiler.dir\\ /FS -c C:\\EFF\\Tools\\EFFShaderCompiler\\EFFShaderParse.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFShaderCompiler/EFFShaderParse.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFShaderCompiler",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DGAME_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common\\Lib -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFShaderCompiler -IC:\\EFF\\Tools\\EFFShaderCompiler\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\Src\\EFFReflection -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YuEFFShaderCompilerPCH.h /FoCMakeFiles\\EFFShaderCompiler.dir\\EFFShaderCompiler.cpp.obj /FdCMakeFiles\\EFFShaderCompiler.dir\\ /FS -c C:\\EFF\\Tools\\EFFShaderCompiler\\EFFShaderCompiler.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFShaderCompiler/EFFShaderCompiler.cpp"
+},
+{
+  "directory": "C:/EFF/Build2/Tools/EFFShaderCompiler",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2017\\COMMUN~1\\VC\\Tools\\MSVC\\1415~1.267\\bin\\Hostx64\\x64\\cl.exe @<<
+ /nologo /TP -DGAME_EXPORTS -DUNICODE -D_UNICODE -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Common\\Lib -IC:\\EFF\\Include -IC:\\EFF\\Include\\EFFShaderCompiler -IC:\\EFF\\Tools\\EFFShaderCompiler\\Include -IC:\\EFF\\ThirdPartyLib -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\include -IC:\\EFF\\ThirdPartyLib\\EASTL-3.05.07\\test\\packages\\EABase\\include\\Common -IC:\\EFF\\ThirdPartyLib\\Cpp-Reflection\\Runtime -IC:\\EFF\\Src\\EFFReflection -IC:\\EFF\\ThirdPartyLib\\yaml-cpp-0.5.3\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1   /Yc /Gm /YcEFFShaderCompilerPCH.h /FoCMakeFiles\\EFFShaderCompiler.dir\\EFFShaderCompilerPCH.cpp.obj /FdCMakeFiles\\EFFShaderCompiler.dir\\ /FS -c C:\\EFF\\Tools\\EFFShaderCompiler\\EFFShaderCompilerPCH.cpp
+<<",
+  "file": "C:/EFF/Tools/EFFShaderCompiler/EFFShaderCompilerPCH.cpp"
+}
+]
