@@ -22,7 +22,9 @@
 #include "EFF3DUniformBuffer.h"
 #include "EFF3DRenderQueue.h"
 #include "EFF3DRenderQueueManager.h"
+#include "EFF3DRenderCommand.h"
 #include "EFF3DQuery.h"
+
 //#include "EFF3DWebGui.h"
 
 
@@ -148,6 +150,53 @@ EFF3DDevice::~EFF3DDevice()
 	SF_DELETE(inputManager);
     SF_DELETE(entityManager);
     SF_DELETE(staticStringManager);
+}
+
+
+EFF3DVertexBufferHandle	EFF3DDevice::CreateVertexBuffer(effVOID * vertices, effUINT size, effUINT flags, const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * renderQueue)
+{
+	EFF3DVertexDeclarationHandle vbDeclHandle = vertexDeclManager->AddVertexDeclaration(QuadVertex::vertexDecl, renderQueue);
+
+	EFF3DCreateVertexBufferCommand * createVBCommand = renderQueue->GetCommand<EFF3DCreateVertexBufferCommand>();
+	createVBCommand->data = vertices;
+	createVBCommand->size = size;
+	createVBCommand->flags = flags;
+	createVBCommand->vbHandle = vertexBufferManager->Create();
+	createVBCommand->vbDeclHandle = vbDeclHandle;
+
+	return createVBCommand->vbHandle;
+}
+
+EFF3DIndexBufferHandle EFF3DDevice::CreateIndexBuffer(effVOID * indices, effUINT size, effUINT flags, EFF3DRenderQueue * renderQueue)
+{
+	EFF3DCreateIndexBufferCommand * createIBCommand = renderQueue->GetCommand<EFF3DCreateIndexBufferCommand>();
+	createIBCommand->data = indices;
+	createIBCommand->size = size;
+	createIBCommand->ibHandle = indexBufferManager->Create();
+	createIBCommand->flags = flags;
+
+	return createIBCommand->ibHandle;
+}
+
+effVOID	EFF3DDevice::Draw(effUINT vertexCount, effUINT indexCount, EFF3DIndexBufferHandle ibHandle,
+	EFF3DVertexBufferHandle * vbHandles, effUINT vbCount,
+	EFF3DRenderQueue * renderQueue)
+{
+	EFF3DDrawCommand * drawCommand = renderQueue->GetCommand<EFF3DDrawCommand>();
+	drawCommand->numVertices = vertexCount;
+	drawCommand->numIndices = indexCount;
+	drawCommand->indexBufferHandle = ibHandle;
+
+	for (effUINT i = 0; i < vbCount; i++)
+	{
+		drawCommand->stream[i].vertexBufferHandle = vbHandles[i];
+		drawCommand->stream[i].startVertex = 0;
+
+		// set stream bits
+		effBYTE bit = 1 << i;
+		drawCommand->streamMask &= ~bit;
+		drawCommand->streamMask |= vbHandles[i].IsValid() ? bit : 0;
+	}
 }
 
 EFFId EFF3DDevice::CreateResourceFromFile(const effString & filePath, EFF3DResourceType resourceType)
@@ -303,6 +352,8 @@ effVOID EFF3DDevice::Init(effBOOL host)
             //create shared texture failed;
         }
     }
+
+	renderDebugFlags = 0;
 }
 
 
@@ -312,10 +363,11 @@ effVOID EFF3DDevice::InitProperty()
 }
 
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * renderQueue)
 {
-
 	static QuadVertex vertices[4];
+
+	RUN_ONCE(QuadVertex::InitVertexDecl)
 
 	EFFRect quadRect;
 	if ( rect == NULL )
@@ -359,42 +411,17 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue)
 	vertices[3].u = 0.0f;
 	vertices[3].v = 1.0f;
 
-    EFF3DCreateVertexDeclarationCommand * createVBDeclarationCommand = rendererQueue->GetCommand<EFF3DCreateVertexDeclarationCommand>();
-    createVBDeclarationCommand->vbDeclHandle = vertexDeclManager->AddVertexDeclaration(QuadVertex::vertexDecl);
-    createVBDeclarationCommand->vbDecl = QuadVertex::vertexDecl;
 
-
-    EFF3DCreateVertexBufferCommand * createVBCommand = rendererQueue->GetCommand<EFF3DCreateVertexBufferCommand>();
-    createVBCommand->data = vertices;
-    createVBCommand->size = sizeof(vertices);
-    createVBCommand->vbHandle = vertexBufferManager->Create();
-    createVBCommand->vbDeclHandle = createVBDeclarationCommand->vbDeclHandle;
+	EFF3DVertexBufferHandle vbHandle = CreateVertexBuffer(vertices, sizeof(vertices), 0, QuadVertex::vertexDecl, renderQueue);
 
     static effUINT16 indices[6] = { 0, 1, 2, 0, 2, 3 };
-
     static EFF3DIndexBufferHandle quadIB;
+
     RUN_ONCE([&] {
-        EFF3DCreateIndexBufferCommand * createIBCommand = rendererQueue->GetCommand<EFF3DCreateIndexBufferCommand>();
-        createIBCommand->data = indices;
-        createIBCommand->size = sizeof(indices);
-        createIBCommand->ibHandle = indexBufferManager->Create();
-        createIBCommand->flags = 0;
-    })
+		quadIB = CreateIndexBuffer(indices, sizeof(indices), 0, renderQueue);
+	})
 
-
-
-
-    EFF3DDrawCommand * drawCommand = rendererQueue->GetCommand<EFF3DDrawCommand>();
-    drawCommand->numVertices = 4;
-    drawCommand->numIndices = 6;
-    drawCommand->indexBufferHandle = quadIB;
-    drawCommand->stream[0].vertexBufferHandle = createVBCommand->vbHandle;
-    drawCommand->stream[0].vertexDeclHandle = createVBDeclarationCommand->vbDeclHandle;
-
-
-
-	//SetFVF(QuadVertex::fvf);
-	//return DrawPrimitiveUP(TriangleList, 2, vertices, sizeof(QuadVertex));
+	Draw(4, 6, quadIB, &vbHandle, 1, renderQueue);
 
     return effTRUE;
 }
@@ -489,18 +516,30 @@ effVOID EFF3DDevice::InitSharedTexture(SharedTextureInfo * sharedTextureInfo)
 }
 
 
-EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType)
+EFF3DResource *	EFF3DDevice::CreateEmptyResource(EFF3DResourceType resourceType, EFFId id)
 {
     EFF3DResource * resource = CreateEmptyResourceImpl(resourceType);
     if (resourceType == EFF3DResourceType_Texture2D || resourceType == EFF3DResourceType_Texture3D || resourceType == EFF3DResourceType_TextureCube || resourceType == EFF3DResourceType_RenderTarget)
     {
-        resource->id = textureManager->Create();
+		resource->id = id.IsValid() ? id: textureManager->Create();
         textureManager->AddResource(resource);
     }
 
+	if (resourceType == EFF3DResourceType_VertexBuffer)
+	{
+		resource->id = id.IsValid() ? id : vertexBufferManager->Create();
+		vertexBufferManager->AddResource(resource);
+	}
+
+	if (resourceType == EFF3DResourceType_IndexBuffer)
+	{
+		resource->id = id.IsValid() ? id : indexBufferManager->Create();
+		indexBufferManager->AddResource(resource);
+	}
+
 	if (resourceType == EFF3DResourceType_TimeQuery)
 	{
-		resource->id = timeQueryManager->Create();
+		resource->id = id.IsValid() ? id : timeQueryManager->Create();
 		timeQueryManager->AddResource(resource);
 	}
 

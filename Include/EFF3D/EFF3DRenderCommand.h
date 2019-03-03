@@ -41,7 +41,7 @@ struct EFF3DStream
     EFF3DStream()
     {
         startVertex = 0;
-        vertexDeclHandle = 0;
+        //vertexDeclHandle = 0;
     }
 
     effUINT startVertex;
@@ -92,26 +92,33 @@ struct EFF3D_API EFF3DDrawCommand
 
     EFF3DDrawCommand()
     {
-        uniformBegin = 0;
-        uniformEnd = 0;
-        stateFlags = EFF3D_STATE_DEFAULT;
-        stencil = PackStencil(EFF3D_STENCIL_DEFAULT, EFF3D_STENCIL_DEFAULT);
-        rgba = 0;
-        startMatrix = 0;
-        startIndex = 0;
-        numIndices = UINT32_MAX;
-        numVertices = UINT32_MAX;
-        instanceDataOffset = 0;
-        instanceDataStride = 0;
-        numInstances = 1;
-        startIndirect = 0;
-        numIndirect = UINT16_MAX;
-        numMatrices = 1;
-        submitFlags = EFF3D_SUBMIT_EYE_FIRST;
-        scissor = UINT16_MAX;
-        streamMask = 0;
-        uniformIdx = UINT8_MAX;
+		Clear();
     }
+
+	effVOID Clear()
+	{
+		key = 0;
+		uniformBegin = 0;
+		uniformEnd = 0;
+		stateFlags = EFF3D_STATE_DEFAULT;
+		stencil = PackStencil(EFF3D_STENCIL_DEFAULT, EFF3D_STENCIL_DEFAULT);
+		rgba = 0;
+		startMatrix = 0;
+		startIndex = 0;
+		startVertex = 0;
+		numIndices = UINT32_MAX;
+		numVertices = UINT32_MAX;
+		instanceDataOffset = 0;
+		instanceDataStride = 0;
+		numInstances = 1;
+		startIndirect = 0;
+		numIndirect = UINT16_MAX;
+		numMatrices = 1;
+		submitFlags = EFF3D_SUBMIT_EYE_FIRST;
+		scissor = UINT16_MAX;
+		streamMask = 0;
+		uniformIdx = UINT8_MAX;
+	}
 
     effBOOL SetStreamBit(effBYTE streamIndex, EFF3DVertexBufferHandle handle)
     {
@@ -185,6 +192,7 @@ struct EFF3DCreateVertexBufferCommand
     EFF3DVertexDeclarationHandle vbDeclHandle;
     effVOID * data;
     effUINT size;
+	effUINT flags;
 };
 
 
@@ -193,7 +201,7 @@ struct EFF3DCreateVertexDeclarationCommand
     static const BackendDispatchFunction DISPATCH_FUNCTION;
 
     EFF3DVertexDeclarationHandle vbDeclHandle;
-    EFF3DVertexDeclaration vbDecl;
+    const EFF3DVertexDeclaration * vbDecl;
 };
 
 struct EFF3DCreateIndexBufferCommand
@@ -210,41 +218,18 @@ class EFF3DBackendDispatch
 {
 public:
 
-	static effVOID CreateVertexDeclaration(const effVOID * data)
-	{
-		const EFF3DCreateVertexDeclarationCommand * realData = (EFF3DCreateVertexDeclarationCommand *)(data);
-		//backend::Draw(realData->vertexCount, realData->startVertex);
-	}
+	static effVOID CreateVertexDeclaration(const effVOID * data);
 
-	static effVOID CreateVertexBuffer(const effVOID * data)
-	{
-		const EFF3DCreateVertexBufferCommand * realData = (EFF3DCreateVertexBufferCommand *)(data);
-		//backend::Draw(realData->vertexCount, realData->startVertex);
-	}
 
-	static effVOID CreateIndexBuffer(const effVOID * data)
-	{
-		const EFF3DCreateIndexBufferCommand * realData = (EFF3DCreateIndexBufferCommand *)(data);
-		//backend::Draw(realData->vertexCount, realData->startVertex);
-	}
+	static effVOID CreateVertexBuffer(const effVOID * data);
 
-    static effVOID Draw(const effVOID * data)
-    {
-        const EFF3DDrawCommand * realData = (EFF3DDrawCommand *)(data);
-        //backend::Draw(realData->vertexCount, realData->startVertex);
-    }
+	static effVOID CreateIndexBuffer(const effVOID * data);
 
-    static effVOID DrawIndexed(const effVOID * data)
-    {
-        const EFF3DDrawIndexedCommand* realData = (EFF3DDrawIndexedCommand *)(data);
-        //backend::DrawIndexed(realData->indexCount, realData->startIndex, realData->baseVertex);
-    }
+	static effVOID Draw(const effVOID * data);
 
-    static effVOID CopyConstantBufferData(const effVOID * data)
-    {
-        const EFF3DCopyConstantBufferDataCommand * realData = (EFF3DCopyConstantBufferDataCommand *)(data);
-        //backend::CopyConstantBufferData(realData->constantBuffer, realData->data, realData->size);
-    }
+	static effVOID DrawIndexed(const effVOID * data);
+
+	static effVOID CopyConstantBufferData(const effVOID * data);
 };
 
 
@@ -344,7 +329,7 @@ public:
     typedef T Key;
 
 
-    EFF3DCommandBucket(effUINT commandCount)
+    EFF3DCommandBucket(effUINT commandCount) : commandCount(commandCount)
     {
         keys = EFFNEW Key[commandCount];
         packets = EFFNEW effVOID * [commandCount];
@@ -375,6 +360,8 @@ public:
 		{
 			return NULL;
 		}
+
+		EFFNEW (reinterpret_cast<effBYTE *>(packet) + EFF3DCommandPacketUtilities::OFFSET_COMMAND) U;
 
         // store key and pointer to the data
         {
@@ -445,6 +432,7 @@ public:
 	effVOID Reset()
 	{
 		current = 0;
+		memset(packets, 0, sizeof(effVOID *) * commandCount);
 
 		//todo 需要每个线程调用一次
 		effINT64 value = 0;
@@ -458,6 +446,7 @@ private:
     effUINT remainingTlsIndex;
 
 	effINT64 current;
+	effUINT commandCount;
 };
 
 

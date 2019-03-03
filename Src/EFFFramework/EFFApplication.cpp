@@ -340,8 +340,6 @@ effVOID EFFApplication::Run()
 			}
 		}
 
-
-
         //让client渲染最后一帧，否则有可能client正在wait，这样的话client无法退出
         if (host && connectedToClient && appExit)
         {

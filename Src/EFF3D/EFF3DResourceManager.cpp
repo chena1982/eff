@@ -42,7 +42,7 @@ EFFId EFF3DResourceManager::CreateFromFile(const effString & filePath, EFF3DReso
         return resource->id;
     }
 
-    resource = EFF3DGetDevice()->CreateEmptyResource(resourceType);
+    resource = EFF3DGetDevice()->CreateEmptyResource(resourceType, EFFId());
 
     CreateFromFileImpl(filePath, resource, resourceType);
 
@@ -88,7 +88,7 @@ EFFId EFF3DResourceManager::AsyncCreateFromFile(const effString & filePath, EFF3
 
     EFF3DDevice * device = EFF3DGetDevice();
 
-	resource = device->CreateEmptyResource(resourceType);
+	resource = device->CreateEmptyResource(resourceType, EFFId());
 
 	effBOOL hr;
     device->GetSceneManager()->GetAsyncLoader()->AddWorkItem(resource, &hr);
@@ -136,7 +136,7 @@ effVOID EFF3DResourceManager::AddResource(EFF3DResource * res)
 
     resources[res->name] = res;
 
-    indices.Add(res);
+    indices.Add(res, res->id.Index());
 }
 
 EFF3DResource * EFF3DResourceManager::GetResource(const effString & filePath)

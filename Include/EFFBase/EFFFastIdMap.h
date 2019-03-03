@@ -27,15 +27,12 @@ public:
 		nextId = -1;
 	}
 
-	effUINT Add(T * value)
+	effVOID Add(T * value, effUINT index)
 	{
-		CalculateNextId();
-        effUINT index = nextId;
-
 		if (index >= count)
 		{
 			effINT newCount = count * 2;
-            effSIZE * newMap = EFFNEW effSIZE[newCount];
+			effSIZE * newMap = EFFNEW effSIZE[newCount];
 			memset(newMap, 0, sizeof(effSIZE) * newCount);
 
 			memcpy(newMap, mapValue, sizeof(effSIZE) * count);
@@ -54,7 +51,7 @@ public:
 		//如果新插入的值的索引index在first前面
 		if (first > index)
 		{
-            effUINT oldFirst = first;
+			effUINT oldFirst = first;
 			first = index;
 			while (++index < oldFirst)
 			{
@@ -66,6 +63,14 @@ public:
 				}
 			}
 		}
+	}
+
+	effUINT Add(T * value)
+	{
+		CalculateNextId();
+        effUINT index = nextId;
+
+		Add(value, index);
 
 		return index;
 	}

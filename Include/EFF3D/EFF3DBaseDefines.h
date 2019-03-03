@@ -249,7 +249,7 @@ struct EFF3DVertexAttribType
 typedef EFFId EFF3DTextureHandle;
 typedef EFFId EFF3DIndexBufferHandle;
 typedef EFFId EFF3DVertexBufferHandle;
-typedef effUINT EFF3DVertexDeclarationHandle;
+typedef EFFId EFF3DVertexDeclarationHandle;
 typedef EFFId EFF3DConstantBufferHandle;
 typedef EFFId EFF3DOcclusionQueryHandle;
 typedef EFFId EFF3DIndirectBufferHandle;
@@ -416,6 +416,7 @@ enum EFF3DResourceType
     EFF3DResourceType_DepthStencil,
     EFF3DResourceType_TextureReadBack,
     EFF3DResourceType_IndexBuffer,
+	EFF3DResourceType_VertexDeclaration,
     EFF3DResourceType_VertexBuffer,
 	EFF3DResourceType_TimeQuery,
 };

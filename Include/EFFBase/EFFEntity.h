@@ -27,7 +27,7 @@ public:
     EFFId() { id = -1; }
     ~EFFId() {}
 public:
-    inline effBOOL IsValid() { return id != -1;  }
+    inline effBOOL IsValid() const { return id != -1;  }
     inline effUINT Index() const { return id & INDEX_MASK; }
     inline effUINT Generation() const { return (id >> INDEX_BITS) & GENERATION_MASK; }
 

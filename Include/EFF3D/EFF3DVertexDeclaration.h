@@ -8,11 +8,12 @@
 #ifndef __EFF3DVertexDeclaration_2008_12_13__
 #define __EFF3DVertexDeclaration_2008_12_13__
 
-
+#include "EFF3DResource.h"
+#include "EFF3DResourceManager.h"
 
 EFF3D_BEGIN
 
-
+class EFF3DRenderQueue;
 
 union EFF3DVertexAttributeValue
 {
@@ -68,14 +69,15 @@ public:
     ~EFF3DVertexDeclarationManager();
 
 public:
-    EFF3DVertexDeclarationHandle AddVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl);
+    EFF3DVertexDeclarationHandle AddVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * rendererQueue);
 
     //const EFF3DVertexDeclaration * GetVertexDeclaration(effUINT hash) const;
 
-    EFF3DVertexDeclaration * GetVertexDeclaration(EFF3DVertexDeclarationHandle vertexDecalHandle);
+    const EFF3DVertexDeclaration * GetVertexDeclaration(EFF3DVertexDeclarationHandle vertexDecalHandle);
 public:
-    MAP<effUINT, EFF3DVertexDeclaration>    vertexDecls;
-    EFFFastIdMap<effUINT>   hashes;
+    MAP<effUINT, EFF3DVertexDeclarationHandle> vertexDeclsByHash;
+	EFFIdManager idManager;
+	EFFFastIdMap<EFF3DVertexDeclaration> vertexDecls;
 };
 
 struct QuadVertex

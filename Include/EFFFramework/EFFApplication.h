@@ -46,6 +46,8 @@ public:
 	effVOID ReceiveMsg();
 	effVOID SendMsg(effINT id, effVOID * buffer, effINT size);
 	effVOID SendCmd(effINT id);
+
+	effVOID NotifyClientQuit();
 public:
 	EFFNetServer * GetServer() { return server; }
 	EFFNetClient * GetClient() { return client; }

@@ -708,7 +708,7 @@ EFF3DVertexBufferHandle EFF3DTerrainROAMImproveTileData::GetVertexBuffer(effINT 
 
 	if ( !m_pVB.IsValid() )
 	{
-        device->CreateVertexBuffer(NULL, m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, &m_pVB);
+        device->CreateVertexBuffer(NULL, m_nVerticesNum[nLevel] * sizeof(effFLOAT) * 3, 0, EFFId(), &m_pVB);
 
 		effUINT offset = 0;
 		if ( nLevel > 0 )

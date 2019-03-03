@@ -8,6 +8,7 @@
 
 #include "EFF3DPCH.h"
 #include "EFF3DVertexDeclaration.h"
+#include "EFF3DRenderQueue.h"
 #include "murmur3/murmur3.h"
 
 //#define new EFFNEW
@@ -94,12 +95,7 @@ EFF3DVertexDeclaration & EFF3DVertexDeclaration::Begin()
 
 effVOID EFF3DVertexDeclaration::End()
 {
-    //HashMurmur2A murmur;
-    //murmur.begin();
-    //murmur.add(attributes, sizeof(attributes));
-    //murmur.add(offset, sizeof(offset));
-    //murmur.add(stride);
-    //hash = murmur.end();
+	MurmurHash3_x86_32(&stride, sizeof(EFF3DVertexDeclaration) - sizeof(effUINT), 9582, &hash);
 }
 
 EFF3DVertexDeclaration & EFF3DVertexDeclaration::AddElement(EFF3DVertexAttrib::Enum attrib, effBYTE num, EFF3DVertexAttribType::Enum type, effBOOL normalized, effBOOL asInt)
@@ -149,33 +145,29 @@ EFF3DVertexDeclarationManager::~EFF3DVertexDeclarationManager()
 
 }
 
-EFF3DVertexDeclarationHandle EFF3DVertexDeclarationManager::AddVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl)
+EFF3DVertexDeclarationHandle EFF3DVertexDeclarationManager::AddVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * renderQueue)
 {
-    effUINT hash = 0;
-    MurmurHash3_x86_32(&vertexDecl.stride, sizeof(EFF3DVertexDeclaration) - sizeof(effUINT), 9582, &hash);
-
-    auto it = vertexDecls.find(hash);
-    if (it != vertexDecls.end())
+    auto it = vertexDeclsByHash.find(vertexDecl.hash);
+    if (it != vertexDeclsByHash.end())
     {
-        return it->first;
+        return it->second;
     }
 
-    vertexDecls[hash] = vertexDecl;
-    effUINT id = hashes.Add(&hash);
+	EFF3DVertexDeclarationHandle vbDeclHandle = idManager.Create();
+	vertexDecls.Add(const_cast<EFF3DVertexDeclaration *>(&vertexDecl), vbDeclHandle.Index());
+	vertexDeclsByHash[vertexDecl.hash] = vbDeclHandle;
 
-    return id;
+	EFF3DCreateVertexDeclarationCommand * createVBDeclarationCommand = renderQueue->GetCommand<EFF3DCreateVertexDeclarationCommand>();
+	createVBDeclarationCommand->vbDeclHandle = vbDeclHandle;
+	createVBDeclarationCommand->vbDecl = &vertexDecl;
+
+    return createVBDeclarationCommand->vbDeclHandle;
 }
 
 
-EFF3DVertexDeclaration * EFF3DVertexDeclarationManager::GetVertexDeclaration(EFF3DVertexDeclarationHandle vertexDecalHandle)
+const EFF3DVertexDeclaration * EFF3DVertexDeclarationManager::GetVertexDeclaration(EFF3DVertexDeclarationHandle vertexDecalHandle)
 {
-    auto it = vertexDecls.find(*(hashes[vertexDecalHandle]));
-    if (it != vertexDecls.end())
-    {
-        return &it->second;
-    }
-
-    return NULL;
+    return vertexDecls[vertexDecalHandle.Index()];
 }
 
 EFF3D_END

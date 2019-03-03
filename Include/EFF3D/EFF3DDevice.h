@@ -51,9 +51,16 @@ public:
 	EFF3DDevice();
 	virtual ~EFF3DDevice();
 public:
+	EFF3DVertexDeclarationHandle	CreateVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * renderQueue);
+	EFF3DVertexBufferHandle		CreateVertexBuffer(effVOID * vertices, effUINT size, effUINT flags, const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * renderQueue);
+	EFF3DIndexBufferHandle		CreateIndexBuffer(effVOID * indices, effUINT size, effUINT flags, EFF3DRenderQueue * renderQueue);
+	effVOID						Draw(effUINT vertexCount, effUINT indexCount, EFF3DIndexBufferHandle ibHandle, 
+									EFF3DVertexBufferHandle * vbHandles, effUINT vbCount,
+									EFF3DRenderQueue * renderQueue);
 
 
-
+public:
+	// api function
 	virtual effBOOL				BeginScene() = 0;
 	virtual effBOOL				EndScene() = 0;
 	virtual effBOOL				Clear(effUINT count, const EFFRect * rects, effUINT flags, EFF3DCOLOR color, effFLOAT z, effUINT stencil) = 0;
@@ -86,7 +93,9 @@ public:
 	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DIndexBufferHandle * indexBuffer) = 0;
     virtual effBOOL             UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
 
-	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vertexBuffer) = 0;
+
+	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexDeclarationHandle vertexDeclHandle,
+									EFF3DVertexBufferHandle * vertexBufferHandle) = 0;
     virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
 
 	//virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
@@ -109,7 +118,7 @@ public:
 	//virtual effBOOL				SetFVF(effUINT FVF) = 0;
 	//virtual effBOOL				SetVertexDeclaration(EFF3DVertexDeclaration * decl) = 0;
 	//virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBufferHandle vbHandle, effUINT offsetInBytes, effUINT stride) = 0;
-	virtual effBOOL				SetIndices(EFF3DIndexBufferHandle ibHandle) = 0;
+	virtual effBOOL				SetIndexBuffer(EFF3DIndexBufferHandle ibHandle) = 0;
 	//virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value) = 0;
 
     virtual effVOID             SetRenderState(EFF3DDrawCommand & drawCommand) = 0;
@@ -121,8 +130,9 @@ public:
 	virtual effBOOL				SetDepthStencil(EFF3DTextureHandle depthStencilHandle) = 0;
 
 	virtual effBOOL				SetShader(EFF3DShader * shader) = 0;
-	virtual effBOOL				SetScissorRect(const EFFRect * rect) = 0; 
+	virtual effBOOL				SetScissorRect(const EFFRect * rect) = 0;
 
+	virtual effVOID				Draw(EFF3DDrawCommand & command) = 0;
 
 	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index) = 0;
 	//virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport) = 0;
@@ -178,10 +188,10 @@ protected:
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
                                                     EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * texture) = 0;*/
 
-	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType);
+	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType, EFFId id);
     virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType) = 0;
 
-	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DRenderQueue * rendererQueue);
+	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DRenderQueue * renderQueue);
 
     effVOID                     InitVertexDeclaration();
 protected:
@@ -225,7 +235,7 @@ protected:
     EFF3DSharedTexture *        sharedRenderTarget;
     effBOOL                     host;
 
-
+	effUINT64                   renderDebugFlags;
 };
 
 

@@ -197,6 +197,20 @@ EFFD3D9Device::~EFFD3D9Device()
 
 effBOOL EFFD3D9Device::BeginScene()
 {
+	const effUINT64 primitiveType = renderDebugFlags & EFF3D_DEBUG_WIREFRAME ? EFF3D_STATE_PT_LINES : 0;
+	effBYTE primitiveIndex = effBYTE(primitiveType >> EFF3D_STATE_PT_SHIFT);
+	primitiveInfo = s_primInfo[primitiveIndex];
+
+	currentDrawCommand.Clear();
+	currentDrawCommand.stateFlags = EFF3D_STATE_NONE;
+	currentDrawCommand.stencil = PackStencil(EFF3D_STENCIL_NONE, EFF3D_STENCIL_NONE);
+
+	// invalidate sampler state
+	for (effUINT stage = 0; stage < EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS; ++stage)
+	{
+		samplerFlags[stage] = UINT32_MAX;
+	}
+
 	return SUCCEEDED(D3D9Device->BeginScene());
 }
 
@@ -377,7 +391,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 {
 	//assert(texture != NULL);
 
-    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)CreateEmptyResource(resourceType);
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)CreateEmptyResource(resourceType, *textureHandle);
 
     effHRESULT hr;
     effUINT usage = 0;
@@ -483,7 +497,7 @@ effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDat
 		return effFALSE;
 	}
 
-    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)CreateEmptyResource(resourceType);
+    EFFD3D9Texture * effD3D9Texture = (EFFD3D9Texture *)CreateEmptyResource(resourceType, *textureHandle);
     effHRESULT hr;
 
 
@@ -582,7 +596,7 @@ effBOOL EFFD3D9Device::CreateIndexBuffer(effVOID * data, effUINT size, effUINT f
 {
 	assert(ibHandle != NULL);
 	
-    EFFD3D9IndexBuffer * effD3D9IndexBuffer = (EFFD3D9IndexBuffer *)CreateEmptyResource(EFF3DResourceType_IndexBuffer);
+    EFFD3D9IndexBuffer * effD3D9IndexBuffer = (EFFD3D9IndexBuffer *)CreateEmptyResource(EFF3DResourceType_IndexBuffer, *ibHandle);
 	effHRESULT hr;
 
     D3DFORMAT format = D3DFMT_INDEX16;
@@ -591,7 +605,7 @@ effBOOL EFFD3D9Device::CreateIndexBuffer(effVOID * data, effUINT size, effUINT f
         format = D3DFMT_INDEX32;
     }
 
-	if ( FAILED(hr = D3D9Device->CreateIndexBuffer(size, 0, format, D3DPOOL_MANAGED, &effD3D9IndexBuffer->d3d9IndexBuffer, NULL)) )
+	if ( FAILED(hr = D3D9Device->CreateIndexBuffer(size, 0, format, D3DPOOL_DEFAULT, &effD3D9IndexBuffer->d3d9IndexBuffer, NULL)) )
 	{
         SF_RELEASE(effD3D9IndexBuffer);
 		return effFALSE;
@@ -611,13 +625,20 @@ effBOOL EFFD3D9Device::UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT
     return effTRUE;
 }
 
-effBOOL EFFD3D9Device::CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vbHandle)
+effBOOL EFFD3D9Device::CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexDeclarationHandle vertexDeclHandle,
+	EFF3DVertexBufferHandle * vertexBufferHandle)
 {
-	EFFD3D9VertexBuffer * effD3D9VertexBuffer = (EFFD3D9VertexBuffer *)CreateEmptyResource(EFF3DResourceType_VertexBuffer);
+	//https://docs.microsoft.com/en-us/windows/desktop/api/d3d9/nf-d3d9-idirect3ddevice9-createvertexbuffer
+
+	EFFD3D9VertexBuffer * effD3D9VertexBuffer = (EFFD3D9VertexBuffer *)CreateEmptyResource(EFF3DResourceType_VertexBuffer, *vertexBufferHandle);
+	effD3D9VertexBuffer->vertexDeclHandle = vertexDeclHandle;
 	effHRESULT hr;
 
     effUINT usage = D3DUSAGE_WRITEONLY;
-    D3DPOOL pool = D3DPOOL_MANAGED;
+	// https://docs.microsoft.com/zh-cn/windows/desktop/direct3d9/d3dpool
+	// Differences between Direct3D 9 and Direct3D 9Ex:
+	// D3DPOOL_MANAGED is valid with IDirect3DDevice9; however, it is not valid with IDirect3DDevice9Ex.
+    D3DPOOL pool = D3DPOOL_DEFAULT;
 
     if (data == NULL)
     {
@@ -636,7 +657,7 @@ effBOOL EFFD3D9Device::CreateVertexBuffer(effVOID * data, effUINT size, effUINT 
         effD3D9VertexBuffer->Update(0, size, data);
     }
 
-	*vbHandle = effD3D9VertexBuffer->id;
+	*vertexBufferHandle = effD3D9VertexBuffer->id;
 	return effTRUE;
 }
 
@@ -672,31 +693,26 @@ static D3DVERTEXELEMENT9 * fillVertexDecl(effBYTE stream, D3DVERTEXELEMENT9 * ou
 }
 
 
-effVOID EFFD3D9Device::SetVertexDeclaration()
+effVOID EFFD3D9Device::SetVertices()
 {
-    //effBOOL vertexStreamChanged = hasVertexStreamChanged(currentState, draw);
-    effBOOL vertexStreamChanged = effFALSE;
-    effBOOL programChanged = effTRUE;
+    effBOOL vertexStreamChanged = HasVertexStreamChanged();
 
-    EFF3DDrawCommand draw;
-
-    if (programChanged
-        || vertexStreamChanged)
+    if (programChanged || vertexStreamChanged)
     {
-        currentDrawCommand.streamMask = draw.streamMask;
-        currentDrawCommand.instanceDataBufferHandle = draw.instanceDataBufferHandle;
-        currentDrawCommand.instanceDataOffset = draw.instanceDataOffset;
-        currentDrawCommand.instanceDataStride = draw.instanceDataStride;
+        currentDrawCommand.streamMask = newDrawCommand->streamMask;
+        currentDrawCommand.instanceDataBufferHandle = newDrawCommand->instanceDataBufferHandle;
+        currentDrawCommand.instanceDataOffset = newDrawCommand->instanceDataOffset;
+        currentDrawCommand.instanceDataStride = newDrawCommand->instanceDataStride;
 
         const EFF3DVertexDeclaration * decls[EFF3D_CONFIG_MAX_VERTEX_STREAMS];
 
-        const effBOOL instanced = effTRUE && draw.instanceDataBufferHandle.IsValid();
+        const effBOOL instanced = effTRUE && newDrawCommand->instanceDataBufferHandle.IsValid();
 
-        const effUINT freq = instanced ? D3DSTREAMSOURCE_INDEXEDDATA | draw.numInstances : 1;
+        const effUINT freq = instanced ? D3DSTREAMSOURCE_INDEXEDDATA | newDrawCommand->numInstances : 1;
 
-        effUINT numVertices = draw.numVertices;
+        effUINT numVertices = newDrawCommand->numVertices;
         effBYTE numStreams = 0;
-        for (effUINT idx = 0, streamMask = draw.streamMask, ntz = effUINT_cnttz(streamMask)
+        for (effUINT idx = 0, streamMask = newDrawCommand->streamMask, ntz = effUINT_cnttz(streamMask)
             ; 0 != streamMask
             ; streamMask >>= 1, idx += 1, ntz = effUINT_cnttz(streamMask), ++numStreams
             )
@@ -704,22 +720,22 @@ effVOID EFFD3D9Device::SetVertexDeclaration()
             streamMask >>= ntz;
             idx += ntz;
 
-            currentDrawCommand.stream[idx].vertexDeclHandle = draw.stream[idx].vertexDeclHandle;
-            currentDrawCommand.stream[idx].vertexBufferHandle = draw.stream[idx].vertexBufferHandle;
-            currentDrawCommand.stream[idx].startVertex = draw.stream[idx].startVertex;
+            currentDrawCommand.stream[idx].vertexDeclHandle = newDrawCommand->stream[idx].vertexDeclHandle;
+            currentDrawCommand.stream[idx].vertexBufferHandle = newDrawCommand->stream[idx].vertexBufferHandle;
+            currentDrawCommand.stream[idx].startVertex = newDrawCommand->stream[idx].startVertex;
 
-            const EFF3DVertexBufferHandle vertexBufferHandle = draw.stream[idx].vertexBufferHandle;
-            const EFFD3D9VertexBuffer & vb = *(EFFD3D9VertexBuffer *)GetVertexBufferManager()->GetResource(vertexBufferHandle);
-            const EFF3DVertexDeclarationHandle vertexDeclHandle = vb.vertexDeclHandle == 0xFFFFFFFF ? draw.stream[idx].vertexDeclHandle : vb.vertexDeclHandle;
-            const EFF3DVertexDeclaration & vertexDecl = vertexDecls[vertexDeclHandle];
-            const effUINT stride = vertexDecl.stride;
+            const EFF3DVertexBufferHandle vertexBufferHandle = newDrawCommand->stream[idx].vertexBufferHandle;
+            const EFFD3D9VertexBuffer * vb = (EFFD3D9VertexBuffer *)GetVertexBufferManager()->GetResource(vertexBufferHandle);
+            const EFF3DVertexDeclarationHandle vertexDeclHandle = !vb->vertexDeclHandle.IsValid() ? newDrawCommand->stream[idx].vertexDeclHandle : vb->vertexDeclHandle;
+            const EFF3DVertexDeclaration * vertexDecl = vertexDeclManager->GetVertexDeclaration(vertexDeclHandle);
+            const effUINT stride = vertexDecl->stride;
 
-            decls[numStreams] = &vertexDecl;
+            decls[numStreams] = vertexDecl;
 
-            numVertices = std::min(UINT32_MAX == draw.numVertices ? vb.size / stride : draw.numVertices, numVertices);
+            numVertices = std::min(UINT32_MAX == newDrawCommand->numVertices ? vb->size / stride : newDrawCommand->numVertices, numVertices);
 
             DX_CHECK(D3D9Device->SetStreamSourceFreq(0, freq));
-            DX_CHECK(D3D9Device->SetStreamSource(numStreams, vb.d3d9VertexBuffer, 0, stride));
+            DX_CHECK(D3D9Device->SetStreamSource(numStreams, vb->d3d9VertexBuffer, 0, stride));
         }
 
         currentDrawCommand.numVertices = numVertices;
@@ -728,14 +744,14 @@ effVOID EFFD3D9Device::SetVertexDeclaration()
         {
             if (instanced)
             {
-                const EFFD3D9VertexBuffer & inst = *(EFFD3D9VertexBuffer *)GetVertexBufferManager()->GetResource(draw.instanceDataBufferHandle);
+                const EFFD3D9VertexBuffer & inst = *(EFFD3D9VertexBuffer *)GetVertexBufferManager()->GetResource(newDrawCommand->instanceDataBufferHandle);
                 DX_CHECK(D3D9Device->SetStreamSourceFreq(numStreams, UINT(D3DSTREAMSOURCE_INSTANCEDATA | 1)));
-                DX_CHECK(D3D9Device->SetStreamSource(numStreams, inst.d3d9VertexBuffer, draw.instanceDataOffset, draw.instanceDataStride));
-                SetInputLayout(numStreams, decls, draw.instanceDataStride / 16);
+                DX_CHECK(D3D9Device->SetStreamSource(numStreams, inst.d3d9VertexBuffer, newDrawCommand->instanceDataOffset, newDrawCommand->instanceDataStride));
+                SetInputLayout(numStreams, decls, newDrawCommand->instanceDataStride / 16);
             }
             else
             {
-                //DX_CHECK(D3D9Device->SetStreamSource(numStreams, NULL, 0, 0));
+                DX_CHECK(D3D9Device->SetStreamSource(numStreams, NULL, 0, 0));
                 SetInputLayout(numStreams, decls, 0);
             }
         }
@@ -750,16 +766,16 @@ effVOID EFFD3D9Device::SetVertexDeclaration()
 
 effVOID EFFD3D9Device::SetInputLayout(effBYTE numStreams, const EFF3DVertexDeclaration ** vertexDecls, effUINT16 numInstanceData)
 {
-    effBYTE key[2 + 4 * EFF3D_CONFIG_MAX_VERTEX_STREAMS];
+    effBYTE key[4 * EFF3D_CONFIG_MAX_VERTEX_STREAMS];
     effUINT size = 0;
     memset(key, 0, sizeof(key));
 
-    memcpy(key, &numInstanceData, sizeof(effUINT16));
-    size += 2;
+    //memcpy(key, &numInstanceData, sizeof(effUINT16));
+    //size += 2;
 
     for (effBYTE stream = 0; stream < numStreams; ++stream)
     {
-        memcpy(key + 2 + stream * 4, &vertexDecls[stream]->hash, sizeof(effUINT));
+        memcpy(key + stream * 4, &vertexDecls[stream]->hash, sizeof(effUINT));
         size += 4;
     }
 
@@ -794,6 +810,10 @@ effVOID EFFD3D9Device::SetInputLayout(effBYTE numStreams, const EFF3DVertexDecla
 
         inputLayoutCache[layoutHash] = layout;
     }
+	else
+	{
+		layout = it->second;
+	}
 
     DX_CHECK(D3D9Device->SetVertexDeclaration(layout));
 }
@@ -801,11 +821,19 @@ effVOID EFFD3D9Device::SetInputLayout(effBYTE numStreams, const EFF3DVertexDecla
 effVOID EFFD3D9Device::Draw(EFF3DDrawCommand & drawCommand)
 {
 
-    effBYTE primitiveIndex = 0;
-    const effUINT64 primitiveType = renderDebugFlags & EFF3D_DEBUG_WIREFRAME ? EFF3D_STATE_PT_LINES : 0;
-    primitiveIndex = effBYTE(primitiveType >> EFF3D_STATE_PT_SHIFT);
+	newDrawCommand = &drawCommand;
 
-    PrimInfo primitiveInfo = s_primInfo[primitiveIndex];
+
+
+
+	SetRenderState(drawCommand);
+	SetDepthStencilState(drawCommand);
+
+	SetVertices();
+	SetIndexBuffer();
+	SetTextures(drawCommand);
+
+
 
     if (0 != currentDrawCommand.streamMask)
     {
@@ -815,16 +843,13 @@ effVOID EFFD3D9Device::Draw(EFF3DDrawCommand & drawCommand)
         effUINT numInstances = 0;
         effUINT numPrimsRendered = 0;
 
-
-
         if (drawCommand.indexBufferHandle.IsValid())
         {
             if (UINT32_MAX == drawCommand.numIndices)
             {
-                //const IndexBufferD3D9& ib = m_indexBuffers[draw.m_indexBuffer.idx];
-                EFFD3D9IndexBuffer ib;
-                const uint32_t indexSize = 0 == (ib.flags & EFF3D_BUFFER_INDEX32) ? 2 : 4;
-                numIndices = ib.size / indexSize;
+				EFFD3D9IndexBuffer * effD3D9IB = (EFFD3D9IndexBuffer *)indexBufferManager->GetResource(drawCommand.indexBufferHandle);
+                const uint32_t indexSize = 0 == (effD3D9IB->flags & EFF3D_BUFFER_INDEX32) ? 2 : 4;
+                numIndices = effD3D9IB->size / indexSize;
                 numPrimsSubmitted = numIndices / primitiveInfo.div - primitiveInfo.sub;
                 numInstances = drawCommand.numInstances;
                 numPrimsRendered = numPrimsSubmitted * drawCommand.numInstances;
@@ -875,7 +900,7 @@ effVOID EFFD3D9Device::Draw(EFF3DDrawCommand & drawCommand)
 
 effBOOL EFFD3D9Device::CreateTimeQuery(effUINT flag, EFF3DTimeQueryHandle * queryHandle)
 {
-	EFFD3D9TimeQuery * effD3D9TimeQuery = (EFFD3D9TimeQuery *)CreateEmptyResource(EFF3DResourceType_TimeQuery);
+	EFFD3D9TimeQuery * effD3D9TimeQuery = (EFFD3D9TimeQuery *)CreateEmptyResource(EFF3DResourceType_TimeQuery, *queryHandle);
 	effD3D9TimeQuery->Init(D3D9Device);
 
 	*queryHandle = effD3D9TimeQuery->id;
@@ -916,13 +941,28 @@ effBOOL EFFD3D9Device::DrawPrimitiveUP(EFF3DPrimitiveType primitiveType, effUINT
 	return SUCCEEDED(D3D9Device->SetTransform((D3DTRANSFORMSTATETYPE)state, (const D3DMATRIX *)matrix));
 }*/
 
-
-
-effBOOL EFFD3D9Device::SetIndices(EFF3DIndexBufferHandle ibHandle)
+effVOID	EFFD3D9Device::SetIndexBuffer()
 {
-	//EFFD3D9IndexBuffer * effD3D9IB = (EFFD3D9IndexBuffer *)indexData;
-    EFFD3D9IndexBuffer * effD3D9IB = NULL;
-	return SUCCEEDED(D3D9Device->SetIndices(effD3D9IB->d3d9IndexBuffer));
+	if (currentDrawCommand.indexBufferHandle != newDrawCommand->indexBufferHandle)
+	{
+		currentDrawCommand.indexBufferHandle = newDrawCommand->indexBufferHandle;
+		SetIndexBuffer(newDrawCommand->indexBufferHandle);
+	}
+}
+
+
+effBOOL EFFD3D9Device::SetIndexBuffer(EFF3DIndexBufferHandle ibHandle)
+{
+	if (ibHandle.IsValid())
+	{
+		EFFD3D9IndexBuffer * effD3D9IB = (EFFD3D9IndexBuffer *)indexBufferManager->GetResource(ibHandle);
+		return SUCCEEDED(D3D9Device->SetIndices(effD3D9IB->d3d9IndexBuffer));
+	}
+	else
+	{
+		//DX_CHECK(device->SetIndices(NULL));
+		return effFALSE;
+	}
 }
 
 //effBOOL EFFD3D9Device::SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value)
@@ -1057,6 +1097,12 @@ effVOID EFFD3D9Device::SetRenderState(EFF3DDrawCommand & drawCommand)
 
             BlendFactor = drawCommand.rgba;
         }
+
+
+		const effUINT64 primitiveType = renderDebugFlags & EFF3D_DEBUG_WIREFRAME ? EFF3D_STATE_PT_LINES : newFlags & EFF3D_STATE_PT_MASK;
+		effBYTE primitiveIndex = effBYTE(primitiveType >> EFF3D_STATE_PT_SHIFT);
+
+		primitiveInfo = s_primInfo[primitiveIndex];
     }
 }
 
@@ -1300,6 +1346,32 @@ EFF3DTextureHandle EFFD3D9Device::GetRenderTarget(effUINT index)
 	return SUCCEEDED(D3DXCheckTextureRequirements(D3D9Device, width, height, numMipLevels, usage, (D3DFORMAT *)format, (D3DPOOL)pool));
 }*/
 
+effBOOL EFFD3D9Device::HasVertexStreamChanged()
+{
+	if (currentDrawCommand.streamMask != newDrawCommand->streamMask
+		|| currentDrawCommand.instanceDataBufferHandle != newDrawCommand->instanceDataBufferHandle
+		|| currentDrawCommand.instanceDataOffset != newDrawCommand->instanceDataOffset
+		|| currentDrawCommand.instanceDataStride != newDrawCommand->instanceDataStride)
+	{
+		return effTRUE;
+	}
 
+	for (effUINT idx = 0, streamMask = newDrawCommand->streamMask, ntz = effUINT_cnttz(streamMask)
+		; 0 != streamMask
+		; streamMask >>= 1, idx += 1, ntz = effUINT_cnttz(streamMask)
+		)
+	{
+		streamMask >>= ntz;
+		idx += ntz;
+
+		if (currentDrawCommand.stream[idx].vertexBufferHandle != newDrawCommand->stream[idx].vertexBufferHandle
+			|| currentDrawCommand.stream[idx].startVertex != newDrawCommand->stream[idx].startVertex)
+		{
+			return effTRUE;
+		}
+	}
+
+	return effFALSE;
+}
 
 

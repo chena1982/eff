@@ -41,7 +41,8 @@ public:
 	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DIndexBufferHandle * ibHandle);
     virtual effBOOL             UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size);
 
-	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexBufferHandle * vbHandle);
+	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexDeclarationHandle vertexDeclHandle,
+									EFF3DVertexBufferHandle * vertexBufferHandle);
     virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size);
 
 	//virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl);
@@ -62,16 +63,16 @@ public:
 
 	//virtual effBOOL				SetTransform(EFF3DTRANSFORMSTATETYPE state, const EFFMatrix4 * matrix);
 	//virtual effBOOL				SetFVF(effUINT FVF);
-	virtual effVOID				SetVertexDeclaration();
+
 	//virtual effBOOL				SetStreamSource(effUINT streamNumber, EFF3DVertexBufferHandle vbHandle, effUINT offsetInBytes, effUINT stride);
-	virtual effBOOL				SetIndices(EFF3DIndexBufferHandle ibHandle);
+	virtual effBOOL				SetIndexBuffer(EFF3DIndexBufferHandle ibHandle);
 	//virtual effBOOL				SetRenderState(EFF3DRENDERSTATETYPE state, effUINT value);
 
     virtual effVOID             SetRenderState(EFF3DDrawCommand & drawCommand);
     virtual effVOID             SetDepthStencilState(EFF3DDrawCommand & drawCommand);
     virtual effVOID             SetTextures(EFF3DDrawCommand & drawCommand);
 
-    effVOID                     Draw(EFF3DDrawCommand & drawCommand);
+    virtual effVOID             Draw(EFF3DDrawCommand & drawCommand);
 
 
 	//virtual effBOOL				SetTextureStageState(effUINT stage, EFF3DTEXTURESTAGESTATETYPE type, effUINT value);
@@ -114,23 +115,27 @@ protected:
 	virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType);
 
 
+
+	effVOID						SetVertices();
+	effVOID						SetIndexBuffer();
     effVOID                     SetInputLayout(effBYTE numStreams, const EFF3DVertexDeclaration ** vertexDecls, effUINT16 numInstanceData);
 
-
+	effBOOL						HasVertexStreamChanged();
 protected:
 	LPDIRECT3D9EX				D3D9;       
 	LPDIRECT3DDEVICE9EX			D3D9Device;
 	//CGcontext					cgContext;
 
     EFFD3D9Texture *            currentRenderTarget;
-
+	PrimInfo					primitiveInfo;
     EFF3DDrawCommand            currentDrawCommand;
+	EFF3DDrawCommand *			newDrawCommand;
     effBOOL                     programChanged;
 
     EFF3DVertexDeclaration      vertexDecls[EFF3D_CONFIG_MAX_VERTEX_DECLS];
     effUINT                     samplerFlags[EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS];
     effUINT                     maxAnisotropy;
-    effUINT64                   renderDebugFlags;
+
 
     MAP<effUINT, LPDIRECT3DVERTEXDECLARATION9>  inputLayoutCache;
 
