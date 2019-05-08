@@ -179,11 +179,10 @@ EFFD3D9Device::EFFD3D9Device()
 	D3D9 = NULL;       
 	D3D9Device = NULL;
 	//cgContext = NULL;
+
+	maxAnisotropy = 1;
 }
 
-#ifdef __cplusplus
-#define XXX
-#endif
 
 EFFD3D9Device::~EFFD3D9Device()
 {
@@ -396,6 +395,11 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
     effHRESULT hr;
     effUINT usage = 0;
 
+	if (resourceType == EFF3DResourceType_RenderTarget)
+	{
+		usage |= D3DUSAGE_RENDERTARGET;
+	}
+
 	if( FAILED(hr = D3D9Device->CreateTexture(width, height, levels, usage, s_textureFormat[format].d3d9Format, 
 		D3DPOOL_DEFAULT, &effD3D9Texture->texture, (HANDLE *)&sharedHandle)) )
 	{
@@ -403,6 +407,7 @@ effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT leve
 		return effFALSE;
 	}
 
+	effD3D9Texture->device = this;
 
 	effD3D9Texture->imageInfo.width = width;
 	effD3D9Texture->imageInfo.height = height;
@@ -1184,7 +1189,7 @@ inline effBOOL NeedBorderColor(effUINT flags)
         || EFF3D_TEXTURE_W_BORDER == (flags & EFF3D_TEXTURE_W_BORDER);
 }
 
-effVOID EFFD3D9Device::SetSamplerState(effUINT stage, effUINT flags)
+effVOID EFFD3D9Device::SetSamplerState(effUINT stage, effUINT flags, const float rgba[4])
 {
     const effUINT newFlags = flags & ((~EFF3D_TEXTURE_RESERVED_MASK) | EFF3D_TEXTURE_SAMPLER_BITS_MASK | EFF3D_TEXTURE_SRGB);
 
@@ -1207,6 +1212,19 @@ effVOID EFFD3D9Device::SetSamplerState(effUINT stage, effUINT flags)
         SetSamplerStateReal(D3D9Device, stage, D3DSAMP_MIPFILTER, mipFilter);
         SetSamplerStateReal(D3D9Device, stage, D3DSAMP_MAXANISOTROPY, maxAnisotropy);
         SetSamplerStateReal(D3D9Device, stage, D3DSAMP_SRGBTEXTURE, 0 != (newFlags & EFF3D_TEXTURE_SRGB));
+
+		if (NULL != rgba)
+		{
+			if (NeedBorderColor(flags))
+			{
+				DWORD bc = D3DCOLOR_COLORVALUE(rgba[0], rgba[1], rgba[2], rgba[3]);
+				SetSamplerStateReal(D3D9Device
+					, stage
+					, D3DSAMP_BORDERCOLOR
+					, bc
+				);
+			}
+		}
     }
 }
 
@@ -1226,7 +1244,7 @@ effVOID EFFD3D9Device::SetTextures(EFF3DDrawCommand & drawCommand)
             EFFD3D9Texture * texture = (EFFD3D9Texture *)textureManager->GetResource(textureBind.handle);
             if (texture != NULL)
             {
-                texture->Commit(stage, textureBind.data.draw.flags);
+                texture->Commit(stage, textureBind.data.draw.flags, NULL);
             }
             else
             {
@@ -1255,16 +1273,16 @@ effBOOL EFFD3D9Device::SetRenderTarget(effUINT renderTargetIndex, EFF3DTextureHa
     currentRenderTarget = effD3D9Texture;
 
     LPDIRECT3DSURFACE9 surface = NULL;
-    effD3D9Texture->texture->GetSurfaceLevel(0, &surface);
+	DX_CHECK(effD3D9Texture->texture->GetSurfaceLevel(0, &surface));
 
 	//EFFD3D9Surface * effD3D9Surface = (EFFD3D9Surface *)renderTarget;
-    effHRESULT hr = D3D9Device->SetRenderTarget(renderTargetIndex, surface);
+    DX_CHECK(D3D9Device->SetRenderTarget(renderTargetIndex, surface));
 
     surface->Release();
 
 
 
-	return SUCCEEDED(hr);
+	return effTRUE;
 }
 
 effBOOL EFFD3D9Device::SetTexture(effUINT sampler, EFF3DTextureHandle textureHandle)

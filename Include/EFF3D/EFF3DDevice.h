@@ -54,8 +54,9 @@ public:
 	EFF3DVertexDeclarationHandle	CreateVertexDeclaration(const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * renderQueue);
 	EFF3DVertexBufferHandle		CreateVertexBuffer(effVOID * vertices, effUINT size, effUINT flags, const EFF3DVertexDeclaration & vertexDecl, EFF3DRenderQueue * renderQueue);
 	EFF3DIndexBufferHandle		CreateIndexBuffer(effVOID * indices, effUINT size, effUINT flags, EFF3DRenderQueue * renderQueue);
-	effVOID						Draw(effUINT vertexCount, effUINT indexCount, EFF3DIndexBufferHandle ibHandle, 
-									EFF3DVertexBufferHandle * vbHandles, effUINT vbCount,
+	effVOID						Draw(effUINT vertexCount, EFF3DVertexBufferHandle * vbHandles, effUINT vbCount,
+									effUINT indexCount, EFF3DIndexBufferHandle ibHandle,
+									EFF3DTextureHandle textureHandle,
 									EFF3DRenderQueue * renderQueue);
 
 
@@ -191,7 +192,7 @@ protected:
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType, EFFId id);
     virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType) = 0;
 
-	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DRenderQueue * renderQueue);
+	virtual effBOOL				DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, EFF3DRenderQueue * renderQueue);
 
     effVOID                     InitVertexDeclaration();
 protected:

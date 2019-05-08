@@ -1,22 +1,22 @@
 /******************************************************************************
-	created:	2008-12-14   20:32
-	file path:	d:\EFF\EFFEngine\Src\EFFD3D9\EFFD3D9Texture.h
+	created:	2019-03-23   00:41
+	file path:	d:\EFF\EFFEngine\Src\EFFD3D12\EFFD3D12Texture.h
 	author:		ChenA
 	
 	purpose:	
 ******************************************************************************/
-#ifndef __EFFD3D9Texture_2008_12_14__
-#define __EFFD3D9Texture_2008_12_14__
+#ifndef __EFFD3D12Texture_2019_03_23__
+#define __EFFD3D12Texture_2019_03_23__
 
 
 
-class EFFD3D9Texture : public EFF3DTexture
+class EFFD3D12Texture : public EFF3DTexture
 {
-	friend class EFFD3D9Device;
-	friend class EFFD3D9Shader;
+	friend class EFFD3D12Device;
+	friend class EFFD3D12Shader;
 public:
-	EFFD3D9Texture();
-	virtual ~EFFD3D9Texture();
+	EFFD3D12Texture();
+	virtual ~EFFD3D12Texture();
 public:
 	//effHRESULT								GetLevelDesc(effUINT Level, EFF3DSURFACE_DESC * pDesc);
 	//effHRESULT								GetSurfaceLevel(effUINT Level, EFF3DSurface ** ppSurfaceLevel);
@@ -35,16 +35,16 @@ protected:
 	effBOOL									Unlock();
 	effBOOL									CopyDataToRuntimeResource();
 protected:
-	LPDIRECT3DTEXTURE9						texture;
-	EFFD3D9Device *							device;
-	D3DLOCKED_RECT							lockedRect;
+	//LPDIRECT3DTEXTURE9						texture;
+	EFFD3D12Device *						device;
+	//D3DLOCKED_RECT							lockedRect;
 };
 
 /*#define SHAREDTEXTURE_BUFFER_COUNT 3
 
 class EFFD3D9SharedTexture : public EFF3DSharedTexture
 {
-    friend class EFFD3D9Device;
+    friend class EFFD3D12Device;
 public:
     EFFD3D9SharedTexture();
     virtual ~EFFD3D9SharedTexture();

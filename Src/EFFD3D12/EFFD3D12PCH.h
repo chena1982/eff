@@ -12,6 +12,9 @@
 #include <windows.h>
 #include <cstdio>
 
+// Windows Runtime Library. Needed for Microsoft::WRL::ComPtr<> template class.
+#include <wrl.h>
+using namespace Microsoft::WRL;
 
 // TODO: 在此处引用程序需要的其他头文件
 
@@ -22,14 +25,18 @@
 
 #define D3D_DEBUG_INFO
 
-#include <d3d9.h>
-#include <DxErr.h>
-//#include <Python.h>
-//#include <boost/python/detail/wrap_python.hpp>
+// DirectX 12 specific headers.
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+//#include <DxErr.h>
 
-int (WINAPIV * __vsnwprintf)(wchar_t *, size_t, const wchar_t*, va_list) = _vsnwprintf;
+// D3D12 extension library.
+#include "d3dx12.h"
+
 
 #include "EFF3D.h"
 USE_EFF3D
 
-#include "EFFD3D9BaseDefines.h"
+#include "EFFD3D12BaseDefines.h"

@@ -178,8 +178,9 @@ EFF3DIndexBufferHandle EFF3DDevice::CreateIndexBuffer(effVOID * indices, effUINT
 	return createIBCommand->ibHandle;
 }
 
-effVOID	EFF3DDevice::Draw(effUINT vertexCount, effUINT indexCount, EFF3DIndexBufferHandle ibHandle,
-	EFF3DVertexBufferHandle * vbHandles, effUINT vbCount,
+effVOID	EFF3DDevice::Draw(effUINT vertexCount, EFF3DVertexBufferHandle * vbHandles, effUINT vbCount,
+	effUINT indexCount, EFF3DIndexBufferHandle ibHandle,
+	EFF3DTextureHandle textureHandle,
 	EFF3DRenderQueue * renderQueue)
 {
 	EFF3DDrawCommand * drawCommand = renderQueue->GetCommand<EFF3DDrawCommand>();
@@ -197,6 +198,8 @@ effVOID	EFF3DDevice::Draw(effUINT vertexCount, effUINT indexCount, EFF3DIndexBuf
 		drawCommand->streamMask &= ~bit;
 		drawCommand->streamMask |= vbHandles[i].IsValid() ? bit : 0;
 	}
+
+	drawCommand->textureBind.binds[0].handle = textureHandle;
 }
 
 EFFId EFF3DDevice::CreateResourceFromFile(const effString & filePath, EFF3DResourceType resourceType)
@@ -363,7 +366,7 @@ effVOID EFF3DDevice::InitProperty()
 }
 
 
-effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * renderQueue)
+effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, EFF3DRenderQueue * renderQueue)
 {
 	static QuadVertex vertices[4];
 
@@ -421,7 +424,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DRenderQueue * renderQueue)
 		quadIB = CreateIndexBuffer(indices, sizeof(indices), 0, renderQueue);
 	})
 
-	Draw(4, 6, quadIB, &vbHandle, 1, renderQueue);
+	Draw(4, &vbHandle, 1, 6, quadIB, textureHandle, renderQueue);
 
     return effTRUE;
 }
@@ -435,7 +438,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, effDWORD color)
 	SetTextureStageState(0, EFF3DTSS_COLORARG1, EFF3DTA_TFACTOR);*/
 
     EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
-    DrawQuad(rect, rendererQueue);
+    DrawQuad(rect, EFFId(), rendererQueue);
 
     return effTRUE;
 }
@@ -462,7 +465,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DTextureHandle textureHandle, 
 
 
     EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
-    DrawQuad(rect, rendererQueue);
+    DrawQuad(rect, textureHandle, rendererQueue);
 
 	return effTRUE;
 }
@@ -483,7 +486,7 @@ effBOOL EFF3DDevice::DrawQuad(EFFRect * rect, EFF3DMaterial * material, EFF3DTex
 
 
     EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
-    DrawQuad(rect, rendererQueue);
+    DrawQuad(rect, textureHandle, rendererQueue);
 
     return effTRUE;
 }

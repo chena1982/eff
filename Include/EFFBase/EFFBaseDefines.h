@@ -467,6 +467,13 @@ static const effUINT16 InvalidIndex16 = UINT16_MAX;
 
 #define EFFINLINE	__forceinline
 
+// http://cnicholson.net/2011/01/stupid-c-tricks-a-better-sizeof_array/
+template<typename T, size_t N>
+char(&COUNTOF_REQUIRES_ARRAY_ARGUMENT(const T(&)[N]))[N];
+
+#define EFF_COUNTOF(_x) sizeof(COUNTOF_REQUIRES_ARRAY_ARGUMENT(_x))
+#define EFF_STATIC_ASSERT(_condition, ...) static_assert(_condition, "" __VA_ARGS__)
+
 #ifndef EFFBASE_EXPORTS
 	#ifndef EFFBASE_EXPORT_STATIC
 		#define EFFBASE_API		__declspec(dllimport)

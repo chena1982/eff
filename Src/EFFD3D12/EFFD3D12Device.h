@@ -1,22 +1,60 @@
 /******************************************************************************
-	created:	2008-12-2   0:19
-	file path:	d:\EFF\EFFEngine\Src\EFFD3D9.h
+	created:	2019-03-23   00:41
+	file path:	d:\EFF\EFFEngine\Src\EFFD3D12.h
 	author:		ChenA
 	
 	purpose:	
 ******************************************************************************/
-#ifndef __EFFD3D9Device_2008_12_2__
-#define __EFFD3D9Device_2008_12_2__
+#ifndef __EFFD3D12Device_2019_03_23__
+#define __EFFD3D12Device_2019_03_23__
 
 
-class EFFD3D9Texture;
+#include <EASTL/bonus/ring_buffer.h>
+
+class EFFD3D12Texture;
+
+struct CommandQueueD3D12
+{
+	CommandQueueD3D12()
+		: currentFence(0)
+		, completedFence(0)
+		, control(EFF_COUNTOF(commandList))
+	{
+		EFF_STATIC_ASSERT(EFF_COUNTOF(commandList) == EFF_COUNTOF(release));
+	}
+
+	effVOID Init(ID3D12Device * device);
+	effVOID Shutdown();
+	ID3D12GraphicsCommandList * Alloc();
+	effUINT64 Kick();
+	effVOID Finish(effUINT64 waitFence = UINT64_MAX, effBOOL finishAll = effFALSE);
+	effBOOL TryFinish(effUINT64 waitFence);
+	effVOID Release(ID3D12Resource * ptr);
+	effBOOL Consume(effUINT ms = INFINITE);
+
+	struct CommandList
+	{
+		ID3D12GraphicsCommandList * commandList;
+		ID3D12CommandAllocator * commandAllocator;
+		HANDLE event;
+	};
+
+	ID3D12CommandQueue * commandQueue;
+	effUINT64 currentFence;
+	effUINT64 completedFence;
+	ID3D12Fence * fence;
+	CommandList commandList[256];
+	typedef VECTOR<ID3D12Resource *> ResourceArray;
+	ResourceArray release[256];
+	RingBufferControl control;
+};
 
 
-class EFFD3D9Device : public EFF3DDevice
+class EFFD3D12Device : public EFF3DDevice
 {
 public:
-	EFFD3D9Device();
-	~EFFD3D9Device();
+	EFFD3D12Device();
+	~EFFD3D12Device();
 public:
 	virtual effBOOL				BeginScene();
 	virtual effBOOL				EndScene();
@@ -92,10 +130,11 @@ public:
 public:
 	virtual effVOID				Release();
 
+
+	effBOOL						Init(effBOOL window, HWND hWnd, effINT width, effINT height);
+
 public:
-	LPDIRECT3D9EX				GetD3D9() { return D3D9; }
-	effVOID						SetD3D9(LPDIRECT3D9EX D3D9) { this->D3D9 = D3D9; } 
-	LPDIRECT3DDEVICE9EX	&	    GetD3D9Device() { return D3D9Device; }
+
 	//effVOID						SetCGContex(CGcontext cgContext) { this->cgContext = cgContext; }
 	//CGcontext					GetCGContex() { return cgContext; }
 
@@ -121,13 +160,47 @@ protected:
     effVOID                     SetInputLayout(effBYTE numStreams, const EFF3DVertexDeclaration ** vertexDecls, effUINT16 numInstanceData);
 
 	effBOOL						HasVertexStreamChanged();
+
+
+	effUINT64					Signal();
+	effVOID						WaitForFenceValue(effUINT64 _fenceValue);
+	effVOID						Flush();
+
 protected:
-	LPDIRECT3D9EX				D3D9;       
-	LPDIRECT3DDEVICE9EX			D3D9Device;
+
+
+	const static effUINT numFrames = 3;
+
+	ComPtr<ID3D12Device2>		d3d12Device;
+	ComPtr<ID3D12CommandQueue>	d3d12CommandQueue;
+	ComPtr<IDXGISwapChain4>		dxgiSwapChain;
+
+	ComPtr<ID3D12Resource>		backBuffers[numFrames];
+	ComPtr<ID3D12GraphicsCommandList>	commandList;
+	ComPtr<ID3D12CommandAllocator>		commandAllocators[numFrames];
+	ComPtr<ID3D12DescriptorHeap>		RTVDescriptorHeap;
+	effUINT						RTVDescriptorSize = 0;
+	effUINT						currentBackBufferIndex = 0;
 	//CGcontext					cgContext;
 
-    EFFD3D9Texture *            currentRenderTarget;
-	PrimInfo					primitiveInfo;
+
+	// Synchronization objects
+	ComPtr<ID3D12Fence>			fence;
+	effUINT64					fenceValue = 0;
+	effUINT64					frameFenceValues[numFrames] = {};
+	effHANDLE					fenceEvent;
+
+	// By default, enable V-Sync.
+	// Can be toggled with the V key.
+	effBOOL						VSync = effFALSE;
+	effBOOL						tearingSupported = effFALSE;
+
+	// By default, use windowed mode.
+	// Can be toggled with the Alt+Enter or F11
+	effBOOL						fullscreen = effFALSE;
+
+    EFFD3D12Texture *           currentRenderTarget;
+
     EFF3DDrawCommand            currentDrawCommand;
 	EFF3DDrawCommand *			newDrawCommand;
     effBOOL                     programChanged;
@@ -136,16 +209,16 @@ protected:
     effUINT                     samplerFlags[EFF3D_CONFIG_MAX_TEXTURE_SAMPLERS];
     effUINT                     maxAnisotropy;
 
-
-    MAP<effUINT, LPDIRECT3DVERTEXDECLARATION9>  inputLayoutCache;
+	PrimInfo					primitiveInfo;
+    //MAP<effUINT, LPDIRECT3DVERTEXDECLARATION9>  inputLayoutCache;
 
 
 };
 
-effVOID InitFullScreen(effINT width, effINT height, D3DPRESENT_PARAMETERS * d3dpp, HWND hWnd);
-effVOID InitWindow(effINT width, effINT height, effBOOL enableAA, D3DPRESENT_PARAMETERS * d3dpp, effUINT depthStencilFormat);
+effVOID InitFullScreen(effINT width, effINT height, HWND hWnd);
+effVOID InitWindow(effINT width, effINT height, effBOOL enableAA, effUINT depthStencilFormat);
 
-EFFD3D9_API effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
+EFFD3D12_API effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd, effINT width, effINT height);
 
 
 

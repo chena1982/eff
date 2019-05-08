@@ -1,29 +1,29 @@
 /******************************************************************************
-	created:	2008-12-14   20:35
-	file path:	d:\EFF\EFFEngine\Src\EFFD3D9\EFFD3D9Texture.cpp
+	created:	2019-03-23   00:41
+	file path:	d:\EFF\Src\EFFD3D12\EFFD3D12Texture.cpp
 	author:		ChenA
 	
 	purpose:	
 ******************************************************************************/
 
-#include "EFFD3D9PCH.h"
+#include "EFFD3D12PCH.h"
 
 
-#include "EFFD3D9Device.h"
-#include "EFFD3D9Texture.h"
+#include "EFFD3D12Device.h"
+#include "EFFD3D12Texture.h"
 
 ////#define new EFFNEW
 
 
-EFFD3D9Texture::EFFD3D9Texture()
+EFFD3D12Texture::EFFD3D12Texture()
 {
-	texture = NULL;
+	//texture = NULL;
 	device = NULL;
 }
 
-EFFD3D9Texture::~EFFD3D9Texture()
+EFFD3D12Texture::~EFFD3D12Texture()
 {
-	SF_RELEASE(texture);
+	//SF_RELEASE(texture);
 }
 
 /*effHRESULT EFFD3D9Texture::GetLevelDesc(effUINT Level,EFF3DSURFACE_DESC * pDesc)
@@ -55,24 +55,26 @@ EFFD3D9Texture::~EFFD3D9Texture()
 	return hr;
 }*/
 
-effHRESULT EFFD3D9Texture::LockRect(effUINT level, EFF3DLockedRect * lockedRect, const EFFRect * rect, effUINT flags)
+effHRESULT EFFD3D12Texture::LockRect(effUINT level, EFF3DLockedRect * lockedRect, const EFFRect * rect, effUINT flags)
 {
-	assert(texture != NULL);
-	return texture->LockRect(level, (D3DLOCKED_RECT *)lockedRect, (const RECT *)rect, flags);
+	//assert(texture != NULL);
+	//return texture->LockRect(level, (D3DLOCKED_RECT *)lockedRect, (const RECT *)rect, flags);
+	return S_OK;
 }
 
-effHRESULT EFFD3D9Texture::UnlockRect(effUINT level)
+effHRESULT EFFD3D12Texture::UnlockRect(effUINT level)
 {
-	assert(texture != NULL);
-	return texture->UnlockRect(level);
+	//assert(texture != NULL);
+	//return texture->UnlockRect(level);
+	return S_OK;
 }
 
-effVOID EFFD3D9Texture::CalculateSize()
+effVOID EFFD3D12Texture::CalculateSize()
 {
 }
 
 
-effBOOL EFFD3D9Texture::Reload()
+effBOOL EFFD3D12Texture::Reload()
 {
 	/*if (imageInfo.pool == EFF3DPOOL_DEFAULT )
 	{
@@ -82,14 +84,14 @@ effBOOL EFFD3D9Texture::Reload()
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Texture::Unload()
+effBOOL EFFD3D12Texture::Unload()
 {
-	SF_RELEASE(texture);
+	//SF_RELEASE(texture);
 	return effTRUE;
 }
 
 
-effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & filePath)
+effBOOL EFFD3D12Texture::LoadDataFromFile(const effString & filePath)
 {
 	//SetOrigin(strFilePath);
 
@@ -116,11 +118,11 @@ effBOOL EFFD3D9Texture::LoadDataFromFile(const effString & filePath)
 	return effTRUE;
 }
 
-effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * device)
+effBOOL EFFD3D12Texture::CreateRuntimeResource(EFF3DDevice * device)
 {
 	//HRESULT hr;
 
-	EFFD3D9Device * pD3D9Device = (EFFD3D9Device *)device;
+	EFFD3D12Device * pD3D9Device = (EFFD3D12Device *)device;
 	
 	//if ( FAILED(hr = D3DXCreateTextureFromFileInMemory(pD3D9Device->GetD3D9Device(), data, dataSize, &texture)) )
 	{
@@ -128,13 +130,13 @@ effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * device)
 	}
 
 
-	D3DSURFACE_DESC	desc;
+	/*D3DSURFACE_DESC	desc;
 	memset(&desc, 0, sizeof(desc));
 	texture->GetLevelDesc(0, &desc);
 
     imageInfo.width = desc.Width;
     imageInfo.height = desc.Height;
-    imageInfo.mipLevels = 0;
+    imageInfo.mipLevels = 0;*/
     //imageInfo.usage = desc.Usage;
     //imageInfo.format = (EFF3DFORMAT)desc.Format;
     //imageInfo.pool = (EFF3DPOOL)desc.Pool;
@@ -143,20 +145,22 @@ effBOOL EFFD3D9Texture::CreateRuntimeResource(EFF3DDevice * device)
 }
 
 
-effBOOL EFFD3D9Texture::Lock()
+effBOOL EFFD3D12Texture::Lock()
 {
-	return FAILED(texture->LockRect(0, &lockedRect, NULL, 0));
+	//return FAILED(texture->LockRect(0, &lockedRect, NULL, 0));
+	return effFALSE;
 }
 
 
-effBOOL EFFD3D9Texture::Unlock()
+effBOOL EFFD3D12Texture::Unlock()
 {
-	return FAILED(texture->UnlockRect(0));
+	//return FAILED(texture->UnlockRect(0));
+	return effFALSE;
 }
 
-effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
+effBOOL EFFD3D12Texture::CopyDataToRuntimeResource()
 {
-	effBYTE * dest = (effBYTE *)lockedRect.pBits;
+	/*effBYTE * dest = (effBYTE *)lockedRect.pBits;
 	effBYTE * src = data;
 	for ( effUINT i = 0; i < imageInfo.height; i++ )
 	{
@@ -164,7 +168,7 @@ effBOOL EFFD3D9Texture::CopyDataToRuntimeResource()
 		memcpy(dest, src, size);
 		dest += lockedRect.Pitch;
 		src += size;
-	}
+	}*/
 
 	return effTRUE;
 }
@@ -230,7 +234,7 @@ effVOID EFFD3D9SharedTexture::GetSharedTextureInfo(SharedTextureInfo * sharedTex
 }*/
 
 
-effVOID EFFD3D9Texture::Commit(effUINT stage, effUINT textureFlags, const float palette[][4])
+effVOID EFFD3D12Texture::Commit(effUINT stage, effUINT textureFlags, const float palette[][4])
 {
     effUINT flags = 0 == (EFF3D_TEXTURE_INTERNAL_DEFAULT_SAMPLER & textureFlags)
         ? textureFlags : imageInfo.flags;
@@ -239,9 +243,9 @@ effVOID EFFD3D9Texture::Commit(effUINT stage, effUINT textureFlags, const float 
 	device->SetSamplerState(stage, flags, palette[index]);
 
 
-    DX_CHECK(device->GetD3D9Device()->SetTexture(stage, texture));
+    /*DX_CHECK(device->GetD3D9Device()->SetTexture(stage, texture));
     if (4 > stage)
     {
         DX_CHECK(device->GetD3D9Device()->SetTexture(D3DVERTEXTEXTURESAMPLER0 + stage, texture));
-    }
+    }*/
 }

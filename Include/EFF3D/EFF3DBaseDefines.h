@@ -1009,14 +1009,20 @@ inline effUINT UnpackStencil(effBYTE zeroOrOne, effUINT64 stencil)
     return effUINT((stencil >> (32 * zeroOrOne)));
 }
 
+inline void ThrowIfFailed(HRESULT hr)
+{
+	if (FAILED(hr))
+	{
+		throw std::exception();
+	}
+}
+
 #if defined(_DEBUG) || defined(DEBUG)
 
     #define DX_CHECK(call) \
         {\
             HRESULT hr = call; \
-            if (!SUCCEEDED(hr)) \
-            {\
-            }\
+			ThrowIfFailed(hr);\
         }
 #else
     #define DX_CHECK(call) call

@@ -29,5 +29,13 @@ effVOID EFFD3D9VertexBuffer::CreateFromMemory(effUINT size, effVOID * data, effU
 
 effVOID EFFD3D9VertexBuffer::Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard/* = effFALSE*/)
 {
+	if (d3d9VertexBuffer != NULL)
+	{
+		effVOID * address = NULL;
+		DX_CHECK(d3d9VertexBuffer->Lock(offset, size, &address, discard ? D3DLOCK_DISCARD : 0));
 
+		memcpy(address, data, size);
+
+		DX_CHECK(d3d9VertexBuffer->Unlock());
+	}
 }

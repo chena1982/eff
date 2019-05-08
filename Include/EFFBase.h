@@ -52,6 +52,8 @@
 #include "EFFBase/EFFEntity.h"
 #include "EFFBase/EFFString.h"
 
+#include "EFFBase/EFFRingBuffer.h"
+
 #if defined UNICODE || defined _UNICODE
 	#ifdef _DEBUG 
 		#pragma comment(lib, "EFFBase_d.lib")

@@ -1,0 +1,32 @@
+set (HEADER_FILES
+  ../../Include/EFFD3D12.h
+  ../../Include/EFFD3D12/EFFD3D12BaseDefines.h
+  ../../Include/EFFD3D12/EFFD3D12Shader.h
+  ../../Include/EFFD3D12/EFFD3D12Query.h
+)
+
+set (SOURCE_FILES
+  EFFD3D12Device.cpp
+  EFFD3D12Device.h
+  EFFD3D12IndexBuffer.cpp
+  EFFD3D12IndexBuffer.h
+  EFFD3D12PCH.cpp
+  EFFD3D12PCH.h
+  EFFD3D12Shader.cpp
+  EFFD3D12Texture.cpp
+  EFFD3D12Texture.h
+  EFFD3D12VertexBuffer.cpp
+  EFFD3D12VertexBuffer.h
+  EFFD3D12VertexDeclaration.cpp
+  EFFD3D12VertexDeclaration.h
+  EFFD3D12Query.cpp
+)
+
+SOURCE_GROUP("" FILES
+  ../../Include/EFFD3D12.h
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFD3D12PCH.cpp
+  EFFD3D12PCH.h
+)
