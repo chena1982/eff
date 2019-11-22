@@ -75,23 +75,23 @@ struct EFF3DFormatInfo
 	effUINT gmask;
 	effUINT bmask;
 	effUINT amask;
-	EFF3DTextureFormat format;
+	EFF3DFormat format;
 };
 
 
 EFF3DFormatInfo formatInfo[] =
 {
-	{ 1, 0xFF, 0, 0, 0, EFF3D_TEXTURE_FORMAT_A8 },
-	{ 2, 0xf800, 0x07e0, 0x001f, 0x0000, EFF3D_TEXTURE_FORMAT_R5G6B5 },
-	{ 2, 0x7c00, 0x03e0, 0x001f, 0x8000, EFF3D_TEXTURE_FORMAT_RGB5A1 },
-	{ 2, 0x0f00, 0x00f0, 0x000f, 0xf000, EFF3D_TEXTURE_FORMAT_RGBA4 },
-	{ 3, 0xff0000, 0x00ff00, 0x0000ff, 0x000000, EFF3D_TEXTURE_FORMAT_RGB8 },
-	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, EFF3D_TEXTURE_FORMAT_RGBA8 },
-	{ 4, 0x000003ff, 0x000ffc00, 0x3ff00000, 0xc0000000, EFF3D_TEXTURE_FORMAT_RGB10A2 },
-	{ 4, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, EFF3D_TEXTURE_FORMAT_RG16 },
+	{ 1, 0xFF, 0, 0, 0, EFF3D_FORMAT_A8 },
+	{ 2, 0xf800, 0x07e0, 0x001f, 0x0000, EFF3D_FORMAT_R5G6B5 },
+	{ 2, 0x7c00, 0x03e0, 0x001f, 0x8000, EFF3D_FORMAT_RGB5A1 },
+	{ 2, 0x0f00, 0x00f0, 0x000f, 0xf000, EFF3D_FORMAT_RGBA4 },
+	{ 3, 0xff0000, 0x00ff00, 0x0000ff, 0x000000, EFF3D_FORMAT_RGB8 },
+	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, EFF3D_FORMAT_RGBA8 },
+	{ 4, 0x000003ff, 0x000ffc00, 0x3ff00000, 0xc0000000, EFF3D_FORMAT_RGB10A2 },
+	{ 4, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, EFF3D_FORMAT_RG16 },
 };
 
-effINT EFF3DGetPixelSizeFromFormat(EFF3DTextureFormat format)	
+effINT EFF3DGetPixelSizeFromFormat(EFF3DFormat format)	
 {
 	effINT elementCount = sizeof(formatInfo) / sizeof(EFF3DFormatInfo);
 	for ( effINT i = 0; i < elementCount; i++ )
@@ -212,7 +212,7 @@ EFFId EFF3DDevice::CreateResourceFromFile(const effString & filePath, EFF3DResou
     return EFFId();
 }
 
-effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DSharedTexture ** texture)
+effBOOL	EFF3DDevice::CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, EFF3DSharedTexture ** texture)
 {
     /*if (!_CreateSharedTexture(width, height, levels, usage, format, texture))
     {
@@ -257,7 +257,7 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
         //texture->userData = handle;
 
         CreateTexture(sharedTextureInfo->width, sharedTextureInfo->height, 1, 0, 
-            (EFF3DTextureFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, 
+            (EFF3DFormat)sharedTextureInfo->format, EFF3DResourceType_RenderTarget, 
 			&sharedTexture->textureHandle[i], sharedTexture->sharedHandle[i]);
     }
 
@@ -272,7 +272,7 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
     return effTRUE;
 }
 
-/*effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
+/*effBOOL	EFF3DDevice::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
     if (CreateTexture(width, height, levels, flag, format, resourceType, textureHandle))
     {
@@ -283,7 +283,7 @@ effBOOL EFF3DDevice::CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, 
 }
 
 effBOOL	EFF3DDevice::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT levels, effUINT flag,
-                                        EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
+                                        EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
     if (CreateTextureFromMemory(srcData, srcDataSize, width, height, levels, flag, format, resourceType, textureHandle))
     {
@@ -350,7 +350,7 @@ effVOID EFF3DDevice::Init(effBOOL host)
 
     if (!host)
     {
-        if (!CreateSharedTexture(width, height, 1, 0, EFF3D_TEXTURE_FORMAT_BGRA8, &sharedRenderTarget))
+        if (!CreateSharedTexture(width, height, 1, 0, EFF3D_FORMAT_BGRA8, &sharedRenderTarget))
         {
             //create shared texture failed;
         }

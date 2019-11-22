@@ -15,7 +15,7 @@ include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/EASTL-3.12.04/test/package
 include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 
 
-if (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+if (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
 endif()
 
@@ -41,7 +41,7 @@ include(${LIB_NAME}.list)
 add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
 #启用最小生成
-target_compile_options(${LIB_NAME} PUBLIC "/Gm")
+#target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")

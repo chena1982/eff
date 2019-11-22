@@ -25,8 +25,19 @@ protected:
 	CRITICAL_SECTION	criticalSection;
 };
 
+class EFFBASE_API EFFThread
+{
+public:
+	EFFThread();
+	~EFFThread();
+
+
+};
+
 #else
 #endif
+
+
 
 
 EFFBASE_END

@@ -15,13 +15,15 @@ include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/yaml-cpp-0.5.3/include)
 #include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Common/Lib)
 #include_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Cpp-Reflection/Runtime)
 
+
+
 if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2013)
 elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013 Win64")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2013/${CMAKE_CFG_INTDIR}/x64)
-elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
 endif()
 
@@ -77,7 +79,7 @@ add_library(${LIB_NAME} SHARED ${GENERATED_HEADERS} ${HEADER_FILES} ${SOURCE_FIL
 
 
 #启用最小生成
-target_compile_options(${LIB_NAME} PUBLIC "/Gm")
+#target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")

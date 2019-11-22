@@ -14,147 +14,41 @@
 #include "EFFD3D12VertexDeclaration.h"
 #include "EFFD3D12Shader.h"
 #include "EFFD3D12Query.h"
+#include "EFFD3D12ResourceStateManager.h"
+#include "EFFD3D12DeviceCommandQueue.h"
+#include "EFFD3D12DeviceCommandList.h"
+#include "EFFD3D12Descriptor.h"
 
 #include "murmur3/murmur3.h"
 
 #include <chrono>
 //#define new EFFNEW
 
-effVOID CommandQueueD3D12::Init(ID3D12Device * device)
+struct EFF3DFormatInfo
 {
-	D3D12_COMMAND_QUEUE_DESC queueDesc;
-	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-	queueDesc.Priority = 0;
-	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	queueDesc.NodeMask = 1;
+	effUINT bpp;
+	effUINT rmask;
+	effUINT gmask;
+	effUINT bmask;
+	effUINT amask;
+	EFF3DFormat format;
+};
 
-	DX_CHECK(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&commandQueue)));
-
-	completedFence = 0;
-	currentFence = 0;
-
-	DX_CHECK(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
-
-	for (effUINT i = 0; i < EFF_COUNTOF(commandList); ++i)
-	{
-		DX_CHECK(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandList[i].commandAllocator)));
-
-		DX_CHECK(device->CreateCommandList(0
-			, D3D12_COMMAND_LIST_TYPE_DIRECT
-			, commandList[i].commandAllocator
-			, NULL
-			, IID_PPV_ARGS(&commandList[i].commandList
-		)));
-
-		DX_CHECK(commandList[i].commandList->Close());
-	}
-}
-
-effVOID CommandQueueD3D12::Shutdown()
+EFF3DFormatInfo formatInfo[] =
 {
-	Finish(UINT64_MAX, effTRUE);
+	{ 1, 0xFF, 0, 0, 0, EFF3D_FORMAT_A8 },
+	{ 2, 0xf800, 0x07e0, 0x001f, 0x0000, EFF3D_FORMAT_R5G6B5 },
+	{ 2, 0x7c00, 0x03e0, 0x001f, 0x8000, EFF3D_FORMAT_RGB5A1 },
+	{ 2, 0x0f00, 0x00f0, 0x000f, 0xf000, EFF3D_FORMAT_RGBA4 },
+	{ 3, 0xff0000, 0x00ff00, 0x0000ff, 0x000000, EFF3D_FORMAT_RGB8 },
+	{ 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, EFF3D_FORMAT_RGBA8 },
+	{ 4, 0x000003ff, 0x000ffc00, 0x3ff00000, 0xc0000000, EFF3D_FORMAT_RGB10A2 },
+	{ 4, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, EFF3D_FORMAT_RG16 },
+};
 
-	SF_RELEASE(fence);
-
-	for (effUINT i = 0; i < EFF_COUNTOF(commandList); ++i)
-	{
-		SF_RELEASE(commandList[i].commandAllocator);
-		SF_RELEASE(commandList[i].commandList);
-	}
-
-	SF_RELEASE(commandQueue);
-}
-
-ID3D12GraphicsCommandList * CommandQueueD3D12::Alloc()
-{
-	while (0 == control.Reserve(1))
-	{
-		Consume();
-	}
-
-	CommandList& _commandList = commandList[control.current];
-	DX_CHECK(_commandList.commandAllocator->Reset());
-	DX_CHECK(_commandList.commandList->Reset(_commandList.commandAllocator, NULL));
-	return _commandList.commandList;
-}
-
-effUINT64 CommandQueueD3D12::Kick()
-{
-	CommandList& _commandList = commandList[control.current];
-	DX_CHECK(_commandList.commandList->Close());
-
-	ID3D12CommandList* commandLists[] = { _commandList.commandList };
-	commandQueue->ExecuteCommandLists(EFF_COUNTOF(commandLists), commandLists);
-
-	_commandList.event = CreateEventExA(NULL, NULL, 0, EVENT_ALL_ACCESS);
-	const effUINT64 fenceIndex = currentFence++;
-	commandQueue->Signal(fence, fenceIndex);
-	fence->SetEventOnCompletion(fenceIndex, _commandList.event);
-
-	control.Commit(1);
-
-	return fenceIndex;
-}
-
-effVOID CommandQueueD3D12::Finish(effUINT64 waitFence, effBOOL finishAll)
-{
-	while (0 < control.Available())
-	{
-		Consume();
-
-		if (!finishAll && waitFence <= completedFence)
-		{
-			return;
-		}
-	}
-
-	//BX_CHECK(0 == control.available(), "");
-}
-
-effBOOL CommandQueueD3D12::TryFinish(effUINT64 waitFence)
-{
-	if (0 < control.Available())
-	{
-		if (Consume(0) && waitFence <= completedFence)
-		{
-			return effTRUE;
-		}
-	}
-
-	return effFALSE;
-}
-
-effVOID CommandQueueD3D12::Release(ID3D12Resource * ptr)
-{
-	release[control.current].push_back(ptr);
-}
-
-effBOOL CommandQueueD3D12::Consume(effUINT ms)
-{
-	CommandList& _commandList = commandList[control.read];
-	if (WAIT_OBJECT_0 == WaitForSingleObject(_commandList.event, ms))
-	{
-		CloseHandle(_commandList.event);
-		_commandList.event = NULL;
-		completedFence = fence->GetCompletedValue();
-		//BX_WARN(UINT64_MAX != completedFence, "D3D12: Device lost.");
-
-		commandQueue->Wait(fence, completedFence);
-
-		ResourceArray& ra = release[control.read];
-		for (ResourceArray::iterator it = ra.begin(), itEnd = ra.end(); it != itEnd; ++it)
-		{
-			SF_RELEASE(*it);
-		}
-		ra.clear();
-
-		control.Consume(1);
-
-		return effTRUE;
-	}
-
-	return effFALSE;
-}
+D3D12_RESOURCE_FLAGS flagsInfo[] = {
+	D3D12_RESOURCE_FLAG_NONE
+};
 
 
 effBOOL CheckTearingSupport()
@@ -206,53 +100,109 @@ EFFD3D12Device::~EFFD3D12Device()
 	//cgDestroyContext(cgContext);
 
 	// Make sure the command queue has finished all commands before closing.
-	Flush();
+
 	::CloseHandle(fenceEvent);
 }
 
 
 effBOOL EFFD3D12Device::Init(effBOOL window, HWND hWnd, effINT width, effINT height)
 {
-	UINT createFactoryFlags = 0;
-
-
 
 #if defined(_DEBUG)
 	// Always enable the debug layer before doing anything DX12 related
 	// so all possible errors generated while creating DX12 objects
 	// are caught by the debug layer.
-	ComPtr<ID3D12Debug> debugInterface;
-	DX_CHECK(D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface)));
+	ComPtr<ID3D12Debug1> debugInterface;
+	ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface)));
 	debugInterface->EnableDebugLayer();
-
-	createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+	// Enable these if you want full validation (will slow down rendering a lot).
+	//debugInterface->SetEnableGPUBasedValidation(TRUE);
+	//debugInterface->SetEnableSynchronizedCommandQueueValidation(TRUE);
 #endif
 
 	tearingSupported = CheckTearingSupport();
 
-	ComPtr<IDXGIFactory4> dxgiFactory;
-	DX_CHECK(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory)));
-
-
-	if (dxgiFactory == NULL)
+	auto dxgiAdapter = GetAdapter(effFALSE);
+	if (!dxgiAdapter)
 	{
-		//BX_TRACE("Init error: Unable to create DXGI factory.");
+		// If no supporting DX12 adapters exist, fall back to WARP
+		dxgiAdapter = GetAdapter(effTRUE);
+	}
+
+	if (dxgiAdapter)
+	{
+		d3d12Device = CreateD3D12Device(dxgiAdapter);
+	}
+	else
+	{
 		return effFALSE;
 	}
 
 
-	effBOOL useWarp = effFALSE;
+	directCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+	computeCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_COMPUTE);
+	copyCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
+
+	dxgiSwapChain = CreateSwapChain(hWnd, width, height);
+
+
+	RTVDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+
+
+	// Create Command Allocator
+	for (int i = 0; i < numFrames; ++i)
+	{
+		DX_CHECK(d3d12Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i])));
+	}
+
+
+
+	// Create Fence
+	DX_CHECK(d3d12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+
+	// Create Fence Event
+	fenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+	assert(fenceEvent && "Failed to create fence event.");
+
+
+	resourceStateManager = EFFNEW EFFD3D12ResourceStateManager();
+
+	// Create descriptor allocators
+	for (effINT i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i)
+	{
+		descriptorAllocators[i] = EFFNEW EFFD3D12DescriptorAllocator((D3D12_DESCRIPTOR_HEAP_TYPE)i);
+	}
+
+	frame = 0;
+
+	return effTRUE;
+}
+
+
+ComPtr<IDXGIAdapter4> EFFD3D12Device::GetAdapter(effBOOL useWarp)
+{
+	ComPtr<IDXGIFactory4> dxgiFactory;
+	UINT createFactoryFlags = 0;
+
+#if defined(_DEBUG)
+	createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+#endif
+
+	DX_CHECK(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory)));
+
 	ComPtr<IDXGIAdapter1> dxgiAdapter1;
 	ComPtr<IDXGIAdapter4> dxgiAdapter4;
+
 	if (useWarp)
 	{
 		DX_CHECK(dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&dxgiAdapter1)));
-		dxgiAdapter1.As(&dxgiAdapter4);
+		DX_CHECK(dxgiAdapter1.As(&dxgiAdapter4));
 	}
 	else
 	{
-		SIZE_T maxDedicatedVideoMemory = 0;
-		for (effUINT i = 0; dxgiFactory->EnumAdapters1(i, &dxgiAdapter1) != DXGI_ERROR_NOT_FOUND; ++i)
+		effUINT64 maxDedicatedVideoMemory = 0;
+		for (effUINT32 i = 0; dxgiFactory->EnumAdapters1(i, &dxgiAdapter1) != DXGI_ERROR_NOT_FOUND; ++i)
 		{
 			DXGI_ADAPTER_DESC1 dxgiAdapterDesc1;
 			dxgiAdapter1->GetDesc1(&dxgiAdapterDesc1);
@@ -262,101 +212,76 @@ effBOOL EFFD3D12Device::Init(effBOOL window, HWND hWnd, effINT width, effINT hei
 			// is favored.
 			if ((dxgiAdapterDesc1.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) == 0 &&
 				SUCCEEDED(D3D12CreateDevice(dxgiAdapter1.Get(),
-					D3D_FEATURE_LEVEL_11_0, __uuidof(ID3D12Device), nullptr)) &&
+				D3D_FEATURE_LEVEL_11_0, __uuidof(ID3D12Device), nullptr)) &&
 				dxgiAdapterDesc1.DedicatedVideoMemory > maxDedicatedVideoMemory)
 			{
 				maxDedicatedVideoMemory = dxgiAdapterDesc1.DedicatedVideoMemory;
-				dxgiAdapter1.As(&dxgiAdapter4);
+				DX_CHECK(dxgiAdapter1.As(&dxgiAdapter4));
 			}
-			
-
 		}
 	}
 
-	if (dxgiAdapter4 == NULL)
-	{
-		return effFALSE;
-	}
+	return dxgiAdapter4;
+}
 
-	D3D_FEATURE_LEVEL featureLevel[] =
-	{
-		D3D_FEATURE_LEVEL_12_1,
-		D3D_FEATURE_LEVEL_12_0,
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-	};
-
-	for (effUINT i = 0; i < EFF_COUNTOF(featureLevel); i++)
-	{
-		if (SUCCEEDED(D3D12CreateDevice(dxgiAdapter4.Get(), featureLevel[i], IID_PPV_ARGS(&d3d12Device))))
-		{
-			/*"Direct3D12 device feature level %d.%d."
-				, (featureLevel[ii] >> 12) & 0xf
-				, (featureLevel[ii] >> 8) & 0xf
-			)*/
-			break;
-		}
-	}
-
-	if (d3d12Device.Get() == NULL)
-	{
-		return effFALSE;
-	}
+ComPtr<ID3D12Device2> EFFD3D12Device::CreateD3D12Device(ComPtr<IDXGIAdapter4> adapter)
+{
+	ComPtr<ID3D12Device2> d3d12Device2;
+	DX_CHECK(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&d3d12Device2)));
+	//NAME_D3D12_OBJECT(d3d12Device2);
 
 	// Enable debug messages in debug mode.
-#if defined(_DEBUG)
-	ComPtr<ID3D12InfoQueue> pInfoQueue;
-	if (SUCCEEDED(d3d12Device.As(&pInfoQueue)))
-	{
-		pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
-		pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
-		pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
-
-		// Suppress whole categories of messages
-		//D3D12_MESSAGE_CATEGORY Categories[] = {};
-
-		// Suppress messages based on their severity level
-		D3D12_MESSAGE_SEVERITY Severities[] =
+	#if defined(_DEBUG)
+		ComPtr<ID3D12InfoQueue> pInfoQueue;
+		if (SUCCEEDED(d3d12Device2.As(&pInfoQueue)))
 		{
-			D3D12_MESSAGE_SEVERITY_INFO
-		};
+			pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
+			pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
+			pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 
-		// Suppress individual messages by their ID
-		D3D12_MESSAGE_ID DenyIds[] = {
-			D3D12_MESSAGE_ID_CLEARRENDERTARGETVIEW_MISMATCHINGCLEARVALUE,   // I'm really not sure how to avoid this message.
-			D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,                         // This warning occurs when using capture frame while graphics debugging.
-			D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE,                       // This warning occurs when using capture frame while graphics debugging.
-		};
+			// Suppress whole categories of messages
+			//D3D12_MESSAGE_CATEGORY Categories[] = {};
 
-		D3D12_INFO_QUEUE_FILTER NewFilter = {};
-		//NewFilter.DenyList.NumCategories = _countof(Categories);
-		//NewFilter.DenyList.pCategoryList = Categories;
-		NewFilter.DenyList.NumSeverities = _countof(Severities);
-		NewFilter.DenyList.pSeverityList = Severities;
-		NewFilter.DenyList.NumIDs = _countof(DenyIds);
-		NewFilter.DenyList.pIDList = DenyIds;
+			// Suppress messages based on their severity level
+			D3D12_MESSAGE_SEVERITY Severities[] =
+			{
+				D3D12_MESSAGE_SEVERITY_INFO
+			};
 
-		DX_CHECK(pInfoQueue->PushStorageFilter(&NewFilter));
-	}
-#endif
+			// Suppress individual messages by their ID
+			D3D12_MESSAGE_ID DenyIds[] = {
+				D3D12_MESSAGE_ID_COPY_DESCRIPTORS_INVALID_RANGES,				// This started happening after updating to an RTX 2080 Ti. I believe this to be an error in the validation layer itself.
+				D3D12_MESSAGE_ID_CLEARRENDERTARGETVIEW_MISMATCHINGCLEARVALUE,   // I'm really not sure how to avoid this message.
+				D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,                         // This warning occurs when using capture frame while graphics debugging.
+				D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE,                       // This warning occurs when using capture frame while graphics debugging.
+			};
 
+			D3D12_INFO_QUEUE_FILTER NewFilter = {};
+			//NewFilter.DenyList.NumCategories = _countof(Categories);
+			//NewFilter.DenyList.pCategoryList = Categories;
+			NewFilter.DenyList.NumSeverities = _countof(Severities);
+			NewFilter.DenyList.pSeverityList = Severities;
+			NewFilter.DenyList.NumIDs = _countof(DenyIds);
+			NewFilter.DenyList.pIDList = DenyIds;
 
+			DX_CHECK(pInfoQueue->PushStorageFilter(&NewFilter));
+		}
+	#endif
 
-	D3D12_COMMAND_QUEUE_DESC desc = {};
-	desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-	desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
-	desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	desc.NodeMask = 0;
+	return d3d12Device2;
+}
 
-	DX_CHECK(d3d12Device->CreateCommandQueue(&desc, IID_PPV_ARGS(&d3d12CommandQueue)));
+ComPtr<IDXGISwapChain4> EFFD3D12Device::CreateSwapChain(HWND hWnd, effINT width, effINT height)
+{
+	ComPtr<IDXGISwapChain4> dxgiSwapChain4;
+	ComPtr<IDXGIFactory4> dxgiFactory4;
+	effUINT32 createFactoryFlags = 0;
 
-	if (d3d12CommandQueue.Get() == NULL)
-	{
-		return effFALSE;
-	}
+	#if defined(_DEBUG)
+		createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+	#endif
 
-
-
+	DX_CHECK(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory4)));
 
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
 	swapChainDesc.Width = width;
@@ -371,10 +296,11 @@ effBOOL EFFD3D12Device::Init(effBOOL window, HWND hWnd, effINT width, effINT hei
 	swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 	// It is recommended to always allow tearing if tearing support is available.
 	swapChainDesc.Flags = tearingSupported ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+	ID3D12CommandQueue* pCommandQueue = GetCommandQueue()->GetD3D12CommandQueue().Get();
 
 	ComPtr<IDXGISwapChain1> swapChain1;
-	DX_CHECK(dxgiFactory->CreateSwapChainForHwnd(
-		d3d12CommandQueue.Get(),
+	DX_CHECK(dxgiFactory4->CreateSwapChainForHwnd(
+		pCommandQueue,
 		hWnd,
 		&swapChainDesc,
 		nullptr,
@@ -383,66 +309,13 @@ effBOOL EFFD3D12Device::Init(effBOOL window, HWND hWnd, effINT width, effINT hei
 
 	// Disable the Alt+Enter fullscreen toggle feature. Switching to fullscreen
 	// will be handled manually.
-	DX_CHECK(dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
+	DX_CHECK(dxgiFactory4->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
 
-	DX_CHECK(swapChain1.As(&dxgiSwapChain));
+	DX_CHECK(swapChain1.As(&dxgiSwapChain4));
 
-	if (dxgiSwapChain.Get() == NULL)
-	{
-		return effFALSE;
-	}
+	currentBackBufferIndex = dxgiSwapChain4->GetCurrentBackBufferIndex();
 
-
-	currentBackBufferIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
-
-
-	// Create Descriptor Heap
-	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-	heapDesc.NumDescriptors = numFrames;
-	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-
-	DX_CHECK(d3d12Device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&RTVDescriptorHeap)));
-
-	RTVDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
-
-	// Update Render Target Views
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(RTVDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
-
-	for (effUINT i = 0; i < numFrames; ++i)
-	{
-		ComPtr<ID3D12Resource> backBuffer;
-		DX_CHECK(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&backBuffer)));
-
-		d3d12Device->CreateRenderTargetView(backBuffer.Get(), nullptr, rtvHandle);
-
-		backBuffers[i] = backBuffer;
-
-		rtvHandle.Offset(RTVDescriptorSize);
-	}
-
-
-	// Create Command Allocator
-	for (int i = 0; i < numFrames; ++i)
-	{
-		DX_CHECK(d3d12Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i])));
-	}
-
-
-	// Create Command List
-	DX_CHECK(d3d12Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocators[currentBackBufferIndex].Get(), nullptr, IID_PPV_ARGS(&commandList)));
-
-	DX_CHECK(commandList->Close());
-
-	// Create Fence
-	DX_CHECK(d3d12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
-
-	// Create Fence Event
-	fenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-	assert(fenceEvent && "Failed to create fence event.");
-
-
-	return effTRUE;
+	return dxgiSwapChain4;
 }
 
 effBOOL EFFD3D12Device::BeginScene()
@@ -500,33 +373,25 @@ effBOOL EFFD3D12Device::Clear(effUINT count, const EFFRect * rects, effUINT flag
 
 effBOOL EFFD3D12Device::Present(const EFFRect * sourceRect, const EFFRect * destRect)
 {
-	// Present
-	{
-		auto backBuffer = backBuffers[currentBackBufferIndex];
+	auto commandQueue = GetCommandQueue();
+	auto commandList = commandQueue->GetCommandList();
 
-		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-			backBuffer.Get(),
-			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
-		commandList->ResourceBarrier(1, &barrier);
+	auto backBuffer = backBuffers[currentBackBufferIndex];
 
-		DX_CHECK(commandList->Close());
+	commandList->TransitionBarrier(backBuffer, D3D12_RESOURCE_STATE_PRESENT);
+	commandQueue->ExecuteCommandList(commandList);
 
-		ID3D12CommandList* const commandLists[] = {
-			commandList.Get()
-		};
+	effUINT32 syncInterval = VSync ? 1 : 0;
+	effUINT32 presentFlags = tearingSupported && !VSync ? DXGI_PRESENT_ALLOW_TEARING : 0;
+	DX_CHECK(dxgiSwapChain->Present(syncInterval, presentFlags));
 
-		d3d12CommandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+	fenceValues[currentBackBufferIndex] = commandQueue->Signal();
+	frameFenceValues[currentBackBufferIndex] = frame;
 
-		effUINT syncInterval = VSync ? 1 : 0;
-		effUINT presentFlags = tearingSupported && !VSync ? DXGI_PRESENT_ALLOW_TEARING : 0;
-		DX_CHECK(dxgiSwapChain->Present(syncInterval, presentFlags));
+	currentBackBufferIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
 
-		frameFenceValues[currentBackBufferIndex] = Signal();
-
-		currentBackBufferIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
-
-		WaitForFenceValue(frameFenceValues[currentBackBufferIndex]);
-	}
+	commandQueue->WaitForFenceValue(frameFenceValues[currentBackBufferIndex]);
+	ReleaseStaleDescriptors(frameFenceValues[currentBackBufferIndex]);
 
 	return effTRUE;
 }
@@ -616,10 +481,11 @@ EFF3DResource * EFFD3D12Device::CreateEmptyResourceImpl(EFF3DResourceType resour
 		    break;
 	}
 
+	resource->type = resourceType;
 	return resource;
 }
 
-effBOOL EFFD3D12Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, 
+effBOOL EFFD3D12Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, 
 	EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle, effSIZE sharedHandle)
 {
 	//assert(texture != NULL);
@@ -726,7 +592,7 @@ effBOOL EFFD3D12Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureIn
 
 
 effBOOL EFFD3D12Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                            EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
+                                            EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
 	//assert(texture != NULL);
 
@@ -831,70 +697,82 @@ effBOOL EFFD3D12Device::CreateDepthStencilSurface(effUINT width, effUINT height,
 	return effTRUE;
 }*/
 
-effBOOL EFFD3D12Device::CreateIndexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DIndexBufferHandle * ibHandle)
+effBOOL EFFD3D12Device::CreateIndexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DIndexBufferHandle * indexBufferHandle)
 {
-	assert(ibHandle != NULL);
+	assert(indexBufferHandle != NULL && size > 0);
 	
-	EFFD3D12IndexBuffer * effD3D12IndexBuffer = (EFFD3D12IndexBuffer *)CreateEmptyResource(EFF3DResourceType_IndexBuffer, *ibHandle);
-	//effHRESULT hr;
+	EFFD3D12IndexBuffer * effD3D12IndexBuffer = (EFFD3D12IndexBuffer *)CreateEmptyResource(EFF3DResourceType_IndexBuffer, *indexBufferHandle);
 
-    /*D3DFORMAT format = D3DFMT_INDEX16;
-    if (flag & EFF3D_BUFFER_INDEX32)
-    {
-        format = D3DFMT_INDEX32;
-    }
+	ComPtr<ID3D12Resource> d3d12Resource;
 
-	if ( FAILED(hr = D3D9Device->CreateIndexBuffer(size, 0, format, D3DPOOL_DEFAULT, &effD3D12IndexBuffer->d3d9IndexBuffer, NULL)) )
-	{
-        SF_RELEASE(effD3D12IndexBuffer);
-		return effFALSE;
-	}*/
+	DX_CHECK(d3d12Device->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer((effUINT64)size, flagsInfo[flags]),
+			D3D12_RESOURCE_STATE_COMMON,
+			nullptr,
+			IID_PPV_ARGS(&d3d12Resource)));
+
+	effD3D12IndexBuffer->d3d12Resource = d3d12Resource;
+
+	// Add the resource to the global resource state tracker.
+	resourceStateManager->AddGlobalResourceState(d3d12Resource.Get(), D3D12_RESOURCE_STATE_COMMON);
 
     if (data != NULL)
     {
-		effD3D12IndexBuffer->Update(0, size, data);
+		UpdateBuffer(effD3D12IndexBuffer->d3d12Resource, 0, size, data, D3D12_RESOURCE_FLAG_NONE);
     }
 
-	*ibHandle = effD3D12IndexBuffer->id;
+	effUINT32 elementSize = 2;
+
+	effD3D12IndexBuffer->CreateViews(size / elementSize, elementSize);
+
+
+	*indexBufferHandle = effD3D12IndexBuffer->id;
 	return effTRUE;
 }
 
 effBOOL EFFD3D12Device::UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size)
 {
+
     return effTRUE;
 }
 
-effBOOL EFFD3D12Device::CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexDeclarationHandle vertexDeclHandle,
+effBOOL EFFD3D12Device::CreateVertexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DVertexDeclarationHandle vertexDeclHandle,
 	EFF3DVertexBufferHandle * vertexBufferHandle)
 {
+	assert(vertexBufferHandle != NULL && size > 0);
+
 	//https://docs.microsoft.com/en-us/windows/desktop/api/d3d9/nf-d3d9-idirect3ddevice9-createvertexbuffer
 
 	EFFD3D12VertexBuffer * effD3D12VertexBuffer = (EFFD3D12VertexBuffer *)CreateEmptyResource(EFF3DResourceType_VertexBuffer, *vertexBufferHandle);
 	effD3D12VertexBuffer->vertexDeclHandle = vertexDeclHandle;
-	//effHRESULT hr;
 
-    /*effUINT usage = D3DUSAGE_WRITEONLY;
-	// https://docs.microsoft.com/zh-cn/windows/desktop/direct3d9/d3dpool
-	// Differences between Direct3D 9 and Direct3D 9Ex:
-	// D3DPOOL_MANAGED is valid with IDirect3DDevice9; however, it is not valid with IDirect3DDevice9Ex.
-    D3DPOOL pool = D3DPOOL_DEFAULT;
 
-    if (data == NULL)
-    {
-        usage |= D3DUSAGE_DYNAMIC;
-        pool = D3DPOOL_DEFAULT;
-    }
+	effUINT32 elementSize = (effUINT32)vertexDeclManager->GetVertexDeclaration(vertexDeclHandle)->GetStride();
 
-	if ( FAILED(hr = D3D9Device->CreateVertexBuffer(size, usage, 0, pool, &effD3D9VertexBuffer->d3d9VertexBuffer, NULL)) )
+	ComPtr<ID3D12Resource> d3d12Resource;
+
+	DX_CHECK(d3d12Device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer((effUINT64)size, flagsInfo[flags]),
+		D3D12_RESOURCE_STATE_COMMON,
+		nullptr,
+		IID_PPV_ARGS(&d3d12Resource)));
+
+	effD3D12VertexBuffer->d3d12Resource = d3d12Resource;
+
+	// Add the resource to the global resource state tracker.
+	resourceStateManager->AddGlobalResourceState(d3d12Resource.Get(), D3D12_RESOURCE_STATE_COMMON);
+
+	if (data != NULL)
 	{
-		SF_RELEASE(effD3D9VertexBuffer);
-		return effFALSE;
-	}*/
+		UpdateBuffer(effD3D12VertexBuffer->d3d12Resource, 0, size, data, D3D12_RESOURCE_FLAG_NONE);
+	}
 
-    if (data != NULL)
-    {
-		effD3D12VertexBuffer->Update(0, size, data);
-    }
+	effD3D12VertexBuffer->CreateViews(size / elementSize, elementSize);
+
 
 	*vertexBufferHandle = effD3D12VertexBuffer->id;
 	return effTRUE;
@@ -1088,7 +966,7 @@ effVOID EFFD3D12Device::Draw(EFF3DDrawCommand & drawCommand)
             {
 				EFFD3D12IndexBuffer * effD3D12IB = (EFFD3D12IndexBuffer *)indexBufferManager->GetResource(drawCommand.indexBufferHandle);
                 const uint32_t indexSize = 0 == (effD3D12IB->flags & EFF3D_BUFFER_INDEX32) ? 2 : 4;
-                numIndices = effD3D12IB->size / indexSize;
+                numIndices = effD3D12IB->count;
                 numPrimsSubmitted = numIndices / primitiveInfo.div - primitiveInfo.sub;
                 numInstances = drawCommand.numInstances;
                 numPrimsRendered = numPrimsSubmitted * drawCommand.numInstances;
@@ -1633,24 +1511,103 @@ effBOOL EFFD3D12Device::HasVertexStreamChanged()
 }
 
 
-effUINT64 EFFD3D12Device::Signal()
+EFFD3D12DeviceCommandQueue * EFFD3D12Device::GetCommandQueue(D3D12_COMMAND_LIST_TYPE type/* = D3D12_COMMAND_LIST_TYPE_DIRECT*/)
 {
-	fenceValue++;
-	DX_CHECK(d3d12CommandQueue->Signal(fence.Get(), fenceValue));
-	return fenceValue;
+	EFFD3D12DeviceCommandQueue * commandQueue = NULL;
+	switch (type)
+	{
+	case D3D12_COMMAND_LIST_TYPE_DIRECT:
+		commandQueue = directCommandQueue;
+		break;
+	case D3D12_COMMAND_LIST_TYPE_COMPUTE:
+		commandQueue = computeCommandQueue;
+		break;
+	case D3D12_COMMAND_LIST_TYPE_COPY:
+		commandQueue = copyCommandQueue;
+		break;
+	default:
+		assert(false && "Invalid command queue type.");
+	}
+
+	return commandQueue;
 }
 
-effVOID EFFD3D12Device::WaitForFenceValue(effUINT64 _fenceValue)
-{
-	if (fence->GetCompletedValue() < _fenceValue)
-	{
-		DX_CHECK(fence->SetEventOnCompletion(_fenceValue, fenceEvent));
-		::WaitForSingleObject(fenceEvent, static_cast<effUINT>(std::chrono::milliseconds::max().count()));
-	}
-}
 
 effVOID EFFD3D12Device::Flush()
 {
-	Signal();
-	WaitForFenceValue(fenceValue);
+	directCommandQueue->Flush();
+	computeCommandQueue->Flush();
+	copyCommandQueue->Flush();
+}
+
+EFFD3D12DescriptorAllocation EFFD3D12Device::AllocateDescriptors(D3D12_DESCRIPTOR_HEAP_TYPE type, effUINT32 numDescriptors)
+{
+	return descriptorAllocators[type]->Allocate(numDescriptors);
+}
+
+effVOID EFFD3D12Device::ReleaseStaleDescriptors(effUINT64 finishedFrame)
+{
+	for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i)
+	{
+		descriptorAllocators[i]->ReleaseStaleDescriptors(finishedFrame);
+	}
+}
+
+
+ComPtr<ID3D12DescriptorHeap> EFFD3D12Device::CreateDescriptorHeap(effUINT32 numDescriptors, D3D12_DESCRIPTOR_HEAP_TYPE type)
+{
+	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+	desc.Type = type;
+	desc.NumDescriptors = numDescriptors;
+	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	desc.NodeMask = 0;
+
+	ComPtr<ID3D12DescriptorHeap> descriptorHeap;
+	DX_CHECK(d3d12Device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap)));
+
+	return descriptorHeap;
+}
+
+effUINT32 EFFD3D12Device::GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE type) const
+{
+	return d3d12Device->GetDescriptorHandleIncrementSize(type);
+}
+
+effVOID	EFFD3D12Device::UpdateBuffer(ComPtr<ID3D12Resource> d3d12Resource, effUINT32 offset, effUINT32 size, const effVOID * data, D3D12_RESOURCE_FLAGS flags)
+{
+	if (data == NULL)
+	{
+		return;
+	}
+
+	EFFD3D12Device * device = (EFFD3D12Device *)EFF3DGetDevice();
+	EFFD3D12DeviceCommandQueue * commandQueue = device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
+	EFFD3D12DeviceCommandList * commandList = commandQueue->GetCommandList();
+	EFFD3D12ResourceStateManager * resourceStateManager = device->GetResourceStateManager();
+
+	// Create an upload resource to use as an intermediate buffer to copy the buffer resource 
+	ComPtr<ID3D12Resource> uploadResource;
+	DX_CHECK(device->GetD3D12Device()->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(size),
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&uploadResource)));
+
+	D3D12_SUBRESOURCE_DATA subresourceData = {};
+	subresourceData.pData = data;
+	subresourceData.RowPitch = size;
+	subresourceData.SlicePitch = subresourceData.RowPitch;
+
+	resourceStateManager->TransitionResource(d3d12Resource.Get(), D3D12_RESOURCE_STATE_COPY_DEST);
+	resourceStateManager->FlushResourceBarriers(commandList);
+
+	UpdateSubresources(commandList->GetD3D12CommandList(), d3d12Resource.Get(),
+		uploadResource.Get(), 0, 0, 1, &subresourceData);
+
+	// Add references to resources so they stay in scope until the command list is reset.
+	commandList->TrackResource(uploadResource);
+
+	commandList->TrackResource(d3d12Resource);
 }

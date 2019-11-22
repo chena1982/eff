@@ -8,6 +8,10 @@
 
 #include "EFFD3D12PCH.h"
 #include "EFFD3D12IndexBuffer.h"
+#include "EFFD3D12Device.h"
+#include "EFFD3D12DeviceCommandQueue.h"
+#include "EFFD3D12DeviceCommandList.h"
+#include "EFFD3D12ResourceStateManager.h"
 
 //#define new EFFNEW
 
@@ -27,15 +31,24 @@ effVOID EFFD3D12IndexBuffer::CreateFromMemory(effUINT size, effVOID * data, effU
 
 }
 
-effVOID EFFD3D12IndexBuffer::Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard/* = effFALSE*/)
+effVOID EFFD3D12IndexBuffer::Update(effUINT32 offset, effUINT32 size, effVOID * data, effBOOL discard/* = effFALSE*/)
 {
-	/*if (d3d9IndexBuffer != NULL)
-	{
-		effVOID * address = NULL;
-		DX_CHECK(d3d9IndexBuffer->Lock(offset, size, &address, discard ? D3DLOCK_DISCARD : 0));
+	EFFD3D12Device * d3d12Device = (EFFD3D12Device *)EFF3DGetDevice();
 
-		memcpy(address, data, size);
+	d3d12Device->UpdateBuffer(d3d12Resource, offset, size, data, D3D12_RESOURCE_FLAG_NONE);
 
-		DX_CHECK(d3d9IndexBuffer->Unlock());
-	}*/
+	CreateViews(size / 2, 2);
+}
+
+
+effVOID EFFD3D12IndexBuffer::CreateViews(effUINT numElements, effUINT elementSize)
+{
+	assert(elementSize == 2 || elementSize == 4 && "Indices must be 16, or 32-bit integers.");
+
+	count = numElements;
+	format = (elementSize == 2) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
+
+	indexBufferView.BufferLocation = d3d12Resource->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = static_cast<effUINT>(numElements * elementSize);
+	indexBufferView.Format = (DXGI_FORMAT)format;
 }

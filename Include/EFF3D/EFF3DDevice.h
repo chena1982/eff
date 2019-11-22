@@ -71,17 +71,17 @@ public:
 
     virtual EFFId               CreateResourceFromFile(const effString & filePath, EFF3DResourceType resourceType);
 
-    virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format,
+    virtual effBOOL				CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT flags, EFF3DFormat format,
                                                     EFF3DSharedTexture ** texture);
 
     virtual effBOOL             CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
 
 
-    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flags, EFF3DFormat format, EFF3DResourceType resourceType,
                                                     EFF3DTextureHandle * textureHandle, effSIZE sharedHandle) = 0;
 
-    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle) = 0;
+    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flags,
+                                                    EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle) = 0;
 
 
 
@@ -91,11 +91,11 @@ public:
 	virtual effBOOL				CreateDepthStencilSurface(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface) = 0;*/
 	
-	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DIndexBufferHandle * indexBuffer) = 0;
+	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DIndexBufferHandle * indexBuffer) = 0;
     virtual effBOOL             UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
 
 
-	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexDeclarationHandle vertexDeclHandle,
+	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DVertexDeclarationHandle vertexDeclHandle,
 									EFF3DVertexBufferHandle * vertexBufferHandle) = 0;
     virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
 
@@ -137,7 +137,7 @@ public:
 
 	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index) = 0;
 	//virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport) = 0;
-	//virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DTextureFormat format) = 0;
+	//virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFormat format) = 0;
 
 	//下面是一些经过包装的方便使用的接口，这样使用引擎的人既可以快速方便的渲染一些东西，也可以使用上面的接口，以便于更细粒度的控制
 	//不至于像某些引擎全部包装好了，你必须按照它的模式写代码，想增加一些功能时想要更细粒度的控制却发现不可能
@@ -149,19 +149,20 @@ public:
 	virtual effVOID				Release() = 0;
 
 public:
-	inline EFF3DTextureManager *	    GetTextureManager() { return textureManager; }
-    inline EFF3DVertexBufferManager *   GetVertexBufferManager() { return vertexBufferManager; }
-    inline EFF3DIndexBufferManager *    GetIndexBufferManager() { return indexBufferManager; }
-    inline EFF3DVertexDeclarationManager *  GetVertexDeclarationManager() { return vertexDeclManager; }
-	inline EFF3DTimeQueryManager *		GetTimeQueryManager() { return timeQueryManager; }
-	inline EFF3DSceneManager *	        GetSceneManager() { return sceneManager; }
-	inline EFF3DFontManager *	        GetFontManager() { return fontManager; }
-	inline EFFInputManager *	        GetInputManager() { return inputManager; }
-    inline EFF3DSharedTexture *         GetSharedRenderTarget() { return sharedRenderTarget; }
-    inline EFF3DRenderQueueManager *    GetRenderQueueManager() { return renderQueueManager; }
-	//inline Awesomium::WebCore * GetWebCore() { return webCore; }
+	inline EFF3DTextureManager *				GetTextureManager() { return textureManager; }
+    inline EFF3DVertexBufferManager *			GetVertexBufferManager() { return vertexBufferManager; }
+    inline EFF3DIndexBufferManager *			GetIndexBufferManager() { return indexBufferManager; }
+    inline EFF3DVertexDeclarationManager *		GetVertexDeclarationManager() { return vertexDeclManager; }
+	inline EFF3DTimeQueryManager *				GetTimeQueryManager() { return timeQueryManager; }
+	inline EFF3DSceneManager *					GetSceneManager() { return sceneManager; }
+	inline EFF3DFontManager *					GetFontManager() { return fontManager; }
+	inline EFFInputManager *					GetInputManager() { return inputManager; }
+    inline EFF3DSharedTexture *					GetSharedRenderTarget() { return sharedRenderTarget; }
+    inline EFF3DRenderQueueManager *			GetRenderQueueManager() { return renderQueueManager; }
+	//inline Awesomium::WebCore *				GetWebCore() { return webCore; }
     inline EFFBase::EFFEntityManager *          GetEntityManager() { return entityManager; }
     inline EFFBase::EFFStaticStringManager *    GetStaticStringManager() { return staticStringManager; }
+	inline effUINT64							GetFrame() { return frame; }
 
 	effVOID						    SetBackBufferSize(effINT width,effINT weight);
 	effINT						    GetBackBufferWidth() { return width; }
@@ -183,11 +184,11 @@ protected:
 
 
 
-    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, EFF3DResourceType resourceType,
                                                     EFF3DTextureHandle * texture) = 0;
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * texture) = 0;*/
+                                                    EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * texture) = 0;*/
 
 	virtual EFF3DResource *		CreateEmptyResource(EFF3DResourceType resourceType, EFFId id);
     virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType) = 0;
@@ -229,8 +230,9 @@ protected:
     EFF3DRenderQueueManager *   renderQueueManager;
 	//Awesomium::WebCore *		webCore;
 
-	effINT						width;
-	effINT						height;
+	effINT32					width;
+	effINT32					height;
+	effUINT64					frame;
 
     //process share render target
     EFF3DSharedTexture *        sharedRenderTarget;
@@ -243,7 +245,7 @@ protected:
 
 
 EFF3D_API EFFINLINE EFF3DDevice * EFF3DGetDevice();
-EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DTextureFormat format);
+EFF3D_API effINT EFF3DGetPixelSizeFromFormat(EFF3DFormat format);
 
 #define EFF3DTexMgr EFF3DGetDevice()->GetTextureManager()
 

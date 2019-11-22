@@ -148,7 +148,7 @@ effBOOL EFF3DTextureManager::CreateFromFileImpl(const effString & filePath, EFF3
         effVOID * srcData;
         effUINT srcDataSize;
         effUINT flag;
-        EFF3DTextureFormat format;
+        EFF3DFormat format;
         EFF3DTextureHandle textureHandle;
 
         return EFF3DGetDevice()->CreateTextureFromMemory(srcData, srcDataSize, width, height, level, flag, format, resourceType, (EFF3DTexture *)resource);*/

@@ -315,10 +315,16 @@ typedef char effCHAR;
 
 	#define VECTOR eastl::vector
 	#define DEQUE eastl::deque
+	#define QUEUE eastl::queue
 	#define MAP eastl::map
+	#define MULTIMAP eastl::multimap
+	#define UNORDERED_MAP eastl::unordered_map
+	#define SET eastl::set
+
 	#define MAKE_PAIR eastl::make_pair
 	#define FOR_EACH eastl::for_each
 	#define MIN eastl::min
+
 #else
     #if defined UNICODE || defined _UNICODE
         typedef effWCHAR effTCHAR;

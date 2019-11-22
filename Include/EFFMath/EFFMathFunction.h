@@ -11,6 +11,17 @@
 
 EFFMATH_BEGIN
 
+
+inline effUINT32 AlignUpWithMask(effUINT32 value, effUINT32 mask)
+{
+	return (value + mask) & ~mask;
+}
+
+inline effUINT32 AlignUp(effUINT32 value, effUINT32 alignment)
+{
+	return AlignUpWithMask(value, alignment - 1);
+}
+
 inline effFLOAT frand()
 {
 	return rand() / (effFLOAT)RAND_MAX;

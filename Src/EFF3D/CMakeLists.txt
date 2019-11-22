@@ -17,7 +17,7 @@ if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2013)
-elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
 endif()
 
@@ -42,7 +42,7 @@ include(${LIB_NAME}.list)
 add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
 #启用最小生成
-target_compile_options(${LIB_NAME} PUBLIC "/Gm")
+#target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
 set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")

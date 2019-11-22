@@ -8,6 +8,7 @@
 
 #include "EFFD3D12PCH.h"
 #include "EFFD3D12VertexBuffer.h"
+#include "EFFD3D12Device.h"
 
 //#define new EFFNEW
 //RTTI_IMPLEMENT(EFFD3D9VertexBuffer, 0)
@@ -29,13 +30,22 @@ effVOID EFFD3D12VertexBuffer::CreateFromMemory(effUINT size, effVOID * data, eff
 
 effVOID EFFD3D12VertexBuffer::Update(effUINT offset, effUINT size, effVOID * data, effBOOL discard/* = effFALSE*/)
 {
-	/*if (d3d9VertexBuffer != NULL)
-	{
-		effVOID * address = NULL;
-		DX_CHECK(d3d9VertexBuffer->Lock(offset, size, &address, discard ? D3DLOCK_DISCARD : 0));
+	EFFD3D12Device * d3d12Device = (EFFD3D12Device *)EFF3DGetDevice();
 
-		memcpy(address, data, size);
+	d3d12Device->UpdateBuffer(d3d12Resource, offset, size, data, D3D12_RESOURCE_FLAG_NONE);
 
-		DX_CHECK(d3d9VertexBuffer->Unlock());
-	}*/
+
+	effUINT32 elementSize = d3d12Device->GetVertexDeclarationManager()->GetVertexDeclaration(vertexDeclHandle)->GetStride();
+
+	CreateViews(size / elementSize, elementSize);
+}
+
+effVOID EFFD3D12VertexBuffer::CreateViews(effUINT numElements, effUINT elementSize)
+{
+	numVertices = numElements;
+	vertexStride = elementSize;
+
+	vertexBufferView.BufferLocation = d3d12Resource->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = static_cast<effUINT32>(numVertices * vertexStride);
+	vertexBufferView.StrideInBytes = static_cast<effUINT32>(vertexStride);
 }

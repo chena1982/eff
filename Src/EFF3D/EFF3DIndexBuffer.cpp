@@ -15,6 +15,12 @@ EFF3D_BEGIN
 
 //RTTI_IMPLEMENT_PURE(EFF3DVertexBuffer, 0)
 
+EFF3DIndexBuffer::EFF3DIndexBuffer()
+{
+	count = 0;
+	format = EFF3D_FORMAT_UNKNOWN;
+}
+
 effBOOL	EFF3DIndexBuffer::LoadDataFromFile(const effString & filePath)
 {
     return effTRUE;

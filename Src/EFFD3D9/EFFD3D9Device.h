@@ -25,11 +25,11 @@ public:
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height);
 	
 
-    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, EFF3DResourceType resourceType,
                                         EFF3DTextureHandle * textureHandle, effSIZE sharedHandle);
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                        EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
+                                        EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
 
 
 	/*virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
@@ -86,7 +86,7 @@ public:
 
 	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index);
 	//virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport);
-	//virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DTextureFormat * format);
+	//virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFormat * format);
 
     effVOID                     SetSamplerState(effUINT stage, effUINT flags, const float rgba[4]);
 public:
@@ -105,11 +105,11 @@ protected:
 
     virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
 
-    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, EFF3DResourceType resourceType,
                                                     EFF3DTexture * texture);
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture);*/
+                                                    EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture);*/
 
 
 	virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType);

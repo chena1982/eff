@@ -20,6 +20,22 @@ set (SOURCE_FILES
   EFFD3D12VertexDeclaration.cpp
   EFFD3D12VertexDeclaration.h
   EFFD3D12Query.cpp
+  EFFD3D12CommandQueue.cpp
+  EFFD3D12CommandQueue.h
+  EFFD3D12ResourceStateManager.h
+  EFFD3D12ResourceStateManager.cpp
+  EFFD3D12DeviceCommandQueue.cpp
+  EFFD3D12DeviceCommandQueue.h
+  EFFD3D12DeviceCommandList.cpp
+  EFFD3D12DeviceCommandList.h
+  EFFD3D12Descriptor.h
+  EFFD3D12Descriptor.cpp
+  EFFD3D12UploadBuffer.h
+  EFFD3D12UploadBuffer.cpp
+  EFFD3D12DynamicDescriptorHeap.h
+  EFFD3D12DynamicDescriptorHeap.cpp
+  EFFD3D12RootSignature.h
+  EFFD3D12RootSignature.cpp
 )
 
 SOURCE_GROUP("" FILES

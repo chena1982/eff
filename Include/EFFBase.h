@@ -18,6 +18,11 @@
 #include <EASTL/vector.h>
 #include <EASTL/map.h>
 #include <EASTL/deque.h>
+#include <EASTL/queue.h>
+#include <EASTL/algorithm.h>
+#include <EASTL/fixed_allocator.h>
+#include <EASTL/unordered_map.h>
+#include <EASTL/set.h>
 
 #include <jsoncpp-1.8.1/include/json/json.h>
 #include <yaml/yaml.h>
@@ -40,6 +45,8 @@
 #include "EFFBase/Reflection4CppEnum.h"
 //#include "EFFBase/EFFThread.h"
 #include "EFFBase/EFFSemaphore.h"
+#include "EFFBase/EFFMutex.h"
+#include "EFFBase/EFFThread.h"
 #include "EFFBase/EFFStringHash.h"
 #include "EFFBase/EFFNetClient.h"
 #include "EFFBase/EFFNetServer.h"

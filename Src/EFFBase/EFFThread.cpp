@@ -33,6 +33,17 @@ effVOID	EFFCriticalSection::Leave()
 	LeaveCriticalSection(&criticalSection);
 }
 
+
+EFFThread::EFFThread()
+{
+
+}
+
+EFFThread::~EFFThread()
+{
+
+}
+
 #else
 #endif
 

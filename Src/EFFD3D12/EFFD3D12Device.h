@@ -12,46 +12,15 @@
 #include <EASTL/bonus/ring_buffer.h>
 
 class EFFD3D12Texture;
-
-struct CommandQueueD3D12
-{
-	CommandQueueD3D12()
-		: currentFence(0)
-		, completedFence(0)
-		, control(EFF_COUNTOF(commandList))
-	{
-		EFF_STATIC_ASSERT(EFF_COUNTOF(commandList) == EFF_COUNTOF(release));
-	}
-
-	effVOID Init(ID3D12Device * device);
-	effVOID Shutdown();
-	ID3D12GraphicsCommandList * Alloc();
-	effUINT64 Kick();
-	effVOID Finish(effUINT64 waitFence = UINT64_MAX, effBOOL finishAll = effFALSE);
-	effBOOL TryFinish(effUINT64 waitFence);
-	effVOID Release(ID3D12Resource * ptr);
-	effBOOL Consume(effUINT ms = INFINITE);
-
-	struct CommandList
-	{
-		ID3D12GraphicsCommandList * commandList;
-		ID3D12CommandAllocator * commandAllocator;
-		HANDLE event;
-	};
-
-	ID3D12CommandQueue * commandQueue;
-	effUINT64 currentFence;
-	effUINT64 completedFence;
-	ID3D12Fence * fence;
-	CommandList commandList[256];
-	typedef VECTOR<ID3D12Resource *> ResourceArray;
-	ResourceArray release[256];
-	RingBufferControl control;
-};
-
+class EFFD3D12DeviceCommandQueue;
+class EFFD3D12ResourceStateManager;
+class EFFD3D12DescriptorAllocation;
+class EFFD3D12DescriptorAllocator;
 
 class EFFD3D12Device : public EFF3DDevice
 {
+	friend class EFFD3D12IndexBuffer;
+	friend class EFFD3D12VertexBuffer;
 public:
 	EFFD3D12Device();
 	~EFFD3D12Device();
@@ -63,11 +32,19 @@ public:
 	virtual effBOOL				Reset(effBOOL window, effINT width, effINT height);
 	
 
-    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
-                                        EFF3DTextureHandle * textureHandle, effSIZE sharedHandle);
 
-    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                        EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
+	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DIndexBufferHandle * ibHandle);
+	virtual effBOOL             UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size);
+
+	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DVertexDeclarationHandle vertexDeclHandle,
+									EFF3DVertexBufferHandle * vertexBufferHandle);
+	virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size);
+
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flags, EFF3DFormat format, EFF3DResourceType resourceType,
+                                    EFF3DTextureHandle * textureHandle, effSIZE sharedHandle);
+
+    virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flags,
+                                    EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle);
 
 
 	/*virtual effBOOL				CreateRenderTarget(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
@@ -76,12 +53,7 @@ public:
 	virtual effBOOL				CreateDepthStencilSurface(effUINT width, effUINT height, EFF3DFORMAT format, EFF3DMULTISAMPLE_TYPE multiSample,
 													effUINT multisampleQuality, effBOOL discard, EFF3DSurface ** surface);*/
 	
-	virtual effBOOL				CreateIndexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DIndexBufferHandle * ibHandle);
-    virtual effBOOL             UpdateIndexBuffer(effUINT offset, effVOID * data, effUINT size);
 
-	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flag, EFF3DVertexDeclarationHandle vertexDeclHandle,
-									EFF3DVertexBufferHandle * vertexBufferHandle);
-    virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size);
 
 	//virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl);
 
@@ -124,7 +96,7 @@ public:
 
 	virtual EFF3DTextureHandle  GetRenderTarget(effUINT index);
 	//virtual effBOOL				GetViewport(EFF3DVIEWPORT9 * viewport);
-	//virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DTextureFormat * format);
+	//virtual effBOOL				CheckFormatSupport(effUINT * width, effUINT * height, effUINT * numMipLevels, effUINT usage, EFF3DFormat * format);
 
     effVOID                     SetSamplerState(effUINT stage, effUINT flags, const float rgba[4]);
 public:
@@ -135,8 +107,12 @@ public:
 
 public:
 
-	//effVOID						SetCGContex(CGcontext cgContext) { this->cgContext = cgContext; }
-	//CGcontext					GetCGContex() { return cgContext; }
+	ID3D12Device2 *					GetD3D12Device() { return d3d12Device.Get(); }
+
+	EFFD3D12DeviceCommandQueue *	GetCommandQueue(D3D12_COMMAND_LIST_TYPE type = D3D12_COMMAND_LIST_TYPE_DIRECT);
+	ID3D12GraphicsCommandList *		GetCommandList() { return commandList.Get(); }
+	EFFD3D12ResourceStateManager *	GetResourceStateManager() { return resourceStateManager; }
+
 
 protected:
     /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
@@ -144,49 +120,64 @@ protected:
 
     virtual effBOOL             _CreateSharedTexture(SharedTextureInfo * sharedTextureInfo, EFF3DSharedTexture ** texture);
 
-    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, EFF3DResourceType resourceType,
+    virtual effBOOL				CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, EFF3DResourceType resourceType,
                                                     EFF3DTexture * texture);
 
     virtual effBOOL				CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                                    EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture);*/
+                                                    EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTexture * texture);*/
 
 
-	virtual EFF3DResource *		CreateEmptyResourceImpl(EFF3DResourceType resourceType);
+	virtual EFF3DResource *			CreateEmptyResourceImpl(EFF3DResourceType resourceType);
+
+	ComPtr<IDXGIAdapter4>			GetAdapter(effBOOL useWarp);
+	ComPtr<ID3D12Device2>			CreateD3D12Device(ComPtr<IDXGIAdapter4> adapter);
+	ComPtr<IDXGISwapChain4>			CreateSwapChain(HWND hWnd, effINT width, effINT height);
+
+	effVOID							SetVertices();
+	effVOID							SetIndexBuffer();
+    effVOID							SetInputLayout(effBYTE numStreams, const EFF3DVertexDeclaration ** vertexDecls, effUINT16 numInstanceData);
+
+	effBOOL							HasVertexStreamChanged();
+
+	effVOID							Flush();
+
+	EFFD3D12DescriptorAllocation	AllocateDescriptors(D3D12_DESCRIPTOR_HEAP_TYPE type, effUINT32 numDescriptors);
+	effVOID							ReleaseStaleDescriptors(effUINT64 finishedFrame);
 
 
+	ComPtr<ID3D12DescriptorHeap>	CreateDescriptorHeap(effUINT32 numDescriptors, D3D12_DESCRIPTOR_HEAP_TYPE type);
+	effUINT32						GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE type) const;
 
-	effVOID						SetVertices();
-	effVOID						SetIndexBuffer();
-    effVOID                     SetInputLayout(effBYTE numStreams, const EFF3DVertexDeclaration ** vertexDecls, effUINT16 numInstanceData);
-
-	effBOOL						HasVertexStreamChanged();
-
-
-	effUINT64					Signal();
-	effVOID						WaitForFenceValue(effUINT64 _fenceValue);
-	effVOID						Flush();
-
+	effVOID							UpdateBuffer(ComPtr<ID3D12Resource> d3d12Resource, effUINT32 offset, effUINT32 size, const effVOID * data, D3D12_RESOURCE_FLAGS flags);
 protected:
 
 
-	const static effUINT numFrames = 3;
+	EFFD3D12ResourceStateManager *		resourceStateManager;
 
-	ComPtr<ID3D12Device2>		d3d12Device;
-	ComPtr<ID3D12CommandQueue>	d3d12CommandQueue;
-	ComPtr<IDXGISwapChain4>		dxgiSwapChain;
+	const static effUINT32 numFrames = 3;
 
-	ComPtr<ID3D12Resource>		backBuffers[numFrames];
+	ComPtr<ID3D12Device2>				d3d12Device;
+	EFFD3D12DeviceCommandQueue *		directCommandQueue;
+	EFFD3D12DeviceCommandQueue *		computeCommandQueue;
+	EFFD3D12DeviceCommandQueue *		copyCommandQueue;
+	EFFD3D12DescriptorAllocator *		descriptorAllocators[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
+
+
+	ComPtr<IDXGISwapChain4>				dxgiSwapChain;
+
+	ComPtr<ID3D12Resource>				backBuffers[numFrames];
 	ComPtr<ID3D12GraphicsCommandList>	commandList;
 	ComPtr<ID3D12CommandAllocator>		commandAllocators[numFrames];
 	ComPtr<ID3D12DescriptorHeap>		RTVDescriptorHeap;
-	effUINT						RTVDescriptorSize = 0;
-	effUINT						currentBackBufferIndex = 0;
+
+	effUINT32						RTVDescriptorSize = 0;
+	effUINT32						currentBackBufferIndex = 0;
 	//CGcontext					cgContext;
 
 
 	// Synchronization objects
 	ComPtr<ID3D12Fence>			fence;
-	effUINT64					fenceValue = 0;
+	effUINT64					fenceValues[numFrames] = {};
 	effUINT64					frameFenceValues[numFrames] = {};
 	effHANDLE					fenceEvent;
 

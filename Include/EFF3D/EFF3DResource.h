@@ -132,6 +132,12 @@ public:
 	virtual effVOID					CalculateSize() {}
 
     virtual effVOID                 UpdateContentToGPU() {};
+
+
+	virtual effVOID					CreateViews(effUINT numElements, effUINT elementSize) {};
+
+	virtual EFF3DShaderResourceViewHandle	GetShaderResourceView() const { return shaderResourceViewHandle; }
+	virtual EFF3DUnorderedAccessViewHandle	GetUnorderedAccessView() const { return unorderedAccessViewHandle; }
 public:
 	EFFEvent						OnBeforeCreate;
 	EFFEvent						OnAfterCreate;
@@ -144,6 +150,7 @@ public:
 	effString						groupName;
     effString						originPath;
 
+	EFF3DResourceType				type;
 	effBOOL							isUnloaded;
 	effBOOL							isLoaded;
 	effUINT							memorySize;
@@ -154,6 +161,11 @@ public:
 	effBYTE *						data;
 	effUINT							dataSize;
 	effVOID *						runtimeResourceLockPtr;
+
+	EFF3DShaderResourceViewHandle	shaderResourceViewHandle;
+	EFF3DUnorderedAccessViewHandle	unorderedAccessViewHandle;
+
+
 
 };
 

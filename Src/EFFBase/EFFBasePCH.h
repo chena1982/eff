@@ -32,8 +32,11 @@
 #include <EASTL/vector.h>
 #include <EASTL/map.h>
 #include <EASTL/deque.h>
+#include <EASTL/queue.h>
 #include <EASTL/algorithm.h>
 #include <EASTL/fixed_allocator.h>
+#include <EASTL/unordered_map.h>
+#include <EASTL/set.h>
 
 #include <zeromq-4.2.2/include/zmq.h>
 #include <jsoncpp-1.8.1/include/json/json.h>

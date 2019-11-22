@@ -29,7 +29,7 @@ EFFId EFF3DRenderCommandBuffer::CreateResourceFromMemory(effVOID * data, effUINT
 }
 
 EFF3DTextureHandle EFF3DRenderCommandBuffer::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag,
-    EFF3DTextureFormat format, EFF3DResourceType resourceType)
+    EFF3DFormat format, EFF3DResourceType resourceType)
 {
     return EFF3DTextureHandle();
 }

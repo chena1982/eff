@@ -235,9 +235,9 @@ effBOOL EFFApplication::Init(effBOOL window, effINT width, effINT height, effBOO
 	}
 
 #ifdef _DEBUG
-	Create3DDevice(L"EFFD3D9_d.dll", &device, window, host, hWnd, width, height);
+	Create3DDevice(L"EFFD3D12_d.dll", &device, window, host, hWnd, width, height);
 #else
-	Create3DDevice(L"EFFD3D9.dll", &device, window, host, hWnd, width, height);
+	Create3DDevice(L"EFFD3D12.dll", &device, window, host, hWnd, width, height);
 #endif
 
 	if ( device == NULL )

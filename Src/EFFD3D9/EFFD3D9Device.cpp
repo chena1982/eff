@@ -144,7 +144,7 @@ effBOOL effCreate3DDevice(EFF3DDevice ** eff3DDevice, effBOOL window, HWND hWnd,
 	}
 	else
 	{
-		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)EFF3D_TEXTURE_FORMAT_D24S8);
+		InitWindow(width, height, &d3dpp, effFALSE, (effUINT)EFF3D_FORMAT_D24S8);
 
 		if( FAILED(D3D->CreateDeviceEx(AdapterToUse, DeviceType, hWnd, behaviorFlags, &d3dpp, NULL, &D3DDevice->GetD3D9Device())) )
 		{
@@ -385,7 +385,7 @@ EFF3DResource * EFFD3D9Device::CreateEmptyResourceImpl(EFF3DResourceType resourc
 	return resource;
 }
 
-effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DTextureFormat format, 
+effBOOL EFFD3D9Device::CreateTexture(effUINT width, effUINT height, effUINT levels, effUINT flag, EFF3DFormat format, 
 	EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle, effSIZE sharedHandle)
 {
 	//assert(texture != NULL);
@@ -492,7 +492,7 @@ effBOOL EFFD3D9Device::_CreateSharedTexture(SharedTextureInfo * sharedTextureInf
 
 
 effBOOL EFFD3D9Device::CreateTextureFromMemory(effVOID * srcData, effUINT srcDataSize, effINT width, effINT height, effINT level, effUINT flag,
-                                            EFF3DTextureFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
+                                            EFF3DFormat format, EFF3DResourceType resourceType, EFF3DTextureHandle * textureHandle)
 {
 	//assert(texture != NULL);
 
@@ -854,7 +854,7 @@ effVOID EFFD3D9Device::Draw(EFF3DDrawCommand & drawCommand)
             {
 				EFFD3D9IndexBuffer * effD3D9IB = (EFFD3D9IndexBuffer *)indexBufferManager->GetResource(drawCommand.indexBufferHandle);
                 const uint32_t indexSize = 0 == (effD3D9IB->flags & EFF3D_BUFFER_INDEX32) ? 2 : 4;
-                numIndices = effD3D9IB->size / indexSize;
+                numIndices = effD3D9IB->count;
                 numPrimsSubmitted = numIndices / primitiveInfo.div - primitiveInfo.sub;
                 numInstances = drawCommand.numInstances;
                 numPrimsRendered = numPrimsSubmitted * drawCommand.numInstances;

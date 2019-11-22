@@ -15,7 +15,7 @@ if (CMAKE_GENERATOR STREQUAL "Visual Studio 2010")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2010)
 elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2013)
-elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017 Win64")
+elseif (CMAKE_GENERATOR STREQUAL "Visual Studio 15 2017")
     link_directories(${CMAKE_SOURCE_DIR}/ThirdPartyLib/Lib/VS2017/${CMAKE_CFG_INTDIR}/x64)    
 endif()
 
