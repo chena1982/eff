@@ -8,7 +8,7 @@
 #ifndef __EFF3DWebGui_2013_7_21__
 #define __EFF3DWebGui_2013_7_21__
 
-EFF3D_BEGIN
+/*EFF3D_BEGIN
 
 
 
@@ -74,6 +74,6 @@ jsValue JS_CALL js_SendMessageToCpp(jsExecState es);
 
 
 
-EFF3D_END
+EFF3D_END*/
 
 #endif

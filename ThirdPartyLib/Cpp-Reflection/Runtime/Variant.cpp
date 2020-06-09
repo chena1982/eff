@@ -91,7 +91,7 @@ namespace ursine
             return m_base ? m_base->ToString( ) : std::string( );
         }
 
-        Json Variant::SerializeJson(void) const
+        Json11 Variant::SerializeJson(void) const
         {
             return GetType( ).SerializeJson( *this );
         }

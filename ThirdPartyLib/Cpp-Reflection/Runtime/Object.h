@@ -25,8 +25,8 @@ namespace ursine
             virtual Type GetType(void) const = 0;
             virtual Object *Clone(void) const = 0;
 
-            virtual void OnSerialize(Json::object &output) const { }
-            virtual void OnDeserialize(const Json &input) { }
+            virtual void OnSerialize(Json11::object &output) const { }
+            virtual void OnDeserialize(const Json11 &input) { }
 
             virtual void OnSerialize(YAML::Emitter &output) const { }
             virtual void OnDeserialize(const YAML::Node &input) { }

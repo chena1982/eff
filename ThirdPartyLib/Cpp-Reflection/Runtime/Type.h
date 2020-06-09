@@ -380,17 +380,17 @@ namespace ursine
             const Global &GetStaticField(const std::string &name) const;
 
             template<typename ClassType>
-            static Json SerializeJson(const ClassType &instance, bool invokeHook = true);
+            static Json11 SerializeJson(const ClassType &instance, bool invokeHook = true);
 
-            Json SerializeJson(const Variant &instance, bool invokeHook = true) const;
-            Json SerializeJson(const Variant &instance, SerializationGetterOverride getterOverride, bool invokeHook = true) const;
+            Json11 SerializeJson(const Variant &instance, bool invokeHook = true) const;
+            Json11 SerializeJson(const Variant &instance, SerializationGetterOverride getterOverride, bool invokeHook = true) const;
 
             template<typename ClassType>
-            static ClassType DeserializeJson(const Json &value);
+            static ClassType DeserializeJson(const Json11 &value);
 
-            Variant DeserializeJson(const Json &value) const;
-            Variant DeserializeJson(const Json &value, const Constructor &ctor) const;
-            void DeserializeJson(Variant &instance, const Json &value) const;
+            Variant DeserializeJson(const Json11 &value) const;
+            Variant DeserializeJson(const Json11 &value, const Constructor &ctor) const;
+            void DeserializeJson(Variant &instance, const Json11 &value) const;
 
 
             template<typename ClassType>

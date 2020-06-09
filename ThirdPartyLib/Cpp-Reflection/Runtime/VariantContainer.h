@@ -51,8 +51,8 @@ namespace ursine
 
             VariantBase *Clone(void) const override;
 
-            void OnSerialize(Json::object &output) const override;
-            void OnDeserialize(const Json &input) override;
+            void OnSerialize(Json11::object &output) const override;
+            void OnDeserialize(const Json11 &input) override;
 
             void OnSerialize(YAML::Emitter &output) const override;
             void OnDeserialize(const YAML::Node &input) override;
@@ -84,7 +84,7 @@ namespace ursine
 
             template<typename U = T>
             void onSerialize(
-                Json::object &output,
+                Json11::object &output,
                 typename std::enable_if<
                     !std::is_pointer<U>::value && std::is_base_of<Object, U>::value
                 >::type* = nullptr
@@ -92,7 +92,7 @@ namespace ursine
 
             template<typename U = T>
             void onSerialize(
-                Json::object &output,
+                Json11::object &output,
                 typename std::enable_if<
                     std::is_pointer<U>::value || !std::is_base_of<Object, U>::value
                 >::type* = nullptr
@@ -100,7 +100,7 @@ namespace ursine
 
             template<typename U = T>
             void onDeserialize(
-                const Json &input,
+                const Json11 &input,
                 typename std::enable_if<
                     !std::is_pointer<U>::value && std::is_base_of<Object, U>::value
                 >::type* = nullptr
@@ -108,7 +108,7 @@ namespace ursine
 
             template<typename U = T>
             void onDeserialize(
-                const Json &input,
+                const Json11 &input,
                 typename std::enable_if<
                     std::is_pointer<U>::value || !std::is_base_of<Object, U>::value
                 >::type* = nullptr

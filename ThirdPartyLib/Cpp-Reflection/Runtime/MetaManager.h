@@ -51,7 +51,7 @@ namespace ursine
             // Gets all properties
             PropertyList GetProperties(void) const;
 
-            Json SerializeJson(void) const;
+            Json11 SerializeJson(void) const;
 
         private:
             void copy(const MetaManager &rhs);

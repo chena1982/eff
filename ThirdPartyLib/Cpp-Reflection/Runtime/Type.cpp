@@ -515,7 +515,7 @@ namespace ursine
 
         ///////////////////////////////////////////////////////////////////////
 
-        Json Type::SerializeJson(const Variant &instance, bool invokeHook) const
+        Json11 Type::SerializeJson(const Variant &instance, bool invokeHook) const
         {
             UAssert(
                 *this == instance.GetType( ),
@@ -527,7 +527,7 @@ namespace ursine
 
             if (m_isArray)
             {
-                Json::array array;
+                Json11::array array;
 
                 auto wrapper = instance.GetArray( );
                 auto size = wrapper.Size( );
@@ -572,7 +572,7 @@ namespace ursine
                 return { instance.ToString( ) };
             }
             
-            Json::object object { };
+            Json11::object object { };
 
             auto &fields = gDatabase.types[ m_id ].fields;
 
@@ -582,7 +582,7 @@ namespace ursine
 
                 auto json = value.SerializeJson( );
 
-                value.m_base->OnSerialize( const_cast<Json::object&>( json.object_items( ) ) );
+                value.m_base->OnSerialize( const_cast<Json11::object&>( json.object_items( ) ) );
 
                 object[ field.GetName( ) ] = json;
             }
@@ -595,7 +595,7 @@ namespace ursine
 
         ///////////////////////////////////////////////////////////////////////
 
-        Json Type::SerializeJson(const Variant &instance, SerializationGetterOverride getterOverride, bool invokeHook) const
+        Json11 Type::SerializeJson(const Variant &instance, SerializationGetterOverride getterOverride, bool invokeHook) const
         {
             UAssert(
                 *this == instance.GetType( ),
@@ -607,7 +607,7 @@ namespace ursine
 
             if (IsArray( ))
             {
-                Json::array array;
+                Json11::array array;
 
                 auto wrapper = instance.GetArray( );
                 auto size = wrapper.Size( );
@@ -652,7 +652,7 @@ namespace ursine
                 return { instance.ToString( ) };
             }
             
-            Json::object object { };
+            Json11::object object { };
 
             auto &fields = gDatabase.types[ m_id ].fields;
 
@@ -662,7 +662,7 @@ namespace ursine
 
                 auto json = value.SerializeJson( );
 
-                value.m_base->OnSerialize( const_cast<Json::object&>( json.object_items( ) ) );
+                value.m_base->OnSerialize( const_cast<Json11::object&>( json.object_items( ) ) );
 
                 object[ field.GetName( ) ] = json;
             }
@@ -675,7 +675,7 @@ namespace ursine
 
         ///////////////////////////////////////////////////////////////////////
 
-        Variant Type::DeserializeJson(const Json &value) const
+        Variant Type::DeserializeJson(const Json11 &value) const
         {
             auto &ctor = GetConstructor( );
 
@@ -689,7 +689,7 @@ namespace ursine
 
         ///////////////////////////////////////////////////////////////////////
 
-        Variant Type::DeserializeJson(const Json &value, const Constructor &ctor) const
+        Variant Type::DeserializeJson(const Json11 &value, const Constructor &ctor) const
         {
             // array types get special care
             if (IsArray( ))
@@ -763,7 +763,7 @@ namespace ursine
 
         ///////////////////////////////////////////////////////////////////////
 
-        void Type::DeserializeJson(Variant &instance, const Json &value) const
+        void Type::DeserializeJson(Variant &instance, const Json11 &value) const
         {
             auto &fields = gDatabase.types[ m_id ].fields;
 

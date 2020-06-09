@@ -44,7 +44,7 @@ namespace ursine
         }
 
         template<typename ClassType>
-        Json Type::SerializeJson(const ClassType &instance, bool invokeHook)
+        Json11 Type::SerializeJson(const ClassType &instance, bool invokeHook)
         {
             auto type = typeof( ClassType );
 
@@ -58,7 +58,7 @@ namespace ursine
         }
 
         template<typename ClassType>
-        ClassType Type::DeserializeJson(const Json &value)
+        ClassType Type::DeserializeJson(const Json11 &value)
         {
             auto type = typeof( ClassType );
 

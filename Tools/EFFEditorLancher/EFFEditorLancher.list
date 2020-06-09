@@ -1,0 +1,13 @@
+set (HEADER_FILES
+  EFFEditorLancherPCH.h
+)
+
+set (SOURCE_FILES
+  EFFEditorLancher.cpp
+  EFFEditorLancherPCH.cpp
+)
+
+SOURCE_GROUP("Precompiled" FILES
+  EFFEditorLancherPCH.cpp
+  EFFEditorLancherPCH.h
+)

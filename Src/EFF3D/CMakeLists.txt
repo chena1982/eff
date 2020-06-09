@@ -38,21 +38,44 @@ endforeach (OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 
 
-include(${LIB_NAME}.list)
-add_library(${LIB_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+#include(${LIB_NAME}.list)
+
+
+file(GLOB_RECURSE EFF3D_SRCS
+    "*.h"
+    "*.cpp"
+)
+
+
+foreach(FILE ${EFF3D_SRCS}) 
+    # Get the directory of the source file
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+
+    #message(STATUS ${FILE})
+
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+add_library(${LIB_NAME} SHARED ${EFF3D_SRCS})
 
 #启用最小生成
 #target_compile_options(${LIB_NAME} PUBLIC "/Gm")
 
 #使用预编译头
-set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
-set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_FLAGS "/YuEFF3DPCH.h")
-set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFF3DPCH.cpp PROPERTIES COMPILE_FLAGS "/YcEFF3DPCH.h")
+#set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/Yc")
+#set_source_files_properties(${EFF3D_SRCS} PROPERTIES COMPILE_FLAGS "/YuEFF3DPCH.h")
+#set_source_files_properties(${CMAKE_SOURCE_DIR}/Src/${LIB_NAME}/EFF3DPCH.cpp PROPERTIES COMPILE_FLAGS "/YcEFF3DPCH.h")
 
 #设置生产dll的Debug后缀
 set_target_properties(${LIB_NAME} PROPERTIES DEBUG_POSTFIX "_d")
 
 
-target_link_libraries(${LIB_NAME} DevIL.lib EASTL.lib freetype28d.lib)
+target_link_libraries(${LIB_NAME} DevIL.lib EASTL.lib freetype28d.lib slang.lib)
 #target_link_libraries(${LIB_NAME} awesomium.lib)
 #target_link_libraries(${LIB_NAME} wke.lib)

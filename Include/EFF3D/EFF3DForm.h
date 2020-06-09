@@ -9,7 +9,7 @@
 #define __EFF3DForm_2010_1_29__
 
 
-namespace Awesomium
+/*namespace Awesomium
 {
 	class WebView;
 };
@@ -116,6 +116,6 @@ private:
 	EFF3DForm *			m_pForm;
 };
 
-EFF3D_END
+EFF3D_END*/
 
 #endif

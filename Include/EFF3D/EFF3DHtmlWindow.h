@@ -9,7 +9,7 @@
 #define __EFF3DHtmlWindow_2014_2_6__
 
 
-namespace Awesomium {
+/*namespace Awesomium {
 	class WebView;
 };
 
@@ -49,6 +49,6 @@ protected:
 
 
 
-EFF3D_END
+EFF3D_END*/
 
 #endif

@@ -124,7 +124,7 @@ namespace ursine
             double ToDouble(void) const;
             std::string ToString(void) const;
 
-            Json SerializeJson(void) const;
+            Json11 SerializeJson(void) const;
 
             template<typename T>
             T &GetValue(void) const;

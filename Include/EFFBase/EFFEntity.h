@@ -72,7 +72,7 @@ public:
     }
 
 	FUNCTION()
-    effVOID Destroy(EFFId e);
+    effVOID Destroy(EFFId id);
 
 
 private:

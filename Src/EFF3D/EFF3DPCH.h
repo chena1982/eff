@@ -29,11 +29,14 @@ USE_EFFBASE
 USE_EFFMATH
 //#include "WebCore.h"
 
-#include <DevIL-1.8.0\DevIL\include\IL\il.h>
-#include <wke\wke.h>
+#include <DevIL-1.8.0/DevIL/include/IL/il.h>
+//#include <wke/wke.h>
+#include <slang/slang.h>
+
 
 #include "EFF3DBaseDefines.h"
 #include "EFF3DObject.h"
+
 
 
 
