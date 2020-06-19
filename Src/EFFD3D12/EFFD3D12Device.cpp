@@ -139,9 +139,9 @@ effBOOL EFFD3D12Device::Init(effBOOL window, HWND hWnd, effINT width, effINT hei
 	}
 
 
-	directCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	computeCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_COMPUTE);
-	copyCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
+	directCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT, d3d12Device);
+	computeCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_COMPUTE, d3d12Device);
+	copyCommandQueue = EFFNEW EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY, d3d12Device);
 
 	dxgiSwapChain = CreateSwapChain(hWnd, width, height);
 

@@ -5,13 +5,13 @@
 #include "EFFD3D12Device.h"
 #include "EFFD3D12ResourceStateManager.h"
 
-EFFD3D12DeviceCommandQueue::EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE type)
+EFFD3D12DeviceCommandQueue::EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE type, ComPtr<ID3D12Device2> d3d12Device)
 	: currentFenceValue(0)
 	, commandListType(type)
 	, processInFlightCommandLists(true)
 {
-	EFFD3D12Device * device = (EFFD3D12Device *)EFF3DGetDevice();
-	ID3D12Device * d3d12Device = device->GetD3D12Device();
+	//EFFD3D12Device * device = (EFFD3D12Device *)EFF3DGetDevice();
+	//ID3D12Device * d3d12Device = device->GetD3D12Device();
 
 	D3D12_COMMAND_QUEUE_DESC desc = {};
 	desc.Type = type;

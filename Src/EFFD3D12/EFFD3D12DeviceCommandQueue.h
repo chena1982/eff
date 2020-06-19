@@ -5,7 +5,7 @@ class EFFD3D12DeviceCommandList;
 class EFFD3D12DeviceCommandQueue
 {
 public:
-	EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE type);
+	EFFD3D12DeviceCommandQueue(D3D12_COMMAND_LIST_TYPE type, ComPtr<ID3D12Device2> d3d12Device);
 	virtual ~EFFD3D12DeviceCommandQueue();
 
 	// Get an available command list from the command queue.

@@ -20,6 +20,8 @@ USE_EFFBASE
 #include <EFFMath.h>
 USE_EFFMATH
 
+#include <slang/slang.h>
+
 //#include <wke\wke.h>
 
 #include "EFF3D\EFF3DBaseDefines.h"
@@ -45,6 +47,7 @@ USE_EFFMATH
 //#include "EFF3D\EFF3DHtmlWindow.h"
 #include "EFF3D\EFF3DQuery.h"
 #include "EFF3D\EFF3DRenderCommand.h"
+#include "EFF3D\EFF3DShaderCompileManager.h"
 
 #if defined UNICODE || defined _UNICODE
 #	ifdef _DEBUG 

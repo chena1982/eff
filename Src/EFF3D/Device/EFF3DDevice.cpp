@@ -24,6 +24,7 @@
 #include "EFF3DRenderQueueManager.h"
 #include "EFF3DRenderCommand.h"
 #include "EFF3DQuery.h"
+#include "EFF3DShaderCompileManager.h"
 
 //#include "EFF3DWebGui.h"
 
@@ -304,15 +305,15 @@ effVOID EFF3DDevice::Init(effBOOL host)
 	//EFFRegisterObjectManager(EFF3DImage::GetThisClass(), imageManager);
 	
 
-    vertexBufferManager = EFFNEW EFF3DVertexBufferManager;
-    indexBufferManager = EFFNEW EFF3DIndexBufferManager;
-    vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager;
-    uniformBufferManager = EFFNEW EFF3DUniformBufferManager;
-	timeQueryManager = EFFNEW EFF3DTimeQueryManager;
+    vertexBufferManager = EFFNEW EFF3DVertexBufferManager();
+    indexBufferManager = EFFNEW EFF3DIndexBufferManager();
+    vertexDeclManager = EFFNEW EFF3DVertexDeclarationManager();
+    uniformBufferManager = EFFNEW EFF3DUniformBufferManager();
+	timeQueryManager = EFFNEW EFF3DTimeQueryManager();
 
-    renderQueueManager = EFFNEW EFF3DRenderQueueManager;
 
-	sceneManager = EFFNEW EFF3DSceneManager();
+
+
 
 	InitProperty();
     InitVertexDeclaration();
@@ -320,8 +321,12 @@ effVOID EFF3DDevice::Init(effBOOL host)
 	//SetRenderState(EFF3DRS_LIGHTING, effFALSE);
 
 
+	sceneManager = EFFNEW EFF3DSceneManager();
 	fontManager = EFFNEW EFF3DFontManager();
 	fontManager->CreateFromFile(_effT("Font\\simsun.ttc"), 16);
+	renderQueueManager = EFFNEW EFF3DRenderQueueManager();
+	shaderCompileManager = EFFNEW EFF3DShaderCompileManager();
+
 	//fontManager->CreateFromFile(_effT("Font\\msyh.ttf"), 16);
 
 	inputManager = EFFNEW EFFInputManager();
@@ -565,6 +570,16 @@ effVOID EFF3DDevice::SubmitCommandBuffer()
 {
 	EFF3DRenderQueue * rendererQueue = renderQueueManager->CreateRenderQueue(0, EFF3DRenderQueueManager::Solid, _effT("GBuffer"));
 	rendererQueue->SubmitCommandBuffer();
+}
+
+effVOID EFF3DDevice::CompileShader(const effString & shaderPath, const effCHAR * entryPoint)
+{
+	if (shaderCompileManager == NULL)
+	{
+		return;
+	}
+
+	shaderCompileManager->CompileShader(shaderPath, entryPoint);
 }
 
 EFF3D_END

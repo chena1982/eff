@@ -40,7 +40,7 @@ class EFF3DQuery;
 class EFF3DVertexElement;
 class EFF3DRenderQueue;
 class EFF3DRenderQueueManager;
-
+class EFF3DShaderCompileManager;
 
 
 class EFF3D_API EFF3DDevice
@@ -98,6 +98,7 @@ public:
 	virtual effBOOL				CreateVertexBuffer(effVOID * data, effUINT size, effUINT flags, EFF3DVertexDeclarationHandle vertexDeclHandle,
 									EFF3DVertexBufferHandle * vertexBufferHandle) = 0;
     virtual effBOOL             UpdateVertexBuffer(effUINT offset, effVOID * data, effUINT size) = 0;
+
 
 	//virtual effBOOL				CreateVertexDeclaration(const EFF3DVertexElement * vertexElements, EFF3DVertexDeclaration ** decl) = 0;
 
@@ -159,9 +160,11 @@ public:
 	inline EFFInputManager *					GetInputManager() { return inputManager; }
     inline EFF3DSharedTexture *					GetSharedRenderTarget() { return sharedRenderTarget; }
     inline EFF3DRenderQueueManager *			GetRenderQueueManager() { return renderQueueManager; }
+	inline EFF3DShaderCompileManager *			GetShaderCompileManager() { return shaderCompileManager; }
 	//inline Awesomium::WebCore *				GetWebCore() { return webCore; }
-    inline EFFBase::EFFEntityManager *          GetEntityManager() { return entityManager; }
-    inline EFFBase::EFFStaticStringManager *    GetStaticStringManager() { return staticStringManager; }
+    inline EFFEntityManager *					GetEntityManager() { return entityManager; }
+    inline EFFStaticStringManager *				GetStaticStringManager() { return staticStringManager; }
+
 	inline effUINT64							GetFrame() { return frame; }
 
 	effVOID						    SetBackBufferSize(effINT width,effINT weight);
@@ -175,6 +178,8 @@ public:
 
 	effVOID							ResetCommandBuffer();
 	effVOID							SubmitCommandBuffer();
+
+	effVOID							CompileShader(const effString & shaderPath, const effCHAR * entryPoint);
 
 protected:
     /*virtual effBOOL				_CreateSharedTexture(effUINT width, effUINT height, effUINT levels, effUINT usage, EFF3DFORMAT format,
@@ -224,10 +229,13 @@ protected:
 
 	EFF3DSceneManager *			sceneManager;
 	EFF3DFontManager *			fontManager;
+	EFF3DRenderQueueManager *   renderQueueManager;
+	EFF3DShaderCompileManager * shaderCompileManager;
+
 	EFFInputManager *			inputManager;
     EFFEntityManager *          entityManager;
     EFFStaticStringManager *    staticStringManager;
-    EFF3DRenderQueueManager *   renderQueueManager;
+
 	//Awesomium::WebCore *		webCore;
 
 	effINT32					width;

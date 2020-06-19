@@ -53,7 +53,7 @@ effVOID EFF3DShaderCompileManager::CompileShader(const effString & shaderPath, c
 
 	EFFFile * file = EFFNEW EFFSTLFile();
 	file->Open(resultPath, _effT("wt+"));
-	file->Write(&code, strlen(code));
+	file->Write((effVOID *)code, strlen(code));
 	file->Close();
 	SF_DELETE(file);
 
